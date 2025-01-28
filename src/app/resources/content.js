@@ -1,5 +1,4 @@
 import { InlineCode } from "@/once-ui/components";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const person = {
   firstName: "Dhruv",
