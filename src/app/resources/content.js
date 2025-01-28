@@ -1,8 +1,9 @@
 import { InlineCode } from "@/once-ui/components";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const person = {
-  firstName: "Selene",
-  lastName: "Yu",
+  firstName: "Dhruv",
+  lastName: "Haldar",
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
@@ -13,7 +14,7 @@ const person = {
 };
 
 const newsletter = {
-  display: true,
+  display: false,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
   description: (
     <>
