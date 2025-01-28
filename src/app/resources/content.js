@@ -91,17 +91,15 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
+        company: "Sankhyasutra Labs Limited",
         timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            ollaborate with a multidisciplinary team of developers to design and validate in-house CFD solver using established benchmarks, including TU Munich drivAer car model, Ahmed body, Eppler/NACA airfoils, Pipe Flows, and Cyclone separator.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Develop advanced post-processing modules in Python leveraging Pyvista and Visualization Toolkit (VTK) libraries for efficient data visualization and analysis.
           </>,
         ],
         images: [
@@ -137,12 +135,12 @@ const about = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: 'KTH Royal Institute of Technology',
+        description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: 'SRM Institute of Science and Technology',
+        description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,
       },
     ],
   },

@@ -154,7 +154,8 @@ export const Header = () => {
             textVariant="body-default-s"
             gap="20"
           >
-            <Flex hide="s">{display.time && <TimeDisplay timeZone={person.location} />}</Flex>
+            <Flex hide="s">{display.time ? (<TimeDisplay timeZone={person.location} />) : (<div style={{ width: '100px', height:'20px' }}></div> // Adjust width and height as needed
+            )}</Flex>
           </Flex>
         </Flex>
       </Flex>
