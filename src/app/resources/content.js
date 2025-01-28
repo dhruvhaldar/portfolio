@@ -6,10 +6,10 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  role: "Aerospace Engineer",
+  avatar: "/images/1700894012265.jpeg",
+  location: "Asia/Kolkata", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  languages: ["English", "Swedish", "German", "Hindi", "Bengali"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter = {
@@ -29,22 +29,17 @@ const social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system/nextjs-starter",
+    link: "https://github.com/dhruvhaldar",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-  },
-  {
-    name: "X",
-    icon: "x",
-    link: "",
+    link: "https://www.linkedin.com/in/dhruvhaldar/",
   },
   {
     name: "Email",
     icon: "email",
-    link: "mailto:example@gmail.com",
+    link: "mailto:haldardhruv@gmail.com",
   },
 ];
 
@@ -74,16 +69,20 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/dhruvhaldar",
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        As a seasoned CFD Engineer with a strong foundation in aerospace and automotive simulations, I specialize in blending computational fluid dynamics with machine learning and advanced optimization techniques. I bring expertise in ISO standards, EASA regulations, and cutting-edge tools like Pyvista and MPI for High-Performance Computing. 
+        
+        With a proven track record of innovation, I’ve developed post-processing modules, automated complex workflows, and delivered impactful projects ranging from aircraft electrification to rocket propulsion. My work has been showcased at the prestigious ICAS 2022 Congress, reflecting my commitment to pushing the boundaries of aerospace engineering.
+        
+        Beyond technical prowess, I have led diverse teams and engaged with global organizations like SAAB and DLR. I'm driven by curiosity and the pursuit of sustainable solutions in modern aviation and beyond. 
+        
+        Let’s connect and explore how innovation can transform the future of aerospace!
       </>
     ),
   },
@@ -92,17 +91,15 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
+        company: "Sankhyasutra Labs Limited",
         timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            ollaborate with a multidisciplinary team of developers to design and validate in-house CFD solver using established benchmarks, including TU Munich drivAer car model, Ahmed body, Eppler/NACA airfoils, Pipe Flows, and Cyclone separator.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Develop advanced post-processing modules in Python leveraging Pyvista and Visualization Toolkit (VTK) libraries for efficient data visualization and analysis.
           </>,
         ],
         images: [
@@ -138,12 +135,12 @@ const about = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: 'KTH Royal Institute of Technology',
+        description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: 'SRM Institute of Science and Technology',
+        description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,
       },
     ],
   },
