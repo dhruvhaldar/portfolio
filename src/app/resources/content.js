@@ -69,16 +69,20 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/dhruvhaldar",
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        As a seasoned CFD Engineer with a strong foundation in aerospace and automotive simulations, I specialize in blending computational fluid dynamics with machine learning and advanced optimization techniques. I bring expertise in ISO standards, EASA regulations, and cutting-edge tools like Pyvista and MPI for High-Performance Computing. 
+        
+        With a proven track record of innovation, I’ve developed post-processing modules, automated complex workflows, and delivered impactful projects ranging from aircraft electrification to rocket propulsion. My work has been showcased at the prestigious ICAS 2022 Congress, reflecting my commitment to pushing the boundaries of aerospace engineering.
+        
+        Beyond technical prowess, I have led diverse teams and engaged with global organizations like SAAB and DLR. I'm driven by curiosity and the pursuit of sustainable solutions in modern aviation and beyond. 
+        
+        Let’s connect and explore how innovation can transform the future of aerospace!
       </>
     ),
   },
