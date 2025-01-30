@@ -81,7 +81,6 @@ const about = {
     ),
   },
   
-// Work Page
   work: {
     display: true,
     title: "Work Experience",
