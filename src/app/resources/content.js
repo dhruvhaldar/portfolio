@@ -219,7 +219,7 @@ const work = {
   label: "Work",
   title: "My projects",
   description: `Engineering projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
+  // Create new project pages by adding a new .mdx file to app/work/projects
   // All projects will be listed on the /home and /work routes
 };
 
