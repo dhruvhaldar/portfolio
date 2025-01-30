@@ -55,6 +55,7 @@ const home = {
   ),
 };
 
+// About Page
 const about = {
   label: "About",
   title: "About me",
@@ -79,6 +80,8 @@ const about = {
       </>
     ),
   },
+  
+// Work Page
   work: {
     display: true,
     title: "Work Experience",
@@ -212,6 +215,7 @@ const about = {
   },
 };
 
+// Blog Page hidden
 const blog = {
   label: "Blog",
   title: "Writing about design and tech...",
@@ -228,6 +232,7 @@ const work = {
   // All projects will be listed on the /home and /work routes
 };
 
+// Gallery Page hidden
 const gallery = {
   label: "Gallery",
   title: "My photo gallery",
