@@ -47,10 +47,10 @@ const home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Design engineer and builder</>,
+  headline: <>Aerospace and CFD engineer</>,
   subline: (
     <>
-      I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. In my free time, I work on my own projects.
+      👋 Hi! I'm Dhruv, an engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. In my free time, I work on my own projects.
     </>
   ),
 };
@@ -61,7 +61,7 @@ const about = {
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
   tableOfContent: {
     display: true,
-    subItems: false,
+    subItems: true,
   },
   avatar: {
     display: true,
@@ -75,13 +75,7 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        As a seasoned CFD Engineer with a strong foundation in aerospace and automotive simulations, I specialize in blending computational fluid dynamics with machine learning and advanced optimization techniques. I bring expertise in ISO standards, EASA regulations, and cutting-edge tools like Pyvista and MPI for High-Performance Computing. 
-        
-        With a proven track record of innovation, I’ve developed post-processing modules, automated complex workflows, and delivered impactful projects ranging from aircraft electrification to rocket propulsion. My work has been showcased at the prestigious ICAS 2022 Congress, reflecting my commitment to pushing the boundaries of aerospace engineering.
-        
-        Beyond technical prowess, I have led diverse teams and engaged with global organizations like SAAB and DLR. I'm driven by curiosity and the pursuit of sustainable solutions in modern aviation and beyond. 
-        
-        Let’s connect and explore how innovation can transform the future of aerospace!
+        👋 Hi! I’m a passionate Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
       </>
     ),
   },
@@ -91,7 +85,7 @@ const about = {
     experiences: [
       {
         company: "Sankhyasutra Labs Limited",
-        timeframe: "2022 - Present",
+        timeframe: "December 2022 - Present",
         role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
           <>
@@ -112,17 +106,52 @@ const about = {
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "SAAB AB",
+        timeframe: "May 2020 - Dec 2021",
+        role: "Examensarbete (Master Thesis)",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Conducted the SAAB-KTH University Joint Master Thesis project titled Implementation of wing ice protection system in more electric aircraft technologies.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Investigated innovative concepts for the More Electric Aircraft (MEA) to enhance performance and minimize weight by replacing traditional hydraulic, pneumatic, and mechanical systems with electrical systems.
+          </>,
+          <>
+            Implemented the Ice Protection System (IPS) of an Airbus A320 aircraft using CFD simulations (ANSYS FENSAP-ICE) and automated workflow processes with IronPython.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Flemingsberg Science",
+        timeframe: "October 2019 - April 2020",
+        role: "Technical Consultant",
+        achievements: [
+          <>
+             Led a team of 5 in developing the award-winning start-up idea, "Cyclodash: A Social Game for Bike Commuting".
+          </>,
+          <>
+            Leveraged Augmented Reality (AR) to improve public perception of biking, achieving a 10% increase in positive sentiment.
+          </>,
+          <>
+            Resolved technical, financial, and operational challenges through close collaboration with stakeholders, utilizing an Agile Kanban approach.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Institut für Luft- und Raumfahrttechnik der Technische Universität Dresden",
+        timeframe: "June 2019 - August 2019",
+        role: "Summer Intern in Rocket Propulsion",
+        achievements: [
+          <>
+            Worked with German Aerospace Center (DLR) to execute 9 static fire tests for the Liquid-Propellant Rocket Engine (LPRE)-based SMART Rocket.
+          </>,
+          <>
+            Conducted ground testing to optimize engine thermal performance and calibrated test stand and scaffolding systems.
+          </>,
+          <>
+           Mentored bachelors students in preparing and performing rocket engine tests, fostering their technical expertise and practical skills.
           </>,
         ],
         images: [],
@@ -130,8 +159,8 @@ const about = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
-    title: "Studies",
+    display: true,
+    title: "Education",
     institutions: [
       {
         name: 'KTH Royal Institute of Technology',
@@ -148,7 +177,7 @@ const about = {
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
+        title: "Python",
         description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
         // optional: leave the array empty if you don't want to display images
         images: [
@@ -167,7 +196,7 @@ const about = {
         ],
       },
       {
-        title: "Next.js",
+        title: "MATLAB",
         description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
         // optional: leave the array empty if you don't want to display images
         images: [

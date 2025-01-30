@@ -115,9 +115,8 @@ export default function About() {
             horizontal="center"
           >
             <Avatar src={person.avatar} size="xl" />
-            <Flex gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
-              {person.location}
+            <Flex gap="8" vertical="stretch">
+              Languages
             </Flex>
             {person.languages.length > 0 && (
               <Flex wrap gap="8">
@@ -204,7 +203,7 @@ export default function About() {
           </Column>
 
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+            <Column textVariant="body-default-l" marginBottom="l" style={{ width: "110%", maxWidth: "900px" }}>
               {about.intro.description}
             </Column>
           )}
@@ -214,21 +213,24 @@ export default function About() {
               <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
                 {about.work.title}
               </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
+              <Column fillWidth gap="xl" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
                     <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="4">
                       <Text id={experience.company} variant="heading-strong-l">
                         {experience.company}
                       </Text>
+                      
                       <Text variant="heading-default-xs" onBackground="neutral-weak">
                         {experience.timeframe}
                       </Text>
+
                     </Flex>
                     <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
-                    <Column as="ul" gap="16">
+                    
+                    <Column as="ul" gap="16" style={{ width: "100%", maxWidth: "900px" }}>
                       {experience.achievements.map((achievement: JSX.Element, index: number) => (
                         <Text
                           as="li"
@@ -238,7 +240,8 @@ export default function About() {
                           {achievement}
                         </Text>
                       ))}
-                    </Column>
+                    </Column>                    
+
                     {experience.images.length > 0 && (
                       <Flex fillWidth paddingTop="m" paddingLeft="40" wrap>
                         {experience.images.map((image, index) => (
