@@ -50,7 +50,7 @@ const home = {
   headline: <>Aerospace and CFD engineer</>,
   subline: (
     <>
-      👋 Hi! I'm Dhruv, an engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. In my free time, I work on my own projects.
+      👋 Hi! I'm Dhruv, an engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
     </>
   ),
 };
