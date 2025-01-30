@@ -12,17 +12,17 @@ const routes = {
 // Enable password protection on selected routes
 // Set password in pages/api/authenticate.ts
 const protectedRoutes = {
-  "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
+  "/work/automate-design-handovers-with-a-figma-to-code-pipeline": false,
 };
 
 const style = {
   theme: "dark", // dark | light
-  neutral: "gray", // sand | gray | slate
-  brand: "emerald", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  accent: "orange", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  neutral: "slate", // sand | gray | slate
+  brand: "green", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  accent: "magenta", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   solid: "contrast", // color | contrast
   solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative
+  border: "rounded", // rounded | playful | conservative
   surface: "translucent", // filled | translucent
   transition: "all", // all | micro | macro
 };
@@ -49,7 +49,7 @@ const effects = {
     display: true,
     size: 2,
     color: "brand-on-background-weak",
-    opacity: 20,
+    opacity: 30,
   },
   lines: {
     display: false,
@@ -64,8 +64,8 @@ const effects = {
 };
 
 const display = {
-  location: true,
-  time: true,
+  location: false,
+  time: false,
 };
 
 const mailchimp = {
