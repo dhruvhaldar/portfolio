@@ -97,15 +97,7 @@ const about = {
             Develop advanced post-processing modules in Python leveraging Pyvista and Visualization Toolkit (VTK) libraries for efficient data visualization and analysis.
           </>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
         company: "SAAB AB",
