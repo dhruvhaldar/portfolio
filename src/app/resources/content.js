@@ -140,7 +140,7 @@ const about = {
         images: [],
       },
       {
-        company: "Institut für Luft- und Raumfahrttechnik der Technische Universität Dresden",
+        company: "Technische Universität Dresden",
         timeframe: "June 2019 - August 2019",
         role: "Summer Intern in Rocket Propulsion",
         achievements: [
