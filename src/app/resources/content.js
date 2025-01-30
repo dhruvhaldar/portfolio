@@ -47,10 +47,10 @@ const home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Aerospace and CFD engineer</>,
+  headline: <>Bridging computational models and real-world aerospace solutions</>,
   subline: (
     <>
-      👋 Hi! I'm Dhruv, an engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
+      👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
     </>
   ),
 };
