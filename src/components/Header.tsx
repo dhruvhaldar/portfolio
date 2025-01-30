@@ -15,7 +15,12 @@ type TimeDisplayProps = {
 };
 
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
-  // ... (TimeDisplay component remains unchanged)
+  // Add actual JSX return
+  return (
+    <div>
+      {/* Implement your time display logic here */}
+    </div>
+  );
 };
 
 export default TimeDisplay;
