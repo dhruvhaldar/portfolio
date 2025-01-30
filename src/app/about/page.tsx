@@ -203,7 +203,7 @@ export default function About() {
           </Column>
 
           {about.intro.display && (
-            <Column textVariant="body-default-l" marginBottom="l" style={{ width: "110%", maxWidth: "900px" }}>
+            <Column textVariant="body-default-l" marginBottom="l" style={{ width: "100%", maxWidth: "900px" }}>
               {about.intro.description}
             </Column>
           )}

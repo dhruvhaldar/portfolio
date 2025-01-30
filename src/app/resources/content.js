@@ -76,7 +76,7 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        👋 Hi! I’m a passionate Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
+        👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
       </>
     ),
   },
