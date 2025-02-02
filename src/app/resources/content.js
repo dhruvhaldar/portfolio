@@ -45,8 +45,8 @@ const social = [
 
 const home = {
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
+  title: `${person.name}'s Portfolio (With Projects and Publications)`,
+  description: `Explore my portfolio as an aerospace engineer specializing in CFD. See how I apply Computational Fluid Dynamics to solve complex engineering challenges.`,
   headline: <>Bridging computational models and real-world aerospace solutions</>,
   subline: (
     <>
