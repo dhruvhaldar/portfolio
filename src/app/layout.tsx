@@ -15,6 +15,8 @@ import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react"
 
+// Global Analytics and Speed Insights
+
 export async function generateMetadata() {
   return {
     metadataBase: new URL(`https://${baseURL}`),
