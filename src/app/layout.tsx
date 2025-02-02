@@ -14,6 +14,7 @@ import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react"
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 // Global Analytics and Speed Insights
 
@@ -160,6 +161,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             </Flex>
           </Flex>
           <Footer />
+          <GoogleAnalytics gaId="G-D5DG6N0RGV" /> {/* Add Google Analytics here */}
           <SpeedInsights /> {/* Add SpeedInsights here */}
           <Analytics /> {/* Add Analytics here */}
         </Column>
