@@ -1,35 +1,47 @@
 ---
-title: "Varme Power Plant"
-publishedAt: "2024-10-01"
-summary: "Explore the enduring debate between using spaces and tabs for code indentation, and why this choice matters more than you might think."
+title: "Varme: Optimizing Power Plant Costs Using Mixed-Integer Programming (MILP)"
+publishedAt: "2020-02-10"
+summary: "This project focuses on minimizing the operational costs of a power plant over a 24-hour period using mixed-integer programming techniques. By optimizing power unit scheduling, the study highlights potential cost savings and efficiency improvements."
 
 team:
   - name: "Dhruv Haldar"
     role: "CFD Engineer"
     avatar: "/images/1700894012265.jpeg"
     linkedIn: "https://www.linkedin.com/in/dhruvhaldar/"
+- name: "William Grunert"
+    role: "Student"
+
 ---
 
 ## Overview
 
-I
+The objective of this project was to minimize the cost of operating a power plant, Varme, over a 24-hour period. The plant consists of three power units, each with its own operational constraints, including initial startup costs, running costs, and downtime requirements. The problem was formulated as a mixed-integer programming (MIP) model to determine the optimal scheduling of units to meet varying demand across different time periods.
 
 ## Key Features
 
-- **Plugin Integration**: Det compatible with our codebase.
+- **Demand-Based Optimization**: The model accounts for expected power demand fluctuations across five distinct time periods.
+
+- **Cost-Efficient Scheduling**: It optimally schedules unit operations to minimize running and startup costs.
+
+- **Unit Constraints Handling**: Ensures that units do not exceed their maximum runtime while adhering to required rest periods.
+
+- **Mathematical Formulation**: The problem is solved using a rigorous MIP approach to achieve the lowest possible cost.
 
 ## Technologies Used
 
-- **API**: For ma designs.
+- **GAMS Software**: Used for formulating and solving the mixed-integer programming model.
+- **Mathematical Optimization**: Linear and integer programming techniques were employed to balance demand and costs.
+- **Power Plant Data Analysis:**: Historical energy consumption data was used to refine the model's accuracy.
+
 
 ## Challenges and Learnings
 
-One of
+One of the main challenges was ensuring that all constraints were correctly implemented while maintaining computational efficiency. Managing cold starts (where a unit has been turned off for multiple periods) proved to be critical, as these resulted in higher startup costs. Another key insight was that increasing the scheduling cycle from 24 hours to a longer duration could potentially reduce overall costs by minimizing cold starts.
 
 ## Outcome
 
-The au
+The optimal solution resulted in a total operational cost of **3828.15 kkr**, which is **0.35 kkr lower** than the baseline mixed-integer programming solution. The analysis suggested that extending the scheduling cycle or refining the time periods could further improve cost efficiency. Additionally, accounting for seasonal variations in energy consumption could enhance the model's accuracy in real-world applications.
 
 ---
 
-This project demonstrates your ability to , which is highly relevant for .
+This project demonstrates expertise in optimization and energy systems modeling, showcasing the potential for advanced mathematical techniques to drive cost savings and operational efficiency in industrial applications.
