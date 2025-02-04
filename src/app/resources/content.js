@@ -1,4 +1,4 @@
-import { InlineCode } from "@/once-ui/components";
+import { InlineCode, LetterFx } from "@/once-ui/components";
 
 const person = {
   firstName: "Dhruv",
@@ -27,14 +27,10 @@ const social = [
   // Links are automatically displayed.
   // Import new icons in /once-ui/icons.ts
   {
-    name: "GitHub",
-    icon: "github",
-    link: "https://github.com/dhruvhaldar",
+    name: "GitHub",icon: "github",link: "https://github.com/dhruvhaldar",
   },
   {
-    name: "LinkedIn",
-    icon: "linkedin",
-    link: "https://www.linkedin.com/in/dhruvhaldar/",
+    name: "LinkedIn",icon: "linkedin",link: "https://www.linkedin.com/in/dhruvhaldar/",
   },
   {
     name: "Email",
@@ -47,7 +43,11 @@ const home = {
   label: "Home",
   title: `${person.name}'s Portfolio (With Projects and Publications)`,
   description: `Explore my portfolio as an aerospace engineer specializing in CFD. See how I apply Computational Fluid Dynamics to solve complex engineering challenges.`,
-  headline: <>Bridging computational models and real-world aerospace solutions</>,
+  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}>
+    <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
+    Bridging computational models and real-world aerospace solutions
+    </LetterFx>
+    </span></>,
   subline: (
     <>
       👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
