@@ -16,10 +16,10 @@ const protectedRoutes = {
 };
 
 const style = {
-  theme: "dark", // dark | light
+  theme: "light", // dark | light
   neutral: "slate", // sand | gray | slate
   brand: "aqua", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  accent: "yellow", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  accent: "green", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   solid: "color", // color | contrast
   solidStyle: "flat", // flat | plastic
   border: "rounded", // rounded | playful | conservative
@@ -38,28 +38,28 @@ const effects = {
     display: true,
     x: 50,
     y: 0,
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 200,
     tilt: 0,
     colorStart: "brand-background-strong",
     colorEnd: "static-transparent",
-    opacity: 50,
+    opacity: 100,
   },
   dots: {
     display: true,
-    size: 2,
-    color: "brand-on-background-weak",
-    opacity: 30,
+    size: 64,
+    color: "neutral-on-background-weak",
+    opacity: 60,
   },
   lines: {
-    display: false,
+    display: true,
     color: "neutral-alpha-weak",
-    opacity: 100,
+    opacity: 60,
   },
   grid: {
-    display: false,
-    color: "neutral-alpha-weak",
-    opacity: 100,
+    display: true,
+    color: "neutral-alpha-medium",
+    opacity: 50,
   },
 };
 

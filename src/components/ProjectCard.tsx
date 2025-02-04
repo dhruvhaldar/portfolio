@@ -77,6 +77,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   suffixIcon="arrowUpRightFromSquare"
                   style={{ margin: "0", width: "fit-content" }}
                   href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Text variant="body-default-s">View project</Text>
                 </SmartLink>
