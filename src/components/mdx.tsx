@@ -41,9 +41,12 @@ type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
+  const linkText = typeof children === "string" ? children.trim() : "";
+  const ariaLabel = !linkText ? `Link to ${href}` : undefined;
+
   if (href.startsWith("/")) {
     return (
-      <SmartLink href={href} {...props}>
+      <SmartLink href={href} aria-label={ariaLabel} {...props}>
         {children}
       </SmartLink>
     );
@@ -51,14 +54,14 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
 
   if (href.startsWith("#")) {
     return (
-      <a href={href} {...props}>
+      <a href={href} aria-label={ariaLabel} {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} {...props}>
       {children}
     </a>
   );
