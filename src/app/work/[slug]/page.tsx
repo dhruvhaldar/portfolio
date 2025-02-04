@@ -1,7 +1,15 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Flex, Heading, SmartImage, Text } from "@/once-ui/components";
+import {
+  AvatarGroup,
+  Column,
+  Flex,
+  Heading,
+  SmartImage,
+  Text,
+  SmartLink,
+} from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
@@ -21,7 +29,9 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 }
 
 export function generateMetadata({ params: { slug } }: WorkParams) {
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slug);
+  let post = getPosts(["src", "app", "work", "projects"]).find(
+    (post) => post.slug === slug
+  );
 
   if (!post) {
     return;
@@ -35,7 +45,9 @@ export function generateMetadata({ params: { slug } }: WorkParams) {
     image,
     team,
   } = post.metadata;
-  let ogImage = image ? `https://${baseURL}${image}` : `https://${baseURL}/og?title=${title}`;
+  let ogImage = image
+    ? `https://${baseURL}${image}`
+    : `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
@@ -64,7 +76,9 @@ export function generateMetadata({ params: { slug } }: WorkParams) {
 }
 
 export default function Project({ params }: WorkParams) {
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === params.slug);
+  let post = getPosts(["src", "app", "work", "projects"]).find(
+    (post) => post.slug === params.slug
+  );
 
   if (!post) {
     notFound();
@@ -74,6 +88,9 @@ export default function Project({ params }: WorkParams) {
     post.metadata.team?.map((person) => ({
       src: person.avatar,
     })) || [];
+
+  // Destructure the link from metadata
+  const { link } = post.metadata;
 
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
@@ -90,7 +107,9 @@ export default function Project({ params }: WorkParams) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `https://${baseURL}${post.metadata.image}`
-              : `https://${baseURL}/og?title=${post.metadata.title}`,
+              : `https://${baseURL}/og?title=${encodeURIComponent(
+                  post.metadata.title
+                )}`,
             url: `https://${baseURL}/work/${post.slug}`,
             author: {
               "@type": "Person",
@@ -100,11 +119,28 @@ export default function Project({ params }: WorkParams) {
         }}
       />
       <Column maxWidth="xs" gap="16">
-        <Button href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
+        <SmartLink
+          href="/work"
+          prefixIcon="chevronLeft"
+        >
           Projects
-        </Button>
+        </SmartLink>
         <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+
+        {/* Move the View Project link to the top, below the headline */}
+        {link && (
+          <SmartLink
+            suffixIcon="arrowUpRightFromSquare"
+            style={{ margin: "0", width: "fit-content" }}
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Text variant="body-default-s">View project</Text>
+          </SmartLink>
+        )}
       </Column>
+
       {post.metadata.images.length > 0 && (
         <SmartImage
           priority
@@ -116,7 +152,9 @@ export default function Project({ params }: WorkParams) {
       )}
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
         <Flex gap="12" marginBottom="24" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="m" />}
+          {post.metadata.team && (
+            <AvatarGroup reverse avatars={avatars} size="m" />
+          )}
           <Text variant="body-default-s" onBackground="neutral-weak">
             {formatDate(post.metadata.publishedAt)}
           </Text>
