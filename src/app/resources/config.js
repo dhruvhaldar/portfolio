@@ -39,7 +39,7 @@ const effects = {
     x: 50,
     y: 0,
     width: 150,
-    height: 150,
+    height: 200,
     tilt: 0,
     colorStart: "brand-background-strong",
     colorEnd: "static-transparent",
