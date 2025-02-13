@@ -172,14 +172,14 @@ const about = {
     skills: [
       {
         title: "Python",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
+        description: <></>,
         // optional: leave the array empty if you don't want to display images
         images: [
         ],
       },
       {
         title: "MATLAB",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
+        description: <></>,
         // optional: leave the array empty if you don't want to display images
         images: [
         ],
