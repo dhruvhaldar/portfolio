@@ -1,4 +1,16 @@
+User-agent: Googlebot
+Disallow: 
+User-agent: googlebot-image
+Disallow: 
+User-agent: googlebot-mobile
+Disallow: 
 User-agent: *
+Disallow: 
 Disallow: /cgi-bin/
 Disallow: /tmp/
-Disallow: /~dhruv/
+Disallow: /admin/
+Disallow: /private/
+Sitemap: https://dhruvhaldar.vercel.app/sitemap.xml
+
+# Crawl-delay to prevent overwhelming the server
+Crawl-delay: 10
