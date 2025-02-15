@@ -25,7 +25,7 @@ export async function generateMetadata() {
     description: home.description,
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
-      description: "Portfolio website showcasing my work.",
+      description: "Portfolio website showcasing my work as an Aerospace Engineer specializing in Computational Fluid Dynamics (CFD).",
       url: baseURL,
       siteName: `${person.firstName}'s Portfolio`,
       locale: "en_US",
