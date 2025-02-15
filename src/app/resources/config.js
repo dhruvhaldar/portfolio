@@ -1,4 +1,4 @@
-const baseURL = "dhruvhaldar.vercel.app";
+const baseURL = "https://dhruvhaldar.vercel.app";
 
 // Page routing 
 const routes = {
