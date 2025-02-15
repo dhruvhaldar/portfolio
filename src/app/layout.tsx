@@ -38,7 +38,7 @@ export async function generateMetadata() {
         index: true,
         follow: true,
         "max-video-preview": -1,
-        "max-image-preview": "medium",
+        "max-image-preview": "large",
         "max-snippet": -1,
       },
     },
