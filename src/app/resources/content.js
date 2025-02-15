@@ -52,7 +52,7 @@ const social = [
 const home = {
   label: "Home",
   title: `${person.name}'s Portfolio (With Projects and Publications)`,
-  description: `Explore my CFD portfolio. As an aerospace engineer, I apply Computational Fluid Dynamics to solve complex engineering challenges.`,
+  description: `Discover Dhruv Haldar's CFD portfolio, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD). Explore innovative solutions to complex engineering challenges.`,
   headline: <><span style={{fontFamily: 'var(--font-family-code)'}}>
     <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
     Bridging computational models and real-world aerospace solutions
