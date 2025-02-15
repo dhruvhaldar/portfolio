@@ -1,13 +1,13 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, ToggleButton } from "@/once-ui/components";
+import { Flex, Line, ToggleButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
 
-import { routes, display } from "@/app/resources";
-import { person, home, about, work } from "@/app/resources/content"; // Removed blog and gallery
+import { routes } from "@/app/resources";
+import { about, work } from "@/app/resources/content"; // Removed blog and gallery
 
 type TimeDisplayProps = {
   timeZone: string;
