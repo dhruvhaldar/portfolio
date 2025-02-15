@@ -38,7 +38,7 @@ export async function generateMetadata() {
         index: true,
         follow: true,
         "max-video-preview": -1,
-        "max-image-preview": "large",
+        "max-image-preview": "medium",
         "max-snippet": -1,
       },
     },
@@ -47,6 +47,7 @@ export async function generateMetadata() {
 
 const primary = Inter({
   variable: "--font-primary",
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -65,6 +66,7 @@ const tertiary: FontConfig | undefined = undefined;
 
 const code = Source_Code_Pro({
   variable: "--font-code",
+  subsets: ["latin"],
   display: "swap",
 });
 
