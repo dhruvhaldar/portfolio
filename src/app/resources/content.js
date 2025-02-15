@@ -37,12 +37,22 @@ const social = [
     icon: "email",
     link: "mailto:haldardhruv@gmail.com",
   },
+  {
+    name: "Youtube",
+    icon: "youtube",
+    link: "https://www.youtube.com/c/DhruvHaldar",
+  },
+  {
+    name: "Instagram",
+    icon: "instagram",
+    link: "https://www.instagram.com/dhruvism",
+  },
 ];
 
 const home = {
   label: "Home",
   title: `${person.name}'s Portfolio (With Projects and Publications)`,
-  description: `Explore my portfolio as an aerospace engineer specializing in CFD. See how I apply Computational Fluid Dynamics to solve complex engineering challenges.`,
+  description: `Explore my CFD portfolio. As an aerospace engineer, I apply Computational Fluid Dynamics to solve complex engineering challenges.`,
   headline: <><span style={{fontFamily: 'var(--font-family-code)'}}>
     <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
     Bridging computational models and real-world aerospace solutions
