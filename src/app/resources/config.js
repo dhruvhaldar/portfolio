@@ -7,6 +7,7 @@ const routes = {
   "/work": true,
   "/blog": false,
   "/gallery": true,
+  "/googlefb172169be28d837.html": true,
 };
 
 // Enable password protection on selected routes
