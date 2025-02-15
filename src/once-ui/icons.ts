@@ -31,7 +31,7 @@ import {
   PiImageDuotone,
 } from "react-icons/pi";
 
-import { FaDiscord, FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaLinkedin, FaYoutube, FaInstagram, FaXTwitter } from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {
   chevronUp: HiChevronUp,
@@ -56,6 +56,8 @@ export const iconLibrary: Record<string, IconType> = {
   openLink: HiOutlineLink,
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
+  youtube: FaYoutube,
+  instagram: FaInstagram,
   gallery: PiImageDuotone,
   discord: FaDiscord,
   github: FaGithub,
