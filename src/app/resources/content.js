@@ -181,13 +181,90 @@ const about = {
     skills: [
       {
         title: "Python",
-        description: <></>,
+        description: <>Pyvista, Scipy, Scikit Learn</>,
         // optional: leave the array empty if you don't want to display images
         images: [
         ],
       },
       {
         title: "MATLAB",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "ANSYS",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "OpenFOAM",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "Paraview",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "GAMS",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "Docker",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "Nastran",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "Siemens NX",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "Solidworks",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "R",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "AngularJS",
+        description: <></>,
+        // optional: leave the array empty if you don't want to display images
+        images: [
+        ],
+      },
+      {
+        title: "React",
         description: <></>,
         // optional: leave the array empty if you don't want to display images
         images: [
