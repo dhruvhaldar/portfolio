@@ -43,27 +43,3 @@ a:not(.button) {
         text-decoration-line: underline;
     }
 }
-
-/* SCROLLBAR */
-::-webkit-scrollbar {
-    background: var(--static-transparent);
-    width: var(--static-space-8);
-    height: var(--static-space-8);
-}
-
-::-webkit-scrollbar-track {
-    background: var(--static-transparent);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--neutral-alpha-medium);
-    transition: var(--transition-micro-medium);
-
-    &:hover {
-        background: var(--neutral-alpha-strong);
-    }
-}
-
-::-webkit-scrollbar-corner {
-    background-color: var(--static-transparent);
-}

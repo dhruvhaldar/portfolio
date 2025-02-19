@@ -5,10 +5,6 @@
 .scroller {
     scrollbar-width: none;
     isolation: isolate;
-  
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
   
 .row {
