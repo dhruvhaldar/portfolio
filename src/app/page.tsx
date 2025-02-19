@@ -64,7 +64,7 @@ export default function Home() {
       />
       <Column fillWidth paddingY="l" gap="m">
         <Column maxWidth="s">
-        <h1 style={{ position: "absolute", left: "-9999px" }}>{home.title}</h1>
+        <h1 style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(1px, 1px, 1px, 1px)", whiteSpace: "nowrap" }}>{home.title}</h1>
           <RevealFx translateY="4" fillWidth horizontal="start" paddingBottom="m">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
