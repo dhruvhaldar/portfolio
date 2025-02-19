@@ -1,6 +1,7 @@
 {
   "name": "@once-ui-system/magic-portfolio",
   "version": "1.3.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "export": "next export",
