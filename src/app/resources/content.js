@@ -12,41 +12,10 @@ const person = {
   languages: ["English", "Swedish", "German", "Hindi", "Bengali"], // optional: Leave the array empty if you don't want to display languages
 };
 
-const newsletter = {
-  display: false,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: (
-    <>
-      I.
-    </>
-  ),
-};
+const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
-const social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  {
-    name: "GitHub",icon: "github",link: "https://github.com/dhruvhaldar",
-  },
-  {
-    name: "LinkedIn",icon: "linkedin",link: "https://www.linkedin.com/in/dhruvhaldar/",
-  },
-  {
-    name: "Email",
-    icon: "email",
-    link: "mailto:haldardhruv@gmail.com",
-  },
-  {
-    name: "Youtube",
-    icon: "youtube",
-    link: "https://www.youtube.com/c/DhruvHaldar",
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/dhruvism",
-  },
-];
+// Import new icons in /once-ui/icons.ts
+const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
 const home = {
   label: "Home",
@@ -91,8 +60,7 @@ const about = {
   },
   
   work: {
-    display: true,
-    title: "Work Experience",
+    display: true,title: "Work Experience",
     experiences: [
       {
         company: "Sankhyasutra Labs Limited",
@@ -161,214 +129,87 @@ const about = {
       },
     ],
   },
-  studies: {
-    display: true,
-    title: "Education",
-    institutions: [
-      {
-        name: 'KTH Royal Institute of Technology',
-        description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,
-      },
-      {
-        name: 'SRM Institute of Science and Technology',
-        description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,
-      },
-    ],
-  },
-  technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+  studies: {display: true,title: "Education",institutions: [{name: 'KTH Royal Institute of Technology',description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,},{name: 'SRM Institute of Science and Technology',description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,},],},
+  technical: {display: true,title: "Technical skills",
     skills: [
       {
         title: "Python",
         description: <>Pyvista, Scipy, Scikit Learn</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "MATLAB",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "ANSYS",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "OpenFOAM",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "Paraview",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "GAMS",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "Docker",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "Nastran",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "Siemens NX",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "Solidworks",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "R",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "AngularJS",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
       {
         title: "React",
         description: <></>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-        ],
+        images: [],
       },
     ],
   },
 };
 
 // Blog Page hidden
-const blog = {
-  label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
-};
+const blog={label:"Blog",title:"Writing about design and tech...",description:`Read what ${person.name } has been up to recently`,};
 
-const work = {
-  label: "Work",
-  title: "My projects",
-  description: `Engineering projects by ${person.name}`,
+const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
 
 // Gallery Page
-const gallery = {
-  label: "Gallery",
-  title: "My photo gallery",
-  description: `A photo collection by ${person.name}`,
-  // Images from https://pexels.com
-  images: [
-    {
-      src: "/images/gallery/img-01.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-02.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-03.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-04.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-05.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-06.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-07.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-08.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-09.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-10.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-11.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-12.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-13.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-14.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-  ],
-};
+const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-03.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-04.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-05.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-06.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-07.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-08.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-09.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-10.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-11.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-12.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-13.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-14.jpg",alt:"image",orientation:"horizontal"}]};
 
 export { person, social, newsletter, home, about, blog, work, gallery };
