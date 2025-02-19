@@ -9,7 +9,7 @@ const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsle
 const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
 const home = {label: "Home",
-  title: `${person.name}'s Portfolio (With Projects and Publications)`,
+  title: `${person.name}'s Portfolio (With Projects & Publications)`,
   description: `Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).`,
   headline: <>
     <span style={{fontFamily: 'var(--font-family-code)'}}>
