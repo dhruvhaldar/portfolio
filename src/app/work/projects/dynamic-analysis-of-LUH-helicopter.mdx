@@ -10,8 +10,8 @@ team:
     linkedIn: "https://www.linkedin.com/in/dhruvhaldar/"
 
 images:
+  - "/images/projects/dyn_hor_sta_vert/luh.avif"  
   - "/images/projects/dyn_hor_sta_vert/isoproj.avif"
-  - "/images/projects/dyn_hor_sta_vert/luh.avif"
 
 link: "/documents/dyn_hor_sta_vert_fin.pdf"
 ---
@@ -19,6 +19,8 @@ link: "/documents/dyn_hor_sta_vert_fin.pdf"
 ## Overview
 
 This research investigates the dynamic behavior of the horizontal stabilizer and vertical fin of [HAL Light Utility Helicopter (LUH)](https://en.wikipedia.org/wiki/HAL_Light_Utility_Helicopter). The study employs finite element analysis (FEA) to determine the natural frequencies of these components and assess their stability in flight. Ensuring that these frequencies do not match rotor vibration frequencies is crucial for the safety and structural integrity of the helicopter.
+
+![Simulation setup in Altair Hypermesh](/images/projects/dyn_hor_sta_vert/isoproj.avif)
 
 ## Key Features
 
@@ -29,7 +31,7 @@ This research investigates the dynamic behavior of the horizontal stabilizer and
 
 ## Technologies Used
 
-- **HYPERMESH:** For finite element meshing and model creation.
+- **HYPERMESH:** Altair Hypermesh for finite element meshing and model creation.
 - **NASTRAN:** For conducting modal analysis and obtaining natural frequencies.
 - **MATLAB:** Used for computing natural frequency and time response curves.
 - **Cheetah and Chetak Helicopter Systems:** Reference models used for transmission and structural behavior comparisons..
@@ -41,11 +43,7 @@ This research investigates the dynamic behavior of the horizontal stabilizer and
 - **Computational Limitations:** Balancing computational efficiency with high-fidelity analysis.
 - **Real-world Validation:** Comparing theoretical findings with real-world helicopter performance data.
 
-## Outcome:
-
-The study confirms that the natural frequencies of the horizontal stabilizer and vertical fin do not coincide with the rotor’s vibration frequencies (40.75 Hz for bending and 62.86 Hz for torsion). This ensures that the LUH maintains stability and safety in flight. Future research can further refine computational models and explore the impact of additional structural modifications for enhanced performance.
-
-### Results
+### Simulation Video
 <video autoplay controls>
   <source src="/images/projects/dyn_hor_sta_vert/media1.webm" type="video/webm" />
   Your browser does not support the video tag.
@@ -65,4 +63,8 @@ The study confirms that the natural frequencies of the horizontal stabilizer and
 <video autoplay controls>
   <source src="/images/projects/dyn_hor_sta_vert/media6.webm" type="video/webm" />
 </video>
+
+## Outcome:
+
+The study confirms that the natural frequencies of the horizontal stabilizer and vertical fin do not coincide with the rotor’s vibration frequencies (40.75 Hz for bending and 62.86 Hz for torsion). This ensures that the LUH maintains stability and safety in flight. Future research can further refine computational models and explore the impact of additional structural modifications for enhanced performance.
 
