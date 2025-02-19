@@ -14,7 +14,7 @@ async redirects() {
         source: "/:path*", // Match all paths
         has: [{ type: "host", value: "www.dhruvhaldar.vercel.app" }], // Check if the request is for www
         destination: "https://dhruvhaldar.vercel.app/:path*", // Redirect to non-www
-        permanent: true, // 301 redirect for SEO
+        statusCode: 301, // 301 redirect for SEO
       },
     ];
   }
