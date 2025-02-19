@@ -1,1 +1,1 @@
-Source code for my Portfolio Website. Hosted at https://dhruvhaldar.vercel.app/
+This is my portfolio website. Hosted at https://dhruvhaldar.vercel.app/
