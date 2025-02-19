@@ -14,7 +14,7 @@ export async function generateMetadata() {
   return {
     metadataBase: new URL(`https://${baseURL}`),
     title: home.title,
-    alternates: {canonical: `https://${baseURL}/`},
+    alternates: {canonical: `${baseURL}/`},
     description: home.description,
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
