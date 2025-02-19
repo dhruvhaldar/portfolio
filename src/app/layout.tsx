@@ -42,40 +42,20 @@ export async function generateMetadata() {
         "max-snippet": -1,
       },
     },
-    other: {
-      "google-site-verification": "JnFwqcZ33qSZ4QjzdoBEK1ytePF8xpmyt0xm3xtPqa4",
-    },
   };
 }
 
-const primary = Inter({
-  variable: "--font-primary",
-  subsets: ["latin"],
-  display: "swap",
-});
+const primary = Inter({variable: "--font-primary",subsets: ["latin"],display: "swap",});
 
-type FontConfig = {
-  variable: string;
-};
+type FontConfig = {variable: string;};
 
-/*
-	Replace with code for secondary and tertiary fonts
-	from https://once-ui.com/customize
-*/
-const secondary: FontConfig | undefined = undefined;
-const tertiary: FontConfig | undefined = undefined;
-/*
- */
 
-const code = Source_Code_Pro({
-  variable: "--font-code",
-  subsets: ["latin"],
-  display: "swap",
-});
+const secondary: FontConfig | undefined = undefined;   
+const tertiary: FontConfig | undefined = undefined; /*Replace with code for secondary and tertiary fonts from https://once-ui.com/customize*/
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
+const code = Source_Code_Pro({variable: "--font-code",subsets: ["latin"],display: "swap",});
+
+interface RootLayoutProps {children: React.ReactNode;}
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -130,24 +110,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                 | 90
                 | 100,
             }}
-            dots={{
-              display: effects.dots.display,
-              color: effects.dots.color,
-              size: effects.dots.size as any,
-              opacity: effects.dots.opacity as any,
-            }}
-            grid={{
-              display: effects.grid.display,
-              color: effects.grid.color,
-              width: effects.grid.width as any,
-              height: effects.grid.height as any,
-              opacity: effects.grid.opacity as any,
-            }}
-            lines={{
-              display: effects.lines.display,
-              opacity: effects.lines.opacity as any,
-            }}
-          />
+            dots={{display: effects.dots.display,color: effects.dots.color,size: effects.dots.size as any,opacity: effects.dots.opacity as any,}}
+            grid={{display: effects.grid.display,color: effects.grid.color,width: effects.grid.width as any,height: effects.grid.height as any,opacity: effects.grid.opacity as any,}}
+            lines={{display: effects.lines.display,opacity: effects.lines.opacity as any,}}/>
           <Flex fillWidth minHeight="16"></Flex>
           <Header />
           <Flex
