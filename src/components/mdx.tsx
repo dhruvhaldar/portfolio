@@ -63,7 +63,17 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
     return null;
   }
 
-  return null;
+  return (
+    <SmartImage
+      className="my-20"
+      enlarge
+      radius="m"
+      aspectRatio="16 / 9"
+      alt={alt}
+      src={src}
+      {...props}
+    />
+  );
 }
 
 function slugify(str: string): string {
