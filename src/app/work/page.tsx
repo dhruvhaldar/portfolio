@@ -1,5 +1,5 @@
 import { getPosts } from "@/app/utils/utils";
-import { Column } from "@/once-ui/components";
+import { Column, Heading } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL } from "@/app/resources";
 import { person, work } from "@/app/resources/content";
@@ -38,6 +38,7 @@ export default function Work() {
 
   return (
     <Column maxWidth="m">
+        <h1 style={{ position: "absolute", left: "-9999px" }}>{work.title}</h1>
       <script
         type="application/ld+json"
         suppressHydrationWarning
