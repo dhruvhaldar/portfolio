@@ -38,7 +38,7 @@ export default function Work() {
 
   return (
     <Column maxWidth="m">
-        <h1 style={{ position: "absolute", left: "-9999px" }}>{work.title}</h1>
+        <h1 style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(1px, 1px, 1px, 1px)", whiteSpace: "nowrap" }}>{work.title}</h1>
       <script
         type="application/ld+json"
         suppressHydrationWarning
