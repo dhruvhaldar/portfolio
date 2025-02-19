@@ -14,13 +14,15 @@ export async function generateMetadata() {
   return {
     metadataBase: new URL(`https://${baseURL}`),
     title: home.title,
+    alternates: {canonical: './',},
     description: home.description,
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
       description: "Portfolio website showcasing my work as an Aerospace Engineer specializing in Computational Fluid Dynamics (CFD).",
       url: baseURL,
       siteName: `${person.firstName}'s Portfolio`,
-      locale: "en_IN",type: "website",},robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},};}
+      locale: "en_IN",type: "website",},robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
+    };}
 
 const primary = Inter({variable: "--font-primary",subsets: ["latin"],display: "swap",});
 type FontConfig = {variable: string;};
