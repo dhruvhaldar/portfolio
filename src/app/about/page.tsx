@@ -1,15 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Column,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  SmartImage,
-  Tag,
-  Text,
-} from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text,} from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -69,7 +58,7 @@ export default function About() {
   ];
   return (
     <Column maxWidth="m">
-      <h1>{about.title}</h1> {/* Added h1 tag for SEO and accessibility */}
+        <h1 style={{ position: "absolute", left: "-9999px" }}>{about.title}</h1>
       <script
         type="application/ld+json"
         suppressHydrationWarning
