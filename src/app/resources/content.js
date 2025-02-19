@@ -9,11 +9,15 @@ const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"
 
 const home = {label: "Home",
   title: `${person.name}'s Portfolio (With Projects and Publications)`,
-  description: `Discover Dhruv Haldar's CFD portfolio, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD). Explore innovative solutions to complex engineering challenges.`,
-  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}>
+  description: `Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).`,
+  headline: <>
+    <meta name="google-site-verification" content="JnFwqcZ33qSZ4QjzdoBEK1ytePF8xpmyt0xm3xtPqa4" />
+    <span style={{fontFamily: 'var(--font-family-code)'}}>
     <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
     Bridging computational models and real-world aerospace solutions
-    </LetterFx></span></>,
+    </LetterFx></span>
+    
+    </>,
   subline: (
     <>
       👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
