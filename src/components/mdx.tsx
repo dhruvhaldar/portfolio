@@ -25,20 +25,10 @@ function Table({ data }: TableProps) {
     </tr>
   ));
 
-  return (
-    <table>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </table>
-  );
+  return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>);
 }
 
-type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  href: string;
-  children: ReactNode;
-};
+type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {href: string;children: ReactNode;};
 
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
   const linkText = typeof children === "string" ? children.trim() : "";

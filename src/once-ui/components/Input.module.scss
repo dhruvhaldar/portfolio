@@ -29,10 +29,6 @@
         transform: translateX(50%) translateY(50%) rotate(45deg);
         background-color: var(--neutral-alpha-weak);
     }
-
-    ::-webkit-resizer {
-        display: none;
-    }
 }
 
 .label {
@@ -111,12 +107,6 @@
     &:disabled {
         background-color: var(--neutral-solid-strong);
         color: var(--neutral-on-solid-weak);
-    }
-
-    &:autofill, &:-webkit-autofill {
-        background-color: var(--static-transparent) !important;
-        -webkit-box-shadow: 0 0 0 var(--static-space-32) var(--neutral-background-medium) inset !important;
-        -webkit-text-fill-color: var(--neutral-on-background-strong) !important;
     }
 }
 

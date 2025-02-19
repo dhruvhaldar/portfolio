@@ -22,13 +22,7 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
-  href,
-  images = [],
-  title,
-  content,
-  description,
-  avatars,
-  link,
+  href,images = [],title,content,description,avatars,link,
 }) => {
   return (
     <Column fillWidth gap="m">
