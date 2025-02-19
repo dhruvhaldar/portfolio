@@ -69,6 +69,7 @@ export default function About() {
   ];
   return (
     <Column maxWidth="m">
+      <h1>{about.title}</h1> {/* Added h1 tag for SEO and accessibility */}
       <script
         type="application/ld+json"
         suppressHydrationWarning
