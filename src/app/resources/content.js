@@ -1,16 +1,6 @@
 import { InlineCode, LetterFx } from "@/once-ui/components";
 
-const person = {
-  firstName: "Dhruv",
-  lastName: "Haldar",
-  get name() {
-    return `${this.firstName} ${this.lastName}`;
-  },
-  role: "Aerospace Engineer",
-  avatar: "/images/1700894012265.jpeg",
-  location: "Asia/Kolkata", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Swedish", "German", "Hindi", "Bengali"], // optional: Leave the array empty if you don't want to display languages
-};
+const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};
 
 const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
@@ -34,24 +24,14 @@ const home = {
 };
 
 // About Page
-const about = {
-  label: "About",
-  title: "About me",
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
-  tableOfContent: {
+const about = {label: "About",title: "About me",description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+tableOfContent: {
     display: true,
     subItems: true,
   },
-  avatar: {
-    display: true,
-  },
-  calendar: {
-    display: true,
-    link: "https://cal.com/dhruvhaldar",
-  },
-  intro: {
-    display: true,
-    title: "Introduction",
+  avatar: {display: true,},
+  calendar: {display: true,link: "https://cal.com/dhruvhaldar",},
+  intro: {display: true,title: "Introduction",
     description: (
       <>
         👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
@@ -205,8 +185,7 @@ const about = {
 const blog={label:"Blog",title:"Writing about design and tech...",description:`Read what ${person.name } has been up to recently`,};
 
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  // Create new project pages by adding a new .mdx file to app/blog/posts. All projects will be listed on the /home and /work routes
 };
 
 // Gallery Page
