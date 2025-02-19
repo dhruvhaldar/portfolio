@@ -11,8 +11,8 @@ const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"
 const home = {label: "Home",
   title: `${person.name}'s Portfolio (With Projects and Publications)`,
   description: `Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).`,
-  "google-site-verification": `JnFwqcZ33qSZ4QjzdoBEK1ytePF8xpmyt0xm3xtPqa4`,
   headline: <>
+    <meta name="google-site-verification" content="JnFwqcZ33qSZ4QjzdoBEK1ytePF8xpmyt0xm3xtPqa4" />
     <span style={{fontFamily: 'var(--font-family-code)'}}>
     <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
     Bridging computational models and real-world aerospace solutions
