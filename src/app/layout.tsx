@@ -155,15 +155,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             zIndex={0}
             fillWidth
             paddingY="l"
-            paddingX="l"
-            horizontal="center"
-            flex={1}
-          >
-            <Flex horizontal="center" fillWidth minHeight="0">
-              <RouteGuard>{children}</RouteGuard>
-            </Flex>
-          </Flex>
-          <Footer />
+            paddingX="l" horizontal="center" flex={1}><Flex horizontal="center" fillWidth minHeight="0"><RouteGuard>{children}</RouteGuard></Flex></Flex><Footer />
           <GoogleAnalytics gaId="G-D5DG6N0RGV" /> {/* Add Google Analytics here */}
           <SpeedInsights /> {/* Add SpeedInsights here */}
           <Analytics /> {/* Add Analytics here */}
