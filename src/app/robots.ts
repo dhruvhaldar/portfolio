@@ -1,5 +1,3 @@
-import { baseURL } from "@/app/resources";
-
 export default function robots() {
   return {
     rules: [
@@ -7,6 +5,6 @@ export default function robots() {
         userAgent: "*",
       },
     ],
-    sitemap: `${baseURL}/sitemap.xml`,
+    sitemap: `https://dhruvhaldar.vercel.app/sitemap.xml`,
   };
 }
