@@ -16,11 +16,11 @@ const home = {label: "Home",
     <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
     Bridging computational models and real-world aerospace solutions
     </LetterFx></span>
-    
     </>,
+
   subline: (
     <>
-      👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. When I'm not busy, I mess around with creative projects.
+      👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace, chemical, automotive, and propulsion systems. 
     </>
   ),
 };
@@ -187,6 +187,6 @@ const work = {label: "Work",title: "My projects",description: `Engineering proje
 };
 
 // Gallery Page
-const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}}]};
+const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
 
 export { person, social, newsletter, home, about, blog, work, gallery };
