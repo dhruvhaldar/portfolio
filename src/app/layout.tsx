@@ -15,6 +15,10 @@ export async function generateMetadata() {
     title: home.title,
     alternates: {canonical: `${baseURL}/`},
     description: home.description,
+    icons: {
+      icon: "/favicon.png",
+      shortcut: "/favicon.png"
+    },
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
       description: "Portfolio website showcasing my work as an Aerospace Engineer specializing in Computational Fluid Dynamics (CFD).",
