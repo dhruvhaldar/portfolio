@@ -6,9 +6,8 @@ import { Inter } from "next/font/google";import { Source_Code_Pro } from "next/f
 
 import { person, home } from "@/app/resources/content";import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
-import { SpeedInsights } from "@vercel/speed-insights/next";import { Analytics } from "@vercel/analytics/react";import { GoogleAnalytics } from '@next/third-parties/google'
-
 // Global Analytics and Speed Insights
+import { SpeedInsights } from "@vercel/speed-insights/next";import { Analytics } from "@vercel/analytics/react";import { GoogleAnalytics } from '@next/third-parties/google'
 
 export async function generateMetadata() {
   return {
