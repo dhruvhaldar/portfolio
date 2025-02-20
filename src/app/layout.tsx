@@ -19,7 +19,6 @@ export async function generateMetadata() {
       icon: "/favicon.png",
       shortcut: "/favicon.png",
       apple: "/apple-icon.png",
-      android:"/android-icon.png",
       other: {
         rel: "apple-touch-icon-precomposed",
         url: "/apple-touch-icon-precomposed.png",
