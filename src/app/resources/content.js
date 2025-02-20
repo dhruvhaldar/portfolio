@@ -181,11 +181,12 @@ tableOfContent: {display: true,subItems: true,},
 // Blog Page hidden
 const blog={label:"Blog",title:"Writing about design and tech...",description:`Read what ${person.name } has been up to recently`,};
 
+// Work page
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts. All projects will be listed on the /home and /work routes
 };
 
 // Gallery Page
-const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-03.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-04.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-05.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-06.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-07.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-08.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-09.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-10.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-11.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-12.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-13.jpg",alt:"image",orientation:"horizontal"},{src:"/images/gallery/img-14.jpg",alt:"image",orientation:"horizontal"}]};
+const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}}]};
 
 export { person, social, newsletter, home, about, blog, work, gallery };
