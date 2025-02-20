@@ -18,10 +18,11 @@ export async function generateMetadata() {
     icons: {
       icon: "/favicon.png",
       shortcut: "/favicon.png",
-      apple: '/apple-icon.png',
+      apple: "/apple-icon.png",
+      android:"/android-icon.png",
       other: {
-        rel: 'apple-touch-icon-precomposed',
-        url: '/apple-touch-icon-precomposed.png',
+        rel: "apple-touch-icon-precomposed",
+        url: "/apple-touch-icon-precomposed.png",
       },
     },
     openGraph: {
@@ -29,7 +30,7 @@ export async function generateMetadata() {
       description: "Portfolio website showcasing my work as an Aerospace Engineer specializing in Computational Fluid Dynamics (CFD).",
       url: baseURL,
       siteName: `${person.firstName}'s Portfolio`,
-      locale: "en_IN",type: "website",},robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
+      locale: "en_US",type: "website",},robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
     };}
 
 const primary = Inter({variable: "--font-primary",subsets: ["latin"],display: "swap",});type FontConfig = {variable: string;};
