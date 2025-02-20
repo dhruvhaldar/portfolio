@@ -20,7 +20,7 @@ const home = {label: "Home",
 
   subline: (
     <>
-      👋 Hi! I'm Dhruv, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace, chemical, automotive, and propulsion systems. 
+      👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace, chemical, automotive, and propulsion systems. 
     </>
   ),
 };
