@@ -17,7 +17,12 @@ export async function generateMetadata() {
     description: home.description,
     icons: {
       icon: "/favicon.png",
-      shortcut: "/favicon.png"
+      shortcut: "/favicon.png",
+      apple: '/apple-icon.png',
+      other: {
+        rel: 'apple-touch-icon-precomposed',
+        url: '/apple-touch-icon-precomposed.png',
+      },
     },
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
