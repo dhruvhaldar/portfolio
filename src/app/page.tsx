@@ -1,12 +1,7 @@
 import React from "react";
 
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Arrow, Column } from "@/once-ui/components";
-import { Projects } from "@/components/work/Projects";
-
-import { baseURL, routes } from "@/app/resources";
-import { home, about, person, newsletter } from "@/app/resources/content";
-import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";
+import { Projects } from "@/components/work/Projects";import { baseURL, routes } from "@/app/resources";import { home, about, person, newsletter } from "@/app/resources/content";import { Mailchimp } from "@/components";import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
   const title = home.title;
@@ -76,14 +71,7 @@ export default function Home() {
             </Text>
           </RevealFx>
           <RevealFx translateY="12" delay={0.4} horizontal="start">
-            <Button
-              id="about"
-              data-border="rounded"
-              href="/about"
-              variant="secondary"
-              size="m"
-              arrowIcon
-            >
+            <Button id="about" data-border="rounded" href="/about" variant="secondary" size="m"arrowIcon>
               <Flex gap="8" vertical="center">
                 {about.avatar.display && (
                   <Avatar
