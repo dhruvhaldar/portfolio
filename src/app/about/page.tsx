@@ -17,6 +17,7 @@ export async function generateMetadata() {
       description,
       type: "website",
       url: `https://${baseURL}/about`,
+      alternates: {canonical: `${baseURL}/about/`},
       images: [
         {
           url: ogImage,
