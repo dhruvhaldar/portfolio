@@ -1,5 +1,5 @@
 import { getPosts } from "@/app/utils/utils";
-import { Column, Heading } from "@/once-ui/components";
+import { Column } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL } from "@/app/resources";
 import { person, work } from "@/app/resources/content";
@@ -7,7 +7,7 @@ import { person, work } from "@/app/resources/content";
 export async function generateMetadata() {
   const title = work.title;
   const description = work.description;
-  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
+  const ogImage = `${baseURL}/opengraph.jpg`;
 
   return {
     title,
