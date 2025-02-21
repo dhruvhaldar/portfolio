@@ -5,6 +5,7 @@ import { Projects } from "@/components/work/Projects";import { baseURL, routes }
 
 export async function generateMetadata() {
   const title = home.title;
+  const alt_title = 'Showcasing the Best Projects';
   const description = home.description;
   const ogImage = `https://${baseURL}/opengraph.jpg`;
   const pageUrl = `https://${baseURL}`;
@@ -13,21 +14,19 @@ export async function generateMetadata() {
     title,
     description,
     metadataBase: new URL(pageUrl),
-    alternates: {
-      canonical: pageUrl,
-    },
+    alternates: {canonical: pageUrl,},
     openGraph: {
       title,
       description,
       type: "website",
       url: pageUrl,
-      siteName: `${person.firstName}'s Portfolio`,
+      siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: alt_title,
         },
       ],
     },

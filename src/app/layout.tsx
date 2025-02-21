@@ -10,15 +10,17 @@ import { person, home } from "@/app/resources/content";import { Background, Colu
 import { SpeedInsights } from "@vercel/speed-insights/next";import { Analytics } from "@vercel/analytics/react";import { GoogleAnalytics } from '@next/third-parties/google'
 
 export async function generateMetadata() {
-  const portfolioTitle = `${person.firstName}'s Portfolio`;
-  const portfolioDescription = "Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).";
-  const ogImageUrl = `https://${baseURL}/opengraph.jpg`;
+  const title = home.title;
+  const alt_title = 'Showcasing the Best Projects';
+  const description = home.description;
+  const ogImage = `https://${baseURL}/opengraph.jpg`;
+  const pageUrl = `https://${baseURL}`;
 
   return {
-    metadataBase: new URL(`https://${baseURL}`),
-    title: home.title,
-    alternates: {canonical: `https://${baseURL}/`},
-    description: home.description,
+    title,
+    description,
+    metadataBase: new URL(pageUrl),
+    alternates: {canonical: pageUrl},
     icons: {
       icon: "/favicon.png",
       shortcut: "/favicon.png",
@@ -29,25 +31,25 @@ export async function generateMetadata() {
       },
     },
     openGraph: {
-      title: portfolioTitle,
-      description: portfolioDescription,
+      title,
+      description,
+      type: "website",
+      url: pageUrl,
       siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
       locale: "en_US",
-      type: "website",
-      url: `https://${baseURL}`,
       images: [
         {
-          url: ogImageUrl,
+          url: ogImage,
           width: 1200,
           height: 630,
-          alt: "An overview of my portfolio",
+          alt: alt_title,
         },],
     },
     twitter: {
       card: "summary_large_image",
-      title: portfolioTitle,
-      description: portfolioDescription,
-      images: [ogImageUrl],
+      title,
+      description,
+      images: [ogImage],
     },
       robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
     };}
@@ -58,18 +60,4 @@ const code = Source_Code_Pro({variable: "--font-code",subsets: ["latin"],display
 
 interface RootLayoutProps {children: React.ReactNode;}
 
-export default async function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <Flex as="html" lang="en" background="page" data-neutral={style.neutral} data-brand={style.brand} data-accent={style.accent} data-solid={style.solid} data-solid-style={style.solidStyle} data-theme={style.theme} data-border={style.border} data-surface={style.surface} data-transition={style.transition} className={classNames(primary.variable,secondary ? secondary.variable : "",tertiary ? tertiary.variable : "",code.variable,)}>
-      <ToastProvider>
-        <Column style={{ minHeight: "100vh" }} as="body" fillWidth margin="0" padding="0">
-          <Background mask={{cursor: effects.mask.cursor,x: effects.mask.x,y: effects.mask.y,radius: effects.mask.radius,}}
-            gradient={{display: effects.gradient.display,x: effects.gradient.x,y: effects.gradient.y,width: effects.gradient.width,height: effects.gradient.height,tilt: effects.gradient.tilt,colorStart: effects.gradient.colorStart,colorEnd: effects.gradient.colorEnd,opacity: effects.gradient.opacity as | 0 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100,}}
-            dots={{display: effects.dots.display,color: effects.dots.color,size: effects.dots.size as any,opacity: effects.dots.opacity as any,}}
-            grid={{display: effects.grid.display,color: effects.grid.color,width: effects.grid.width as any,height: effects.grid.height as any,opacity: effects.grid.opacity as any,}}
-            lines={{display: effects.lines.display,opacity: effects.lines.opacity as any,}}/>
-          <Flex fillWidth minHeight="16"></Flex><Header /><Flex position="relative" zIndex={0} fillWidth paddingY="l" paddingX="l" horizontal="center" flex={1}><Flex horizontal="center" fillWidth minHeight="0"><RouteGuard>{children}</RouteGuard></Flex></Flex><Footer />
-          <GoogleAnalytics gaId="G-D5DG6N0RGV" /> {/*Google Analytics*/}
-          <SpeedInsights /> {/*SpeedInsights*/}
-          <Analytics /> {/*Analytics*/}
-        </Column></ToastProvider></Flex>);}
+export default async function RootLayout({ children }: RootLayoutProps) {return (<Flex as="html" lang="en" background="page" data-neutral={style.neutral} data-brand={style.brand} data-accent={style.accent} data-solid={style.solid} data-solid-style={style.solidStyle} data-theme={style.theme} data-border={style.border} data-surface={style.surface} data-transition={style.transition} className={classNames(primary.variable,secondary ? secondary.variable : "",tertiary ? tertiary.variable : "",code.variable,)}><ToastProvider><Column style={{ minHeight: "100vh" }} as="body" fillWidth margin="0" padding="0"><Background mask={{cursor: effects.mask.cursor,x: effects.mask.x,y: effects.mask.y,radius: effects.mask.radius,}} gradient={{display: effects.gradient.display,x: effects.gradient.x,y: effects.gradient.y,width: effects.gradient.width,height: effects.gradient.height,tilt: effects.gradient.tilt,colorStart: effects.gradient.colorStart,colorEnd: effects.gradient.colorEnd,opacity: effects.gradient.opacity as | 0 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100,}} dots={{display: effects.dots.display,color: effects.dots.color,size: effects.dots.size as any,opacity: effects.dots.opacity as any,}} grid={{display: effects.grid.display,color: effects.grid.color,width: effects.grid.width as any,height: effects.grid.height as any,opacity: effects.grid.opacity as any,}} lines={{display: effects.lines.display,opacity: effects.lines.opacity as any,}}/><Flex fillWidth minHeight="16"></Flex><Header /><Flex position="relative" zIndex={0} fillWidth paddingY="l" paddingX="l" horizontal="center" flex={1}><Flex horizontal="center" fillWidth minHeight="0"><RouteGuard>{children}</RouteGuard></Flex></Flex><Footer /><GoogleAnalytics gaId="G-D5DG6N0RGV" /> {/*Google Analytics*/}<SpeedInsights /> {/*SpeedInsights*/}<Analytics /> {/*Analytics*/}</Column></ToastProvider></Flex>);}
