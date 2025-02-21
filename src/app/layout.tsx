@@ -53,8 +53,13 @@ export async function generateMetadata() {
           width: 1200,
           height: 630,
           alt: alt_title,
-        },],
+        },
+      ],
+      // appId: 'YOUR_FACEBOOK_APP_ID',
     },
+    // other: {
+    //   'fb:app_id': 'YOUR_FACEBOOK_APP_ID',
+    // },
     
     twitter: {
       card: "summary_large_image",
