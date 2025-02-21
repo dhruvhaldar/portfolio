@@ -26,10 +26,20 @@ export async function generateMetadata() {
     },
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
-      description: "Portfolio website showcasing my work as an Aerospace Engineer specializing in Computational Fluid Dynamics (CFD).",
+      description: "Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).",
       url: baseURL,
-      siteName: `${person.firstName}'s Portfolio`,
-      locale: "en_US",type: "website",},robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
+      siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: "/opengraph.jpg", // Ensure this file is in your public folder
+          width: 1200, // Adjust these values based on your image's dimensions
+          height: 630,
+          alt: "An overview of my portfolio",
+        },],
+    },
+      robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
     };}
 
 const primary = Inter({variable: "--font-primary",subsets: ["latin"],display: "swap",});type FontConfig = {variable: string;};
