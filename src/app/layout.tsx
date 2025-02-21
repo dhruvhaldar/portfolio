@@ -27,7 +27,6 @@ export async function generateMetadata() {
     openGraph: {
       title: `${person.firstName}'s Portfolio`,
       description: "Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).",
-      url: baseURL,
       siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
       locale: "en_US",
       type: "website",
