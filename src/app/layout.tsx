@@ -22,14 +22,24 @@ export async function generateMetadata() {
     metadataBase: new URL(pageUrl),
     alternates: {canonical: pageUrl},
     icons: {
-      icon: "/favicon.png",
-      shortcut: "/favicon.png",
+      icon: [
+        { url: '/favicon.ico', sizes: '48x48' },
+        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/android-chrome-192x192.jpg', sizes: '192x192', type: 'image/jpeg' },
+        { url: '/android-chrome-512x512.jpg', sizes: '512x512', type: 'image/jpeg' },
+      ],
+      shortcut: "/favicon.ico",
       apple: "/apple-icon.png",
+      manifest: '/site.webmanifest',
       other: {
-        rel: "apple-touch-icon-precomposed",
+        rel: "apple-touch-icon",
         url: "/apple-touch-icon-precomposed.png",
+        'msapplication-TileColor': '#da532c',
+        'theme-color': '#ffffff',
       },
     },
+    
     openGraph: {
       title,
       description,
@@ -45,13 +55,15 @@ export async function generateMetadata() {
           alt: alt_title,
         },],
     },
+    
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [ogImage],
     },
-      robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
+    
+    robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
     };}
 
 const primary = Inter({variable: "--font-primary",subsets: ["latin"],display: "swap",});type FontConfig = {variable: string;};
