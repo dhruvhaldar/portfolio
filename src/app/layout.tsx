@@ -10,10 +10,14 @@ import { person, home } from "@/app/resources/content";import { Background, Colu
 import { SpeedInsights } from "@vercel/speed-insights/next";import { Analytics } from "@vercel/analytics/react";import { GoogleAnalytics } from '@next/third-parties/google'
 
 export async function generateMetadata() {
+  const portfolioTitle = `${person.firstName}'s Portfolio`;
+  const portfolioDescription = "Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).";
+  const ogImageUrl = `https://${baseURL}/opengraph.jpg`;
+
   return {
     metadataBase: new URL(`https://${baseURL}`),
     title: home.title,
-    alternates: {canonical: `${baseURL}/`},
+    alternates: {canonical: `https://${baseURL}/`},
     description: home.description,
     icons: {
       icon: "/favicon.png",
@@ -25,18 +29,25 @@ export async function generateMetadata() {
       },
     },
     openGraph: {
-      title: `${person.firstName}'s Portfolio`,
-      description: "Discover Dhruv Haldar's portfolio showcase, where aerospace engineering meets advanced Computational Fluid Dynamics (CFD).",
+      title: portfolioTitle,
+      description: portfolioDescription,
       siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
       locale: "en_US",
       type: "website",
+      url: `https://${baseURL}`,
       images: [
         {
-          url: "/opengraph.jpg", // Ensure this file is in your public folder
-          width: 1200, // Adjust these values based on your image's dimensions
+          url: ogImageUrl,
+          width: 1200,
           height: 630,
           alt: "An overview of my portfolio",
         },],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: portfolioTitle,
+      description: portfolioDescription,
+      images: [ogImageUrl],
     },
       robots: {index: true,follow: true,googleBot: {index: true,follow: true,"max-video-preview": -1,"max-image-preview": "large","max-snippet": -1,},},
     };}

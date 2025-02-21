@@ -1,4 +1,4 @@
-const baseURL="https://dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/blog":false,"/gallery":true};const protectedRoutes={"/work/automate-design-handovers-with-a-figma-to-code-pipeline":false};const style = {
+const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/blog":false,"/gallery":true};const protectedRoutes={"/work/automate-design-handovers-with-a-figma-to-code-pipeline":false};const style = {
   theme: "dark", // dark | light
   neutral: "slate", // sand | gray | slate
   brand: "aqua", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
