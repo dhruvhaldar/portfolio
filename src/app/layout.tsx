@@ -1,6 +1,8 @@
 import "@/once-ui/styles/index.scss";import "@/once-ui/tokens/index.scss";
 
-import classNames from "classnames";import { Footer, Header, RouteGuard } from "@/components";import { baseURL, effects, style } from "@/app/resources";
+import classNames from "classnames";import { Header, RouteGuard } from "@/components";
+import dynamic from "next/dynamic";
+import { baseURL, effects, style } from "@/app/resources";
 
 import { Inter } from "next/font/google";import { Source_Code_Pro } from "next/font/google";
 
@@ -8,6 +10,12 @@ import { person, home } from "@/app/resources/content";import { Background, Colu
 
 // Global Analytics and Speed Insights
 import { SpeedInsights } from "@vercel/speed-insights/next";import { Analytics } from "@vercel/analytics/react";import { GoogleAnalytics } from '@next/third-parties/google'
+
+// Lazy load Footer with a fallback loader
+const Footer = dynamic(
+  () => import('@/components/Footer').then((mod) => mod.Footer),
+  { loading: () => <div>Loading Footer...</div> }
+);
 
 export async function generateMetadata() {
   const title = home.title;
