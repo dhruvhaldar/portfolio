@@ -7,7 +7,7 @@ import { person, work } from "@/app/resources/content";
 export async function generateMetadata() {
   const title = work.title;
   const description = work.description;
-  const ogImage = `${baseURL}/opengraph.jpg`;
+  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
@@ -39,7 +39,6 @@ export default function Work() {
 
   return (
     <Column maxWidth="m">
-        <h1 style={{ position: "absolute", width: "1px", height: "1px", overflow: "hidden", clip: "rect(1px, 1px, 1px, 1px)", whiteSpace: "nowrap" }}>{work.title}</h1>
       <script
         type="application/ld+json"
         suppressHydrationWarning

@@ -6,19 +6,27 @@ import { Projects } from "@/components/work/Projects";import { baseURL, routes }
 export async function generateMetadata() {
   const title = home.title;
   const description = home.description;
-  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
+  const ogImage = `https://${baseURL}/opengraph.jpg`;
+  const pageUrl = `https://${baseURL}`;
 
   return {
     title,
     description,
+    metadataBase: new URL(pageUrl),
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
       title,
       description,
       type: "website",
-      url: `https://${baseURL}`,
+      url: pageUrl,
+      siteName: `${person.firstName}'s Portfolio`,
       images: [
         {
           url: ogImage,
+          width: 1200,
+          height: 630,
           alt: title,
         },
       ],
