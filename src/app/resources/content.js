@@ -1,5 +1,4 @@
 import { InlineCode, LetterFx } from "@/once-ui/components";
-import { GoogleAnalytics } from '@next/third-parties/google';
 
 const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};
 
