@@ -99,7 +99,7 @@ export default function Home() {
       {routes["/blog"] && (
         <Flex fillWidth gap="24" mobileDirection="column">
           <Flex flex={1} paddingLeft="l">
-            <Heading as="h2" variant="display-strong-xs" wrap="balance">
+            <Heading as="h1" variant="display-strong-xs" wrap="balance">
               Latest from the blog
             </Heading>
           </Flex>
