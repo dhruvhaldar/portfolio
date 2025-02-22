@@ -41,7 +41,7 @@ export default function Post({ post, thumbnail }: PostProps) {
           />
         )}
         <Column position="relative" fillWidth gap="8" vertical="center">
-          <Heading as="h2" variant="heading-strong-l" wrap="balance">
+          <Heading as="h1" variant="heading-strong-l" wrap="balance">
             {post.metadata.title}
           </Heading>
           <Text variant="label-default-s" onBackground="neutral-weak">
