@@ -26,17 +26,14 @@ export const Footer = () => {
         <Text variant="body-default-s" onBackground="neutral-strong">
           <Text onBackground="neutral-medium">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
-          <Text onBackground="neutral-medium">
-            {}
+          <Text className={styles.footerText} onBackground="neutral-medium">
             / Made with{" "}
-            <SmartLink
-              style={{ marginLeft: "-0.125rem" }}
-              href="https://once-ui.com/templates/magic-portfolio"
-            >
-              Once UI
-            </SmartLink>
-          </Text>
-        </Text>
+            <SmartLink style={{ marginLeft: "-0.125rem" }}
+            href="https://once-ui.com/templates/magic-portfolio">
+      Once UI
+    </SmartLink>
+  </Text>
+</Text>
         <Flex gap="16">
           {social.map(
             (item) =>
