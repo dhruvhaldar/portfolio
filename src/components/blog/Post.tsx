@@ -1,31 +1,11 @@
-"use client";
+"use client";import { Column, Flex, Heading, SmartImage, SmartLink, Tag, Text } from "@/once-ui/components";import styles from "./Posts.module.scss";import { formatDate } from "@/app/utils/formatDate";
 
-import { Column, Flex, Heading, SmartImage, SmartLink, Tag, Text } from "@/once-ui/components";
-import styles from "./Posts.module.scss";
-import { formatDate } from "@/app/utils/formatDate";
-
-interface PostProps {
-  post: any;
-  thumbnail: boolean;
-}
+interface PostProps { post: any; thumbnail: boolean; }
 
 export default function Post({ post, thumbnail }: PostProps) {
   return (
-    <SmartLink
-      fillWidth
-      className={styles.hover}
-      unstyled
-      key={post.slug}
-      href={`/blog/${post.slug}`}
-    >
-      <Flex
-        position="relative"
-        mobileDirection="column"
-        fillWidth
-        paddingY="12"
-        paddingX="16"
-        gap="32"
-      >
+    <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/blog/${post.slug}`}>
+      <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="32">
         {post.metadata.image && thumbnail && (
           <SmartImage
             priority
