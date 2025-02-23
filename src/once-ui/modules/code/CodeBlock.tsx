@@ -1,35 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef, ReactNode } from "react";
-
-import "./CodeHighlight.css";
-import styles from "./CodeBlock.module.scss";
-
-import { Flex, Button, IconButton, DropdownWrapper, Option } from "@/once-ui/components";
-
-import Prism from "prismjs";
-import "prismjs/plugins/line-highlight/prism-line-highlight";
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-tsx";
-import classNames from "classnames";
-
-type CodeInstance = {
-  code: string;
-  language: string;
-  label: string;
-};
-
-interface CodeBlockProps extends React.ComponentProps<typeof Flex> {
-  highlight?: string;
-  codeInstances?: CodeInstance[];
-  codePreview?: ReactNode;
-  copyButton?: boolean;
-  compact?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import React,{useState,useEffect,useRef,ReactNode}from"react";import"./CodeHighlight.css";import styles from"./CodeBlock.module.scss";import{Flex,Button,IconButton,DropdownWrapper,Option}from"@/once-ui/components";import Prism from"prismjs";import"prismjs/plugins/line-highlight/prism-line-highlight";import"prismjs/components/prism-jsx";import"prismjs/components/prism-css";import"prismjs/components/prism-typescript";import"prismjs/components/prism-tsx";import classNames from"classnames";
+type CodeInstance={code:string;language:string;label:string};interface CodeBlockProps extends React.ComponentProps<typeof Flex>{highlight? :string;codeInstances? :CodeInstance[];codePreview? :ReactNode;copyButton? :boolean;compact? :boolean;className? :string;style? :React.CSSProperties};
 
 const CodeBlock: React.FC<CodeBlockProps> = ({
   highlight,
@@ -41,18 +13,9 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   style,
   ...rest
 }) => {
-  const codeRef = useRef<HTMLElement>(null);
-  const preRef = useRef<HTMLPreElement>(null);
-  const [selectedInstance, setSelectedInstance] = useState(0);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const codeRef = useRef<HTMLElement>(null);const preRef = useRef<HTMLPreElement>(null);const [selectedInstance, setSelectedInstance] = useState(0);const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { code, language, label } = codeInstances[selectedInstance] || {
-    code: "",
-    language: "",
-    label: "Select Code",
-  };
-
-  const [copyIcon, setCopyIcon] = useState<string>("clipboard");
+  const { code, language, label } = codeInstances[selectedInstance] || { code: "", language: "", label: "Select Code", };const [copyIcon, setCopyIcon] = useState<string>("clipboard");
 
   useEffect(() => {
     if (codeRef.current && codeInstances.length > 0) {
@@ -85,54 +48,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <Flex
-      position="relative"
-      zIndex={0}
-      background="surface"
-      radius="l"
-      overflow="hidden"
-      border="neutral-medium"
-      direction="column"
-      vertical="center"
-      fillWidth
-      minHeight={3}
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <Flex position="relative" zIndex={0} background="surface" radius="l" overflow="hidden" border="neutral-medium" direction="column" vertical="center" fillWidth minHeight={3} className={className} style={style} {...rest}>
       {(codeInstances.length > 1 || (copyButton && !compact)) && (
         <Flex borderBottom="neutral-medium" zIndex={2} fillWidth horizontal="space-between">
           {codeInstances.length > 1 ? (
             <Flex borderRight="neutral-medium">
-              <DropdownWrapper
-                isOpen={isDropdownOpen}
-                onOpenChange={setIsDropdownOpen}
-                trigger={
-                  <Button
-                    style={{
-                      border: "1px solid var(--static-transparent)",
-                      minWidth: "6rem",
-                    }}
-                    radius="none"
-                    size="m"
-                    label={label}
-                    suffixIcon="chevronDown"
-                    variant="secondary"
-                  />
-                }
+              <DropdownWrapper isOpen={isDropdownOpen} onOpenChange={setIsDropdownOpen} trigger={<Button style={{border: "1px solid var(--static-transparent)",minWidth: "6rem",}} radius="none" size="m" label={label} suffixIcon="chevronDown" variant="secondary"/>}
                 dropdown={
                   <Flex direction="column" gap="2" padding="4" minWidth={6} data-surface="filled">
                     {codeInstances.map((instance, index) => (
-                      <Option
-                        key={index}
-                        value={instance.label}
-                        label={instance.label}
-                        selected={selectedInstance === index}
-                        onClick={() => {
-                          handleContent(instance.label);
-                          setIsDropdownOpen(false);
-                        }}
-                      />
+                      <Option key={index} value={instance.label} label={instance.label} selected={selectedInstance === index} onClick={() => {handleContent(instance.label);setIsDropdownOpen(false);}}/>
                     ))}
                   </Flex>
                 }
@@ -214,5 +139,4 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   );
 };
 
-CodeBlock.displayName = "CodeBlock";
-export { CodeBlock };
+CodeBlock.displayName = "CodeBlock";export { CodeBlock };

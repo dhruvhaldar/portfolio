@@ -1,46 +1,9 @@
-"use client";
+"use client";import React, { forwardRef } from "react";import { Skeleton, Icon, Text, StatusIndicator, Flex, SmartImage } from ".";import styles from "./Avatar.module.scss";
 
-import React, { forwardRef } from "react";
+interface AvatarProps extends React.ComponentProps<typeof Flex>{size? :"xs"|"s"|"m"|"l"|"xl";value? :string;src? :string;loading? :boolean;empty? :boolean;statusIndicator? :{color:"green"|"yellow"|"red"|"gray"};style? :React.CSSProperties;className? :string};const sizeMapping:Record<"xs"|"s"|"m"|"l"|"xl",number> ={xs:20,s:24,m:32,l:48,xl:160};const statusIndicatorSizeMapping: Record<"xs" | "s" | "m" | "l" | "xl", "s" | "m" | "l"> = {xs:"s",s:"s",m:"m",l:"m",xl:"l",};
 
-import { Skeleton, Icon, Text, StatusIndicator, Flex, SmartImage } from ".";
-import styles from "./Avatar.module.scss";
-
-interface AvatarProps extends React.ComponentProps<typeof Flex> {
-  size?: "xs" | "s" | "m" | "l" | "xl";
-  value?: string;
-  src?: string;
-  loading?: boolean;
-  empty?: boolean;
-  statusIndicator?: {
-    color: "green" | "yellow" | "red" | "gray";
-  };
-  style?: React.CSSProperties;
-  className?: string;
-}
-
-const sizeMapping: Record<"xs" | "s" | "m" | "l" | "xl", number> = {
-  xs: 20,
-  s: 24,
-  m: 32,
-  l: 48,
-  xl: 160,
-};
-
-const statusIndicatorSizeMapping: Record<"xs" | "s" | "m" | "l" | "xl", "s" | "m" | "l"> = {
-  xs: "s",
-  s: "s",
-  m: "m",
-  l: "m",
-  xl: "l",
-};
-
-const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  ({ size = "m", value, src, loading, empty, statusIndicator, className, style, ...rest }, ref) => {
-    const isEmpty = empty || (!src && !value);
-
-    if (value && src) {
-      throw new Error("Avatar cannot have both 'value' and 'src' props.");
-    }
+const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({ size = "m", value, src, loading, empty, statusIndicator, className, style, ...rest }, ref) => {const isEmpty = empty || (!src && !value);
+    if (value && src) {throw new Error("Avatar cannot have both 'value' and 'src' props.");}
 
     if (loading) {
       return (
