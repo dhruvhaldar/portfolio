@@ -2,7 +2,7 @@ const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/wo
   theme: "white", // dark | light
   neutral: "slate", // sand | gray | slate
   brand: "green", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  accent: "green", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  accent: "violet", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   solid: "contrast", // color | contrast
   solidStyle: "flat", // flat | plastic
   border: "rounded", // rounded | playful | conservative
