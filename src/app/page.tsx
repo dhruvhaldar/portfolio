@@ -1,47 +1,19 @@
-import React from "react";
-
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";
-import { Projects } from "@/components/work/Projects";import { baseURL, routes } from "@/app/resources";import { home, about, person, newsletter } from "@/app/resources/content";import { Mailchimp } from "@/components";import { Posts } from "@/components/blog/Posts";
+import React from "react";import Script from 'next/script';
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";import { Projects } from "@/components/work/Projects";
+import { baseURL, routes } from "@/app/resources";
+import { home, about, person, newsletter } from "@/app/resources/content";
+import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
-  const title = home.title;
-  const alt_title = 'Showcasing the Best Projects';
-  const description = home.description;
-  const ogImage = `https://${baseURL}/opengraph.jpg`;
-  const pageUrl = `https://${baseURL}`;
+  const title = home.title;const alt_title = 'Showcasing the Best Projects';const description = home.description;const ogImage = `https://${baseURL}/opengraph.jpg`;const pageUrl = `https://${baseURL}`;
 
-  return {
-    title,
-    description,
-    metadataBase: new URL(pageUrl),
-    alternates: {canonical: pageUrl,},
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      url: pageUrl,
-      siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: alt_title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
+  return {title,description,metadataBase: new URL(pageUrl),alternates: {canonical: pageUrl,},openGraph: {title,description,type: "website",url: pageUrl,siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,images: [{url: ogImage,width: 1200,height: 630,alt: alt_title,},],},twitter: {card: "summary_large_image",title,description,images: [ogImage],},};
 }
 
 export default function Home() {
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
+      <Script defer src="https://cloud.umami.is/script.js" data-website-id="bdc0e551-96ce-4161-8e5b-3e9e89a304a2"></Script>
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -109,7 +81,6 @@ export default function Home() {
         </Flex>
       )}
       <Projects range={[2]} />
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
     </Column>
   );
 }
