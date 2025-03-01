@@ -6,6 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Dhruv's Portfolio",
     description: "Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry",
     start_url: '/',
+    "dir": "rtl",
     display: 'standalone',
     "display_override": ["fullscreen", "minimal-ui"],
     background_color: '#fff',
@@ -23,14 +24,14 @@ export default function manifest(): MetadataRoute.Manifest {
           },
           {
             "src": "/favicon.ico",
-            "sizes": "48x48",
+            "sizes": "any",
             "type": "image/x-icon"
           },
           {
             "src": "/favicon-32x32.png",
             "sizes": "32x32",
             "type": "image/png"
-          },
+          }
 
     ],
   }
