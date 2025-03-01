@@ -45,11 +45,13 @@ export default function manifest(): MetadataRoute.Manifest {
             "src": "images/screenshots/home.webp",
             "sizes": "2835x1377",
             "type": "image/webp",
+            "form_factor": "wide"
         },
         {
             "src": "images/screenshots/home_android.webp",
             "sizes": "1398x1378",
             "type": "image/webp",
+            "platform": "android"
         }
     ]
   }
