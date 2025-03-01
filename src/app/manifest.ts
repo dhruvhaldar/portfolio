@@ -32,12 +32,6 @@ export default function manifest(): MetadataRoute.Manifest {
             "src": "/android-chrome-512x512.jpg",
             "sizes": "512x512",
             "type": "image/jpeg"
-          },
-          {
-            "src": "/apple-touch-icon-precomposed.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "platform": "ios"
           }
     ],
     "screenshots": [
