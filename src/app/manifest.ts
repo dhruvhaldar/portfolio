@@ -17,6 +17,27 @@ export default function manifest(): MetadataRoute.Manifest {
             "sizes": "48x48",
             "purpose": "any",
             "type": "image/x-icon"
+          },
+          {
+            "src": "/favicon-32x32",
+            "sizes": "32x32",
+            "type": "image/png"
+          },
+          {
+            "src": "/android-chrome-192x192.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+          },
+          {
+            "src": "/android-chrome-512x512.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+          }
+          {
+            "src": "/apple-touch-icon-precomposed.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "platform": "ios"
           }
     ],
     "screenshots": [
