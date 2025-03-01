@@ -27,12 +27,6 @@ export default function manifest(): MetadataRoute.Manifest {
             "form_factor": "wide",
             "label": "Home screen showing main navigation and featured content"
         },
-        {
-            "src": "images/screenshots/home_android.webp",
-            "sizes": "1398x1378",
-            "type": "image/webp",
-            "platform": "android",
-            "label": "Home screen showing main navigation and featured content in Android"
-        }
+    ],
   }
 }
