@@ -78,7 +78,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   if (loading) {
     return (
       <Flex fillWidth paddingY="128" horizontal="center">
-        <Spinner />
+        <Spinner size="xl"/>
       </Flex>
     );
   }
@@ -86,7 +86,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   if (!isRouteEnabled) {
     return (
       <Flex fillWidth paddingY="128" horizontal="center">
-        <Spinner />
+        <Spinner size="xl"/>
       </Flex>
     );
   }
