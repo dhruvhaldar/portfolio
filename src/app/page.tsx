@@ -1,7 +1,8 @@
-import React from "react";
-
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";
-import { Projects } from "@/components/work/Projects";import { baseURL, routes } from "@/app/resources";import { home, about, person, newsletter } from "@/app/resources/content";import { Mailchimp } from "@/components";import { Posts } from "@/components/blog/Posts";
+import React from "react";import Script from 'next/script';
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";import { Projects } from "@/components/work/Projects";
+import { baseURL, routes } from "@/app/resources";
+import { home, about, person, newsletter } from "@/app/resources/content";
+import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
   const title = home.title;
@@ -42,6 +43,7 @@ export async function generateMetadata() {
 export default function Home() {
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
+      <Script defer src="https://cloud.umami.is/script.js" data-website-id="bdc0e551-96ce-4161-8e5b-3e9e89a304a2"></script>
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -109,7 +111,7 @@ export default function Home() {
         </Flex>
       )}
       <Projects range={[2]} />
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
+      {newsletter.display>}
     </Column>
   );
 }
