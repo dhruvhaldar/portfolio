@@ -1,16 +1,4 @@
-"use client";
-
-import React, { forwardRef } from "react";
-import { Text, Flex, IconButton, IconButtonProps } from ".";
-
-interface InteractiveDetailsProps {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-  iconButtonProps?: IconButtonProps;
-  onClick: () => void;
-  className?: string;
-  id?: string;
-}
+"use client";import React, { forwardRef } from "react";import { Text, Flex, IconButton, IconButtonProps } from ".";interface InteractiveDetailsProps {label?: React.ReactNode;description?: React.ReactNode;iconButtonProps?: IconButtonProps;onClick: () => void;className?: string;id?: string;}
 
 const InteractiveDetails: React.FC<InteractiveDetailsProps> = forwardRef<
   HTMLDivElement,
