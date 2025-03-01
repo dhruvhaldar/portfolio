@@ -18,21 +18,21 @@ export default function manifest(): MetadataRoute.Manifest {
             "sizes": "any",
             "type": "image/x-icon"
           },
-          {
-            "src": "/android-chrome-192x192.jpg",
-            "sizes": "192x192",
-            "type": "image/jpeg"
-        },
-        {
-            "src": "/android-chrome-512x512.jpg",
-            "sizes": "512x512",
-            "type": "image/jpeg"
-        },
-        {
-            "src": "/favicon-32x32.png",
-            "sizes": "32x32",
-            "type": "image/png"
-        },
     ],
+    "screenshots": [
+        {
+            "src": "images/screenshots/home.webp",
+            "sizes": "2835x1377",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "Home screen showing main navigation and featured content"
+        },
+        {
+            "src": "images/screenshots/home_android.webp",
+            "sizes": "1398x1378",
+            "type": "image/webp",
+            "platform": "android",
+            "label": "Home screen showing main navigation and featured content in Android"
+        }
   }
 }
