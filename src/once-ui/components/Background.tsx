@@ -95,14 +95,13 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
     }, [forwardedRef]);
 
     useEffect(() => {
+      if (!mask.cursor) return;
+
       const handleMouseMove = (event: MouseEvent) => {
-        if (backgroundRef.current) {
-          const rect = backgroundRef.current.getBoundingClientRect();
-          setCursorPosition({
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top,
-          });
-        }
+        setCursorPosition({
+          x: event.pageX,
+          y: event.pageY,
+        });
       };
 
       document.addEventListener("mousemove", handleMouseMove);
@@ -143,8 +142,8 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
 
       if (mask.cursor) {
         return {
-          "--mask-position-x": `${smoothPosition.x}px`,
-          "--mask-position-y": `${smoothPosition.y}px`,
+          transform: `translate(${smoothPosition.x}px, ${smoothPosition.y}px)`,
+          willChange: "transform",
           "--mask-radius": `${mask.radius || 50}vh`,
         } as CSSProperties;
       }
@@ -181,6 +180,8 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
         className={classNames(mask && styles.mask, className)}
         top="0"
         left="0"
+        width="100vw"
+        height="100vh"
         zIndex={0}
         overflow="hidden"
         style={{
