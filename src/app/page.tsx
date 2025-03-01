@@ -6,7 +6,6 @@ import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
   const title = home.title;const alt_title = 'Showcasing the Best Projects';const description = home.description;const ogImage = `https://${baseURL}/opengraph.jpg`;const pageUrl = `https://${baseURL}`;
-
   return {title,description,metadataBase: new URL(pageUrl),alternates: {canonical: pageUrl,},openGraph: {title,description,type: "website",url: pageUrl,siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,images: [{url: ogImage,width: 1200,height: 630,alt: alt_title,},],},twitter: {card: "summary_large_image",title,description,images: [ogImage],},};
 }
 
