@@ -41,8 +41,7 @@ export default function manifest(): MetadataRoute.Manifest {
             "type": "image/webp"
         },
         {
-            "src": "images/screenshots/home_android.webp",
-            "sizes": "1398x1378",
+            "src": "images/screenshots/home_android.webp","sizes": "1398x1378",
             "type": "image/webp"
         }
     ]
