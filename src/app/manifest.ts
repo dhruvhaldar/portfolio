@@ -24,7 +24,6 @@ export default function manifest(): MetadataRoute.Manifest {
             "src": "images/screenshots/home.webp",
             "sizes": "2835x1377",
             "type": "image/webp",
-            "form_factor": "wide",
             "label": "Home screen showing main navigation and featured content"
         },
         {
