@@ -7,7 +7,6 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry",
     start_url: '/',
     "dir": "rtl",
-    "id": "https://dhruvhaldar.vercel.app/",
     display: 'standalone',
     "display_override": ["fullscreen", "minimal-ui"],
     background_color: '#fff',
