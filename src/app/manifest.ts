@@ -12,12 +12,27 @@ export default function manifest(): MetadataRoute.Manifest {
     "display_override": ["fullscreen", "minimal-ui"],
     background_color: '#fff',
     theme_color: '#60e4fc',
-    icons: [
+    "icons": [
           {
             "src": "/favicon.ico",
             "sizes": "any",
-            "type": "image/x-icon",
+            "type": "image/x-icon"
           },
+          {
+            "src": "/android-chrome-192x192.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "/android-chrome-512x512.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
     ],
   }
 }
