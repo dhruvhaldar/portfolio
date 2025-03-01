@@ -1,8 +1,8 @@
 const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/blog":false,"/gallery":true};const protectedRoutes={"/work/mars-mission":false};const style = {
   theme: "light", // dark | light
   neutral: "slate", // sand | gray | slate
-  brand: "green", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  accent: "violet", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  brand: "aqua", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  accent: "violet", // Not used
   solid: "contrast", // color | contrast
   solidStyle: "flat", // flat | plastic
   border: "rounded", // rounded | playful | conservative
