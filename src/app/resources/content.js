@@ -4,7 +4,6 @@ const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this
 
 const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
-// Import new icons in /once-ui/icons.ts
 const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
 const home = {label: "Home",
@@ -182,7 +181,6 @@ const blog={label:"Blog",title:"Writing about design and tech...",description:`R
 
 // Work page
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts. All projects will be listed on the /home and /work routes
 };
 
 // Gallery Page
