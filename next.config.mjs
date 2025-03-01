@@ -1,4 +1,1 @@
-import mdx from "@next/mdx";const withMDX = mdx({extension: /.mdx?$/,options: {},});
-/** @type {import('next').NextConfig} */
-const nextConfig = {pageExtensions: ["ts", "tsx", "md", "mdx"],};
-export default withMDX(nextConfig);
+import mdx from"@next/mdx";const withMDX=mdx({extension:/.mdx?$/,options:{}});const nextConfig={pageExtensions:["ts","tsx","md","mdx"],async headers(){return[{source:"/_vercel/speed-insights/script.js",headers:[{key:"Cache-Control",value:"public, max-age=86400, stale-while-revalidate=59"}]},{source:"/_next/static/:path*",headers:[{key:"Cache-Control",value:"public, max-age=31536000, immutable"}]}];}};export default withMDX(nextConfig);
