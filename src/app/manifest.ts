@@ -19,7 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
             "type": "image/x-icon"
           }
     ],
-    "screenshots": [
+    screenshots: [
         {
             "src": "images/screenshots/home.webp",
             "sizes": "2835x1377",
