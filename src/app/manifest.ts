@@ -30,6 +30,6 @@ export default function manifest(): MetadataRoute.Manifest {
             "sizes": "1398x1378",
             "type": "image/webp",
         }
-    ],
+    ]
   }
 }
