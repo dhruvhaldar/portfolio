@@ -19,7 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]z
+      "@/*": ["./src/*"]
     },
     "strictNullChecks": true,
     "target": "ES2017"
