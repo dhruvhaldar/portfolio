@@ -2,7 +2,7 @@ import React from "react";import Script from 'next/script';
 import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
-import { Posts } from "@/components/blog/Posts";
+import { Posts } from "@/components/publications/Posts";
 
 export async function generateMetadata() {
   const title = home.title;const alt_title = 'Showcasing the Best Projects';const description = home.description;const ogImage = `https://${baseURL}/opengraph.jpg`;const pageUrl = `https://${baseURL}`;

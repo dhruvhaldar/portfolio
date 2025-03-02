@@ -1,12 +1,12 @@
 import { Column, Flex, Heading } from "@/once-ui/components";
 import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
+import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
-import { blog, person, newsletter } from "@/app/resources/content";
+import { publications, person, newsletter } from "@/app/resources/content";
 
 export async function generateMetadata() {
-  const title = blog.title;
-  const description = blog.description;
+  const title = publications.title;
+  const description = publications.description;
   const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
@@ -16,8 +16,8 @@ export async function generateMetadata() {
       title,
       description,
       type: "website",
-      url: `https://${baseURL}/blog`,
-      alternates: {canonical: `${baseURL}/blog/`},
+      url: `https://${baseURL}/publications`,
+      alternates: {canonical: `${baseURL}/publications/`},
       images: [
         {
           url: ogImage,
@@ -44,10 +44,10 @@ export default function Blog() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Blog",
-            headline: blog.title,
-            description: blog.description,
-            url: `https://${baseURL}/blog`,
-            image: `${baseURL}/og?title=${encodeURIComponent(blog.title)}`,
+            headline: publications.title,
+            description: publications.description,
+            url: `https://${baseURL}/publications`,
+            image: `${baseURL}/og?title=${encodeURIComponent(publications.title)}`,
             author: {
               "@type": "Person",
               name: person.name,
@@ -60,7 +60,7 @@ export default function Blog() {
         }}
       />
       <Heading marginBottom="l" variant="display-strong-s">
-        {blog.title}
+        {publications.title}
       </Heading>
       <Column fillWidth flex={1}>
         <Posts range={[1, 3]} thumbnail />
