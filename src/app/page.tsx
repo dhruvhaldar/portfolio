@@ -13,6 +13,7 @@ export default function Home() {
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
       <Script defer src="https://cloud.umami.is/script.js" data-website-id="bdc0e551-96ce-4161-8e5b-3e9e89a304a2"></Script>
+      {/* Umami Analytics */}
       <script
         type="application/ld+json"
         suppressHydrationWarning
