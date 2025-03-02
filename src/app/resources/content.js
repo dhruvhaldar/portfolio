@@ -2,7 +2,7 @@ import { InlineCode, LetterFx } from "@/once-ui/components";
 
 const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};
 
-const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
+const newsletter={display:false,title: <>Subscribe to {person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
 const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
@@ -176,14 +176,14 @@ tableOfContent: {display: true,subItems: true,},
   },
 };
 
-// Blog Page hidden
-const blog={label:"Blog",title:"Writing about design and tech...",description:`Read what ${person.name } has been up to recently`,};
+// Publications Page
+const publications={label:"Publications",title:"Publications",description:`Publications by ${person.name } `,};
 
 // Work page
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
 };
 
-// Gallery Page
+// Gallery Page hidden
 const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { person, social, newsletter, home, about, work, gallery, publications };

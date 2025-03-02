@@ -4,8 +4,8 @@ interface PostProps { post: any; thumbnail: boolean; }
 
 export default function Post({ post, thumbnail }: PostProps) {
   return (
-    <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/blog/${post.slug}`}>
-      <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="32">
+    <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/publications/${post.slug}`}>
+      <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="64">
         {post.metadata.image && thumbnail && (
           <SmartImage
             priority
@@ -14,7 +14,7 @@ export default function Post({ post, thumbnail }: PostProps) {
             sizes="640px"
             border="neutral-alpha-weak"
             cursor="interactive"
-            radius="m"
+            radius="l"
             src={post.metadata.image}
             alt={"Thumbnail of " + post.metadata.title}
             aspectRatio="16 / 9"

@@ -1,27 +1,27 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Heading, Row, Text } from "@/once-ui/components";
+import { AvatarGroup, Button, Column, Heading, Row, SmartLink, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 
-interface BlogParams {
+interface PublicationParams {
   params: {
     slug: string;
   };
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
+  const posts = getPosts(["src", "app", "publications", "posts"]);
   return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-export function generateMetadata({ params: { slug } }: BlogParams) {
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slug);
+export function generateMetadata({ params: { slug } }: PublicationParams) {
+  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
     return;
@@ -45,7 +45,7 @@ export function generateMetadata({ params: { slug } }: BlogParams) {
       description,
       type: "article",
       publishedTime,
-      url: `https://${baseURL}/blog/${post.slug}`,
+      url: `https://${baseURL}/publications/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -61,8 +61,8 @@ export function generateMetadata({ params: { slug } }: BlogParams) {
   };
 }
 
-export default function Blog({ params }: BlogParams) {
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === params.slug);
+export default function Publication({ params }: PublicationParams) {
+  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
@@ -73,8 +73,11 @@ export default function Blog({ params }: BlogParams) {
       src: person.avatar,
     })) || [];
 
+  // Destructure the link from metadata
+  const { link } = post.metadata;
+
   return (
-    <Column as="section" maxWidth="xs" gap="l">
+    <Column as="section" maxWidth="s" gap="l">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -89,7 +92,7 @@ export default function Blog({ params }: BlogParams) {
             image: post.metadata.image
               ? `https://${baseURL}${post.metadata.image}`
               : `https://${baseURL}/og?title=${post.metadata.title}`,
-            url: `https://${baseURL}/blog/${post.slug}`,
+            url: `https://${baseURL}/publications/${post.slug}`,
             author: {
               "@type": "Person",
               name: person.name,
@@ -97,10 +100,26 @@ export default function Blog({ params }: BlogParams) {
           }),
         }}
       />
-      <Button href="/blog" weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
+      <SmartLink
+          href="/publications"
+          prefixIcon="chevronLeft"
+        >
         Posts
-      </Button>
+      </SmartLink>
       <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+
+      {/* Move the View Project link to the top, below the headline */}
+      {link && (
+          <SmartLink
+            suffixIcon="arrowUpRightFromSquare"
+            style={{ margin: "0", width: "fit-content" }}
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Text variant="body-default-s">View project</Text>
+          </SmartLink>
+        )}
       <Row gap="12" vertical="center">
         {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
         <Text variant="body-default-s" onBackground="neutral-weak">

@@ -1,10 +1,10 @@
-const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/blog":false,"/gallery":true};const protectedRoutes={"/work/mars-mission":false};const style = {
+const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/publications":true,"/gallery":true};const protectedRoutes={"/work/mars-mission":false};const style = {
   theme: "light",
   neutral: "slate", // sand | gray | slate
   brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   accent: "violet", // Not used
-  solid: "contrast", // color | contrast
-  solidStyle: "flat", // flat | plastic
+  solid: "color", // color | contrast
+  solidStyle: "plastic", // flat | plastic
   border: "rounded", // rounded | playful | conservative
   surface: "translucent", // filled | translucent
   transition: "all", // all | micro | macro
