@@ -2,7 +2,7 @@ import { InlineCode, LetterFx } from "@/once-ui/components";
 
 const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};
 
-const newsletter={display:false,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
+const newsletter={display:true,title: <>Subscribe to{person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
 const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
@@ -177,7 +177,7 @@ tableOfContent: {display: true,subItems: true,},
 };
 
 // Publications Page
-const publications={label:"Publications",title:"My publications",description:`Publications by ${person.name } `,};
+const publications={label:"Publications",title:"Publications",description:`Publications by ${person.name } `,};
 
 // Work page
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,

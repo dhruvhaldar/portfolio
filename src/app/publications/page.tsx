@@ -1,4 +1,4 @@
-import { Column, Flex, Heading } from "@/once-ui/components";
+import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
 import { Mailchimp } from "@/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
@@ -61,6 +61,13 @@ export default function Publication() {
       <Heading marginBottom="l" variant="display-strong-s">
         {publications.title}
       </Heading>
+      <SmartLink
+          href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View my Google Scholar profile
+        </SmartLink>
       <Column fillWidth flex={1}>
         <Posts range={[1, 3]} thumbnail />
         <Posts range={[4]} columns="2" />
