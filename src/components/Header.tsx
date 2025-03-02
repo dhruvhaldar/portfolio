@@ -1,28 +1,18 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { Flex, Line, ToggleButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
 import { routes } from "@/app/resources";
 import { home, about, work, publications } from "@/app/resources/content";
-import { style } from "@/app/resources/config"; // Import the style object
 
 type TimeDisplayProps = { timeZone: string; locale?: string; };
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
-  return (<div>{/* Implement your time display logic here */}</div>);
+const TimeDisplay: React.FC<TimeDisplayProps> = ({  }) => {
+  return (<div>{}</div>);
 };
 export default TimeDisplay;
 
 export const Header = () => {
   const pathname = usePathname() ?? "";
-  const [theme, setTheme] = useState(style.theme);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    style.theme = newTheme; // Update the theme in the config
-    document.body.className = newTheme; // Apply the theme to the body
-  };
 
   return (
     <>
@@ -98,10 +88,6 @@ export const Header = () => {
                   />
                 </>
               )}
-              {/* Theme Toggle Button */}
-              <button onClick={toggleTheme}>
-                Switch to {theme === "light" ? "Dark" : "Light"} Mode
-              </button>
             </Flex>
           </Flex>
         </Flex>
