@@ -1,12 +1,12 @@
-import { Column, Flex, Heading } from "@/once-ui/components";
+import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
 import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
+import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
-import { blog, person, newsletter } from "@/app/resources/content";
+import { publications, person, newsletter } from "@/app/resources/content";
 
 export async function generateMetadata() {
-  const title = blog.title;
-  const description = blog.description;
+  const title = publications.title;
+  const description = publications.description;
   const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
@@ -16,8 +16,7 @@ export async function generateMetadata() {
       title,
       description,
       type: "website",
-      url: `https://${baseURL}/blog`,
-      alternates: {canonical: `${baseURL}/blog/`},
+      url: `https://${baseURL}/publications`,
       images: [
         {
           url: ogImage,
@@ -34,7 +33,7 @@ export async function generateMetadata() {
   };
 }
 
-export default function Blog() {
+export default function Publication() {
   return (
     <Column maxWidth="s">
       <script
@@ -44,10 +43,10 @@ export default function Blog() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Blog",
-            headline: blog.title,
-            description: blog.description,
-            url: `https://${baseURL}/blog`,
-            image: `${baseURL}/og?title=${encodeURIComponent(blog.title)}`,
+            headline: publications.title,
+            description: publications.description,
+            url: `https://${baseURL}/publications`,
+            image: `${baseURL}/og?title=${encodeURIComponent(publications.title)}`,
             author: {
               "@type": "Person",
               name: person.name,
@@ -59,9 +58,23 @@ export default function Blog() {
           }),
         }}
       />
-      <Heading marginBottom="l" variant="display-strong-s">
-        {blog.title}
+      <Heading marginBottom="s" variant="display-strong-s">
+        {publications.title}
       </Heading>
+
+      <Flex marginBottom="m">
+      <SmartLink
+       className="body-default-s" 
+       suffixIcon="arrowUpRightFromSquare"
+       style={{ margin: "0", width: "fit-content" }}
+       href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
+       target="_blank"
+       rel="noopener noreferrer"
+        >
+          View my Google Scholar profile
+        </SmartLink>
+        </Flex>
+
       <Column fillWidth flex={1}>
         <Posts range={[1, 3]} thumbnail />
         <Posts range={[4]} columns="2" />
