@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Heading, Row, Text } from "@/once-ui/components";
+import { AvatarGroup, Button, Column, Heading, Row, SmartLink, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
@@ -73,8 +73,11 @@ export default function Publication({ params }: PublicationParams) {
       src: person.avatar,
     })) || [];
 
+  // Destructure the link from metadata
+  const { link } = post.metadata;
+
   return (
-    <Column as="section" maxWidth="xs" gap="l">
+    <Column as="section" maxWidth="s" gap="l">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -97,10 +100,26 @@ export default function Publication({ params }: PublicationParams) {
           }),
         }}
       />
-      <Button href="/publications" weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
+      <SmartLink
+          href="/publications"
+          prefixIcon="chevronLeft"
+        >
         Posts
-      </Button>
+      </SmartLink>
       <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+
+      {/* Move the View Project link to the top, below the headline */}
+      {link && (
+          <SmartLink
+            suffixIcon="arrowUpRightFromSquare"
+            style={{ margin: "0", width: "fit-content" }}
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Text variant="body-default-s">View project</Text>
+          </SmartLink>
+        )}
       <Row gap="12" vertical="center">
         {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
         <Text variant="body-default-s" onBackground="neutral-weak">
