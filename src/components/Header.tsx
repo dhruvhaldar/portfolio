@@ -50,5 +50,5 @@ export const Header = () => {
                   />
                 </>
               )}
-              {/* Removed Blog and Gallery sections */}
+              {/* Removed Gallery section */}
             </Flex></Flex></Flex></Flex></>);};
