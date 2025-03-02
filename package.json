@@ -6,8 +6,7 @@
     "dev": "next dev",
     "export": "next export",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.1",
