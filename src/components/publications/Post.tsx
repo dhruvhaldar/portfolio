@@ -5,7 +5,7 @@ interface PostProps { post: any; thumbnail: boolean; }
 export default function Post({ post, thumbnail }: PostProps) {
   return (
     <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/publications/${post.slug}`}>
-      <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="40">
+      <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="64">
         {post.metadata.image && thumbnail && (
           <SmartImage
             priority
