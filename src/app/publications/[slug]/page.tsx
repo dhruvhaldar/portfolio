@@ -21,9 +21,9 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 }
 
 export function generateMetadata({ params: { slug } }: PublicationsParams) {
-  let article = getPosts(["src", "app", "publications", "articles"]).find((article) => article.slug === slug);
+  let post = getPosts(["src", "app", "publications", "articles"]).find((article) => article.slug === slug);
 
-  if (!article) {
+  if (!post) {
     return;
   }
 
@@ -34,7 +34,7 @@ export function generateMetadata({ params: { slug } }: PublicationsParams) {
     images,
     image,
     team,
-  } = article.metadata;
+  } = post.metadata;
   let ogImage = image ? `https://${baseURL}${image}` : `https://${baseURL}/og?title=${title}`;
 
   return {
@@ -45,7 +45,7 @@ export function generateMetadata({ params: { slug } }: PublicationsParams) {
       description,
       type: "article",
       publishedTime,
-      url: `https://${baseURL}/publications/${article.slug}`,
+      url: `https://${baseURL}/publications/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -81,7 +81,7 @@ export default function Publications({ params }: PublicationsParams) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BlogPosting",
+            "@type": "PublicationPosting",
             headline: post.metadata.title,
             datePublished: post.metadata.publishedAt,
             dateModified: post.metadata.publishedAt,
@@ -89,7 +89,7 @@ export default function Publications({ params }: PublicationsParams) {
             image: post.metadata.image
               ? `https://${baseURL}${post.metadata.image}`
               : `https://${baseURL}/og?title=${post.metadata.title}`,
-            url: `https://${baseURL}/blog/${post.slug}`,
+            url: `https://${baseURL}/publications/${post.slug}`,
             author: {
               "@type": "Person",
               name: person.name,
