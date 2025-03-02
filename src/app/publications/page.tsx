@@ -58,16 +58,21 @@ export default function Publication() {
           }),
         }}
       />
-      <Heading marginBottom="l" variant="display-strong-s">
+      <Heading marginBottom="s" variant="display-strong-s">
         {publications.title}
       </Heading>
+
       <SmartLink
-          href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
-          target="_blank"
-          rel="noopener noreferrer"
+       className="body-default-s" 
+       suffixIcon="arrowUpRightFromSquare"
+       style={{ margin: "0", width: "fit-content" }}
+       href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
+       target="_blank"
+       rel="noopener noreferrer"
         >
           View my Google Scholar profile
         </SmartLink>
+
       <Column fillWidth flex={1}>
         <Posts range={[1, 3]} thumbnail />
         <Posts range={[4]} columns="2" />
