@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 import { Flex, Line, ToggleButton } from "@/once-ui/components";import styles from "@/components/Header.module.scss";
 
-import { routes } from "@/app/resources";import { home, about, work, publications } from "@/app/resources/content"; // Removed blog and gallery
+import { routes } from "@/app/resources";import { home, about, work, blog, publications } from "@/app/resources/content"; // Removed blog and gallery
 
 type TimeDisplayProps = {timeZone: string;locale?: string;};
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
@@ -32,6 +32,23 @@ export const Header = () => {
               {routes["/publications"] && (
                 <><ToggleButton className="s-flex-hide" prefixIcon="article" href="/publications" label={publications.label} selected={pathname.startsWith("/publications")}/>
                   <ToggleButton className="s-flex-show" prefixIcon="article" href="/publications" selected={pathname.startsWith("/publications")}/></>
+              )}
+              {routes["/blog"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="book"
+                    href="/blog"
+                    label={blog.label}
+                    selected={pathname.startsWith("/blog")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="book"
+                    href="/blog"
+                    selected={pathname.startsWith("/blog")}
+                  />
+                </>
               )}
               {/* Removed Blog and Gallery sections */}
             </Flex></Flex></Flex></Flex></>);};
