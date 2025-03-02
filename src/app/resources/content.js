@@ -176,18 +176,14 @@ tableOfContent: {display: true,subItems: true,},
   },
 };
 
-// Blog Page hidden
-const blog={label:"Blog",title:"Writing about design and tech...",description:`Read what ${person.name } has been up to recently`,};
+// Publications Page
+const publications={label:"Publications",title:"My publications",description:`Publications by ${person.name } `,};
 
 // Work page
 const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
 };
 
-// Publications page
-const publications = {label: "Publications",title: "My publications",description: `Publications by ${person.name}`,
-};
-
-// Gallery Page
+// Gallery Page hidden
 const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
 
-export { person, social, newsletter, home, about, blog, work, gallery, publications };
+export { person, social, newsletter, home, about, work, gallery, publications };
