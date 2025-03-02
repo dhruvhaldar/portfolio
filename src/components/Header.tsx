@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Flex, Line, ToggleButton } from "@/once-ui/components";import styles from "@/components/Header.module.scss";
 
 import { routes } from "@/app/resources";import { home, about, work, publications } from "@/app/resources/content"; // Removed gallery
+import { useEffect, useState } from "react";
 
 type TimeDisplayProps = {timeZone: string;locale?: string;};
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
@@ -13,6 +14,26 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
 
 export const Header = () => {
   const pathname = usePathname() ?? "";
+
+  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
+
+  useEffect(() => {
+    // Apply the theme to the document body
+    if (theme === 'system') {
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+      document.body.className = prefersDarkScheme.matches ? 'dark' : 'light';
+    } else {
+      document.body.className = theme;
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => {
+      if (prevTheme === 'light') return 'dark';
+      if (prevTheme === 'dark') return 'system';
+      return 'light';
+    });
+  };
 
   return (
     <>
@@ -54,5 +75,9 @@ export const Header = () => {
                   />
                 </>
               )}
+              {/* Theme Toggle Button */}
+              <button onClick={toggleTheme}>
+                {theme === 'light' ? 'Switch to Dark Mode' : theme === 'dark' ? 'Switch to System Mode' : 'Switch to Light Mode'}
+              </button>
               {/* Removed Gallery section */}
             </Flex></Flex></Flex></Flex></>);};
