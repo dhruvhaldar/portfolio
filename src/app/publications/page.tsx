@@ -33,7 +33,7 @@ export async function generateMetadata() {
   };
 }
 
-export default function Blog() {
+export default function Publication() {
   return (
     <Column maxWidth="s">
       <script
