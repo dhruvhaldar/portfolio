@@ -18,7 +18,7 @@ export const Header = () => {
     <>
       <Flex
         fitHeight
-        className={`${styles.position} ${styles.headerContent}`} // Apply the new class here
+        className={styles.position} 
         as="header"
         zIndex={9}
         fillWidth
