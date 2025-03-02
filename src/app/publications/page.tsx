@@ -3,6 +3,7 @@ import { Mailchimp } from "@/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person, newsletter } from "@/app/resources/content";
+import { getPosts } from "@/app/utils/utils";
 
 export async function generateMetadata() {
   const title = publications.title;
@@ -35,6 +36,8 @@ export async function generateMetadata() {
 }
 
 export default function Publication() {
+  let allPublications = getPosts(["src", "app", "publications", "posts"]);
+
   return (
     <Column maxWidth="s">
       <script
@@ -43,7 +46,7 @@ export default function Publication() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Blog",
+            "@type": "Article",
             headline: publications.title,
             description: publications.description,
             url: `https://${baseURL}/publications`,
