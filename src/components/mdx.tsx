@@ -66,9 +66,9 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
   return (
     <SmartImage
       className="my-20"
-      enlarge
+      isLoading
       radius="m"
-      aspectRatio="16 / 9"
+      aspectRatio="16/9"
       alt={alt}
       src={src}
       {...props}
