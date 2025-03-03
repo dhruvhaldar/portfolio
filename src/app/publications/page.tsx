@@ -1,7 +1,7 @@
 import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
-import { publications, person, newsletter } from "@/app/resources/content";
+import { publications, person } from "@/app/resources/content";
 
 export async function generateMetadata() {
   const title = publications.title;
@@ -68,21 +68,17 @@ export default function Publication() {
        style={{ margin: "0", width: "fit-content" }}
        href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
        target="_blank"
-       rel="noopener noreferrer"
+       rel="me noopener noreferrer"
         >
-          View my Google Scholar profile
+        <img src="/images/icons/g_scholar.avif" alt="Scholar icon" style={{ width: "1em", marginInlineStart: "0.5em" }}/>
+          Google Scholar profile
         </SmartLink>
         </Flex>
         <Flex marginBottom="m">
-        <SmartLink
-       className="body-default-s" 
-       suffixIcon="arrowUpRightFromSquare"
-       style={{ margin: "0", width: "fit-content" }}
-       href="https://orcid.org/0000-0002-2734-313X"
-       target="_blank"
-       rel="noopener noreferrer"
-        >
-          View my Orchid profile
+        <SmartLink id="cy-effective-orcid-url" className="body-default-s" href="https://orcid.org/0000-0002-2734-313X" target="orcid.widget" rel="me noopener noreferrer" style={{ verticalAlign: "top" }} suffixIcon="arrowUpRightFromSquare">
+        <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style={{ width: "1em", marginInlineStart: "0.5em" }}  
+        alt="ORCID iD icon"/>
+        https://orcid.org/0000-0002-2734-313X
         </SmartLink>
         </Flex>
 
