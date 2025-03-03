@@ -1,1 +1,9 @@
-.hover{transition:var(--transition-micro-medium);&:hover{transform:translateX(var(--static-space-8))}}
+.hover{transition:var(--transition-micro-medium);&:hover{transform:translateX(var(--static-space-8))}}.orcid-link {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em; // Adjust font size for mobile
+    white-space: nowrap; // Prevent line break
+    img {
+      margin-right: 0.5em; // Adjust spacing between icon and text
+    }
+  }
