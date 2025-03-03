@@ -1,5 +1,4 @@
 import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
-import { Mailchimp } from "@/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person, newsletter } from "@/app/resources/content";
@@ -79,7 +78,6 @@ export default function Publication() {
         <Posts range={[1, 3]} thumbnail />
         <Posts range={[4]} columns="2" />
       </Column>
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
     </Column>
   );
 }
