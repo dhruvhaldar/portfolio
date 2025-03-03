@@ -68,9 +68,9 @@ export default function Publication() {
        style={{ margin: "0", width: "fit-content" }}
        href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
        target="_blank"
-       rel="noopener noreferrer"
+       rel="me noopener noreferrer"
         >
-        <img src="/images/icons/g_scholar.avif" alt="Scholar icon" style={{ width: "1em", marginInlineStart: "0.5em" }}/>
+        <img src="/images/icons/g_scholar.avif" alt="Scholar icon" style={{ width: "2em", marginInlineStart: "0.5em" }}/>
           Google Scholar profile
         </SmartLink>
         </Flex>
