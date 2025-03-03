@@ -70,7 +70,7 @@ export default function Publication() {
        target="_blank"
        rel="noopener noreferrer"
         >
-        <img src="/icons/scholar.avif" style={{ width: "1em", marginInlineStart: "0.5em" }}  
+        <img src="/icons/g_scholar.avif" style={{ width: "1em", marginInlineStart: "0.5em" }}  
         alt="Google Scholar icon"/>
           Google Scholar profile
         </SmartLink>
