@@ -8,7 +8,7 @@ export async function generateMetadata() {
     const pageUrl = `https://${baseURL}`;
   return {
     title,description,
-    metadataBase: new URL('https://dhruvhaldar.vercel.app'),
+    metadataBase: new URL(pageUrl),
     alternates: {
         canonical: './'
     },
