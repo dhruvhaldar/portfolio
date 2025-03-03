@@ -74,15 +74,10 @@ export default function Publication() {
         </SmartLink>
         </Flex>
         <Flex marginBottom="m">
-        <SmartLink
-       className="body-default-s" 
-       suffixIcon="arrowUpRightFromSquare"
-       style={{ margin: "0", width: "fit-content" }}
-       href="https://orcid.org/0000-0002-2734-313X"
-       target="_blank"
-       rel="noopener noreferrer"
-        >
-          View my Orchid profile
+        <SmartLink id="cy-effective-orcid-url" className="body-default-s" href="https://orcid.org/0000-0002-2734-313X" target="orcid.widget" rel="me noopener noreferrer" style={{ verticalAlign: "top" }} suffixIcon="arrowUpRightFromSquare">
+        <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style={{ width: "1em", marginInlineStart: "0.5em" }}  
+        alt="ORCID iD icon"/>
+        https://orcid.org/0000-0002-2734-313X
         </SmartLink>
         </Flex>
 
