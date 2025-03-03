@@ -71,7 +71,7 @@ export default function Publication() {
        rel="noopener noreferrer"
         >
         <img src="/icons/scholar.avif" style={{ width: "1em", marginInlineStart: "0.5em" }}  
-        alt="ORCID iD icon"/>
+        alt="Google Scholar icon"/>
           Google Scholar profile
         </SmartLink>
         </Flex>
