@@ -70,13 +70,13 @@ export default function Publication() {
        target="_blank"
        rel="me noopener noreferrer"
         >
-        <img src="/images/icons/g_scholar.avif" alt="Scholar icon" style={{ width: "2em", marginInlineStart: "0.5em" }}/>
+        <img src="/images/icons/g_scholar.avif" alt="Scholar icon" style={{ width: "1em", marginInlineStart: "0.5em" }}/>
           Google Scholar profile
         </SmartLink>
         </Flex>
         <Flex marginBottom="m">
         <SmartLink id="cy-effective-orcid-url" className="body-default-s" href="https://orcid.org/0000-0002-2734-313X" target="orcid.widget" rel="me noopener noreferrer" style={{ verticalAlign: "top" }} suffixIcon="arrowUpRightFromSquare">
-        <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style={{ width: "2em", marginInlineStart: "0.5em" }}  
+        <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style={{ width: "1em", marginInlineStart: "0.5em" }}  
         alt="ORCID iD icon"/>
         https://orcid.org/0000-0002-2734-313X
         </SmartLink>
