@@ -61,7 +61,7 @@ export default function Publication() {
         {publications.title}
       </Heading>
 
-      <Flex marginBottom="m">
+      <Flex marginBottom="xs">
       <SmartLink
        className="body-default-s" 
        suffixIcon="arrowUpRightFromSquare"
@@ -72,6 +72,8 @@ export default function Publication() {
         >
           View my Google Scholar profile
         </SmartLink>
+        </Flex>
+        <Flex marginBottom="m">
         <SmartLink
        className="body-default-s" 
        suffixIcon="arrowUpRightFromSquare"
