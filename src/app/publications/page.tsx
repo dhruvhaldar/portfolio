@@ -1,5 +1,4 @@
 import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
-import { Mailchimp } from "@/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person, newsletter } from "@/app/resources/content";
@@ -62,7 +61,7 @@ export default function Publication() {
         {publications.title}
       </Heading>
 
-      <Flex marginBottom="m">
+      <Flex marginBottom="xs">
       <SmartLink
        className="body-default-s" 
        suffixIcon="arrowUpRightFromSquare"
@@ -74,12 +73,23 @@ export default function Publication() {
           View my Google Scholar profile
         </SmartLink>
         </Flex>
+        <Flex marginBottom="m">
+        <SmartLink
+       className="body-default-s" 
+       suffixIcon="arrowUpRightFromSquare"
+       style={{ margin: "0", width: "fit-content" }}
+       href="https://orcid.org/0000-0002-2734-313X"
+       target="_blank"
+       rel="noopener noreferrer"
+        >
+          View my Orchid profile
+        </SmartLink>
+        </Flex>
 
       <Column fillWidth flex={1}>
         <Posts range={[1, 3]} thumbnail />
         <Posts range={[4]} columns="2" />
       </Column>
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
     </Column>
   );
 }
