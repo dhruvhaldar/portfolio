@@ -1,7 +1,7 @@
 import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
-import { publications, person, newsletter } from "@/app/resources/content";
+import { publications, person } from "@/app/resources/content";
 
 export async function generateMetadata() {
   const title = publications.title;
