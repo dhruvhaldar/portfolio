@@ -72,6 +72,16 @@ export default function Publication() {
         >
           View my Google Scholar profile
         </SmartLink>
+        <SmartLink
+       className="body-default-s" 
+       suffixIcon="arrowUpRightFromSquare"
+       style={{ margin: "0", width: "fit-content" }}
+       href="https://orcid.org/0000-0002-2734-313X"
+       target="_blank"
+       rel="noopener noreferrer"
+        >
+          View my Orchid profile
+        </SmartLink>
         </Flex>
 
       <Column fillWidth flex={1}>
