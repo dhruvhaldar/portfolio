@@ -33,37 +33,5 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
     );
   };
 
-  const variantMap = {
-    1: "display-strong-xs",
-    2: "heading-strong-xl",
-    3: "heading-strong-l",
-    4: "heading-strong-m",
-    5: "heading-strong-s",
-    6: "heading-strong-xs",
-  } as const;
-
-  const variant = variantMap[level];
-  const asTag = `h${level}` as keyof JSX.IntrinsicElements;
-
-  return (
-    <Flex
-      style={style}
-      onClick={() => copyURL(id)}
-      className={styles.control}
-      vertical="center"
-      gap="4"
-    >
-      <Heading className={styles.text} id={id} variant={variant} as={asTag}>
-        {children}
-      </Heading>
-      <IconButton
-        className={styles.visibility}
-        size="s"
-        icon="openLink"
-        variant="ghost"
-        tooltip="Copy"
-        tooltipPosition="right"
-      />
-    </Flex>
-  );
-};
+  const variantMap = {1: "display-strong-xs",2: "heading-strong-xl",3: "heading-strong-l",4: "heading-strong-m",5: "heading-strong-s",6: "heading-strong-xs",} as const;const variant = variantMap[level];const asTag = `h${level}` as keyof JSX.IntrinsicElements;
+  return (<Flex style={style} onClick={() => copyURL(id)} className={styles.control} vertical="center" gap="4"><Heading className={styles.text} id={id} variant={variant} as={asTag}>{children}</Heading><IconButton className={styles.visibility} size="s" icon="openLink" variant="ghost" tooltip="Copy" tooltipPosition="right"/></Flex>);};
