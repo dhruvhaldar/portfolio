@@ -1,7 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+"use client";import { useEffect, useState } from "react";import { usePathname } from "next/navigation";
 import { routes, protectedRoutes } from "@/app/resources";
 import { Flex, Spinner, Input, Button, Heading, Column } from "@/once-ui/components";
 
