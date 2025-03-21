@@ -13,7 +13,7 @@ const home = {label: "Home",title: `${person.name}'s Portfolio (With Projects & 
 const about = {label: "About",title: "About me",description: `Meet ${person.name}, ${person.role} from ${person.location}`,
 tableOfContent: {display: true,subItems: true,},
   avatar: {display: true,},calendar: {display: true,link: "https://cal.com/dhruvhaldar",},intro: {display: true,title: "Introduction",
-    description: (<> 
+    description: (<>
     👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
     </>),},
   
