@@ -1,5 +1,5 @@
 const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/work":true,"/publications":true,"/gallery":true};const protectedRoutes={"/work/mars-mission":false};const style = {
-  theme: "light",
+  theme: "light", // dark | light
   neutral: "slate", // sand | gray | slate
   brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   accent: "violet", // Not used
