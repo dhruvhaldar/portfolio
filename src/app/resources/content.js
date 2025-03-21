@@ -17,7 +17,8 @@ tableOfContent: {display: true,subItems: true,},
     👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
     </>),},
   
-  work: {display: true,title: "Work Experience",experiences: [
+  work: {display: true,title: "Work Experience",
+    experiences: [
       {
         company: "Sankhyasutra Labs Limited",
         timeframe: "December 2022 - Present",
