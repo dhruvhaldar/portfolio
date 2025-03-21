@@ -8,31 +8,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   href,images = [],title,content,description,avatars,link,
 }) => {
   return (
-    <Column fillWidth gap="m">
-      <Carousel sizes="(max-width: 960px) 100vw, 960px" images={images.map((image) => ({src: image,alt: title,}))}/>
-      <Flex
-        mobileDirection="column"
-        fillWidth
-        paddingX="s"
-        paddingTop="12"
-        paddingBottom="24"
-        gap="l"
-      >
-        {title && (
-          <Flex flex={5}>
-            <Heading as="h2" wrap="balance" variant="heading-strong-xl">
-              {title}
-            </Heading>
-          </Flex>
-        )}
+    <Column fillWidth gap="m"><Carousel sizes="(max-width: 960px) 100vw, 960px" images={images.map((image) => ({src: image,alt: title,}))}/>
+      <Flex mobileDirection="column" fillWidth paddingX="s" paddingTop="12" paddingBottom="24" gap="l"> {title && (<Flex flex={5}><Heading as="h2" wrap="balance" variant="heading-strong-xl">{title}</Heading></Flex>)}
         {(avatars?.length > 0 || description?.trim() || content?.trim()) && (
           <Column flex={7} gap="16">
             {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
-            {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-medium">
-                {description}
-              </Text>
-            )}
+            {description?.trim() && (<Text wrap="balance" variant="body-default-s" onBackground="neutral-medium">{description}</Text>)}
             <Flex gap="24" wrap>
               {content?.trim() && (
                 <SmartLink
