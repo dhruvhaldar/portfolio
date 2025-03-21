@@ -1,41 +1,23 @@
-import { InlineCode, LetterFx } from "@/once-ui/components";
-
-const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};
-
-const newsletter={display:false,title: <>Subscribe to {person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
+import { InlineCode, LetterFx } from "@/once-ui/components"; const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],};const newsletter={display:false,title: <>Subscribe to {person.firstName}'s Newsletter</>,description:(<>I.</>),}; 
 
 const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
-const home = {label: "Home",
-  title: `${person.name}'s Portfolio (With Projects & Publications)`,
+const home = {label: "Home",title: `${person.name}'s Portfolio (With Projects & Publications)`,
   description: `Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
-  headline: <>
-    <span style={{fontFamily: 'var(--font-family-code)'}}>
-    <LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','p','X','5','&','h','L','9','a','=']}>
-    Bridging computational models and real-world aerospace solutions
-    </LetterFx></span>
-    </>,
-
-  subline: (
-    <>
-      👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. 
-    </>
-  ),
-};
+  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}><LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5','y','#','!','*','0','1','+','K','j','2','$','m','N','8','w','h','L','9','a','=']}>Bridging computational models and real-world aerospace solutions</LetterFx></span></>,
+  subline: (<>
+  👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. 
+  </>),};
 
 // About Page
 const about = {label: "About",title: "About me",description: `Meet ${person.name}, ${person.role} from ${person.location}`,
 tableOfContent: {display: true,subItems: true,},
   avatar: {display: true,},calendar: {display: true,link: "https://cal.com/dhruvhaldar",},intro: {display: true,title: "Introduction",
-    description: (
-      <>
-        👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
-      </>
-    ),
-  },
+    description: (<>
+    👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
+    </>),},
   
-  work: {
-    display: true,title: "Work Experience",
+  work: {display: true,title: "Work Experience",
     experiences: [
       {
         company: "Sankhyasutra Labs Limited",
