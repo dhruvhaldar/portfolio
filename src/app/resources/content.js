@@ -160,12 +160,8 @@ tableOfContent: {display: true,subItems: true,},
 
 // Publications Page
 const publications={label:"Publications",title:"Publications",description:`Publications by ${person.name } `,};
-
 // Work page
-const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,
-};
-
+const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,};
 // Gallery Page hidden
 const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
-
 export { person, social, newsletter, home, about, work, gallery, publications };
