@@ -12,6 +12,11 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   sizes?: string;
   priority?: boolean;
   loading?: "lazy" | "eager";
+  responsive?: {
+    mobile?: string;
+    tablet?: string;
+    desktop?: string;
+  };
 }
 
 const SmartImage: React.FC<SmartImageProps> = ({
@@ -25,9 +30,23 @@ const SmartImage: React.FC<SmartImageProps> = ({
   unoptimized = false,
   priority,
   loading = "lazy", 
-  sizes = "100vw",
+  responsive,
+  sizes = responsive 
+    ? `
+      (max-width: 640px) ${responsive.mobile || '100vw'}, 
+      (max-width: 1024px) ${responsive.tablet || '50vw'}, 
+      ${responsive.desktop || '33vw'}
+    `
+    : "(max-width: 1200px) 100vw, 33vw",
   ...rest
 }) => {
+  const calculateHeight = () => {
+    if (height) return typeof height === 'number' ? `${height}rem` : height;
+    if (responsive?.mobile) return responsive.mobile;
+    if (aspectRatio) return 'auto';
+    return '100%';
+  };
+
   const [isEnlarged, setIsEnlarged] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -99,7 +118,24 @@ const SmartImage: React.FC<SmartImageProps> = ({
 
   return (
     <>
-      <Flex ref={imageRef} fillWidth overflow="hidden" position="relative" zIndex={0} cursor={enlarge ? "interactive" : ""} style={{outline: "none",isolation: "isolate",height: aspectRatio ? "" : height ? `${height}rem` : "100%",aspectRatio,borderRadius: isEnlarged ? "0" : undefined,...calculateTransform(),}} onClick={handleClick} {...rest}>
+      <Flex 
+      ref={imageRef} 
+      fillWidth 
+      overflow="hidden" 
+      position="relative" 
+      zIndex={0} 
+      cursor={enlarge ? "interactive" : ""} 
+      style={{
+        outline: "none",
+        isolation: "isolate",
+        height: calculateHeight(),
+        aspectRatio: aspectRatio,
+        borderRadius: isEnlarged ? "0" : undefined,
+        ...calculateTransform(),
+      }} 
+      onClick={handleClick} 
+      {...rest}
+    >
         {isLoading && <Skeleton shape="block" />}
         {!isLoading && isVideo && (
           <video
