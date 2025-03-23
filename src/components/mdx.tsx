@@ -1,23 +1,5 @@
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
-import React, { ReactNode } from "react";
-import { SmartImage, SmartLink, Text } from "@/once-ui/components";
-import { CodeBlock } from "@/once-ui/modules";
-import { HeadingLink, LazyframeVideo } from "@/components";
-import { TextProps } from "@/once-ui/interfaces";
-import { SmartImageProps } from "@/once-ui/components/SmartImage";
-
-type TableProps = { data: { headers: string[]; rows: string[][]; } };
-function Table({ data }: TableProps) {
-  const headers = data.headers.map((header, index) => <th key={index}>{header}</th>);
-  const rows = data.rows.map((row, index) => (
-    <tr key={index}>
-      {row.map((cell, cellIndex) => (
-        <td key={cellIndex}>{cell}</td>
-      ))}
-    </tr>
-  ));
-  return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>);
-}
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";import React, { ReactNode } from "react";import { SmartImage, SmartLink, Text } from "@/once-ui/components";import { CodeBlock } from "@/once-ui/modules";import { HeadingLink, LazyframeVideo } from "@/components";import { TextProps } from "@/once-ui/interfaces";import { SmartImageProps } from "@/once-ui/components/SmartImage";
+type TableProps = { data: { headers: string[]; rows: string[][]; } };function Table({ data }: TableProps) {const headers = data.headers.map((header, index) => <th key={index}>{header}</th>);const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>));return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>);}
 
 type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; children: ReactNode; };
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
@@ -30,7 +12,7 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
 
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) { console.error("SmartImage requires a valid 'src' property."); return null; }
-  return <SmartImage className="my-20" isLoading loading="lazy" radius="m" aspectRatio="16/9" responsive={{ mobile: '200px', tablet: '300px', desktop: '400px' }} alt={alt} src={src} {...props} />;
+  return <SmartImage className="my-20" isLoading loading="lazy" radius="m-4" aspectRatio="16/9" responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }} alt={alt} src={src} {...props} />;
 }
 
 function slugify(str: string) {
