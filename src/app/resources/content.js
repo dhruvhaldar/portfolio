@@ -2,7 +2,7 @@ import { InlineCode, LetterFx } from "@/once-ui/components"; const person = {fir
 
 const home = {label: "Home",title: `${person.name}'s Portfolio (With Projects & Publications)`,
   description: `Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
-  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}><LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5']}>Bridging computational models and aerospace solutions</LetterFx></span></>,
+  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}><LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5']}>Bridging Computational Models with Real-World Aerospace Solutions</LetterFx></span></>,
   subline: (<>
   👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. 
   </>),};
