@@ -30,7 +30,7 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
 
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) { console.error("SmartImage requires a valid 'src' property."); return null; }
-  return <SmartImage className="my-20" isLoading loading="lazy" radius="m" aspectRatio="16/9" responsive={{ mobile: '200px', tablet: '300px', desktop: '400px' }} alt={alt} src={src} {...props} />;
+  return <SmartImage className="my-20" isLoading loading="lazy" radius="m-4" aspectRatio="16/9" responsive={{ mobile: '400px', tablet: '400px', desktop: '400px' }} alt={alt} src={src} {...props} />;
 }
 
 function slugify(str: string) {
