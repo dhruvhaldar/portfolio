@@ -1,9 +1,4 @@
-"use client";
-
-import React, { CSSProperties, useState, useRef, useEffect } from "react";
-import Image from "next/image";
-
-import { Flex, Skeleton } from "@/once-ui/components";
+"use client";import React, { CSSProperties, useState, useRef, useEffect } from "react";import Image from "next/image";import { Flex, Skeleton } from "@/once-ui/components";
 
 export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   aspectRatio?: string;
@@ -16,6 +11,12 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   unoptimized?: boolean;
   sizes?: string;
   priority?: boolean;
+  loading?: "lazy" | "eager";
+  responsive?: {
+    mobile?: string;
+    tablet?: string;
+    desktop?: string;
+  };
 }
 
 const SmartImage: React.FC<SmartImageProps> = ({
@@ -28,9 +29,24 @@ const SmartImage: React.FC<SmartImageProps> = ({
   src,
   unoptimized = false,
   priority,
-  sizes = "100vw",
+  loading = "lazy", 
+  responsive,
+  sizes = responsive 
+    ? `
+      (max-width: 640px) ${responsive.mobile || '100vw'}, 
+      (max-width: 1024px) ${responsive.tablet || '50vw'}, 
+      ${responsive.desktop || '33vw'}
+    `
+    : "(max-width: 1200px) 100vw, 33vw",
   ...rest
 }) => {
+  const calculateHeight = () => {
+    if (height) return typeof height === 'number' ? `${height}rem` : height;
+    if (responsive?.mobile) return responsive.mobile;
+    if (aspectRatio) return 'auto';
+    return '100%';
+  };
+
   const [isEnlarged, setIsEnlarged] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -98,29 +114,28 @@ const SmartImage: React.FC<SmartImageProps> = ({
       : "";
   };
 
-  const isVideo = src?.endsWith(".mp4");
-  const isYouTube = isYouTubeVideo(src);
+  const isVideo = src?.endsWith(".mp4");const isYouTube = isYouTubeVideo(src);
 
   return (
     <>
-      <Flex
-        ref={imageRef}
-        fillWidth
-        overflow="hidden"
-        position="relative"
-        zIndex={0}
-        cursor={enlarge ? "interactive" : ""}
-        style={{
-          outline: "none",
-          isolation: "isolate",
-          height: aspectRatio ? "" : height ? `${height}rem` : "100%",
-          aspectRatio,
-          borderRadius: isEnlarged ? "0" : undefined,
-          ...calculateTransform(),
-        }}
-        onClick={handleClick}
-        {...rest}
-      >
+      <Flex 
+      ref={imageRef} 
+      fillWidth 
+      overflow="hidden" 
+      position="relative" 
+      zIndex={0} 
+      cursor={enlarge ? "interactive" : ""} 
+      style={{
+        outline: "none",
+        isolation: "isolate",
+        height: calculateHeight(),
+        aspectRatio: aspectRatio,
+        borderRadius: isEnlarged ? "0" : undefined,
+        ...calculateTransform(),
+      }} 
+      onClick={handleClick} 
+      {...rest}
+    >
         {isLoading && <Skeleton shape="block" />}
         {!isLoading && isVideo && (
           <video
@@ -141,7 +156,6 @@ const SmartImage: React.FC<SmartImageProps> = ({
             width="100%"
             height="100%"
             src={getYouTubeEmbedUrl(src)}
-            frameBorder="0"
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             style={{
@@ -217,10 +231,4 @@ const SmartImage: React.FC<SmartImageProps> = ({
           </Flex>
         </Flex>
       )}
-    </>
-  );
-};
-
-SmartImage.displayName = "SmartImage";
-
-export { SmartImage };
+    </>);};SmartImage.displayName = "SmartImage";export { SmartImage };
