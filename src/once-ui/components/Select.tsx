@@ -1,73 +1,11 @@
-"use client";
-
-import React, { useState, useRef, useEffect, forwardRef, ReactNode } from "react";
-import classNames from "classnames";
-import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";
-import inputStyles from "./Input.module.scss";
-import type { OptionProps } from "./Option";
-import type { DropdownWrapperProps } from "./DropdownWrapper";
-import { Placement } from "@floating-ui/react-dom";
-
-type SelectOptionType = Omit<OptionProps, "selected">;
+"use client";import React, { useState, useRef, useEffect, forwardRef, ReactNode } from "react";import classNames from "classnames";import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";import inputStyles from "./Input.module.scss";import type { OptionProps } from "./Option";import type { DropdownWrapperProps } from "./DropdownWrapper";import { Placement } from "@floating-ui/react-dom";type SelectOptionType = Omit<OptionProps, "selected">;
 
 interface SelectProps
-  extends Omit<InputProps, "onSelect" | "value">,
-    Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
-  options: SelectOptionType[];
-  value?: string;
-  emptyState?: ReactNode;
-  onSelect?: (value: string) => void;
-  floatingPlacement?: Placement;
-  searchable?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+  extends Omit<InputProps, "onSelect" | "value">,Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {options: SelectOptionType[];value?: string;emptyState?: ReactNode;onSelect?: (value: string) => void;floatingPlacement?: Placement;searchable?: boolean;className?: string;style?: React.CSSProperties;}
 
 const Select = forwardRef<HTMLDivElement, SelectProps>(
-  (
-    {
-      options,
-      value = "",
-      onSelect,
-      searchable = false,
-      emptyState = "No results",
-      minHeight,
-      minWidth,
-      maxWidth,
-      floatingPlacement,
-      className,
-      style,
-      ...rest
-    },
-    ref,
-  ) => {
-    const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!value);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [highlightedIndex, setHighlightedIndex] = useState<number | null>(() => {
-      if (!options?.length || !value) return null;
-      return options.findIndex((option) => option.value === value);
-    });
-    const [searchQuery, setSearchQuery] = useState("");
-    const selectRef = useRef<HTMLDivElement | null>(null);
-    const clearButtonRef = useRef<HTMLButtonElement>(null);
-
-    const handleFocus = () => {
-      setIsFocused(true);
-    };
-
-    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      if (selectRef.current && !selectRef.current.contains(event.relatedTarget as Node)) {
-        setIsFocused(false);
-        setIsDropdownOpen(false);
-      }
-    };
-
-    const handleSelect = (value: string) => {
-      if (onSelect) onSelect(value);
-      setIsDropdownOpen(false);
-      setIsFilled(true);
-    };
+  ({options,value = "",onSelect,searchable = false,emptyState = "No results",minHeight,minWidth,maxWidth,floatingPlacement,className,style,...rest},ref,) => {const [isFocused, setIsFocused] = useState(false);const [isFilled, setIsFilled] = useState(!!value);const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [highlightedIndex, setHighlightedIndex] = useState<number | null>(() => {if (!options?.length || !value) return null;return options.findIndex((option) => option.value === value);});const [searchQuery, setSearchQuery] = useState("");const selectRef = useRef<HTMLDivElement | null>(null);const clearButtonRef = useRef<HTMLButtonElement>(null);const handleFocus = () => {setIsFocused(true);};const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {if (selectRef.current && !selectRef.current.contains(event.relatedTarget as Node)) {setIsFocused(false);setIsDropdownOpen(false);}};const handleSelect = (value: string) => {if (onSelect) onSelect(value);setIsDropdownOpen(false);setIsFilled(true);};
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (!isFocused && event.key !== "Enter") return;
