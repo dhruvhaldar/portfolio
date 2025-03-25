@@ -47,28 +47,5 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
         floatingPlacement={floatingPlacement}
         minHeight={minHeight}
         trigger={
-          <Input {...rest} style={{textOverflow: "ellipsis",...style,}} value={value} onFocus={handleFocus} onKeyDown={handleKeyDown} readOnly className={classNames("cursor-interactive", "fill-width", {[inputStyles.filled]: isFilled,[inputStyles.focused]: isFocused,className,})} aria-haspopup="listbox" aria-expanded={isDropdownOpen}/>}
-        dropdown={
-          <>
-            {searchable && (
-              <Flex fillWidth position="relative">
-                <Input data-scaling="90" style={{marginTop: "-1px",marginLeft: "-1px",width: "calc(100% + 2px)",}}
-                  labelAsPlaceholder id="search" label="Search" height="s" radius="none"
-                  hasSuffix={searchQuery ? (<IconButton tooltip="Clear" tooltipPosition="left" icon="close" variant="ghost" size="s" onClick={handleClearSearch}/>) : undefined} hasPrefix={<Icon name="search" size="xs" />} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onClick={(e) => e.stopPropagation()} onBlur={handleBlur}/></Flex>)}
-                  <Flex fillWidth padding="4" direction="column" gap="2">{options.filter((option) => option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),).map((option, index) => (<Option key={option.value}
-                    {...option}
-                    onClick={() => {
-                      option.onClick?.(option.value);
-                      handleSelect(option.value);
-                    }}
-                    selected={option.value === value}
-                    highlighted={index === highlightedIndex}
-                    tabIndex={-1}
-                  />
-                ))}
-              {searchQuery &&
-                options.filter((option) =>
-                  option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),
-                ).length === 0 && (
-                  <Flex fillWidth vertical="center" horizontal="center" paddingX="16" paddingY="32">{emptyState}</Flex>
-                )}</Flex></>}/>);},);Select.displayName = "Select";export { Select };
+          <Input {...rest} style={{textOverflow: "ellipsis",...style,}} value={value} onFocus={handleFocus} onKeyDown={handleKeyDown} readOnly className={classNames("cursor-interactive", "fill-width", {[inputStyles.filled]: isFilled,[inputStyles.focused]: isFocused,className,})} aria-haspopup="listbox" aria-expanded={isDropdownOpen}/>} 
+          dropdown={ <> {searchable && (<Flex fillWidth position="relative"><Input data-scaling="90" style={{marginTop: "-1px",marginLeft: "-1px",width: "calc(100% + 2px)",}} labelAsPlaceholder id="search" label="Search" height="s" radius="none" hasSuffix={searchQuery ? (<IconButton tooltip="Clear" tooltipPosition="left" icon="close" variant="ghost" size="s" onClick={handleClearSearch}/>) : undefined} hasPrefix={<Icon name="search" size="xs" />} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onClick={(e) => e.stopPropagation()} onBlur={handleBlur}/></Flex>)} <Flex fillWidth padding="4" direction="column" gap="2">{options.filter((option) => option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),).map((option, index) => (<Option key={option.value} {...option} onClick={() => {option.onClick?.(option.value);handleSelect(option.value);}} selected={option.value === value} highlighted={index === highlightedIndex} tabIndex={-1}/>))} {searchQuery && options.filter((option) => option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),).length === 0 && (<Flex fillWidth vertical="center" horizontal="center" paddingX="16" paddingY="32">{emptyState}</Flex>)}</Flex></>}/>);},);Select.displayName = "Select";export { Select };
