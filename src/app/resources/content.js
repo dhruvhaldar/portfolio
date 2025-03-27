@@ -1,6 +1,6 @@
 import { InlineCode, LetterFx } from "@/once-ui/components"; const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],}; const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
 
-const home = {label: "Home",title: `${person.name} Portfolio (With Projects and Publications)`,
+const home = {label: "Home",title: `${person.name} Portfolio - Featuring Projects and Publications`,
   description: `Explore the portfolio of Dhruv, showcasing a fusion of aerospace engineering and advanced Computational Fluid Dynamics expertise. 🚀 #Aerospace #CFD #Rocketry`,
   headline: (
     <>
