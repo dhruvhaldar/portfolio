@@ -52,7 +52,7 @@ export async function GET(request: Request) {
           }}
         >
           <img
-            src={"https://" + baseURL + person.avatar}
+            src={"https://" + baseURL + person.avatar.src}
             alt={`${person.name}'s profile picture`}
             style={{
               width: "12rem",
