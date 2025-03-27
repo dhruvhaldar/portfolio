@@ -46,7 +46,7 @@ const getMaskStyle = (mask?: MaskOptions): string => {
 
 const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
-  let lastCall = 0;
+  const lastCallRef = useRef(0);
 
   const lightDefaults = {
     opacity: 30,
@@ -75,8 +75,8 @@ const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       const now = Date.now();
-      if (now - lastCall < 16) return;
-      lastCall = now;
+      if (now - lastCallRef.current < 16) return;
+      lastCallRef.current = now;
 
       const element = ref.current;
       if (!element) return;
