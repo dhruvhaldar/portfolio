@@ -65,7 +65,7 @@ const effects = {
   }
 };
 
-// Display configuration
+// Display Time configuration
 const display = {
   location: false,
   time: false
