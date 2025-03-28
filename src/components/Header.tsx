@@ -21,17 +21,22 @@ export const Header = () => {
   const pathname = usePathname() ?? "";
 
   return (
-    <>
+    <header className={styles.position}>
       <Flex
         fitHeight
-        className={styles.position}
-        as="header"
+        className={styles.headerContainer}
+        as="div"
         zIndex={9}
         fillWidth
         padding="8"
         horizontal="center"
+        style={{ minHeight: "64px" }}
       >
-        <Flex fillWidth horizontal="center">
+        <Flex 
+          fillWidth 
+          horizontal="center"
+          style={{ maxWidth: "1200px", width: "100%" }}
+        >
           <Flex
             background="surface"
             border="neutral-medium"
@@ -39,8 +44,14 @@ export const Header = () => {
             shadow="l"
             padding="4"
             horizontal="center"
+            style={{ minWidth: "fit-content" }}
           >
-            <Flex gap="4" vertical="center" textVariant="body-default-s">
+            <Flex 
+              gap="4" 
+              vertical="center" 
+              textVariant="body-default-s"
+              style={{ minWidth: "fit-content" }}
+            >
               {routes["/"] && (
                 <ToggleButton
                   prefixIcon="home"
@@ -105,6 +116,6 @@ export const Header = () => {
           </Flex>
         </Flex>
       </Flex>
-    </>
+    </header>
   );
 };
