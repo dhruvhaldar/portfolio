@@ -3,7 +3,7 @@ import { InlineCode, LetterFx, OptimizedImage } from "@/once-ui/components";
 // Type Definitions
 /**
  * @typedef {Object} Image
- * @property {string} src - Image source URL
+ * @property {string} src - Image source
  * @property {string} alt - Image alt text
  * @property {number} width - Image width
  * @property {number} height - Image height
