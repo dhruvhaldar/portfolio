@@ -115,7 +115,7 @@ export default function Project({ params }: WorkParams) {
           }),
         }}
       />
-      <Column maxWidth="xs" gap="16">
+      <Column maxWidth="s" marginTop="l" gap="16">
         <SmartLink href="/work" prefixIcon="chevronLeft">
           Projects
         </SmartLink>

@@ -1,6 +1,7 @@
 .masonryGrid {
     display: flex;
     margin-left: calc(-1 * var(--static-space-16));
+    margin-top: calc(3 * var(--static-space-16));
     width: 100%;
 }
 

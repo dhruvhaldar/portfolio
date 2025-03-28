@@ -40,7 +40,7 @@ export default function Work() {
   let allProjects = getPosts(["src", "app", "work", "projects"]);
 
   return (
-    <Column maxWidth="m">
+    <Column maxWidth="m" marginTop="l">
       <script
         type="application/ld+json"
         suppressHydrationWarning

@@ -76,7 +76,7 @@ const structuredData = {
 
 export default function About() {
   return (
-    <Column maxWidth="m">
+    <Column maxWidth="m" marginTop="l">
       {/* Hidden H1 for accessibility */}
       <h1 style={{ 
         position: "absolute", 

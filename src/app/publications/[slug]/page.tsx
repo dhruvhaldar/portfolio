@@ -100,9 +100,9 @@ export default function Publication({ params }: PublicationParams) {
           }),
         }}
       />
-      <SmartLink
-          href="/publications"
-          prefixIcon="chevronLeft"
+      <Column maxWidth="s" marginTop="l" gap="16">
+      <SmartLink href="/publications"
+      prefixIcon="chevronLeft"
         >
         Posts
       </SmartLink>
@@ -120,6 +120,7 @@ export default function Publication({ params }: PublicationParams) {
             <Text variant="body-default-s">View project</Text>
           </SmartLink>
         )}
+        </Column>
       <Row gap="12" vertical="center">
         {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
         <Text variant="body-default-s" onBackground="neutral-weak">
