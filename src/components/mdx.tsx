@@ -12,7 +12,8 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
       radius="m-4"
       aspectRatio="16/9"
       responsive={{ mobile: '400px', tablet: '400px', desktop: '400px' }}
-      maxWidth={800}
+      width={800}
+      height={450}
       alt={alt}
       src={src}
       {...props}

@@ -9,7 +9,8 @@ export default function Post({ post, thumbnail }: PostProps) {
         {post.metadata.image && thumbnail && (
           <SmartImage
             priority
-            maxWidth={800}
+            width={800}
+            height={450}
             className={styles.image}
             sizes="640px"
             border="neutral-alpha-weak"

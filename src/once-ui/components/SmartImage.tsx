@@ -5,7 +5,6 @@ import { Flex, Skeleton } from "@/once-ui/components";
 
 export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   aspectRatio?: string;
-  height?: number;
   alt?: string;
   isLoading?: boolean;
   objectFit?: CSSProperties["objectFit"];
@@ -20,12 +19,13 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
     tablet?: string;
     desktop?: string;
   };
-  maxWidth?: number; // Maximum width the image will be displayed at
+  maxWidth?: number;
+  width?: number;
+  height?: number;
 }
 
 const SmartImage: React.FC<SmartImageProps> = ({
   aspectRatio,
-  height,
   alt = "",
   isLoading = false,
   objectFit = "cover",
@@ -36,6 +36,8 @@ const SmartImage: React.FC<SmartImageProps> = ({
   loading = "lazy",
   responsive,
   maxWidth,
+  width,
+  height,
   sizes = responsive
     ? `(max-width: 640px) ${responsive.mobile || '100vw'},(max-width: 1024px) ${responsive.tablet || '50vw'}, ${responsive.desktop || '33vw'}`
     : maxWidth
@@ -50,6 +52,21 @@ const SmartImage: React.FC<SmartImageProps> = ({
     return '100%';
   };
 
+  const getImageDimensions = () => {
+    if (width && height) {
+      return { width, height };
+    }
+    if (maxWidth) {
+      const [w, h] = aspectRatio?.split('/').map(Number) || [16, 9];
+      return {
+        width: maxWidth,
+        height: Math.round((maxWidth * h) / w),
+      };
+    }
+    return undefined;
+  };
+
+  const dimensions = getImageDimensions();
   const [isEnlarged, setIsEnlarged] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -135,18 +152,10 @@ const SmartImage: React.FC<SmartImageProps> = ({
   const isVideo = src?.endsWith(".mp4");
   const isYouTube = isYouTubeVideo(src);
 
-  // Calculate appropriate image dimensions based on maxWidth and aspectRatio
-  const getImageDimensions = () => {
-    if (!maxWidth) return undefined;
-    const [width, height] = aspectRatio?.split('/').map(Number) || [16, 9];
-    const calculatedHeight = Math.round((maxWidth * height) / width);
-    return {
-      width: maxWidth,
-      height: calculatedHeight,
-    };
+  const getImageSrc = (src: string) => {
+    if (src.endsWith('.avif')) return src;
+    return src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
   };
-
-  const dimensions = getImageDimensions();
 
   return (
     <>
@@ -197,7 +206,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
         )}
         {!isLoading && !isVideo && !isYouTube && (
           <Image
-            src={src}
+            src={getImageSrc(src)}
             alt={alt}
             priority={priority}
             loading={isVisible ? "eager" : "lazy"}
@@ -208,7 +217,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
             style={{
               objectFit: objectFit,
             }}
-            {...(dimensions && { width: dimensions.width, height: dimensions.height })}
+            {...dimensions}
           />
         )}
       </Flex>
@@ -252,7 +261,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
               />
             ) : (
               <Image
-                src={src}
+                src={getImageSrc(src)}
                 alt={alt}
                 fill
                 sizes="90vw"
