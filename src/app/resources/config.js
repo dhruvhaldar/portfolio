@@ -2,7 +2,7 @@ const baseURL="dhruvhaldar.vercel.app";const routes={"/":true,"/about":true,"/wo
   theme: "light", // dark | light
   neutral: "slate", // sand | gray | slate
   brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  accent: "violet", // Not used
+  accent: "violet",
   solid: "color", // color | contrast
   solidStyle: "plastic", // flat | plastic
   border: "rounded", // rounded | playful | conservative
