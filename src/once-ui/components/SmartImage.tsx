@@ -20,6 +20,7 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
     tablet?: string;
     desktop?: string;
   };
+  maxWidth?: number; // Maximum width the image will be displayed at
 }
 
 const SmartImage: React.FC<SmartImageProps> = ({
@@ -34,8 +35,11 @@ const SmartImage: React.FC<SmartImageProps> = ({
   priority,
   loading = "lazy",
   responsive,
+  maxWidth,
   sizes = responsive
     ? `(max-width: 640px) ${responsive.mobile || '100vw'},(max-width: 1024px) ${responsive.tablet || '50vw'}, ${responsive.desktop || '33vw'}`
+    : maxWidth
+    ? `(max-width: ${maxWidth}px) 100vw, ${maxWidth}px`
     : "(max-width: 1200px) 100vw, 33vw",
   ...rest
 }) => {
@@ -131,6 +135,19 @@ const SmartImage: React.FC<SmartImageProps> = ({
   const isVideo = src?.endsWith(".mp4");
   const isYouTube = isYouTubeVideo(src);
 
+  // Calculate appropriate image dimensions based on maxWidth and aspectRatio
+  const getImageDimensions = () => {
+    if (!maxWidth) return undefined;
+    const [width, height] = aspectRatio?.split('/').map(Number) || [16, 9];
+    const calculatedHeight = Math.round((maxWidth * height) / width);
+    return {
+      width: maxWidth,
+      height: calculatedHeight,
+    };
+  };
+
+  const dimensions = getImageDimensions();
+
   return (
     <>
       <Flex
@@ -187,9 +204,11 @@ const SmartImage: React.FC<SmartImageProps> = ({
             sizes={sizes}
             unoptimized={unoptimized}
             fill
+            quality={75}
             style={{
               objectFit: objectFit,
             }}
+            {...(dimensions && { width: dimensions.width, height: dimensions.height })}
           />
         )}
       </Flex>
@@ -238,6 +257,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
                 fill
                 sizes="90vw"
                 unoptimized={unoptimized}
+                quality={90}
                 style={{
                   objectFit: "contain",
                 }}
