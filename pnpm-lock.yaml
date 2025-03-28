@@ -47,24 +47,12 @@ importers:
       next-mdx-remote:
         specifier: ^5.0.0
         version: 5.0.0(@types/react@18.3.18)(acorn@8.14.0)(react@18.3.1)
-      once-ui-cli:
-        specifier: ^3.1.0
-        version: 3.1.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      postcss-preset-env:
-        specifier: ^9.6.0
-        version: 9.6.0(postcss@8.5.3)
       prismjs:
         specifier: ^1.29.0
         version: 1.29.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
-      react-devtools:
-        specifier: ^6.1.1
-        version: 6.1.1
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -117,12 +105,24 @@ importers:
       eslint-config-next:
         specifier: ^14.2.25
         version: 14.2.26(eslint@8.57.1)(typescript@5.8.2)
+      once-ui-cli:
+        specifier: ^3.1.0
+        version: 3.1.0
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.3
       postcss-custom-media:
         specifier: ^10.0.8
         version: 10.0.8(postcss@8.5.3)
       postcss-flexbugs-fixes:
         specifier: ^5.0.2
         version: 5.0.2(postcss@8.5.3)
+      postcss-preset-env:
+        specifier: ^9.6.0
+        version: 9.6.0(postcss@8.5.3)
+      react-devtools:
+        specifier: ^6.1.1
+        version: 6.1.1
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
