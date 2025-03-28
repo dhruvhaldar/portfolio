@@ -42,7 +42,7 @@ const social = [
 
 const home = {
   label: "Home",
-  title: `${person.name}&apos;s Portfolio (With Projects &amp; Publications)`,
+  title: `${person.name} Portfolio (With Projects and Publications)`,
   description: `Explore Dhruv Haldar&apos;s portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
   headline: (
     <>
