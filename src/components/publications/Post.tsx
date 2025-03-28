@@ -9,12 +9,13 @@ export default function Post({ post, thumbnail }: PostProps) {
         {post.metadata.image && thumbnail && (
           <SmartImage
             priority
-            maxWidth={20}
+            width={800}
+            height={450}
             className={styles.image}
             sizes="640px"
             border="neutral-alpha-weak"
             cursor="interactive"
-            radius="l"
+            radius="m"
             src={post.metadata.image}
             alt={"Thumbnail of " + post.metadata.title}
             aspectRatio="16 / 9"
