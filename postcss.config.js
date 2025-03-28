@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   plugins: [
     [
       "@csstools/postcss-global-data",
