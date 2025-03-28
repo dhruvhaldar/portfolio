@@ -264,6 +264,7 @@ const gallery = {
   description: `A photo collection by ${person.name }`,
   images: [
     { src: "/images/gallery/img-01.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/img-02.avif", alt: "image", orientation: "horizontal" },
   ],
 };
 
