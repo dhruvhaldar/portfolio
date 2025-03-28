@@ -7,7 +7,7 @@ import { InlineCode, LetterFx, OptimizedImage } from "@/once-ui/components";
  * @property {string} alt - Image alt text
  * @property {number} width - Image width
  * @property {number} height - Image height
- * @property {string} [orientation] - Image orientation (vertical/horizontal)
+ * @property {string} [orientation] - Orientation (vertical/horizontal)
  * @property {string} [blurDataURL] - Blurred image data URL
  */
 
