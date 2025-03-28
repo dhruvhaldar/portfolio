@@ -1,21 +1,222 @@
-import { InlineCode, LetterFx } from "@/once-ui/components"; const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],}; const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
+import { InlineCode, LetterFx, OptimizedImage } from "@/once-ui/components";
 
-const home = {label: "Home",title: `${person.name}'s Portfolio (With Projects & Publications)`,
-  description: `Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
-  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}><LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5']}>Bridging Computational Models with Real-World Aerospace Solutions</LetterFx></span></>,
-  subline: (<>
-  👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. 
-  </>),};
+// Type Definitions
+/**
+ * @typedef {Object} Image
+ * @property {string} src - Image source URL
+ * @property {string} alt - Image alt text
+ * @property {number} width - Image width
+ * @property {number} height - Image height
+ * @property {string} [orientation] - Orientation (vertical/horizontal)
+ * @property {string} [blurDataURL] - Blurred image data URL
+ */
 
-// About Page
-const about = {label: "About",title: "About me",description: `Meet ${person.name}, ${person.role} from ${person.location}`,
-tableOfContent: {display: true,subItems: true,},
-  avatar: {display: true,},calendar: {display: true,link: "https://cal.com/dhruvhaldar",},intro: {display: true,title: "Introduction",
-    description: (<>
-    👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
-    </>),},
-  
-  work: {display: true,title: "Work Experience",
+/**
+ * @typedef {Object} Person
+ * @property {string} firstName - Person's first name
+ * @property {string} lastName - Person's last name
+ * @property {string} name - Person's full name (computed from firstName and lastName)
+ * @property {string} role - Person's professional role
+ * @property {Image} avatar - Person's avatar image
+ * @property {string} location - Person's timezone location
+ * @property {string[]} languages - List of languages spoken
+ */
+
+/**
+ * @typedef {Object} SocialLink
+ * @property {string} name - Social platform name
+ * @property {string} icon - Icon identifier
+ * @property {string} link - Social profile URL
+ */
+
+// Person Information
+/** @type {Person} */
+const person = {
+  firstName: "Dhruv",
+  lastName: "Haldar",
+  get name() {
+    return `${this.firstName} ${this.lastName}`;
+  },
+  role: "Aerospace Engineer",
+  avatar: {
+    src: "/images/1700894012265.jpeg",
+    width: 400,
+    height: 400,
+    blurDataURL: "/images/1700894012265.jpeg?blur=10&w=10&q=20",
+  },
+  location: "Asia/Kolkata",
+  languages: ["English", "Swedish", "German", "Hindi", "Bengali"],
+};
+
+// Social Media Links
+/** @type {SocialLink[]} */
+const social = [
+  {
+    name: "GitHub",
+    icon: "github",
+    link: "https://github.com/dhruvhaldar",
+  },
+  {
+    name: "LinkedIn",
+    icon: "linkedin",
+    link: "https://www.linkedin.com/in/dhruvhaldar/",
+  },
+  {
+    name: "Email",
+    icon: "email",
+    link: "mailto:bubqbgvl1@mozmail.com",
+  },
+  {
+    name: "Youtube",
+    icon: "youtube",
+    link: "https://www.youtube.com/c/DhruvHaldar",
+  },
+  {
+    name: "Instagram",
+    icon: "instagram",
+    link: "https://www.instagram.com/dhruvism",
+  },
+];
+
+// Home Page Content
+const home = {
+  label: "Home",
+  title: `${person.name} Portfolio - Featuring Projects and Publications`,
+  description: `Explore the portfolio of Dhruv, showcasing a fusion of aerospace engineering and advanced Computational Fluid Dynamics expertise. 🚀 #Aerospace #CFD #Rocketry`,
+  headline: (
+    <>
+      <span style={{ fontFamily: `var(--font-family-code)` }}>
+        <LetterFx
+          speed="medium"
+          trigger="instant"
+          charset={["A", "@", "$", "e", "R", "?", "o", "~", "5"]}
+        >
+          Bridging Computational Models with Real-World Aerospace Solutions
+        </LetterFx>
+      </span>
+    </>
+  ),
+  subline: (
+    <>
+      👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
+      <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and
+      application testing. I have a proven track record of successfully tackling
+      challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪,
+      automotive 🏎️, and propulsion 🚀 systems.
+    </>
+  ),
+};
+
+// Technical Skills Categories
+const technicalSkills = {
+  programming: [
+    {
+      title: "Python",
+      description: <>Pyvista, Scipy, Scikit Learn</>,
+      images: [],
+    },
+    {
+      title: "MATLAB",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "R",
+      description: <></>,
+      images: [],
+    },
+  ],
+  cfd: [
+    {
+      title: "ANSYS",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "OpenFOAM",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "Paraview",
+      description: <></>,
+      images: [],
+    },
+  ],
+  cad: [
+    {
+      title: "Siemens NX",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "Solidworks",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "Nastran",
+      description: <></>,
+      images: [],
+    },
+  ],
+  other: [
+    {
+      title: "GAMS",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "Docker",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "AngularJS",
+      description: <></>,
+      images: [],
+    },
+    {
+      title: "React",
+      description: <></>,
+      images: [],
+    },
+  ],
+};
+
+// About Page Content
+const about = {
+  label: "About",
+  title: "About me",
+  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  tableOfContent: {
+    display: true,
+    subItems: true,
+  },
+  avatar: {
+    display: true,
+  },
+  calendar: {
+    display: true,
+    link: "https://cal.com/dhruvhaldar",
+  },
+  intro: {
+    display: true,
+    title: "Introduction",
+    description: (
+      <>
+        👋 Hi! I&apos;m an Aerospace Engineer and CFD Specialist with a relentless
+        drive to innovate at the intersection of fluid dynamics, computational
+        modeling, and cutting-edge technology. Over the years, I&apos;ve honed my
+        expertise in solving complex engineering challenges across aerospace,
+        automotive, and propulsion systems, blending analytical rigor with creative
+        problem-solving.
+      </>
+    ),
+  },
+  work: {
+    display: true,
+    title: "Work Experience",
     experiences: [
       {
         company: "Sankhyasutra Labs Limited",
@@ -23,10 +224,15 @@ tableOfContent: {display: true,subItems: true,},
         role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
           <>
-            Collaborate with a multidisciplinary team of developers to design and validate in-house CFD solver using established benchmarks, including TU Munich drivAer car model, Ahmed body, Eppler/NACA airfoils, Pipe Flows, and Cyclone separator.
+            Collaborate with a multidisciplinary team of developers to design and
+            validate in-house CFD solver using established benchmarks, including TU
+            Munich drivAer car model, Ahmed body, Eppler/NACA airfoils, Pipe
+            Flows, and Cyclone separator.
           </>,
           <>
-            Develop advanced post-processing modules in Python leveraging Pyvista and Visualization Toolkit (VTK) libraries for efficient data visualization and analysis.
+            Develop advanced post-processing modules in Python leveraging Pyvista
+            and Visualization Toolkit (VTK) libraries for efficient data
+            visualization and analysis.
           </>,
         ],
         images: [],
@@ -37,13 +243,19 @@ tableOfContent: {display: true,subItems: true,},
         role: "Examensarbete (Master Thesis)",
         achievements: [
           <>
-            Conducted the SAAB-KTH University Joint Master Thesis project titled Implementation of wing ice protection system in more electric aircraft technologies.
+            Conducted the SAAB-KTH University Joint Master Thesis project titled
+            Implementation of wing ice protection system in more electric aircraft
+            technologies.
           </>,
           <>
-            Investigated innovative concepts for the More Electric Aircraft (MEA) to enhance performance and minimize weight by replacing traditional hydraulic, pneumatic, and mechanical systems with electrical systems.
+            Investigated innovative concepts for the More Electric Aircraft (MEA)
+            to enhance performance and minimize weight by replacing traditional
+            hydraulic, pneumatic, and mechanical systems with electrical systems.
           </>,
           <>
-            Implemented the Ice Protection System (IPS) of an Airbus A320 aircraft using CFD simulations (ANSYS FENSAP-ICE) and automated workflow processes with IronPython.
+            Implemented the Ice Protection System (IPS) of an Airbus A320
+            aircraft using CFD simulations (ANSYS FENSAP-ICE) and automated
+            workflow processes with IronPython.
           </>,
         ],
         images: [],
@@ -54,13 +266,16 @@ tableOfContent: {display: true,subItems: true,},
         role: "Technical Consultant",
         achievements: [
           <>
-             Led a team of 5 in developing the award-winning start-up idea, "Cyclodash: A Social Game for Bike Commuting".
+            Led a team of 5 in developing the award-winning start-up idea,
+            &quot;Cyclodash: A Social Game for Bike Commuting&quot;.
           </>,
           <>
-            Leveraged Augmented Reality (AR) to improve public perception of biking, achieving a 10% increase in positive sentiment.
+            Leveraged Augmented Reality (AR) to improve public perception of
+            biking, achieving a 10% increase in positive sentiment.
           </>,
           <>
-            Resolved technical, financial, and operational challenges through close collaboration with stakeholders, utilizing an Agile Kanban approach.
+            Resolved technical, financial, and operational challenges through close
+            collaboration with stakeholders, utilizing an Agile Kanban approach.
           </>,
         ],
         images: [],
@@ -71,95 +286,95 @@ tableOfContent: {display: true,subItems: true,},
         role: "Summer Intern in Rocket Propulsion",
         achievements: [
           <>
-            Worked with German Aerospace Center (DLR) to execute 9 static fire tests for the Liquid-Propellant Rocket Engine (LPRE)-based SMART Rocket.
+            Worked with German Aerospace Center (DLR) to execute 9 static fire
+            tests for the Liquid-Propellant Rocket Engine (LPRE)-based SMART
+            Rocket.
           </>,
           <>
-            Conducted ground testing to optimize engine thermal performance and calibrated test stand and scaffolding systems.
+            Conducted ground testing to optimize engine thermal performance and
+            calibrated test stand and scaffolding systems.
           </>,
           <>
-           Mentored bachelors students in preparing and performing rocket engine tests, fostering their technical expertise and practical skills.
+            Mentored bachelors students in preparing and performing rocket engine
+            tests, fostering their technical expertise and practical skills.
           </>,
         ],
         images: [],
       },
     ],
   },
-  studies: {display: true,title: "Education",institutions: [{name: 'KTH Royal Institute of Technology',description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,},{name: 'SRM Institute of Science and Technology',description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,},],},
-  technical: {display: true,title: "Technical skills",
+  studies: {
+    display: true,
+    title: "Education",
+    institutions: [
+      {
+        name: "KTH Royal Institute of Technology",
+        description: (
+          <>
+            Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems
+            Track).
+          </>
+        ),
+      },
+      {
+        name: "SRM Institute of Science and Technology",
+        description: (
+          <>
+            Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.
+          </>
+        ),
+      },
+    ],
+  },
+  technical: {
+    display: true,
+    title: "Technical skills",
     skills: [
-      {
-        title: "Python",
-        description: <>Pyvista, Scipy, Scikit Learn</>,
-        images: [],
-      },
-      {
-        title: "MATLAB",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "ANSYS",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "OpenFOAM",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "Paraview",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "GAMS",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "Docker",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "Nastran",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "Siemens NX",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "Solidworks",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "R",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "AngularJS",
-        description: <></>,
-        images: [],
-      },
-      {
-        title: "React",
-        description: <></>,
-        images: [],
-      },
+      ...technicalSkills.programming,
+      ...technicalSkills.cfd,
+      ...technicalSkills.cad,
+      ...technicalSkills.other,
     ],
   },
 };
 
-// Publications Page
-const publications={label:"Publications",title:"Publications",description:`Publications by ${person.name } `,};
-// Work page
-const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,};
-// Gallery Page hidden
-const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
+// Publications Page Content
+const publications = {
+  label: "Publications",
+  title: "Publications",
+  description: `Publications by ${person.name}`,
+};
+
+// Work Page Content
+const work = {
+  label: "Work",
+  title: "My projects",
+  description: `Engineering projects by ${person.name}`,
+};
+
+// Gallery Page Content
+const gallery = {
+  label: "Gallery",
+  title: "My photo gallery",
+  description: `A photo collection by ${person.name}`,
+  images: [
+    {
+      src: "/images/gallery/img-01.jpg",
+      alt: "Gallery image 1",
+      width: 800,
+      height: 1200,
+      orientation: "vertical",
+      blurDataURL: "/images/gallery/img-01.jpg?blur=10&w=10&q=20",
+    },
+    {
+      src: "/images/gallery/img-02.jpg",
+      alt: "Gallery image 2",
+      width: 1200,
+      height: 800,
+      orientation: "horizontal",
+      blurDataURL: "/images/gallery/img-02.jpg?blur=10&w=10&q=20",
+    },
+  ],
+};
+
 export { person, social, home, about, work, gallery, publications };

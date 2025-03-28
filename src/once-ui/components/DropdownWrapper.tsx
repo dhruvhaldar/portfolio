@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   forwardRef,
   useImperativeHandle,
+  useCallback,
 } from "react";
 import {
   useFloating,
@@ -63,12 +64,12 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     const isControlled = controlledIsOpen !== undefined;
     const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
 
-    const handleOpenChange = (newIsOpen: boolean) => {
+    const handleOpenChange = useCallback((newIsOpen: boolean) => {
       if (!isControlled) {
         setInternalIsOpen(newIsOpen);
       }
       onOpenChange?.(newIsOpen);
-    };
+    }, [isControlled, onOpenChange]);
 
     const { x, y, strategy, refs, update } = useFloating({
       placement: floatingPlacement,
@@ -101,9 +102,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     }, [refs]);
 
     useEffect(() => {
-      if (!mounted) {
-        setMounted(true);
-      }
+      setMounted(true);
     }, []);
 
     useEffect(() => {
@@ -117,26 +116,27 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       }
     }, [isOpen, mounted, refs, update]);
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = useCallback((event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         handleOpenChange(false);
       }
-    };
+    }, [handleOpenChange]);
 
-    const handleFocusOut = (event: FocusEvent) => {
+    const handleFocusOut = useCallback((event: FocusEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.relatedTarget as Node)) {
         handleOpenChange(false);
       }
-    };
+    }, [handleOpenChange]);
 
     useEffect(() => {
+      const currentWrapper = wrapperRef.current;
       document.addEventListener("mousedown", handleClickOutside);
-      wrapperRef.current?.addEventListener("focusout", handleFocusOut);
+      currentWrapper?.addEventListener("focusout", handleFocusOut);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
-        wrapperRef.current?.removeEventListener("focusout", handleFocusOut);
+        currentWrapper?.removeEventListener("focusout", handleFocusOut);
       };
-    }, []);
+    }, [handleClickOutside, handleFocusOut]);
 
     return (
       <Flex
