@@ -1,8 +1,12 @@
-const sharp = require('sharp');
-const fs = require('fs').promises;
-const path = require('path');
+import sharp from 'sharp';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const IMAGES_DIR = path.join(process.cwd(), 'public', 'images');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const IMAGES_DIR = join(process.cwd(), 'public', 'images');
 
 async function convertToAvif(inputPath, outputPath) {
   try {
@@ -19,7 +23,7 @@ async function processDirectory(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
 
   for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
+    const fullPath = join(dir, entry.name);
     
     if (entry.isDirectory()) {
       await processDirectory(fullPath);
