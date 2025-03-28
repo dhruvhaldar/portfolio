@@ -66,6 +66,12 @@
       "@vercel/speed-insights"
     ]
   },
+  "resolutions": {
+    "glob": "^10.3.10",
+    "rimraf": "^5.0.5",
+    "inflight": "^2.0.0",
+    "boolean": "^3.2.0"
+  },
   "description": "Dhruv Haldar Portfolio",
   "author": "Dhruv Haldar"
 }
