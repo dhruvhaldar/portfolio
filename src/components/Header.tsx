@@ -18,4 +18,5 @@ export const Header = () => {const pathname = usePathname() ?? "";
                 </>)}
               {routes["/publications"] && (
                 <>
-                  <ToggleButton className="s-flex-hide" prefixIcon="article" href="/publications" label={publications.label} selected={pathname.startsWith("/publications")}/><ToggleButton className="s-flex-show" prefixIcon="article" href="/publications" selected={pathname.startsWith("/publications")}/></>)}</Flex></Flex></Flex></Flex></>);};
+                  <ToggleButton className="s-flex-hide" prefixIcon="article" href="/publications" label={publications.label} selected={pathname.startsWith("/publications")}/><ToggleButton className="s-flex-show" prefixIcon="article" href="/publications" selected={pathname.startsWith("/publications")}/></>)}</Flex></Flex></Flex>
+                  </Flex></>);};
