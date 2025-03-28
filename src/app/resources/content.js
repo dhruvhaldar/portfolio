@@ -263,8 +263,18 @@ const gallery = {
   title: "My photo gallery",
   description: `A photo collection by ${person.name }`,
   images: [
-    { src: "/images/gallery/img-01.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/img-01.avif", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/img-02.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/50123396478_dfd7d42b1c_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/50123293593_911f2bacf0_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/50122281262_e7f9caaaf1_o.avif", alt: "image", orientation: "vertical" },
+    {src: "/images/gallery/49606576712_746dec0e82_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606576132_e01f5b5875_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606323636_447ab2c88e_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815838_851a2d0c3b_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
   ],
 };
 
