@@ -51,7 +51,7 @@ export async function generateMetadata() {
       description,
       type: "website",
       url: pageUrl,
-      siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
+      siteName: `${person.firstName} Portfolio (With Projects & Publications)`,
       locale: "en_US",
       images: [
         {
@@ -82,6 +82,7 @@ export async function generateMetadata() {
   };
 }
 
+// Font Settings
 const primary = Inter({
   variable: "--font-primary",
   subsets: ["latin"],

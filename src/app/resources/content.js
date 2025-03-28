@@ -257,15 +257,13 @@ const work = {
   description: `Engineering projects by ${person.name}`,
 };
 
-// Gallery Page hidden
+// Gallery Page
 const gallery = {
   label: "Gallery",
   title: "My photo gallery",
   description: `A photo collection by ${person.name }`,
-  images: [
-    { src: "/images/gallery/img-01.jpg", alt: "image", orientation: "vertical" },
-    { src: "/images/gallery/img-02.jpg", alt: "image", orientation: "horizontal" },
-  ],
+  // Remove static images as they are now fetched dynamically
+  images: [], // This can be left empty or removed entirely
 };
 
 export { person, social, home, about, work, gallery, publications };

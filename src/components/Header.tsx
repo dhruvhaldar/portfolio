@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Flex, Line, ToggleButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
 import { routes } from "@/app/resources";
-import { home, about, work, publications } from "@/app/resources/content";
+import { home, about, work, publications, gallery } from "@/app/resources/content";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -109,6 +109,23 @@ export const Header = () => {
                     prefixIcon="article"
                     href="/publications"
                     selected={pathname.startsWith("/publications")}
+                  />
+                </>
+              )}
+             {routes["/gallery"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="gallery"
+                    href="/gallery"
+                    label={gallery.label}
+                    selected={pathname.startsWith("/gallery")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="gallery"
+                    href="/gallery"
+                    selected={pathname.startsWith("/gallery")}
                   />
                 </>
               )}
