@@ -13,7 +13,8 @@
     "build:prod": "NODE_ENV=production next build",
     "build:analyze": "ANALYZE=true NODE_ENV=production next build",
     "process-images": "node scripts/process-images.js",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "convert-images": "node scripts/convert-images.js"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.2",
@@ -43,7 +44,8 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "sass": "^1.85.1",
-    "tailwind-merge": "^3.0.2"
+    "tailwind-merge": "^3.0.2",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^2.1.1",
@@ -57,7 +59,6 @@
     "eslint-config-next": "^15.2.4",
     "postcss-custom-media": "^10.0.8",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "sharp": "^0.33.5",
     "terser": "^5.39.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
