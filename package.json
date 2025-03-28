@@ -28,7 +28,7 @@
     "cookie": "^1.0.2",
     "gray-matter": "^4.0.3",
     "lazyframe": "^2.2.7",
-    "next": "^14.2.24",
+    "next": "^14.2.25",
     "next-mdx-remote": "^5.0.0",
     "once-ui-cli": "^3.1.0",
     "postcss": "^8.5.3",
