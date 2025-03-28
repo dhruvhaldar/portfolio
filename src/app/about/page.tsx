@@ -162,11 +162,12 @@ export default function About() {
                 radius="full" 
                 padding="4" 
                 gap="8" 
+                marginTop="m" 
                 marginBottom="m" 
                 vertical="center"
               >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Flex paddingX="8">
+                <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
+                <Flex paddingX="m" paddingY="xs" align="center">
                   Schedule a call
                 </Flex>
                 <IconButton 
