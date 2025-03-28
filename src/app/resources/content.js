@@ -15,6 +15,7 @@ import { InlineCode, LetterFx, OptimizedImage } from "@/once-ui/components";
  * @typedef {Object} Person
  * @property {string} firstName - Person's first name
  * @property {string} lastName - Person's last name
+ * @property {string} name - Person's full name (computed from firstName and lastName)
  * @property {string} role - Person's professional role
  * @property {Image} avatar - Person's avatar image
  * @property {string} location - Person's timezone location
