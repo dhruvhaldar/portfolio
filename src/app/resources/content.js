@@ -275,6 +275,12 @@ const gallery = {
     {src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
     {src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
     {src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },
+    {src: "/images/gallery/49605806978_f489af4e9a_o.avif", alt: "image", orientation: "vertical" },
+    {src: "/images/gallery/49605807048_1386aaac7d_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606315876_45293a5727_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606315921_1023ed28b1_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606566657_0cea39b69a_o.avif", alt: "image", orientation: "vertical" },
   ],
 };
 
