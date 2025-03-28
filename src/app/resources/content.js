@@ -1,21 +1,93 @@
-import { InlineCode, LetterFx } from "@/once-ui/components"; const person = {firstName: "Dhruv",lastName: "Haldar",get name() {return `${this.firstName} ${this.lastName}`;},role: "Aerospace Engineer",avatar: "/images/1700894012265.jpeg",location: "Asia/Kolkata", languages: ["English", "Swedish", "German", "Hindi", "Bengali"],}; const social=[{name:"GitHub",icon:"github",link:"https://github.com/dhruvhaldar"},{name:"LinkedIn",icon:"linkedin",link:"https://www.linkedin.com/in/dhruvhaldar/"},{name:"Email",icon:"email",link:"mailto:bubqbgvl1@mozmail.com"},{name:"Youtube",icon:"youtube",link:"https://www.youtube.com/c/DhruvHaldar"},{name:"Instagram",icon:"instagram",link:"https://www.instagram.com/dhruvism"}];
+import { InlineCode, LetterFx } from "@/once-ui/components";
 
-const home = {label: "Home",title: `${person.name}'s Portfolio (With Projects & Publications)`,
-  description: `Explore Dhruv Haldar's portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
-  headline: <><span style={{fontFamily: 'var(--font-family-code)'}}><LetterFx speed="medium" trigger="instant" charset={['A','@','$','e','R','?','o','~','5']}>Bridging Computational Models with Real-World Aerospace Solutions</LetterFx></span></>,
-  subline: (<>
-  👋 Hi! I'm Dhruv Haldar, an Aerospace/CFD engineer at <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. 
-  </>),};
+const person = {
+  firstName: "Dhruv",
+  lastName: "Haldar",
+  get name() {
+    return `${this.firstName} ${this.lastName}`;
+  },
+  role: "Aerospace Engineer",
+  avatar: "/images/1700894012265.jpeg",
+  location: "Asia/Kolkata",
+  languages: ["English", "Swedish", "German", "Hindi", "Bengali"],
+};
+
+const social = [
+  {
+    name: "GitHub",
+    icon: "github",
+    link: "https://github.com/dhruvhaldar",
+  },
+  {
+    name: "LinkedIn",
+    icon: "linkedin",
+    link: "https://www.linkedin.com/in/dhruvhaldar/",
+  },
+  {
+    name: "Email",
+    icon: "email",
+    link: "mailto:bubqbgvl1@mozmail.com",
+  },
+  {
+    name: "Youtube",
+    icon: "youtube",
+    link: "https://www.youtube.com/c/DhruvHaldar",
+  },
+  {
+    name: "Instagram",
+    icon: "instagram",
+    link: "https://www.instagram.com/dhruvism",
+  },
+];
+
+const home = {
+  label: "Home",
+  title: `${person.name}&apos;s Portfolio (With Projects &amp; Publications)`,
+  description: `Explore Dhruv Haldar&apos;s portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
+  headline: (
+    <>
+      <span style={{ fontFamily: 'var(--font-family-code)' }}>
+        <LetterFx
+          speed="medium"
+          trigger="instant"
+          charset={['A', '@', '$', 'e', 'R', '?', 'o', '~', '5']}
+        >
+          Bridging Computational Models with Real-World Aerospace Solutions
+        </LetterFx>
+      </span>
+    </>
+  ),
+  subline: (
+    <>
+      👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
+      <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in
+      simulations and application testing. I have a proven track record of
+      successfully tackling challenging engineering issues in the fields of
+      aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
+    </>
+  ),
+};
 
 // About Page
-const about = {label: "About",title: "About me",description: `Meet ${person.name}, ${person.role} from ${person.location}`,
-tableOfContent: {display: true,subItems: true,},
-  avatar: {display: true,},calendar: {display: true,link: "https://cal.com/dhruvhaldar",},intro: {display: true,title: "Introduction",
-    description: (<>
-    👋 Hi! I’m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I’ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
-    </>),},
-  
-  work: {display: true,title: "Work Experience",
+const about = {
+  label: "About",
+  title: "About me",
+  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  tableOfContent: { display: true, subItems: true },
+  avatar: { display: true },
+  calendar: { display: true, link: "https://cal.com/dhruvhaldar" },
+  intro: {
+    display: true,
+    title: "Introduction",
+    description: (
+      <>
+        👋 Hi! I&apos;m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I&apos;ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
+      </>
+    ),
+  },
+  work: {
+    display: true,
+    title: "Work Experience",
     experiences: [
       {
         company: "Sankhyasutra Labs Limited",
@@ -84,8 +156,23 @@ tableOfContent: {display: true,subItems: true,},
       },
     ],
   },
-  studies: {display: true,title: "Education",institutions: [{name: 'KTH Royal Institute of Technology',description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,},{name: 'SRM Institute of Science and Technology',description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,},],},
-  technical: {display: true,title: "Technical skills",
+  studies: {
+    display: true,
+    title: "Education",
+    institutions: [
+      {
+        name: 'KTH Royal Institute of Technology',
+        description: <>Studied Master of Science (M.Sc.) in Aerospace Engineering (Systems Track).</>,
+      },
+      {
+        name: 'SRM Institute of Science and Technology',
+        description: <>Studied Bachelor of Technology (B.Tech.) in Mechanical Engineering.</>,
+      },
+    ],
+  },
+  technical: {
+    display: true,
+    title: "Technical skills",
     skills: [
       {
         title: "Python",
@@ -157,9 +244,28 @@ tableOfContent: {display: true,subItems: true,},
 };
 
 // Publications Page
-const publications={label:"Publications",title:"Publications",description:`Publications by ${person.name } `,};
+const publications = {
+  label: "Publications",
+  title: "Publications",
+  description: `Publications by ${person.name } `,
+};
+
 // Work page
-const work = {label: "Work",title: "My projects",description: `Engineering projects by ${person.name}`,};
+const work = {
+  label: "Work",
+  title: "My projects",
+  description: `Engineering projects by ${person.name}`,
+};
+
 // Gallery Page hidden
-const gallery={label:"Gallery",title:"My photo gallery",description:`A photo collection by ${person.name }`,images:[{src:"/images/gallery/img-01.jpg",alt:"image",orientation:"vertical"},{src:"/images/gallery/img-02.jpg",alt:"image",orientation:"horizontal"}]};
+const gallery = {
+  label: "Gallery",
+  title: "My photo gallery",
+  description: `A photo collection by ${person.name }`,
+  images: [
+    { src: "/images/gallery/img-01.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/img-02.jpg", alt: "image", orientation: "horizontal" },
+  ],
+};
+
 export { person, social, home, about, work, gallery, publications };
