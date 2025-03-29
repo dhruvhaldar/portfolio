@@ -6,6 +6,7 @@ import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
+import escapeHtml from 'escape-html';
 
 interface WorkParams {
   params: {
@@ -90,19 +91,19 @@ export default function Project({ params }: WorkParams) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
+            headline: escapeHtml(post.metadata.title),
+            datePublished: escapeHtml(post.metadata.publishedAt),
+            dateModified: escapeHtml(post.metadata.publishedAt),
+            description: escapeHtml(post.metadata.summary),
             image: post.metadata.image
-              ? `https://${baseURL}${post.metadata.image}`
+              ? `https://${baseURL}${escapeHtml(post.metadata.image)}`
               : `https://${baseURL}/og?title=${encodeURIComponent(
-                  post.metadata.title
+                  escapeHtml(post.metadata.title)
                 )}`,
-            url: `https://${baseURL}/work/${post.slug}`,
+            url: `https://${baseURL}/work/${escapeHtml(post.slug)}`,
             author: {
               "@type": "Person",
-              name: person.name,
+              name: escapeHtml(person.name),
             },
           }),
         }}

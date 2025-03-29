@@ -1,4 +1,4 @@
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text,} from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text, } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";

@@ -60,10 +60,7 @@ const home = {
   subline: (
     <>
       👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
-      <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in
-      simulations and application testing. I have a proven track record of
-      successfully tackling challenging engineering issues in the fields of
-      aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
+      <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
     </>
   ),
 };
@@ -263,24 +260,25 @@ const gallery = {
   title: "My photo gallery",
   description: `A photo collection by ${person.name }`,
   images: [
-    { src: "/images/gallery/img-01.avif", alt: "image", orientation: "vertical" },
-    { src: "/images/gallery/img-02.avif", alt: "image", orientation: "horizontal" },
-    { src: "/images/gallery/50123396478_dfd7d42b1c_o.avif", alt: "image", orientation: "horizontal" },
-    { src: "/images/gallery/50123293593_911f2bacf0_o.avif", alt: "image", orientation: "vertical" },
-    { src: "/images/gallery/50122281262_e7f9caaaf1_o.avif", alt: "image", orientation: "vertical" },
-    {src: "/images/gallery/49606576712_746dec0e82_o.avif", alt: "image", orientation: "horizontal" },
-    { src: "/images/gallery/49606576132_e01f5b5875_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606323636_447ab2c88e_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815838_851a2d0c3b_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
     {src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },
     {src: "/images/gallery/49605806978_f489af4e9a_o.avif", alt: "image", orientation: "vertical" },
     {src: "/images/gallery/49605807048_1386aaac7d_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606315876_45293a5727_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49605815838_851a2d0c3b_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606315876_45293a5727_o.avif", alt: "image", orientation: "vertical" },
     {src: "/images/gallery/49606315921_1023ed28b1_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606323636_447ab2c88e_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606324896_a4a5b18f5a_o.avif", alt: "image", orientation: "horizontal" },
     {src: "/images/gallery/49606566657_0cea39b69a_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/49606576132_e01f5b5875_o.avif", alt: "image", orientation: "horizontal" },
+    {src: "/images/gallery/49606576712_746dec0e82_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/50122281262_e7f9caaaf1_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/50123293593_911f2bacf0_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/50123396478_dfd7d42b1c_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/img-01.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/img-02.avif", alt: "image", orientation: "horizontal" },
   ],
 };
 
