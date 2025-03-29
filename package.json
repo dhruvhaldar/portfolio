@@ -36,7 +36,8 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "sass": "^1.85.1",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "escape-html": "^1.0.3"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^2.1.1",
