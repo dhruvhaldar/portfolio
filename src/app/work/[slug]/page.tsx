@@ -1,15 +1,7 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts } from "@/app/utils/utils";
-import {
-  AvatarGroup,
-  Column,
-  Flex,
-  Heading,
-  SmartImage,
-  Text,
-  SmartLink,
-} from "@/once-ui/components";
+import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink,} from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
