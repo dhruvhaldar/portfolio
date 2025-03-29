@@ -1,3 +1,5 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?utm_source=oss&utm_medium=github&utm_campaign=dhruvhaldar%2Fportfolio&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 # Portfolio
 
 A modern, optimized portfolio built with Next.js, featuring image optimization, responsive design, and performance optimizations.
