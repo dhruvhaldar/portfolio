@@ -1,9 +1,10 @@
+![CC-BY-NC-4.0](https://img.shields.io/badge/CC--BY--NC--4.0-lightgrey?style=for-the-badge)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Next js](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![NPM](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![CC-BY-NC-4.0](https://img.shields.io/badge/CC--BY--NC--4.0-lightgrey?style=for-the-badge)
+![VS Code](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?utm_source=oss&utm_medium=github&utm_campaign=dhruvhaldar%2Fportfolio&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
