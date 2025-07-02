@@ -60,7 +60,7 @@ const home = {
   subline: (
     <>
       👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
-      <InlineCode>SANKHYASUTRA LABS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
+      <InlineCode>TRIDIAGONAL SOLUTIONS</InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
     </>
   ),
 };
@@ -87,8 +87,15 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
+        company: "Tridiagonal Solutions",
+        timeframe: "July 2025 - Present",
+        role: "Senior Software Engineer (CFD)",
+        achievements: [],
+        images: [],
+      },
+      {
         company: "Sankhyasutra Labs Limited",
-        timeframe: "December 2022 - Present",
+        timeframe: "December 2022 - June 2025",
         role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
           <>
