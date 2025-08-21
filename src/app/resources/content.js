@@ -61,7 +61,7 @@ const home = {
     <>
       👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
       <InlineCode>
-      <a href="https://www.tridiagonal.com/">Tridiagonal Software Inc.</a>
+      <a href="https://www.tridiagonal.com/" style={{ color: 'inherit', textDecoration: 'none' }}>Tridiagonal Software Inc.</a>
     </InlineCode> 🏭 where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems.
     </>
   ),
