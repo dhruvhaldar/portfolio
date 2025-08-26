@@ -89,10 +89,14 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "Tridiagonal Solutions",
+        company: "Tridiagonal Inc.",
         timeframe: "July 2025 - Present",
         role: "Senior Software Engineer (CFD)",
-        achievements: [],
+        achievements: [
+          <>
+            Developing a new post-processing product for OpenFOAM and MixIT to enhance data analysis and visualization capabilities
+          </>
+        ],
         images: [],
       },
       {
@@ -100,11 +104,17 @@ const about = {
         timeframe: "December 2022 - June 2025",
         role: "Senior CFD Engineer (Aerospace & Automotive)",
         achievements: [
-          <>
-            Collaborate with a multidisciplinary team of developers to design and validate in-house CFD solver using established benchmarks, including TU Munich drivAer car model, Ahmed body, Eppler/NACA airfoils, Pipe Flows, and Cyclone separator.
+          <> Development & Release testing of post processing tools for in-house CFD Solver (SankhyaSutra Taral)
           </>,
-          <>
-            Develop advanced post-processing modules in Python leveraging Pyvista and Visualization Toolkit (VTK) libraries for efficient data visualization and analysis.
+          <> Worked with test cases (Drivaer model, Eppler airfoil, Ahmed Body) using High Performance Computing (HPC)
+          </>,
+          <> Parallel programming using Message Passing Interface (MPI)
+          </>,
+          <> Preparing User Documentation using Sphinx
+          </>,
+          <> Developing Python libraries for post processing using VTK
+          </>,
+          <> Writing business proposals
           </>,
         ],
         images: [],
