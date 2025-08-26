@@ -89,7 +89,7 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "Tridiagonal Inc",
+        company: "Tridiagonal Inc.",
         timeframe: "July 2025 - Present",
         role: "Senior Software Engineer (CFD)",
         achievements: [
