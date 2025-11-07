@@ -1,0 +1,122 @@
+.button {
+  display: flex;
+  align-items: center;
+  gap: var(--static-space-8);
+  border: none;
+  background: var(--static-transparent);
+  color: inherit;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  line-height: 1.5;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--neutral-on-background-strong);
+    opacity: 0;
+    border-radius: var(--radius-full);
+    transition: opacity 0.15s ease;
+  }
+  
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover::before {
+    opacity: 0.05;
+  }
+  
+  &:focus, 
+  &:active,
+  &:focus-visible {
+    outline: none;
+  }
+  
+  &:active::before {
+    opacity: 0.1;
+  }
+
+  &.selected {
+    background-color: var(--static-alpha-medium);
+    border-color: var(--static-alpha-medium);
+  }
+
+  /* Active/Selected state */
+  &[aria-pressed="true"]::before {
+    opacity: 0.1;
+    
+    &:hover::before {
+      opacity: 0.15;
+    }
+  }
+
+  /* Sizes */
+  &.size-s {
+    height: var(--static-space-24);
+    min-height: var(--static-space-24);
+    padding: var(--static-space-2) var(--static-space-8);
+    font-size: var(--static-space-12);
+  }
+
+  &.size-m {
+    height: var(--static-space-32);
+    min-height: var(--static-space-32);
+    padding: var(--static-space-4) var(--static-space-8);
+  }
+  
+  &.size-l {
+    height: var(--static-space-40);
+    min-height: var(--static-space-40);
+    padding: var(--static-space-8) var(--static-space-16);
+  }
+
+  /* Variants */
+  &.ghost {
+    border-color: var(--static-transparent);
+  }
+
+  &.outline {
+    border-color: var(--static-alpha-medium);
+  }
+
+  /* Dark mode */
+  @media (prefers-color-scheme: dark) {
+    color: var(--neutral-on-background-strong);
+    
+    &::before {
+      background: var(--neutral-on-background-strong);
+      opacity: 0.1;
+    }
+    
+    &:hover::before {
+      opacity: 0.2;
+    }
+
+    &:active::before,
+    &[aria-pressed="true"]::before {
+      opacity: 0.2;
+    }
+
+    &:disabled {
+      background: var(--static-alpha-medium);
+      color: var(--static-alpha-medium);
+    }
+
+    &.outline {
+      border-color: var(--static-alpha-medium);
+    }
+  }
+}

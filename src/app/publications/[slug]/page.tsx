@@ -6,12 +6,12 @@ import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
+import { Metadata } from 'next';
 
-interface PublicationParams {
-  params: {
-    slug: string;
-  };
-}
+type PageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined } | undefined>;
+};
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "publications", "posts"]);
@@ -20,11 +20,15 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export function generateMetadata({ params: { slug } }: PublicationParams) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
-    return;
+    return {
+      title: 'Publication Not Found',
+      description: 'The requested publication could not be found.',
+    };
   }
 
   let {
@@ -61,8 +65,9 @@ export function generateMetadata({ params: { slug } }: PublicationParams) {
   };
 }
 
-export default function Publication({ params }: PublicationParams) {
-  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === params.slug);
+export default async function Publication({ params }: PageProps) {
+  const { slug } = await params;
+  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
     notFound();

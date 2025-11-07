@@ -9,10 +9,9 @@ import ScrollToHash from "@/components/ScrollToHash";
 import escapeHtml from 'escape-html';
 
 interface WorkParams {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
+
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -21,7 +20,8 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export function generateMetadata({ params: { slug } }: WorkParams) {
+export async function generateMetadata({ params }: WorkParams) {
+  const { slug } = await params;
   let post = getPosts(["src", "app", "work", "projects"]).find(
     (post) => post.slug === slug
   );
@@ -68,9 +68,10 @@ export function generateMetadata({ params: { slug } }: WorkParams) {
   };
 }
 
-export default function Project({ params }: WorkParams) {
+export default async function Project({ params }: WorkParams) {
+  const { slug } = await params;
   let post = getPosts(["src", "app", "work", "projects"]).find(
-    (post) => post.slug === params.slug
+    (post) => post.slug === slug
   );
   if (!post) {
     notFound();
