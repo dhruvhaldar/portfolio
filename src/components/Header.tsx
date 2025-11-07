@@ -5,6 +5,7 @@ import { Flex, Line, ToggleButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
 import { routes } from "@/app/resources";
 import { home, about, work, publications, gallery } from "@/app/resources/content";
+import { ThemeToggle } from "./ThemeToggle";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -129,6 +130,12 @@ export const Header = () => {
                   />
                 </>
               )}
+              
+              {/* Theme Toggle */}
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+                <ThemeToggle />
+              </div>
             </Flex>
           </Flex>
         </Flex>

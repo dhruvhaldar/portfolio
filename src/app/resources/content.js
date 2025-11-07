@@ -1,4 +1,4 @@
-import { InlineCode, LetterFx } from "@/once-ui/components";
+import { InlineCode, RevealFx } from "@/once-ui/components";
 
 const person = {
   firstName: "Dhruv",
@@ -41,21 +41,15 @@ const social = [
 ];
 
 const home = {
-  label: "Home",
+  label: "",
   title: `${person.name} Portfolio (With Projects and Publications)`,
   description: `Explore Dhruv Haldar&apos;s portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
   headline: (
-    <>
+    <RevealFx translateY="4" fillWidth horizontal="start">
       <span style={{ fontFamily: 'var(--font-family-code)' }}>
-        <LetterFx
-          speed="medium"
-          trigger="instant"
-          charset={['A', '@', '$', 'e', 'R', '?', 'o', '~', '5']}
-        >
-          Bridging Computational Models with Real-World Aerospace Solutions
-        </LetterFx>
+        Designing smarter systems through simulation and control
       </span>
-    </>
+    </RevealFx>
   ),
   subline: (
     <>
@@ -80,7 +74,7 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        👋 Hi! I&apos;m an Aerospace Engineer and CFD Specialist with a relentless drive to innovate at the intersection of fluid dynamics, computational modeling, and cutting-edge technology. Over the years, I&apos;ve honed my expertise in solving complex engineering challenges across aerospace, automotive, and propulsion systems, blending analytical rigor with creative problem-solving.
+        As an Aerospace Engineer and CFD Specialist, I’m driven to innovate where physics meets computation. My expertise spans fluid dynamics, modeling, and simulation, enabling me to design and optimize systems across aerospace, automotive, and propulsion domains through analytical insight and inventive problem-solving.
       </>
     ),
   },
@@ -94,7 +88,7 @@ const about = {
         role: "Senior Software Engineer (CFD)",
         achievements: [
           <>
-            Developing a new post-processing product for OpenFOAM and MixIT to enhance data analysis and visualization capabilities
+            Developing a new post-processing product for OpenFOAM and MixIT to enhance data analysis and visualization capabilities such as Surface/Volume Transform, Surface/Volume Clipper, Surface/Volume Threshold, Iso-contour and Streamlines.
           </>
         ],
         images: [],
@@ -102,19 +96,19 @@ const about = {
       {
         company: "Sankhyasutra Labs Limited",
         timeframe: "December 2022 - June 2025",
-        role: "Senior CFD Engineer (Aerospace & Automotive)",
+        role: "Software Development Engineer - II (Aerospace & Automotive CFD)",
         achievements: [
-          <> Development & Release testing of post processing tools for in-house CFD Solver (SankhyaSutra Taral)
+          <> Development & Release testing of post processing tools for in-house CFD Solver (SankhyaSutra Taral).
           </>,
-          <> Worked with test cases (Drivaer model, Eppler airfoil, Ahmed Body) using High Performance Computing (HPC)
+          <> Worked with test cases (Drivaer model, Eppler airfoil, Ahmed Body) using High Performance Computing (HPC).
           </>,
-          <> Parallel programming using Message Passing Interface (MPI)
+          <> Parallel programming using Message Passing Interface (MPI).  
           </>,
-          <> Preparing User Documentation using Sphinx
+          <> Preparing User Documentation using Sphinx.
           </>,
-          <> Developing Python libraries for post processing using VTK
+          <> Developing Python libraries for post processing using VTK.
           </>,
-          <> Writing business proposals
+          <> Writing business proposals.
           </>,
         ],
         images: [],
