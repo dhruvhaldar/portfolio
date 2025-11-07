@@ -1,5 +1,5 @@
 import Script from 'next/script';
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column } from "@/once-ui/components";
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
@@ -76,21 +76,21 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingY="l" gap="m">
-        <Column maxWidth="s">
-          <RevealFx translateY="4" fillWidth horizontal="start" paddingBottom="m">
+      <Column fillWidth paddingY="l" horizontal="center" gap="m">
+        <Column maxWidth="s" horizontal="center" align="center">
+          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="m">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
             </Heading>
           </RevealFx>
 
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="start" paddingBottom="m">
+          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="m">
             <Text wrap="balance" onBackground="neutral-medium" variant="heading-default-xl">
               {home.subline}
             </Text>
           </RevealFx>
 
-          <RevealFx translateY="12" delay={0.4} horizontal="start">
+          <RevealFx translateY="12" delay={0.4} horizontal="center">
             <Button 
               id="about" 
               data-border="rounded" 
@@ -99,19 +99,19 @@ export default function Home() {
               size="m" 
               arrowIcon
             >
-              <Flex gap="8" vertical="center">
+              <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
                   <Avatar 
+                    marginRight="8"
                     style={{ 
                       marginLeft: "-0.75rem", 
-                      marginRight: "0.25rem" 
                     }} 
                     src={person.avatar} 
                     size="m"
                   />
                 )}
                 {about.title}
-              </Flex>
+              </Row>
             </Button>
           </RevealFx>
         </Column>

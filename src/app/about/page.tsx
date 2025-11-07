@@ -1,4 +1,5 @@
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text, } from "@/once-ui/components";
+import React from 'react';
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -99,7 +100,7 @@ export default function About() {
       />
 
       {/* Table of Contents */}
-      {about.tableOfContent.display && (
+      {/* {about.tableOfContent.display && (
         <Column 
           left="0" 
           style={{ top: "50%", transform: "translateY(-50%)" }} 
@@ -110,7 +111,7 @@ export default function About() {
         >
           <TableOfContents structure={structure} about={about} />
         </Column>
-      )}
+      )} */}
 
       <Flex fillWidth mobileDirection="column" horizontal="center">
         {/* Avatar Section */}
@@ -198,10 +199,9 @@ export default function About() {
                 fitWidth
               >
                 {social.map((item) => item.link && (
-                  <>
+                  <React.Fragment key={item.name}>
                     <Button 
                       className="s-flex-hide" 
-                      key={item.name} 
                       href={item.link} 
                       prefixIcon={item.icon} 
                       label={item.name} 
@@ -211,12 +211,11 @@ export default function About() {
                     <IconButton 
                       className="s-flex-show" 
                       size="l" 
-                      key={`${item.name}-icon`} 
                       href={item.link} 
                       icon={item.icon} 
                       variant="secondary"
                     />
-                  </>
+                  </React.Fragment>
                 ))}
               </Flex>
             )}
@@ -244,21 +243,21 @@ export default function About() {
               >
                 {about.work.title}
               </Heading>
-              <Column fillWidth gap="xl" marginBottom="40">
+              <Column fillWidth gap="m" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
                     <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="4">
                       <Text id={experience.company} variant="heading-strong-l">
                         {experience.company}
                       </Text>
-                      <Text variant="heading-default-xs" onBackground="neutral-weak">
+                      <Text variant="heading-default-s" onBackground="neutral-weak">
                         {experience.timeframe}
                       </Text>
                     </Flex>
                     <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
-                    <Column as="ul" gap="16" style={{ width: "100%", maxWidth: "900px" }}>
+                    <Column as="ul" gap="0" style={{ width: "100%", maxWidth: "900px" }}>
                       {experience.achievements.map((achievement: JSX.Element, index: number) => (
                         <Text 
                           as="li" 

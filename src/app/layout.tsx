@@ -4,7 +4,10 @@ import classNames from "classnames";
 import { Header, RouteGuard } from "@/components";
 import dynamic from "next/dynamic";
 import { baseURL, effects, style } from "@/app/resources";
-import { Geist } from "next/font/google";
+// import { Geist } from "next/font/google";
+
+import localFont from "next/font/local";
+
 import { person, home } from "@/app/resources/content";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
@@ -83,10 +86,16 @@ export async function generateMetadata() {
 }
 
 // Font Settings
-const primary = Geist({
-  variable: "--font-primary",
-  subsets: ["latin"],
-  display: "swap",
+const primary = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Geist-Medium.woff2',
+      // weight: '400',
+      // style: 'normal',
+    },
+  ],
+  variable: '--font-primary',
+  display: 'swap',
 });
 
 type FontConfig = {
@@ -116,12 +125,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       data-border={style.border}
       data-surface={style.surface}
       data-transition={style.transition}
-      className={classNames(
-        primary.variable,
-        secondary ? secondary.variable : "",
-        tertiary ? tertiary.variable : "",
-        code.variable,
-      )}
+      className={classNames(primary.variable, style.variables, effects.variables)}
     >
       <ToastProvider>
         <Column
