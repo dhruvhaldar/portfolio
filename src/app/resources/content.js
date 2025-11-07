@@ -1,4 +1,4 @@
-import { InlineCode, LetterFx } from "@/once-ui/components";
+import { InlineCode, RevealFx } from "@/once-ui/components";
 
 const person = {
   firstName: "Dhruv",
@@ -45,17 +45,11 @@ const home = {
   title: `${person.name} Portfolio (With Projects and Publications)`,
   description: `Explore Dhruv Haldar&apos;s portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
   headline: (
-    <>
+    <RevealFx translateY="4" fillWidth horizontal="start">
       <span style={{ fontFamily: 'var(--font-family-code)' }}>
-        <LetterFx
-          speed="medium"
-          trigger="instant"
-          charset={['A', '@', '$', 'e', 'R', '?', 'o', '~', '5']}
-        >
-          Bridging Computational Models with Real-World Aerospace Solutions
-        </LetterFx>
+        Bridging Computational Models with Real-World Aerospace Solutions
       </span>
-    </>
+    </RevealFx>
   ),
   subline: (
     <>
