@@ -1,0 +1,90 @@
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-width: 1px;
+  border-style: solid;
+  background: transparent;
+  color: inherit;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  justify-content: center;
+
+  &:hover, 
+  &:focus {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
+    outline: none;
+  }
+
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.05);
+  }
+
+  // &:disabled {
+  //   background: rgba(0, 0, 0, 0.05);
+  //   color: rgba(0, 0, 0, 0.4);
+  //   border: none;
+  //   pointer-events: none;
+  //   cursor: not-allowed;
+  // }
+
+  /* Sizes */
+  &.size-s {
+    height: 24px;
+    min-height: 24px;
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+
+  &.size-m {
+    height: 32px;
+    min-height: 32px;
+    padding: 4px 8px;
+  }
+  
+  &.size-l {
+    height: 40px;
+    min-height: 40px;
+    padding: 8px 16px;
+  }
+
+  /* Variants */
+  &.ghost {
+    border-color: transparent;
+  }
+
+  &.outline {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark mode */
+  @media (prefers-color-scheme: dark) {
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.selected {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    &.outline {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
