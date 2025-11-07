@@ -9,9 +9,7 @@ import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from 'next';
 
 type PageProps = {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 };
 
@@ -22,8 +20,8 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const { slug } = params;
+export async function generateMetadata({ params }: PageProps): Metadata {
+  const { slug } = await params;
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
