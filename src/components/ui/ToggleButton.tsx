@@ -58,7 +58,11 @@ const Icon = ({ name, size = 's' }: { name: string; size?: 'xs' | 's' | 'm' }) =
   );
 };
 
-const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
+type ButtonOrAnchorProps = ToggleButtonProps & {
+  ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
+};
+
+const ToggleButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, ToggleButtonProps>(
   (
     {
       label,
@@ -76,33 +80,56 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
       children,
       href,
       ...props
-    },
+    }: ButtonOrAnchorProps,
     ref,
   ) => {
-    const Element = href ? 'a' : 'button';
-    
-    return (
-      <Element
-        ref={ref as any}
-        href={href}
-        className={classNames(
-          styles.button || 'button',
-          styles[variant] || `variant-${variant}`,
-          styles[size] || `size-${size}`,
-          selected && (styles.selected || 'selected'),
-          radius && `radius-${radius}`,
-          {
-            'fill-width': fillWidth,
-            'justify-center': horizontal === 'center',
-            'justify-start': horizontal === 'start',
-            'justify-end': horizontal === 'end',
-            'justify-between': horizontal === 'between',
-            'font-strong': weight === 'strong',
-          },
-          className,
+    const buttonClassName = classNames(
+      styles.button || 'button',
+      styles[variant] || `variant-${variant}`,
+      styles[size] || `size-${size}`,
+      selected && (styles.selected || 'selected'),
+      radius && `radius-${radius}`,
+      {
+        'fill-width': fillWidth,
+        'justify-center': horizontal === 'center',
+        'justify-start': horizontal === 'start',
+        'justify-end': horizontal === 'end',
+        'justify-between': horizontal === 'between',
+        'font-strong': weight === 'strong',
+      },
+      className,
+    );
+
+    if (href) {
+      return (
+        <a
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={href}
+          className={buttonClassName}
+          style={style}
+          {...props as React.AnchorHTMLAttributes<HTMLAnchorElement>}
+        >
+        {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "s" : "xs"} />}
+        {(label || children) && (
+          <span className={classNames("label", {
+            'ml-2': prefixIcon,
+            'mr-2': suffixIcon,
+          })}>
+            {label || children}
+          </span>
         )}
+          {suffixIcon && <Icon name={suffixIcon} size={size === "l" ? "s" : "xs"} />}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+        className={buttonClassName}
         style={style}
-        {...props}
+        {...props as React.ButtonHTMLAttributes<HTMLButtonElement>}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "s" : "xs"} />}
         {(label || children) && (
@@ -114,7 +141,7 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
           </span>
         )}
         {suffixIcon && <Icon name={suffixIcon} size={size === "l" ? "s" : "xs"} />}
-      </Element>
+      </button>
     );
   },
 );
