@@ -1,19 +1,12 @@
 import { ImageResponse } from "next/og";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
-// import { Geist } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist } from "next/font/google";
 
 export const runtime = "edge";
 
-const route_font = localFont({
-  src: [
-    {
-      path: 'src/assets/fonts/Geist-Medium.woff2',
-      // weight: '400',
-      // style: 'normal',
-    },
-  ],
+const route_font = Geist({
+  subsets: ['latin'],
   variable: '--font-primary',
   display: 'swap',
 });

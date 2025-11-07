@@ -4,9 +4,7 @@ import classNames from "classnames";
 import { Header, RouteGuard } from "@/components";
 import dynamic from "next/dynamic";
 import { baseURL, effects, style } from "@/app/resources";
-// import { Geist } from "next/font/google";
-
-import localFont from "next/font/local";
+import { Geist } from "next/font/google";
 
 import { person, home } from "@/app/resources/content";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
@@ -86,14 +84,8 @@ export async function generateMetadata() {
 }
 
 // Font Settings
-const primary = localFont({
-  src: [
-    {
-      path: '/src/assets/fonts/Geist-Medium.woff2',
-      // weight: '400',
-      // style: 'normal',
-    },
-  ],
+const primary = Geist({
+  subsets: ['latin'],
   variable: '--font-primary',
   display: 'swap',
 });
