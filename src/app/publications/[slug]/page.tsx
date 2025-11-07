@@ -7,11 +7,12 @@ import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 
-interface PublicationParams {
-  params: {
-    slug: string;
-  };
-}
+import { Metadata } from 'next';
+
+type PublicationParams = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "publications", "posts"]);
@@ -20,11 +21,14 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export function generateMetadata({ params: { slug } }: PublicationParams) {
+export function generateMetadata({ params: { slug } }: { params: { slug: string } }): Metadata {
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
-    return;
+    return {
+      title: 'Publication Not Found',
+      description: 'The requested publication could not be found.',
+    };
   }
 
   let {
@@ -61,7 +65,7 @@ export function generateMetadata({ params: { slug } }: PublicationParams) {
   };
 }
 
-export default function Publication({ params }: PublicationParams) {
+export default function Publication({ params }: { params: { slug: string } }) {
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === params.slug);
 
   if (!post) {
