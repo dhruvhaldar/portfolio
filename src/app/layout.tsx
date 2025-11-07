@@ -89,7 +89,7 @@ export async function generateMetadata() {
 const primary = localFont({
   src: [
     {
-      path: '../../public/fonts/Geist-Medium.woff2',
+      path: './fonts/Geist-Medium.woff2',
       // weight: '400',
       // style: 'normal',
     },

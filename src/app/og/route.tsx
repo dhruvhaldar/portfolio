@@ -9,7 +9,7 @@ export const runtime = "edge";
 const route_font = localFont({
   src: [
     {
-      path: '../../public/fonts/Geist-Medium.woff2',
+      path: './fonts/Geist-Medium.woff2',
       // weight: '400',
       // style: 'normal',
     },
