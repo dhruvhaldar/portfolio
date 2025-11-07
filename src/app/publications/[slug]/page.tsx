@@ -6,12 +6,13 @@ import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
-
 import { Metadata } from 'next';
 
-type PublicationParams = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+type PageProps = {
+  params: {
+    slug: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -21,7 +22,8 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export function generateMetadata({ params: { slug } }: { params: { slug: string } }): Metadata {
+export function generateMetadata({ params }: PageProps): Metadata {
+  const { slug } = params;
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
 
   if (!post) {
@@ -65,7 +67,7 @@ export function generateMetadata({ params: { slug } }: { params: { slug: string 
   };
 }
 
-export default function Publication({ params }: { params: { slug: string } }) {
+export default function Publication({ params }: PageProps) {
   let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === params.slug);
 
   if (!post) {
