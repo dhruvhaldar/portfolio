@@ -100,7 +100,7 @@ export default function About() {
       />
 
       {/* Table of Contents */}
-      {/* {about.tableOfContent.display && (
+      {about.tableOfContent.display && (
         <Column 
           left="0" 
           style={{ top: "50%", transform: "translateY(-50%)" }} 
@@ -111,7 +111,7 @@ export default function About() {
         >
           <TableOfContents structure={structure} about={about} />
         </Column>
-      )} */}
+      )}
 
       <Flex fillWidth mobileDirection="column" horizontal="center">
         {/* Avatar Section */}
