@@ -23,9 +23,10 @@
     "@next/third-parties": "^14.2.25",
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",
+    "escape-html": "^1.0.3",
     "gray-matter": "^4.0.3",
     "lazyframe": "^2.2.7",
-    "next": "^14.2.25",
+    "next": "^15.3.1",
     "next-mdx-remote": "^5.0.0",
     "prismjs": "^1.30.0",
     "react": "^18.3.1",
@@ -36,8 +37,7 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "sass": "^1.85.1",
-    "sharp": "^0.33.5",
-    "escape-html": "^1.0.3"
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^2.1.1",

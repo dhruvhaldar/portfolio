@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 
 export const runtime = "edge";
 
-const route_font = Inter({ subsets: ["latin"] });
+const route_font = Geist({ subsets: ["latin"] });
 
 export async function GET(request: Request) {
   let url = new URL(request.url);

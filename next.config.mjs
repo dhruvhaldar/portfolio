@@ -14,7 +14,6 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
@@ -22,8 +21,6 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  // We'll use SWC minification instead of Terser for better performance
-  // swcMinify is already enabled above
 };
 
 export default bundleAnalyzer(withMDX(nextConfig));

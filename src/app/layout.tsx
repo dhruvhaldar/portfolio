@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Header, RouteGuard } from "@/components";
 import dynamic from "next/dynamic";
 import { baseURL, effects, style } from "@/app/resources";
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import { person, home } from "@/app/resources/content";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
@@ -83,7 +83,7 @@ export async function generateMetadata() {
 }
 
 // Font Settings
-const primary = Inter({
+const primary = Geist({
   variable: "--font-primary",
   subsets: ["latin"],
   display: "swap",
