@@ -47,6 +47,7 @@ export const ThemeToggle = () => {
       prefixIcon={currentTheme === 'dark' ? 'sun' : 'moon'}
       onClick={toggleTheme}
       aria-label={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
+      aria-pressed={currentTheme === 'dark'}
       variant="ghost"
       size="m"
     />

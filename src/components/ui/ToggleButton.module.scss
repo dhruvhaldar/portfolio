@@ -16,11 +16,19 @@
   line-height: 1.5;
   justify-content: center;
 
-  &:hover, 
-  &:focus {
+  &:hover {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  &:focus, 
+  &:active,
+  &:focus-visible {
     outline: none;
+  }
+  
+  &:active {
+    background: rgba(0, 0, 0, 0.1);
   }
 
   &.selected {
@@ -28,13 +36,15 @@
     border-color: rgba(0, 0, 0, 0.05);
   }
 
-  // &:disabled {
-  //   background: rgba(0, 0, 0, 0.05);
-  //   color: rgba(0, 0, 0, 0.4);
-  //   border: none;
-  //   pointer-events: none;
-  //   cursor: not-allowed;
-  // }
+  /* Reset active state after click */
+  &[aria-pressed="true"] {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+  }
 
   /* Sizes */
   &.size-s {
@@ -76,6 +86,15 @@
     &.selected {
       background-color: rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &[aria-pressed="true"] {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+      }
     }
 
     &:disabled {
