@@ -84,19 +84,19 @@ export async function generateMetadata() {
 }
 
 // Font Settings
-const primary = Geist({
+const geist = Geist({
   subsets: ['latin'],
-  variable: '--font-primary',
   display: 'swap',
+  variable: '--font-geist',
 });
 
-type FontConfig = {
-  variable: string;
+// Set up font variables
+const fontVariables = {
+  '--font-primary': 'var(--font-geist, system-ui, sans-serif)',
+  '--font-secondary': 'var(--font-geist, system-ui, sans-serif)',
+  '--font-tertiary': 'var(--font-geist, system-ui, sans-serif)',
+  '--font-code': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 };
-
-const secondary: FontConfig | undefined = undefined;
-const tertiary: FontConfig | undefined = undefined;
-const code = primary;
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -117,7 +117,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       data-border={style.border}
       data-surface={style.surface}
       data-transition={style.transition}
-      className={classNames(primary.variable, style.variables, effects.variables)}
+      className={classNames(geist.variable, style.variables, effects.variables)}
+      style={fontVariables as React.CSSProperties}
     >
       <ToastProvider>
         <Column
@@ -126,6 +127,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           fillWidth
           margin="0"
           padding="0"
+          className="font-sans antialiased"
         >
           <Background
             mask={{
