@@ -130,10 +130,10 @@ export const Header = () => {
                   />
                 </>
               )}
-              
+              <Line vert maxHeight="24" />
               {/* Theme Toggle */}
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+              <div style={{ display: 'flex', gap: '0rem', alignItems: 'center' }}>
+                <div style={{ width: '0px', height: '24px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
                 <ThemeToggle />
               </div>
             </Flex>
