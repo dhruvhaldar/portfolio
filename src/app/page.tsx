@@ -1,5 +1,5 @@
 import Script from 'next/script';
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row } from "@/once-ui/components";
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row, Badge } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
@@ -77,8 +77,30 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingY="l" horizontal="center" gap="m">
+      <Column fillWidth paddingY="xl" horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
+          {home.featured.display && (
+            <RevealFx
+              fillWidth
+              horizontal="center"
+              paddingTop="xs"
+              paddingBottom="m"
+              paddingLeft="12"
+            >
+              <Badge
+                background="brand-alpha-weak"
+                paddingX="12"
+                paddingY="4"
+                onBackground="neutral-strong"
+                textVariant="label-default-s"
+                arrow={false}
+                href={home.featured.href}
+              >
+                <Row paddingY="2">{home.featured.title}</Row>
+              </Badge>
+            </RevealFx>
+          )}
+
           <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="xs">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}

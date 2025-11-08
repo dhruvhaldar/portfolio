@@ -1,4 +1,5 @@
-import { InlineCode, RevealFx } from "@/once-ui/components";
+import { InlineCode, RevealFx, Row, Line } from "@/once-ui/components";
+import { Text } from "@/once-ui/components/Text";
 
 const person = {
   firstName: "Dhruv",
@@ -51,6 +52,19 @@ const home = {
       </span>
     </RevealFx>
   ),
+  featured: {
+    display: true,
+    title: (
+      <Row gap="12" vertical="center">
+        <strong className="ml-4">More Electric Aircraft : IPS</strong>{" "}
+        <Line background="brand-alpha-strong" vert height="20" />
+        <Text marginRight="4" onBackground="brand-medium">
+          Featured work
+        </Text>
+      </Row>
+    ),
+    href: "/publications/implementation-of-wing-ice-protection-in-mea",
+  },
   subline: (
     <>
       👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
