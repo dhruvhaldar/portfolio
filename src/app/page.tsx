@@ -4,6 +4,7 @@ import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
 import { Posts } from "@/components/publications/Posts";
+import styles from "@/components/about/about.module.scss";
 
 // Generate metadata for SEO and social sharing
 export async function generateMetadata() {
@@ -90,7 +91,7 @@ export default function Home() {
             </Text>
           </RevealFx>
 
-          <RevealFx translateY="12" delay={0.4} horizontal="center">
+          <RevealFx translateY="12" delay={0.4} horizontal="center" paddingBottom="0">
             <Button 
               id="about" 
               data-border="rounded"
@@ -99,12 +100,7 @@ export default function Home() {
               size="m"
               weight="default"
               arrowIcon
-              className="dark-mode-button"
-              style={{
-                '--background': 'var(--static-black-medium)',
-                '--border': 'var(--neutral-alpha-medium)',
-                '--color': 'var(--neutral-on-background-strong)'
-              } as React.CSSProperties}
+              className={styles.themeButton}
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
@@ -125,7 +121,7 @@ export default function Home() {
       </Column>
 
       {/* Featured Project */}
-      <RevealFx translateY="16" delay={0.6}>
+      <RevealFx translateY="0" delay={0.6}>
         <Projects range={[1, 1]} />
       </RevealFx>
 

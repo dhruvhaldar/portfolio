@@ -10,9 +10,25 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
   return <a href={href} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} {...props}>{children}</a>;
 }
 
+let firstImageRendered = false;
+
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) { console.error("SmartImage requires a valid 'src' property."); return null; }
-  return <SmartImage className="my-20" isLoading loading="lazy" radius="m-4" aspectRatio="16/9" responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }} alt={alt} src={src} {...props} />;
+  const isFirstImage = !firstImageRendered;
+  firstImageRendered = true;
+  return (
+    <SmartImage 
+      className="my-20" 
+      priority={isFirstImage}
+      loading={isFirstImage ? 'eager' : 'lazy'}
+      radius="m-4" 
+      aspectRatio="16/9" 
+      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }} 
+      alt={alt} 
+      src={src} 
+      {...props} 
+    />
+  );
 }
 
 function slugify(str: string) {
