@@ -83,7 +83,7 @@ export default function Home() {
             <RevealFx
               fillWidth
               horizontal="center"
-              paddingTop="xs"
+              paddingTop="m"
               paddingBottom="m"
               paddingLeft="12"
             >
