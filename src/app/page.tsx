@@ -96,14 +96,15 @@ export default function Home() {
               data-border="rounded"
               href="/about" 
               variant="secondary" 
-              size="m" 
+              size="m"
+              weight="default"
               arrowIcon
+              className="dark-mode-button"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-              }}
+                '--background': 'var(--static-black-medium)',
+                '--border': 'var(--neutral-alpha-medium)',
+                '--color': 'var(--neutral-on-background-strong)'
+              } as React.CSSProperties}
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
