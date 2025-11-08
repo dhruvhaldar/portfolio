@@ -1,9 +1,10 @@
 import Script from 'next/script';
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row } from "@/once-ui/components";
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row, Badge } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
 import { Posts } from "@/components/publications/Posts";
+import styles from "@/components/about/about.module.scss";
 
 // Generate metadata for SEO and social sharing
 export async function generateMetadata() {
@@ -76,8 +77,30 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingY="l" horizontal="center" gap="m">
+      <Column fillWidth paddingY="s" horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
+          {home.featured.display && (
+            <RevealFx
+              fillWidth
+              horizontal="center"
+              paddingTop="xs"
+              paddingBottom="m"
+              paddingLeft="12"
+            >
+              <Badge
+                background="brand-alpha-weak"
+                paddingX="12"
+                paddingY="4"
+                onBackground="neutral-strong"
+                textVariant="label-default-s"
+                arrow={false}
+                href={home.featured.href}
+              >
+                <Row paddingY="2">{home.featured.title}</Row>
+              </Badge>
+            </RevealFx>
+          )}
+
           <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="xs">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
@@ -90,20 +113,16 @@ export default function Home() {
             </Text>
           </RevealFx>
 
-          <RevealFx translateY="12" delay={0.4} horizontal="center">
+          <RevealFx translateY="12" delay={0.4} horizontal="center" paddingBottom="0">
             <Button 
               id="about" 
               data-border="rounded"
               href="/about" 
               variant="secondary" 
-              size="m" 
+              size="m"
+              weight="default"
               arrowIcon
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-              }}
+              className={styles.themeButton}
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
@@ -124,7 +143,7 @@ export default function Home() {
       </Column>
 
       {/* Featured Project */}
-      <RevealFx translateY="16" delay={0.6}>
+      <RevealFx translateY="0" delay={0.6}>
         <Projects range={[1, 1]} />
       </RevealFx>
 
