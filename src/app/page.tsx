@@ -77,7 +77,7 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingY="xl" horizontal="center" gap="m">
+      <Column fillWidth paddingY="s" horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
           {home.featured.display && (
             <RevealFx
