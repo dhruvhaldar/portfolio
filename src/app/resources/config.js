@@ -19,7 +19,7 @@ const protectedRoutes = {
 const style = {
   theme: "light", // dark | light
   neutral: "slate", // sand | gray | slate
-  brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+  brand: "emerald", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   accent: "violet", // Not used
   solid: "color", // color | contrast
   solidStyle: "plastic", // flat | plastic
