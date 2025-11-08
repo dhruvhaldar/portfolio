@@ -78,14 +78,14 @@ export default function Home() {
       {/* Hero Section */}
       <Column fillWidth paddingY="l" horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="m">
+          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="xs">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
             </Heading>
           </RevealFx>
 
           <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="m">
-            <Text wrap="balance" onBackground="neutral-medium" variant="heading-default-xl">
+            <Text wrap="balance" onBackground="neutral-medium" variant="heading-default-l">
               {home.subline}
             </Text>
           </RevealFx>
@@ -93,18 +93,24 @@ export default function Home() {
           <RevealFx translateY="12" delay={0.4} horizontal="center">
             <Button 
               id="about" 
-              data-border="rounded" 
+              data-border="rounded"
               href="/about" 
               variant="secondary" 
               size="m" 
               arrowIcon
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '1px solid rgba(0, 0, 0, 0.1)',
+              }}
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
                   <Avatar 
                     marginRight="8"
                     style={{ 
-                      marginLeft: "-0.75rem", 
+                      marginLeft: "-0.75rem",
                     }} 
                     src={person.avatar} 
                     size="m"
