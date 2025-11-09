@@ -108,7 +108,7 @@ const about = {
         images: [],
       },
       {
-        company: "Sankhyasutra Labs Limited",
+        company: "Sankhyasutra Labs Ltd.",
         timeframe: "Dec 2022 - Jun 2025",
         role: "Software Development Engineer - II (Aerospace & Automotive CFD)",
         achievements: [

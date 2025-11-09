@@ -261,7 +261,7 @@ export default function About() {
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
                     <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="0">
-                      <Text id={experience.company} className={`${styles.textAlign2} ${styles.smallWeight}`} variant="display-default-xs">
+                      <Text id={experience.company} className={`${styles.textAlign2} ${styles.smallWeight}`} variant="body-strong-xl">
                         {experience.company}
                       </Text>
                       <Text variant="heading-strong-xs" onBackground="neutral-weak">
