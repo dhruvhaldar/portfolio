@@ -200,37 +200,37 @@ const about = {
     skills: [
       {
         title: "Python",
-        description: <>Pyvista, Scipy, Scikit Learn</>,
+        description: <>Pyvista, Scipy, Scikit Learn, NumPy, Matplotlib, VTK, MPI4Py</>,
         images: [],
       },
       {
         title: "MATLAB",
-        description: <></>,
+        description: <>fmincon, fminunc, linprog, quadprog, ode45</>,
         images: [],
       },
       {
         title: "ANSYS",
-        description: <></>,
+        description: <>CFX, Fensap-ICE, Fluent, Mechanical</>,
         images: [],
       },
       {
         title: "OpenFOAM",
-        description: <></>,
+        description: <>pisoFoam, simpleFoam, snappyHexMesh</>,
         images: [],
       },
       {
         title: "Paraview",
-        description: <></>,
+        description: <>Clipper, Contour, Streamlines, Threshold, Transform</>,
         images: [],
       },
       {
         title: "GAMS",
-        description: <></>,
+        description: <>Cplex(LP, MIP), Gurobi(LP, MIP, MIQCP)</>,
         images: [],
       },
       {
         title: "Docker",
-        description: <></>,
+        description: <>Portainer, Docker Compose</>,
         images: [],
       },
       {
@@ -250,7 +250,7 @@ const about = {
       },
       {
         title: "R",
-        description: <></>,
+        description: <>ggplot2, dplyr, tidyr, tibble, </>,
         images: [],
       },
       {
@@ -260,7 +260,7 @@ const about = {
       },
       {
         title: "React",
-        description: <></>,
+        description: <>Next.js, Vite, Tailwind CSS, Once UI</>,
         images: [],
       },
     ],
