@@ -3,11 +3,11 @@
   <p>A modern, performant portfolio built with Next.js, TypeScript, and Tailwind CSS</p>
   
   [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-  [![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=000000&labelColor=ffffff)](https://nextjs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-000000?style=flat-square&logo=typescript&logoColor=000000&labelColor=ffffff)](https://www.typescriptlang.org/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
   [![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com)
-  
+  [![Once UI](https://img.shields.io/badge/Once_UI-8A2BE2?style=flat&logo=once-ui&logoColor=white)](https://once-ui.com)
   [![CodeRabbit PRs](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?color=FF570A&label=CodeRabbit%20Reviews)](https://coderabbit.ai)
 </div>
 
@@ -23,7 +23,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 13+](https://nextjs.org/)
+- **Framework**: [Next.js 13+](https://nextjs.org/) and [Once UI](https://once-ui.com)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Type Checking**: [TypeScript](https://www.typescriptlang.org/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
