@@ -9,7 +9,6 @@
   [![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)](https://vercel.com)
   
   [![CodeRabbit PRs](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?color=FF570A&label=CodeRabbit%20Reviews)](https://coderabbit.ai)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 </div>
 
 ## 🚀 Features
