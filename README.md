@@ -102,22 +102,6 @@ pnpm lighthouse
 
 Reports will be available in the `.next/analyze/` directory.
 
-## 🏗️ Project Structure
-
-```
-portfolio/
-├── public/               # Static files
-│   ├── images/           # Optimized images
-│   └── documents/        # PDFs and other documents
-├── src/
-│   ├── app/              # App Router pages and layouts
-│   ├── components/       # Reusable components
-│   ├── lib/              # Utility functions
-│   └── styles/           # Global styles
-├── .github/              # GitHub workflows
-└── scripts/              # Build and optimization scripts
-```
-
 ## ❌ Contributing
 
 This is a personal portfolio project and does not accept external contributions at this time. The repository is maintained solely by the author.
