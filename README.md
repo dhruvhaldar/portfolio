@@ -113,7 +113,7 @@ This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/li
 ---
 
 <div align="center">
-  Made with ❤️ by Dhruv Haldar using Next.js, Tailwind CSS, and Once UI
+  Made with ❤️ by Dhruv Haldar using [Magic Portfolio](https://magic-portfolio.com/)
 </div>
 
 ## Project Structure
