@@ -131,6 +131,7 @@ This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/li
 <div align="center">
   Made with ❤️ by Dhruv Haldar
 </div>
+```
 ├── src/
 │   ├── app/            # Next.js app router pages
 │   ├── components/     # React components
