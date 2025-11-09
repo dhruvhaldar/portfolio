@@ -7,7 +7,7 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "CFD Engineer",
+  role: "CFD Specialist",
   avatar: "/images/1700894012265.avif",
   location: "Asia/Kolkata",
   languages: ["English", "Swedish", "German", "Hindi", "Bengali"],
