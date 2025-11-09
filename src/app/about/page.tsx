@@ -120,8 +120,8 @@ export default function About() {
             className={styles.avatar} 
             minWidth="160" 
             paddingX="l" 
-            paddingBottom="xl"
-            paddingTop="l" 
+            paddingBottom="m"
+            paddingTop="0" 
             gap="m" 
             flex={3} 
             horizontal="center"
@@ -165,8 +165,8 @@ export default function About() {
                 radius="full" 
                 padding="4" 
                 gap="8" 
-                marginTop="s" 
-                marginBottom="s" 
+                marginTop="0" 
+                marginBottom="l" 
                 vertical="center"
               >
                 <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
@@ -250,7 +250,7 @@ export default function About() {
           {/* Work Experience Section */}
           {about.work.display && (
             <>
-              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} 
+              <Heading className={`${styles.textAlign2} ${styles.nameHeading} ${styles.mediumWeight}`} 
                 id={about.work.title} 
                 variant="display-default-s" 
                 marginBottom="m"
@@ -260,8 +260,8 @@ export default function About() {
               <Column fillWidth gap="m" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
-                    <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} className={`${styles.textAlign} ${styles.smallWeight}`} variant="display-default-xs">
+                    <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="0">
+                      <Text id={experience.company} className={`${styles.textAlign2} ${styles.smallWeight}`} variant="display-default-xs">
                         {experience.company}
                       </Text>
                       <Text variant="heading-strong-xs" onBackground="neutral-weak">
@@ -319,7 +319,7 @@ export default function About() {
           {/* Education Section */}
           {about.studies.display && (
             <>
-              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`}
+              <Heading className={`${styles.textAlign2} ${styles.nameHeading} ${styles.mediumWeight}`}
                 id={about.studies.title}
                 variant="display-default-s"
                 marginBottom="m"
@@ -329,7 +329,7 @@ export default function About() {
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} className={`${styles.textAlign} ${styles.nameHeading} ${styles.smallWeight}`} variant="display-default-xs">
+                    <Text id={institution.name} className={`${styles.textAlign2} ${styles.nameHeading} ${styles.smallWeight}`} variant="display-default-xs">
                       {institution.name}
                     </Text>
                     <Text variant="heading-strong-s" onBackground="neutral-weak">
@@ -344,7 +344,7 @@ export default function About() {
           {/* Technical Skills Section */}
           {about.technical.display && (
             <>
-              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`}
+              <Heading className={`${styles.textAlign2} ${styles.nameHeading} ${styles.mediumWeight}`}
                 id={about.technical.title}
                 variant="display-default-s"
                 marginBottom="m"
