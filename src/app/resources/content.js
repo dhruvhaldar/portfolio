@@ -277,7 +277,7 @@ const publications = {
 // Work page
 const work = {
   label: "Work",
-  title: "Work",
+  title: "Projects - Dhruv Haldar",
   description: `Engineering projects by ${person.name}`,
 };
 
