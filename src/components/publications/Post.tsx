@@ -8,7 +8,7 @@ export default function Post({ post, thumbnail }: PostProps) {
       <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="64">
         {post.metadata.image && thumbnail && (
           <SmartImage
-            priority
+            preload={true}
             maxWidth={20}
             className={styles.image}
             sizes="640px"

@@ -11,6 +11,7 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   unoptimized?: boolean;
   sizes?: string;
   priority?: boolean;
+  preload?: boolean;
   loading?: "lazy" | "eager";
   responsive?: {
     mobile?: string;
@@ -29,6 +30,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
   src,
   unoptimized = true,
   priority,
+  preload,
   loading = "lazy", 
   responsive,
   sizes = responsive 
@@ -40,6 +42,8 @@ const SmartImage: React.FC<SmartImageProps> = ({
     : "(max-width: 1200px) 100vw, 33vw",
   ...rest
 }) => {
+  // Use preload if provided, otherwise fall back to priority for backward compatibility
+  const shouldPreload = preload !== undefined ? preload : priority;
   const calculateHeight = () => {
     if (height) return typeof height === 'number' ? `${height}rem` : height;
     if (responsive?.mobile) return responsive.mobile;
@@ -167,7 +171,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
           <Image
             src={src}
             alt={alt}
-            priority={priority}
+            priority={shouldPreload}
             sizes={sizes}
             unoptimized={unoptimized}
             fill
