@@ -180,7 +180,7 @@ export default function About() {
               </Flex>
             )}
 
-            <Heading className={styles.textAlign} variant="display-strong-xl">
+            <Heading className={`${styles.textAlign} ${styles.nameHeading}`} variant="display-default-l">
               {person.name}
             </Heading>
             <Text className={styles.textAlign} variant="display-default-xs" onBackground="neutral-weak">
