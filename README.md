@@ -1,112 +1,134 @@
-![CC-BY-NC-4.0](https://img.shields.io/badge/CC--BY--NC--4.0-lightgrey?style=for-the-badge)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Next js](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![NPM](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![VS Code](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+<div align="center">
+  <h1>✨ Dhruv Haldar's Portfolio</h1>
+  <p>A modern, performant portfolio built with Next.js, TypeScript, and Tailwind CSS</p>
+  
+  [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-228B22?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
+  [![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=000000&labelColor=ffffff&color=000000)](https://nextjs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-ffffff?style=flat-square&logo=typescript&logoColor=ffffff&color=3178C6)](https://www.typescriptlang.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=ffffff)](https://tailwindcss.com/)
+  [![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=ffffff)](https://vercel.com)
+  [![Once UI](https://img.shields.io/badge/Once_UI-8A2BE2?style=flat-square&logo=once-ui&logoColor=ffffff)](https://once-ui.com)
+  [![CodeRabbit PRs](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?color=FF570A&label=CodeRabbit%20Reviews)](https://coderabbit.ai)
+</div>
 
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?utm_source=oss&utm_medium=github&utm_campaign=dhruvhaldar%2Fportfolio&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+## 🚀 Features
 
-# Portfolio
+- ⚡ **Blazing Fast** - Built with Next.js 13+ and optimized for performance
+- 🎨 **Modern UI** - Clean, responsive design with Tailwind CSS
+- 🌐 **SEO Optimized** - Metadata, OpenGraph, and sitemap support
+- 🖼️ **Image Optimization** - Automatic AVIF/WebP conversion and lazy loading
+- 📱 **Fully Responsive** - Works on all device sizes
+- 🛠️ **Developer Experience** - TypeScript, ESLint, Prettier, and more
+- 📦 **Optimized Builds** - Code splitting, tree-shaking, and minification
 
-A modern, optimized portfolio built with Next.js, featuring image optimization, responsive design, and performance optimizations.
+## 🛠️ Tech Stack
 
-## Prerequisites
+- **Framework**: [Next.js 13+](https://nextjs.org/) and [Once UI](https://once-ui.com)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Type Checking**: [TypeScript](https://www.typescriptlang.org/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **Linting**: [ESLint](https://eslint.org/)
+- **Code Formatting**: [Prettier](https://prettier.io/)
+- **Deployment**: [Vercel](https://vercel.com/)
 
-- Node.js (v18 or higher)
-- pnpm (v8 or higher)
+## 📦 Prerequisites
+
+- Node.js 18+
+- pnpm 8+
 - Git
 
-## Getting Started
+## 🚀 Getting Started
 
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
    git clone https://github.com/dhruvhaldar/portfolio.git
    cd portfolio
    ```
 
-2. Install dependencies:
+2. **Install dependencies**
    ```bash
    pnpm install
    ```
 
-3. Set up environment variables:
+3. **Set up environment variables**
    ```bash
    cp .env.example .env.local
    ```
-   Edit `.env.local` with your configuration.
+   Update the variables in `.env.local` with your configuration.
 
-## Development
+4. **Start the development server**
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Start the development server:
+## 🖼️ Image Optimization
 
-```bash
-pnpm dev
-```
-
-The site will be available at `http://localhost:3000`.
-
-## Image Optimization
-
-The project includes automatic image optimization scripts that convert images to modern formats (AVIF, WebP) for better performance.
+This project includes scripts to optimize images for web performance:
 
 1. Place your images in the `public/images` directory
-
-2. Run image optimization:
+2. Run the optimization script:
    ```bash
-   # Convert images to AVIF format
+   # Optimize all images (generates AVIF, WebP, and optimized versions)
    pnpm optimize-images
-
-   # Process images (generates AVIF, WebP, and optimized JPEG versions)
-   pnpm process-images
+   
+   # Process specific image
+   pnpm process-image path/to/image.jpg
    ```
 
-## Building for Production
+## 🏗️ Building for Production
 
-1. Optimize images (if you've added new ones):
+1. **Create a production build**
    ```bash
-   pnpm optimize-images
+   pnpm build
    ```
 
-2. Create a production build:
-   ```bash
-   pnpm build:prod
-   ```
-
-3. Test the production build locally:
+2. **Start the production server**
    ```bash
    pnpm start
    ```
 
-## Analyzing Bundle Size
+## 📊 Performance Analysis
 
-To analyze the bundle size:
+To analyze the bundle size and performance:
 
 ```bash
+# Generate bundle analysis
 pnpm build:analyze
+
+# Run Lighthouse audit
+pnpm lighthouse
 ```
 
-This will generate bundle analysis reports in `.next/analyze/`:
-- `client.html`: Client-side bundles
-- `edge.html`: Edge runtime bundles
-- `nodejs.html`: Server-side bundles
+Reports will be available in the `.next/analyze/` directory.
+
+## ❌ Contributing
+
+This is a personal portfolio project and does not accept external contributions at this time. The repository is maintained solely by the author.
+
+## 📄 License
+
+This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License.
+
+---
+
+<div align="center">
+  Made with ❤️ by Dhruv Haldar using [Magic Portfolio](https://magic-portfolio.com/)
+</div>
 
 ## Project Structure
 
 ```
 portfolio/
-├── public/
-│   └── images/          # Static images
 ├── src/
 │   ├── app/            # Next.js app router pages
 │   ├── components/     # React components
-│   ├── lib/           # Utility functions
-│   └── once-ui/       # UI component library
+│   ├── lib/            # Utility functions
+│   └── once-ui/        # UI component library
 ├── scripts/
 │   ├── convert-images.js  # AVIF conversion script
 │   └── process-images.js  # Multi-format image processing
-└── next.config.mjs    # Next.js configuration
+└── next.config.mjs     # Next.js configuration
 ```
 
 ## Available Scripts
