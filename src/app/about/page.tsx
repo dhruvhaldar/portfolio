@@ -126,7 +126,8 @@ export default function About() {
             flex={3} 
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" />
+            <Avatar src={person.avatar} size="xl" style={{border: '3px solid var(--brand-alpha-strong)'}}
+/>
             <Flex gap="8" vertical="stretch">
               Languages
             </Flex>
