@@ -209,6 +209,12 @@ export default function About() {
                       label={item.name} 
                       size="s" 
                       variant="secondary"
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.01)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        border: '1px solid var(--neutral-border-strong)',
+                      }}
                     />
                     <IconButton 
                       className="s-flex-show" 
@@ -216,6 +222,12 @@ export default function About() {
                       href={item.link} 
                       icon={item.icon} 
                       variant="secondary"
+                      style={{
+                        backgroundColor: 'var(--neutral-background)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        border: '1px solid var(--neutral-border-strong)',
+                      }}
                     />
                   </React.Fragment>
                 ))}
