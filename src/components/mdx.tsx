@@ -19,7 +19,7 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
   return (
     <SmartImage 
       className="my-20" 
-      priority={isFirstImage}
+      preload={isFirstImage}
       loading={isFirstImage ? 'eager' : 'lazy'}
       radius="m-4" 
       aspectRatio="16/9" 

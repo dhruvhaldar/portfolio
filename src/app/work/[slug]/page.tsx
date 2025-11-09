@@ -128,7 +128,7 @@ export default async function Project({ params }: WorkParams) {
       </Column>
       {post.metadata.images.length > 0 && (
         <SmartImage
-          priority
+          preload={true}
           aspectRatio="16 / 9"
           radius="m"
           alt={`${post.metadata.title} project image`}
