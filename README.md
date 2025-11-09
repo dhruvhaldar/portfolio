@@ -131,16 +131,20 @@ This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/li
 <div align="center">
   Made with ❤️ by Dhruv Haldar
 </div>
+
+## Project Structure
+
 ```
+portfolio/
 ├── src/
 │   ├── app/            # Next.js app router pages
 │   ├── components/     # React components
-│   ├── lib/           # Utility functions
-│   └── once-ui/       # UI component library
+│   ├── lib/            # Utility functions
+│   └── once-ui/        # UI component library
 ├── scripts/
 │   ├── convert-images.js  # AVIF conversion script
 │   └── process-images.js  # Multi-format image processing
-└── next.config.mjs    # Next.js configuration
+└── next.config.mjs     # Next.js configuration
 ```
 
 ## Available Scripts
