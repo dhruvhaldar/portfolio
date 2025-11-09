@@ -329,7 +329,7 @@ export default function About() {
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} className={`${styles.textAlign2} ${styles.nameHeading} ${styles.smallWeight}`} variant="display-default-xs">
+                    <Text id={institution.name} className={`${styles.textAlign2} ${styles.nameHeading} ${styles.smallWeight}`} variant="body-strong-xl">
                       {institution.name}
                     </Text>
                     <Text variant="heading-strong-s" onBackground="neutral-weak">
@@ -354,7 +354,7 @@ export default function About() {
               <Column fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text variant="display-default-xs">
+                    <Text variant="body-default-xl">
                       {skill.title}
                     </Text>
                     <Text variant="body-strong-l" onBackground="neutral-weak">
