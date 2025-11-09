@@ -41,7 +41,7 @@ export default function Work() {
   let allProjects = getPosts(["src", "app", "work", "projects"]);
 
   return (
-    <Column maxWidth="m" marginTop="l">
+    <Column maxWidth="m" marginTop="0">
       <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="l" marginBottom="s" variant="display-default-l">
         {work.title}
       </Heading>
