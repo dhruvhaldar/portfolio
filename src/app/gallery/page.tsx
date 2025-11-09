@@ -1,7 +1,8 @@
-import { Flex } from "@/once-ui/components";
+import { Flex, Heading } from "@/once-ui/components";
 import MasonryGrid from "@/components/gallery/MasonryGrid";
 import { baseURL } from "@/app/resources";
 import { gallery, person } from "@/app/resources/content";
+import styles from './page.module.css';
 
 export async function generateMetadata() {
   const title = gallery.title;
@@ -34,7 +35,10 @@ export async function generateMetadata() {
 
 export default function Gallery() {
   return (
-    <Flex fillWidth>
+    <Flex fillWidth direction="column">
+      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="l" marginBottom="xs" variant="display-default-l">
+        {gallery.title}
+      </Heading>
       <script
         type="application/ld+json"
         suppressHydrationWarning

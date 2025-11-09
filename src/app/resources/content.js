@@ -67,7 +67,7 @@ const home = {
   },
   subline: (
     <>
-      👋 Hi! I&apos;m Dhruv Haldar, an Aerospace/CFD engineer at{" "}
+      👋 Hi! I&apos;m Dhruv Haldar, a CFD specialist at{" "}
       <InlineCode>
       <a href="https://www.tridiagonal.com/" style={{ color: 'inherit', textDecoration: 'none' }}>Tridiagonal Inc.</a>
     </InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. After hours, I build and publish my own projects on <a href="https://github.com/dhruvhaldar" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>GitHub</a>.
@@ -277,14 +277,14 @@ const publications = {
 // Work page
 const work = {
   label: "Work",
-  title: "My projects",
+  title: "Work",
   description: `Engineering projects by ${person.name}`,
 };
 
 // Gallery Page
 const gallery = {
   label: "Gallery",
-  title: "My photo gallery",
+  title: "Gallery",
   description: `A photo collection by ${person.name }`,
   images: [
     {src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },

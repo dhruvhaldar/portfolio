@@ -1,8 +1,9 @@
 import { getPosts } from "@/app/utils/utils";
-import { Column } from "@/once-ui/components";
+import { Column, Heading } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL } from "@/app/resources";
 import { person, work } from "@/app/resources/content";
+import styles from './page.module.css';
 
 export async function generateMetadata() {
   const title = work.title;
@@ -41,6 +42,9 @@ export default function Work() {
 
   return (
     <Column maxWidth="m" marginTop="l">
+      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="s" marginBottom="l" variant="display-default-l">
+        {work.title}
+      </Heading>
       <script
         type="application/ld+json"
         suppressHydrationWarning
