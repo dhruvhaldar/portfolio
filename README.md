@@ -113,7 +113,7 @@ This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/li
 ---
 
 <div align="center">
-  Made with ❤️ by Dhruv Haldar using \[Magic Portfolio\](https://magic-portfolio.com/)
+  Made with ❤️ by Dhruv Haldar using <a href="https://magic-portfolio.com/">Magic Portfolio</a>
 </div>
 
 ## Project Structure
