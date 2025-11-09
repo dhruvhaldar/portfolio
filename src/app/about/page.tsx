@@ -120,8 +120,8 @@ export default function About() {
             className={styles.avatar} 
             minWidth="160" 
             paddingX="l" 
-            paddingBottom="xl"
-            paddingTop="l" 
+            paddingBottom="m"
+            paddingTop="0" 
             gap="m" 
             flex={3} 
             horizontal="center"
@@ -165,8 +165,8 @@ export default function About() {
                 radius="full" 
                 padding="4" 
                 gap="8" 
-                marginTop="s" 
-                marginBottom="s" 
+                marginTop="0" 
+                marginBottom="l" 
                 vertical="center"
               >
                 <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
