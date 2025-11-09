@@ -2,7 +2,7 @@
   <h1>✨ Dhruv Haldar's Portfolio</h1>
   <p>A modern, performant portfolio built with Next.js, TypeScript, and Tailwind CSS</p>
   
-  [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+  [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-228B22?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)
   [![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=000000&labelColor=ffffff&color=000000)](https://nextjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-ffffff?style=flat-square&logo=typescript&logoColor=ffffff&color=3178C6)](https://www.typescriptlang.org/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=ffffff)](https://tailwindcss.com/)
