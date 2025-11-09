@@ -42,7 +42,7 @@ export default function Work() {
 
   return (
     <Column maxWidth="m" marginTop="l">
-      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="s" marginBottom="l" variant="display-default-l">
+      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="l" marginBottom="s" variant="display-default-l">
         {work.title}
       </Heading>
       <script
