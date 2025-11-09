@@ -2,6 +2,14 @@
   transition: var(--transition-micro-medium);
 }
 
+.mediumWeight {
+  font-weight: 600 !important;
+}
+
+.smallWeight {
+  font-weight: 300 !important;
+}
+
 .avatar {
   position: sticky;
   height: fit-content;

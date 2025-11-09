@@ -120,7 +120,8 @@ export default function About() {
             className={styles.avatar} 
             minWidth="160" 
             paddingX="l" 
-            paddingBottom="xl" 
+            paddingBottom="xl"
+            paddingTop="l" 
             gap="m" 
             flex={3} 
             horizontal="center"
@@ -163,12 +164,12 @@ export default function About() {
                 radius="full" 
                 padding="4" 
                 gap="8" 
-                marginTop="m" 
-                marginBottom="m" 
+                marginTop="s" 
+                marginBottom="s" 
                 vertical="center"
               >
                 <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
-                <Flex paddingX="m" paddingY="xs" align="center">
+                <Flex paddingX="xl" paddingY="xs" align="center">
                   Schedule a call
                 </Flex>
                 <IconButton 
@@ -180,9 +181,10 @@ export default function About() {
               </Flex>
             )}
 
-            <Heading className={`${styles.textAlign} ${styles.nameHeading}`} variant="display-default-l">
+            <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} variant="display-default-l">
               {person.name}
             </Heading>
+
             <Text className={styles.textAlign} variant="display-default-xs" onBackground="neutral-weak">
               {person.role}
             </Text>
@@ -235,10 +237,9 @@ export default function About() {
           {/* Work Experience Section */}
           {about.work.display && (
             <>
-              <Heading 
-                as="h1" 
+              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} 
                 id={about.work.title} 
-                variant="display-strong-s" 
+                variant="display-default-s" 
                 marginBottom="m"
               >
                 {about.work.title}
@@ -247,14 +248,14 @@ export default function About() {
                 {about.work.experiences.map((experience, index) => (
                   <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
                     <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} variant="heading-strong-l">
+                      <Text id={experience.company} className={`${styles.textAlign} ${styles.smallWeight}`} variant="display-default-xs">
                         {experience.company}
                       </Text>
-                      <Text variant="heading-default-s" onBackground="neutral-weak">
+                      <Text variant="heading-strong-xs" onBackground="neutral-weak">
                         {experience.timeframe}
                       </Text>
                     </Flex>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
+                    <Text variant="body-strong-m" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
                     <Column as="ul" gap="0" style={{ width: "100%", maxWidth: "900px" }}>
@@ -305,10 +306,9 @@ export default function About() {
           {/* Education Section */}
           {about.studies.display && (
             <>
-              <Heading 
-                as="h1" 
-                id={about.studies.title} 
-                variant="display-strong-s" 
+              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`}
+                id={about.studies.title}
+                variant="display-default-s"
                 marginBottom="m"
               >
                 {about.studies.title}
@@ -316,10 +316,10 @@ export default function About() {
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} variant="heading-strong-l">
+                    <Text id={institution.name} className={`${styles.textAlign} ${styles.nameHeading} ${styles.smallWeight}`} variant="display-default-xs">
                       {institution.name}
                     </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                    <Text variant="heading-strong-s" onBackground="neutral-weak">
                       {institution.description}
                     </Text>
                   </Column>
@@ -331,21 +331,20 @@ export default function About() {
           {/* Technical Skills Section */}
           {about.technical.display && (
             <>
-              <Heading 
-                as="h2" 
-                id={about.technical.title} 
-                variant="display-strong-s" 
-                marginBottom="40"
+              <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`}
+                id={about.technical.title}
+                variant="display-default-s"
+                marginBottom="m"
               >
                 {about.technical.title}
               </Heading>
               <Column fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text variant="heading-strong-l">
+                    <Text variant="display-default-xs">
                       {skill.title}
                     </Text>
-                    <Text variant="body-default-m" onBackground="neutral-weak">
+                    <Text variant="body-strong-l" onBackground="neutral-weak">
                       {skill.description}
                     </Text>
                     {skill.images && skill.images.length > 0 && (

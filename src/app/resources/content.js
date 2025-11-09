@@ -98,7 +98,7 @@ const about = {
     experiences: [
       {
         company: "Tridiagonal Inc.",
-        timeframe: "July 2025 - Present",
+        timeframe: "Jul 2025 - Present",
         role: "Senior Software Engineer (CFD)",
         achievements: [
           <>
@@ -109,7 +109,7 @@ const about = {
       },
       {
         company: "Sankhyasutra Labs Limited",
-        timeframe: "December 2022 - June 2025",
+        timeframe: "Dec 2022 - Jun 2025",
         role: "Software Development Engineer - II (Aerospace & Automotive CFD)",
         achievements: [
           <> Development & Release testing of post processing tools for in-house CFD Solver (SankhyaSutra Taral).
@@ -146,7 +146,7 @@ const about = {
       },
       {
         company: "Flemingsberg Science",
-        timeframe: "October 2019 - April 2020",
+        timeframe: "Oct 2019 - Apr 2020",
         role: "Technical Consultant",
         achievements: [
           <>
@@ -163,7 +163,7 @@ const about = {
       },
       {
         company: "Technische Universität Dresden",
-        timeframe: "June 2019 - August 2019",
+        timeframe: "Jun 2019 - Aug 2019",
         role: "Summer Intern in Rocket Propulsion",
         achievements: [
           <>
