@@ -2,6 +2,7 @@ import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person } from "@/app/resources/content";
+import styles from './page.module.css';
 
 export async function generateMetadata() {
   const title = publications.title;
@@ -57,7 +58,7 @@ export default function Publication() {
           }),
         }}
       />
-      <Heading marginTop="l" marginBottom="s" variant="display-strong-s">
+      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="l" marginBottom="s" variant="display-default-l">
         {publications.title}
       </Heading>
       <Flex marginBottom="m" marginTop="xs">
