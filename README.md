@@ -13,7 +13,7 @@
 
 ## 🚀 Features
 
-- ⚡ **Blazing Fast** - Built with Next.js 13+ and optimized for performance
+- ⚡ **Blazing Fast** - Built with Next.js 14+ and optimized for performance
 - 🎨 **Modern UI** - Clean, responsive design with Tailwind CSS
 - 🌐 **SEO Optimized** - Metadata, OpenGraph, and sitemap support
 - 🖼️ **Image Optimization** - Automatic AVIF/WebP conversion and lazy loading
@@ -23,13 +23,14 @@
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 13+](https://nextjs.org/) and [Once UI](https://once-ui.com)
+- **Framework**: [Next.js 14+](https://nextjs.org/) and [Once UI](https://once-ui.com)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Type Checking**: [TypeScript](https://www.typescriptlang.org/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 - **Linting**: [ESLint](https://eslint.org/)
 - **Code Formatting**: [Prettier](https://prettier.io/)
 - **Deployment**: [Vercel](https://vercel.com/)
+- **Analytics**: [Umami Analytics](https://cloud.umami.is/) - Privacy-focused, open-source analytics platform
 
 ## 📦 Prerequisites
 
@@ -93,11 +94,11 @@ This project includes scripts to optimize images for web performance:
 To analyze the bundle size and performance:
 
 ```bash
-# Generate bundle analysis
-pnpm build:analyze
+# Install dependencies (if not already installed)
+pnpm install
 
-# Run Lighthouse audit
-pnpm lighthouse
+# Generate bundle analysis (Windows)
+$env:ANALYZE="true"; $env:NODE_ENV="production"; npx next build
 ```
 
 Reports will be available in the `.next/analyze/` directory.
@@ -109,12 +110,6 @@ This is a personal portfolio project and does not accept external contributions 
 ## 📄 License
 
 This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License.
-
----
-
-<div align="center">
-  Made with ❤️ by Dhruv Haldar using <a href="https://magic-portfolio.com/">Magic Portfolio</a>
-</div>
 
 ## Project Structure
 
@@ -140,7 +135,6 @@ portfolio/
 - `pnpm start`: Start production server
 - `pnpm optimize-images`: Convert images to AVIF
 - `pnpm process-images`: Process images in multiple formats
-- `pnpm lint`: Run ESLint
 
 ## Tech Stack
 
@@ -208,3 +202,9 @@ If you encounter build issues:
    ```bash
    pnpm build
    ```
+
+---
+
+<div align="center">
+  Made with ❤️ by Dhruv Haldar using <a href="https://magic-portfolio.com/">Magic Portfolio</a>
+</div>
