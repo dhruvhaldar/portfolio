@@ -94,11 +94,11 @@ This project includes scripts to optimize images for web performance:
 To analyze the bundle size and performance:
 
 ```bash
-# Generate bundle analysis
-pnpm build:analyze
+# Install dependencies (if not already installed)
+pnpm install
 
-# Run Lighthouse audit
-pnpm lighthouse
+# Generate bundle analysis (Windows)
+$env:ANALYZE="true"; $env:NODE_ENV="production"; npx next build
 ```
 
 Reports will be available in the `.next/analyze/` directory.
@@ -135,7 +135,6 @@ portfolio/
 - `pnpm start`: Start production server
 - `pnpm optimize-images`: Convert images to AVIF
 - `pnpm process-images`: Process images in multiple formats
-- `pnpm lint`: Run ESLint
 
 ## Tech Stack
 
