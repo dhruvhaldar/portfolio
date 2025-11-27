@@ -30,6 +30,7 @@
 - **Linting**: [ESLint](https://eslint.org/)
 - **Code Formatting**: [Prettier](https://prettier.io/)
 - **Deployment**: [Vercel](https://vercel.com/)
+- **Analytics**: [Umami Analytics](https://cloud.umami.is/) - Privacy-focused, open-source analytics platform
 
 ## 📦 Prerequisites
 
