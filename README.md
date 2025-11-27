@@ -111,12 +111,6 @@ This is a personal portfolio project and does not accept external contributions 
 
 This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License.
 
----
-
-<div align="center">
-  Made with ❤️ by Dhruv Haldar using <a href="https://magic-portfolio.com/">Magic Portfolio</a>
-</div>
-
 ## Project Structure
 
 ```
@@ -209,3 +203,9 @@ If you encounter build issues:
    ```bash
    pnpm build
    ```
+
+---
+
+<div align="center">
+  Made with ❤️ by Dhruv Haldar using <a href="https://magic-portfolio.com/">Magic Portfolio</a>
+</div>
