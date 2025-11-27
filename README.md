@@ -13,7 +13,7 @@
 
 ## 🚀 Features
 
-- ⚡ **Blazing Fast** - Built with Next.js 13+ and optimized for performance
+- ⚡ **Blazing Fast** - Built with Next.js 14+ and optimized for performance
 - 🎨 **Modern UI** - Clean, responsive design with Tailwind CSS
 - 🌐 **SEO Optimized** - Metadata, OpenGraph, and sitemap support
 - 🖼️ **Image Optimization** - Automatic AVIF/WebP conversion and lazy loading
