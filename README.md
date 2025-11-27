@@ -23,7 +23,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 13+](https://nextjs.org/) and [Once UI](https://once-ui.com)
+- **Framework**: [Next.js 14+](https://nextjs.org/) and [Once UI](https://once-ui.com)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Type Checking**: [TypeScript](https://www.typescriptlang.org/)
 - **Package Manager**: [pnpm](https://pnpm.io/)
