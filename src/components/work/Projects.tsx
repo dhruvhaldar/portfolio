@@ -4,10 +4,11 @@ import { ProjectCard } from "@/components";
 
 interface ProjectsProps {
   range?: [number, number?];
+  posts?: ReturnType<typeof getPosts>;
 }
 
-export function Projects({ range }: ProjectsProps) {
-  let allProjects = getPosts(["src", "app", "work", "projects"]);
+export function Projects({ range, posts }: ProjectsProps) {
+  let allProjects = posts || getPosts(["src", "app", "work", "projects"]);
 
   const sortedProjects = allProjects.sort((a, b) => {
     return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
