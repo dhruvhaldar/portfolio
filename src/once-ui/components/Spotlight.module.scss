@@ -1,0 +1,30 @@
+.spotlight {
+  position: relative;
+  overflow: hidden;
+  --spotlight-x: 0px;
+  --spotlight-y: 0px;
+  --spotlight-color: rgba(255, 255, 255, 0.1);
+  --spotlight-size: 400px;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    var(--spotlight-size) circle at var(--spotlight-x) var(--spotlight-y),
+    var(--spotlight-color),
+    transparent 40%
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
