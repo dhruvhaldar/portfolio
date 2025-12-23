@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
+import { getPosts, getPostBySlug } from "@/app/utils/utils";
 import { AvatarGroup, Button, Column, Heading, Row, SmartLink, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
@@ -22,7 +22,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
+  let post = getPostBySlug(slug, ["src", "app", "publications", "posts"]);
 
   if (!post) {
     return {
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Publication({ params }: PageProps) {
   const { slug } = await params;
-  let post = getPosts(["src", "app", "publications", "posts"]).find((post) => post.slug === slug);
+  let post = getPostBySlug(slug, ["src", "app", "publications", "posts"]);
 
   if (!post) {
     notFound();

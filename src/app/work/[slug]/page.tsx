@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
+import { getPosts, getPostBySlug } from "@/app/utils/utils";
 import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink,} from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
@@ -22,9 +22,8 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: WorkParams) {
   const { slug } = await params;
-  let post = getPosts(["src", "app", "work", "projects"]).find(
-    (post) => post.slug === slug
-  );
+  let post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
+
   if (!post) {
     return;
   }
@@ -70,9 +69,8 @@ export async function generateMetadata({ params }: WorkParams) {
 
 export default async function Project({ params }: WorkParams) {
   const { slug } = await params;
-  let post = getPosts(["src", "app", "work", "projects"]).find(
-    (post) => post.slug === slug
-  );
+  let post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
+
   if (!post) {
     notFound();
   }
