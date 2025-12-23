@@ -59,6 +59,7 @@ export const Header = () => {
                   href="/"
                   label={home.label}
                   selected={pathname === "/"}
+                  aria-label="Home" // home.label is empty for visual design, so we provide an explicit accessible label
                 />
               )}
               <Line vert maxHeight="24" />
@@ -77,6 +78,7 @@ export const Header = () => {
                     href="/about"
                     aria-label={about.label}
                     selected={pathname === "/about"}
+                    aria-label={about.label}
                   />
                 </>
               )}
@@ -95,6 +97,7 @@ export const Header = () => {
                     href="/work"
                     aria-label={work.label}
                     selected={pathname.startsWith("/work")}
+                    aria-label={work.label}
                   />
                 </>
               )}
@@ -113,6 +116,7 @@ export const Header = () => {
                     href="/publications"
                     aria-label={publications.label}
                     selected={pathname.startsWith("/publications")}
+                    aria-label={publications.label}
                   />
                 </>
               )}
@@ -131,6 +135,7 @@ export const Header = () => {
                     href="/gallery"
                     aria-label={gallery.label}
                     selected={pathname.startsWith("/gallery")}
+                    aria-label={gallery.label}
                   />
                 </>
               )}

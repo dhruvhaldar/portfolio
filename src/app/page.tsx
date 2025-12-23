@@ -5,6 +5,7 @@ import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
 import { Posts } from "@/components/publications/Posts";
 import styles from "@/components/about/about.module.scss";
+import { getPosts } from "@/app/utils/utils";
 
 // Generate metadata for SEO and social sharing
 export async function generateMetadata() {
@@ -58,6 +59,8 @@ const structuredData = {
 };
 
 export default function Home() {
+  const allProjects = getPosts(["src", "app", "work", "projects"]);
+
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
       {/* Analytics Preconnect and Script */}
@@ -145,7 +148,7 @@ export default function Home() {
 
       {/* Featured Project */}
       <RevealFx translateY="0" delay={0.6}>
-        <Projects range={[1, 1]} />
+        <Projects range={[1, 1]} posts={allProjects} />
       </RevealFx>
 
       {/* Blog Section (Conditional) */}
@@ -163,7 +166,7 @@ export default function Home() {
       )}
 
       {/* Additional Projects */}
-      <Projects range={[2]} />
+      <Projects range={[2]} posts={allProjects} />
     </Column>
   );
 }
