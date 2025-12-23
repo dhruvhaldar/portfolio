@@ -38,7 +38,7 @@ export async function generateMetadata() {
 }
 
 export default function Work() {
-  let allProjects = getPosts(["src", "app", "work", "projects"]);
+  const allProjects = getPosts(["src", "app", "work", "projects"]);
 
   return (
     <Column maxWidth="m" marginTop="0">
@@ -70,7 +70,7 @@ export default function Work() {
           }),
         }}
       />
-      <Projects />
+      <Projects posts={allProjects} />
     </Column>
   );
 }
