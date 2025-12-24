@@ -19,24 +19,27 @@ link: "https://www.aesir.se/projects/sigmundr"
 
 ## Overview
 
-Established in 2019, the Sigmundr project was a student-led rocketry initiative by AESIR (Association of Engineering Students in Rocketry) at KTH (Kungliga Tekniska Högskolan i Stockholm).  The project involved the design, construction, launch, and recovery of a student-built rocket.  This was the second year of launches, following the previous year's Odin rocket launch, which, while successful in its initial flight, resulted in the loss of the rocket due to a failed recovery.  The Sigmundr project aimed to improve upon the Odin project by focusing on reliable recovery and data acquisition.
+Established in 2019, the Sigmundr project was a student-led rocketry initiative by AESIR (Association of Engineering Students in Rocketry) at KTH (Kungliga Tekniska Högskolan i Stockholm).  The project involved the design, construction, launch, and recovery of a student-built rocket.  This was the second year of launches, following the previous year's Odin rocket launch, which, while successful in its initial flight, resulted in the loss of the rocket due to a failed recovery.
+
+> The Sigmundr project aimed to improve upon the Odin project by focusing on reliable recovery and data acquisition.
 
 <img src="/images/projects/aesir-rocket-project/rocket.avif" alt="ÆSIR Sigmundr Rocket" loading="lazy" style={{display: "block",width: "100%",height: "auto",margin: "2rem auto",borderRadius: "8px",}}/>
 
 ## Key Features
 
-- **Student-Designed and Built:** AESIR students were responsible for all aspects of the project, from design and engineering to construction and launch operations.
-- **Focus on Recovery:** A primary goal of the Sigmundr project was to successfully recover the rocket after launch, a problem that plagued the Odin launch the previous year.
-- **Data Acquisition:** The project aimed to gather data on the rocket's performance, including its altitude and speed.
-- **Collaboration with FMV:** The project benefited from a collaboration with FMV (Försvarets materielverk), the Swedish Defence Material Administration, which provided access to the Älvdalen test range and other resources.
+- **Student-Designed and Built:** AESIR students were responsible for all aspects of the project.
+- **Focus on Recovery:** A primary goal was to successfully recover the rocket.
 
-## Technologies Used
+## Technical Details
 
-- **GPS Tracking:** A crucial addition to the Sigmundr rocket was GPS technology. This allowed the team to track the rocket's location in real-time, a significant improvement over the previous year's radio tracking, which proved unsuccessful.
-- **Paraffin and Lustgas Propulsion:** The rocket used a combination of paraffin and nitrous oxide (lustgas) as its propellant.
-- **Explosive Charge for Parachute Deployment:** A small explosive charge was used to deploy the parachute for the rocket's descent.
-- **Drone Recovery:** A drone was used to get an initial visual of the landing site, aiding in the recovery process.
+Here is a snippet of the flight data analysis logic:
+
+```python
+def calculate_altitude(pressure, sea_level_pressure):
+    # Barometric formula
+    return 44330 * (1 - (pressure / sea_level_pressure) ** (1/5.255))
+```
 
 ## Outcome
 
-The Sigmundr launch was a resounding success.  The rocket reached a calculated **maximum altitude of 930 m** and a **top speed of 430 km/h**.  More importantly, thanks to the GPS tracking system, the rocket was successfully recovered. It landed softly on a frozen lake, minimizing damage to the rocket. The successful launch and recovery represent a significant achievement for AESIR and demonstrate the value of the improvements made over the previous year's project.  The data collected from the launch is currently being analyzed by the team.  The event was capped off by a flyover by three Gripen fighter jets, a symbolic gesture of congratulations from the Swedish Air Force.
+The Sigmundr launch was a resounding success.
