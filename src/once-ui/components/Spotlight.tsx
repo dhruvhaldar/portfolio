@@ -24,18 +24,25 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    let requestId: number = 0;
 
-      container.style.setProperty("--spotlight-x", `${x}px`);
-      container.style.setProperty("--spotlight-y", `${y}px`);
+    const handleMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(requestId);
+
+      requestId = requestAnimationFrame(() => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        container.style.setProperty("--spotlight-x", `${x}px`);
+        container.style.setProperty("--spotlight-y", `${y}px`);
+      });
     };
 
     container.addEventListener("mousemove", handleMouseMove);
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(requestId);
     };
   }, []);
 
