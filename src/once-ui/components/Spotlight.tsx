@@ -6,10 +6,20 @@ import classNames from "classnames";
 
 interface SpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  /**
+   * Color of the spotlight effect. Defaults to rgba(255, 255, 255, 0.1).
+   */
   color?: string;
+  /**
+   * Size of the spotlight effect in pixels. Defaults to 400.
+   */
   size?: number;
 }
 
+/**
+ * A container component that adds a "spotlight" radial gradient effect that follows the mouse cursor.
+ * The effect is applied using CSS variables `--spotlight-x` and `--spotlight-y`.
+ */
 export const Spotlight: React.FC<SpotlightProps> = ({
   children,
   className,

@@ -28,6 +28,10 @@ interface CodeBlockProps extends React.ComponentProps<typeof Flex> {
   style?: React.CSSProperties;
 }
 
+/**
+ * A component to display code snippets with syntax highlighting and optional preview.
+ * Includes a "Spotlight" effect and glassmorphism styling for visual enhancement.
+ */
 const CodeBlock: React.FC<CodeBlockProps> = ({
   highlight,
   codeInstances = [],

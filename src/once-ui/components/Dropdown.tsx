@@ -10,6 +10,9 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
   onSelect?: (event: string) => void;
 }
 
+/**
+ * A generic dropdown container with glassmorphism styling.
+ */
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   ({ selectedOption, className, children, onEscape, onSelect, ...rest }, ref) => {
     const handleSelect = (event: SyntheticEvent<HTMLDivElement>) => {

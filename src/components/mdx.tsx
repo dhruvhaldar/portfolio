@@ -48,6 +48,9 @@ function createParagraph({ children }: TextProps) {
   return <Text style={{ lineHeight: "175%" }} variant="body-default-m" onBackground="neutral-strong" marginTop="8" marginBottom="12">{children}</Text>;
 }
 
+/**
+ * Creates a blockquote element with glassmorphism styling and a left accent border.
+ */
 function createBlockquote({ children }: TextProps) {
   return (
     <Flex
