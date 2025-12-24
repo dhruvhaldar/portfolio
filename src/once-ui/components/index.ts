@@ -47,6 +47,7 @@ export * from "./Select";
 export * from "./Skeleton";
 export * from "./SmartImage";
 export * from "./SmartLink";
+export * from "./Spotlight";
 export * from "./Spinner";
 export * from "./StatusIndicator";
 export * from "./StylePanel";

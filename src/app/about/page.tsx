@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text } from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Spotlight, Tag, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -261,58 +261,65 @@ export default function About() {
               </Heading>
               <Column fillWidth gap="m" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
-                    <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="0">
-                      <Text id={experience.company} className={`${styles.textAlign2} ${styles.smallWeight}`} variant="body-strong-xl">
-                        {experience.company}
-                      </Text>
-                      <Text variant="heading-strong-xs" onBackground="neutral-weak">
-                        {experience.timeframe}
-                      </Text>
-                    </Flex>
-                    <Text variant="body-strong-m" onBackground="brand-weak" marginBottom="m">
-                      {experience.role}
-                    </Text>
-                    <Column as="ul" gap="0" style={{ width: "100%", maxWidth: "900px" }}>
-                      {experience.achievements.map((achievement: JSX.Element, index: number) => (
-                        <Text 
-                          as="li" 
-                          variant="body-default-m" 
-                          key={`${experience.company}-${index}`}
-                        >
-                          {achievement}
+                  <Spotlight key={`${experience.company}-${experience.role}-${index}`} className="fill-width">
+                    <Column
+                      fillWidth
+                      padding="16"
+                      radius="l"
+                      style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)' }}
+                    >
+                      <Flex fillWidth horizontal="space-between" vertical="end" marginBottom="0">
+                        <Text id={experience.company} className={`${styles.textAlign2} ${styles.smallWeight}`} variant="body-strong-xl">
+                          {experience.company}
                         </Text>
-                      ))}
-                    </Column>
-
-                    {/* Experience Images */}
-                    {experience.images.length > 0 && (
-                      <Flex fillWidth paddingTop="m" paddingLeft="40" wrap>
-                        {experience.images.map((image, index) => (
-                          <Flex 
-                            key={index} 
-                            border="neutral-medium" 
-                            radius="m"
-                            //@ts-ignore
-                            minWidth={image.width}
-                            //@ts-ignore
-                            height={image.height}
+                        <Text variant="heading-strong-xs" onBackground="neutral-weak">
+                          {experience.timeframe}
+                        </Text>
+                      </Flex>
+                      <Text variant="body-strong-m" onBackground="brand-weak" marginBottom="m">
+                        {experience.role}
+                      </Text>
+                      <Column as="ul" gap="0" style={{ width: "100%", maxWidth: "900px" }}>
+                        {experience.achievements.map((achievement: JSX.Element, index: number) => (
+                          <Text
+                            as="li"
+                            variant="body-default-m"
+                            key={`${experience.company}-${index}`}
                           >
-                            <SmartImage 
-                              enlarge 
+                            {achievement}
+                          </Text>
+                        ))}
+                      </Column>
+
+                      {/* Experience Images */}
+                      {experience.images.length > 0 && (
+                        <Flex fillWidth paddingTop="m" paddingLeft="40" wrap>
+                          {experience.images.map((image, index) => (
+                            <Flex
+                              key={index}
+                              border="neutral-medium"
                               radius="m"
                               //@ts-ignore
-                              sizes={image.width.toString()}
+                              minWidth={image.width}
                               //@ts-ignore
-                              alt={image.alt}
-                              //@ts-ignore
-                              src={image.src}
-                            />
-                          </Flex>
-                        ))}
-                      </Flex>
-                    )}
-                  </Column>
+                              height={image.height}
+                            >
+                              <SmartImage
+                                enlarge
+                                radius="m"
+                                //@ts-ignore
+                                sizes={image.width.toString()}
+                                //@ts-ignore
+                                alt={image.alt}
+                                //@ts-ignore
+                                src={image.src}
+                              />
+                            </Flex>
+                          ))}
+                        </Flex>
+                      )}
+                    </Column>
+                  </Spotlight>
                 ))}
               </Column>
             </>
@@ -330,14 +337,22 @@ export default function About() {
               </Heading>
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
-                  <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} className={`${styles.textAlign2} ${styles.nameHeading} ${styles.smallWeight}`} variant="body-strong-xl">
-                      {institution.name}
-                    </Text>
-                    <Text variant="heading-strong-s" onBackground="neutral-weak">
-                      {institution.description}
-                    </Text>
-                  </Column>
+                  <Spotlight key={`${institution.name}-${index}`} className="fill-width">
+                    <Column
+                      fillWidth
+                      gap="4"
+                      padding="16"
+                      radius="l"
+                      style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)' }}
+                    >
+                      <Text id={institution.name} className={`${styles.textAlign2} ${styles.nameHeading} ${styles.smallWeight}`} variant="body-strong-xl">
+                        {institution.name}
+                      </Text>
+                      <Text variant="heading-strong-s" onBackground="neutral-weak">
+                        {institution.description}
+                      </Text>
+                    </Column>
+                  </Spotlight>
                 ))}
               </Column>
             </>
@@ -355,40 +370,48 @@ export default function About() {
               </Heading>
               <Column fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
-                  <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text variant="body-default-xl">
-                      {skill.title}
-                    </Text>
-                    <Text variant="body-strong-l" onBackground="neutral-weak">
-                      {skill.description}
-                    </Text>
-                    {skill.images && skill.images.length > 0 && (
-                      <Flex fillWidth paddingTop="m" gap="12" wrap>
-                        {skill.images.map((image, index) => (
-                          <Flex 
-                            key={index} 
-                            border="neutral-medium" 
-                            radius="m"
-                            //@ts-ignore
-                            minWidth={image.width}
-                            //@ts-ignore
-                            height={image.height}
-                          >
-                            <SmartImage 
-                              enlarge 
+                  <Spotlight key={`${skill}-${index}`} className="fill-width">
+                    <Column
+                      fillWidth
+                      gap="4"
+                      padding="16"
+                      radius="l"
+                      style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)' }}
+                    >
+                      <Text variant="body-default-xl">
+                        {skill.title}
+                      </Text>
+                      <Text variant="body-strong-l" onBackground="neutral-weak">
+                        {skill.description}
+                      </Text>
+                      {skill.images && skill.images.length > 0 && (
+                        <Flex fillWidth paddingTop="m" gap="12" wrap>
+                          {skill.images.map((image, index) => (
+                            <Flex
+                              key={index}
+                              border="neutral-medium"
                               radius="m"
                               //@ts-ignore
-                              sizes={image.width.toString()}
+                              minWidth={image.width}
                               //@ts-ignore
-                              alt={image.alt}
-                              //@ts-ignore
-                              src={image.src}
-                            />
-                          </Flex>
-                        ))}
-                      </Flex>
-                    )}
-                  </Column>
+                              height={image.height}
+                            >
+                              <SmartImage
+                                enlarge
+                                radius="m"
+                                //@ts-ignore
+                                sizes={image.width.toString()}
+                                //@ts-ignore
+                                alt={image.alt}
+                                //@ts-ignore
+                                src={image.src}
+                              />
+                            </Flex>
+                          ))}
+                        </Flex>
+                      )}
+                    </Column>
+                  </Spotlight>
                 ))}
               </Column>
             </>
