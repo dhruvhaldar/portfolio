@@ -178,6 +178,7 @@ export default function About() {
                   data-border="rounded" 
                   variant="secondary" 
                   icon="chevronRight"
+                  tooltip="Open calendar"
                 />
               </Flex>
             )}
@@ -222,6 +223,7 @@ export default function About() {
                       size="l" 
                       href={item.link} 
                       icon={item.icon} 
+                      tooltip={item.name}
                       variant="secondary"
                       style={{
                         backgroundColor: 'var(--neutral-background)',
