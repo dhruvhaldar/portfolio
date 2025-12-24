@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as cookie from "cookie";
+import crypto from "crypto";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -14,7 +15,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(500).json({ message: "Internal Server Error" });
     }
 
-    if (password === correctPassword) {
+    // 🛡️ Sentinel: Prevent timing attacks using constant-time comparison
+    const safeCompare = (a: string, b: string) => {
+      const bufferA = crypto.createHash('sha256').update(a).digest();
+      const bufferB = crypto.createHash('sha256').update(b).digest();
+      return crypto.timingSafeEqual(bufferA, bufferB);
+    }
+
+    if (password && typeof password === 'string' && safeCompare(password, correctPassword)) {
       res.setHeader(
         "Set-Cookie",
         cookie.serialize("authToken", "authenticated", {
