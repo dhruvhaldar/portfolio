@@ -19,6 +19,13 @@ test.describe('Site Navigation and Content Verification', () => {
     await page.goto('/about');
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
     await expect(page.getByText('About me').first()).toBeVisible();
+
+    // Check for Spotlight elements in About sections (Work, Education, Skills)
+    const spotlightElements = page.locator('div[class*="Spotlight_spotlight"]');
+    // We expect multiple spotlight elements if data exists
+    if (await spotlightElements.count() > 0) {
+        await expect(spotlightElements.first()).toBeVisible();
+    }
   });
 
   test('Work page loads and displays project list', async ({ page }) => {
@@ -40,6 +47,12 @@ test.describe('Site Navigation and Content Verification', () => {
         test.skip('Publications page not found');
     } else {
         await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
+
+        // Check for Spotlight elements on posts
+        const spotlightElements = page.locator('div[class*="Spotlight_spotlight"]');
+        if (await spotlightElements.count() > 0) {
+            await expect(spotlightElements.first()).toBeVisible();
+        }
     }
   });
 
