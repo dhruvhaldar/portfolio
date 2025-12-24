@@ -29,12 +29,24 @@ const Icon = forwardRef<HTMLDivElement, IconProps>(
       decorative = true,
       tooltip,
       tooltipPosition = "top",
+      onFocus,
+      onBlur,
       ...rest
     },
     ref,
   ) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
+
+    const handleFocus = (event: React.FocusEvent<HTMLDivElement>) => {
+      setIsHover(true);
+      if (onFocus) onFocus(event as any);
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+      setIsHover(false);
+      if (onBlur) onBlur(event as any);
+    };
 
     useEffect(() => {
       let timer: NodeJS.Timeout;
@@ -85,6 +97,8 @@ const Icon = forwardRef<HTMLDivElement, IconProps>(
         aria-label={decorative ? undefined : name}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...rest}
       >
         <IconComponent />
