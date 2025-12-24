@@ -119,6 +119,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
   };
 
   const isVideo = src?.endsWith(".mp4");const isYouTube = isYouTubeVideo(src);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <>
@@ -175,8 +176,12 @@ const SmartImage: React.FC<SmartImageProps> = ({
             sizes={sizes}
             unoptimized={unoptimized}
             fill
+            onLoad={() => setIsLoaded(true)}
             style={{
               objectFit: objectFit,
+              opacity: isLoaded ? 1 : 0,
+              filter: isLoaded ? "blur(0)" : "blur(20px)",
+              transition: "opacity 0.5s ease-out, filter 0.5s ease-out",
             }}
           />
         )}

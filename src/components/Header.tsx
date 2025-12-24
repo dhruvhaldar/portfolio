@@ -59,6 +59,7 @@ export const Header = () => {
                   href="/"
                   label={home.label}
                   selected={pathname === "/"}
+                  aria-label="Home" // home.label is empty for visual design, so we provide an explicit accessible label
                 />
               )}
               <Line vert maxHeight="24" />
@@ -75,6 +76,7 @@ export const Header = () => {
                     className="s-flex-show"
                     prefixIcon="person"
                     href="/about"
+                    aria-label={about.label}
                     selected={pathname === "/about"}
                   />
                 </>
@@ -92,6 +94,7 @@ export const Header = () => {
                     className="s-flex-show"
                     prefixIcon="grid"
                     href="/work"
+                    aria-label={work.label}
                     selected={pathname.startsWith("/work")}
                   />
                 </>
@@ -109,6 +112,7 @@ export const Header = () => {
                     className="s-flex-show"
                     prefixIcon="article"
                     href="/publications"
+                    aria-label={publications.label}
                     selected={pathname.startsWith("/publications")}
                   />
                 </>
@@ -126,6 +130,7 @@ export const Header = () => {
                     className="s-flex-show"
                     prefixIcon="gallery"
                     href="/gallery"
+                    aria-label={gallery.label}
                     selected={pathname.startsWith("/gallery")}
                   />
                 </>
