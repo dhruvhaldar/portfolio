@@ -2,27 +2,32 @@ import { NextApiRequest, NextApiResponse } from "next";
 import * as cookie from "cookie";
 import crypto from "crypto";
 
+// 🛡️ Sentinel: Pre-compute the hash of the correct password to avoid re-hashing on every request.
+// This assumes ADMIN_PASSWORD does not change during runtime.
+const correctPassword = process.env.ADMIN_PASSWORD;
+const correctPasswordHash = correctPassword
+  ? crypto.createHash('sha256').update(correctPassword).digest()
+  : undefined;
+
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { password } = req.body;
 
-    // 🛡️ Sentinel: Removed hardcoded password.
-    // Ensure ADMIN_PASSWORD is set in environment variables.
-    const correctPassword = process.env.ADMIN_PASSWORD;
-
-    if (!correctPassword) {
+    if (!correctPasswordHash) {
       console.error("Critical Security Error: ADMIN_PASSWORD environment variable is not set.");
       return res.status(500).json({ message: "Internal Server Error" });
     }
 
-    // 🛡️ Sentinel: Prevent timing attacks using constant-time comparison
-    const safeCompare = (a: string, b: string) => {
-      const bufferA = crypto.createHash('sha256').update(a).digest();
-      const bufferB = crypto.createHash('sha256').update(b).digest();
-      return crypto.timingSafeEqual(bufferA, bufferB);
+    // 🛡️ Sentinel: Validate input type and length to prevent DoS
+    if (!password || typeof password !== 'string' || password.length > 128) {
+       // Return generic error to avoid leaking details
+       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    if (password && typeof password === 'string' && safeCompare(password, correctPassword)) {
+    // 🛡️ Sentinel: Prevent timing attacks using constant-time comparison
+    const bufferA = crypto.createHash('sha256').update(password).digest();
+
+    if (crypto.timingSafeEqual(bufferA, correctPasswordHash)) {
       res.setHeader(
         "Set-Cookie",
         cookie.serialize("authToken", "authenticated", {
