@@ -12,15 +12,17 @@ team:
 link: "/documents/Optimizationproject.pdf"
 ---
 
+> "The best possible solution for the given problem comes out to be 3828.150 kkr, which is 0.350 kkr less than the total cost with mixed-integer programming."
+
 ## Overview
 
 The objective of this project was to minimize the cost of operating a power plant, Varme, over a 24-hour period. The plant consists of three power units, each with its own operational constraints, including initial startup costs, running costs, and downtime requirements. The problem was formulated as a mixed-integer programming (MIP) model to determine the optimal scheduling of units to meet varying demand across different time periods.
 
 ## Key Features
 
-- **Demand-Based Optimization**: The model accounts for expected power demand fluctuations across five distinct time periods.
-- **Cost-Efficient Scheduling**: It optimally schedules unit operations to minimize running and startup costs.
-- **Unit Constraints Handling**: Ensures that units do not exceed their maximum runtime while adhering to required rest periods.
+- **Demand-Based Optimization**: The model optimizes for a varying demand schedule across five periods: **50, 60, 80, 70, and 60 MW**.
+- **Cost-Efficient Scheduling**: Minimizes costs by balancing running costs against **startup penalties** (50% higher cost if off for >1 period).
+- **Unit Constraints Handling**: strict operational constraints, such as a **maximum runtime of three consecutive periods** before a mandatory rest.
 - **Mathematical Formulation**: The problem is solved using a rigorous MIP approach to achieve the lowest possible cost.
 
 ## Technologies Used
@@ -36,7 +38,12 @@ One of the main challenges was ensuring that all constraints were correctly impl
 
 ## Outcome
 
-The optimal solution resulted in a total operational cost of **3828.15 kkr**, which is **0.35 kkr lower** than the baseline mixed-integer programming solution. The analysis suggested that extending the scheduling cycle or refining the time periods could further improve cost efficiency. Additionally, accounting for seasonal variations in energy consumption could enhance the model's accuracy in real-world applications.
+The optimal solution yielded a total operational cost of **3828.5 kkr**. The solver (GAMS) produced a schedule where:
+- **Unit 3** starts in Period 2.
+- **Unit 2** starts in Period 3.
+- **Unit 1** starts in Period 5.
+
+This strategic staggering allowed the most efficient units to cover peak demand while adhering to the 3-period run limit. The analysis also suggested that extending the optimization horizon beyond 24 hours could reduce "cold start" penalties, further lowering costs.
 
 ---
 

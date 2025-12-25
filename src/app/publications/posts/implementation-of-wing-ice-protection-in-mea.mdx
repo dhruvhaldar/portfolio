@@ -14,13 +14,15 @@ team:
 link: "/documents/ImplementationofwingipsinmeaDhruv.pdf"
 ---
 
+> "Results revealed a significant reduction in e-WIPS power usage, ranging from 13% to 50% depending on the p-WIPS configuration chosen."
+
 ## Overview
 
 This study investigates the impact of More Electric Aircraft (MEA) technologies on Wing Ice Protection Systems (WIPS). The research aims to assess fuel and power consumption under different icing conditions and compare the performance of conventional pneumatic WIPS (p-WIPS) and electrothermal WIPS (e-WIPS). A simulation framework was developed to analyze the mass of ice formed on an Airbus A320 wing subjected to in-flight icing conditions during climb and descent phases.
 
 ## Key Features
 
-- **In-Flight Icing Analysis:** Simulates ice formation and accumulation using atmospheric conditions compliant with aviation standards.
+- **In-Flight Icing Analysis:** Simulates ice formation and accumulation using atmospheric conditions compliant with aviation standards, specifically using a **Median Volume Diameter (MVD) of 20 μm** and an **icing air temperature of 256 K (-17°C)**.
 - **Electrothermal vs Pneumatic WIPS Comparison:** Evaluates the power and fuel savings achieved by replacing conventional p-WIPS with e-WIPS.
 - **Simulation-Based Approach:** Utilizes FENSAP-ICE for ice accretion modeling and ANSYS for thermodynamic analysis.
 - **Regulatory Compliance:** Adheres to EASA CS-25 Appendix C icing conditions for accurate validation.
@@ -32,13 +34,45 @@ This study investigates the impact of More Electric Aircraft (MEA) technologies 
 - **MATLAB:** For automating geometry generation and pre-processing airfoil parameters.
 - **Python & IronPython:** For automating workflows within ANSYS and integrating simulation processes.
 
+## Simulation Methodology
+
+The study employed a "divide and conquer" strategy to handle the complex physics of in-flight icing. This involved a three-step iterative process to accurately model ice accretion:
+
+1.  **Airflow Simulation (FENSAP-ICE):** Calculated airflow solutions, aerodynamic properties, and wall distances using the Navier-Stokes momentum equation and Spalart-Allmaras turbulence model.
+2.  **Droplet Impingement (DROP3D):** Computed droplet impingement limits and collection efficiency using a **Langmuir D distribution**. This step accounted for different droplet sizes and their ballistic behavior affecting determining where ice would likely form.
+3.  **Ice Accretion (ICE3D):** Simulated the thermodynamic growth of ice (both **Rime** and **Glaze** types), determining the final ice shape, mass, and surface temperature changes.
+
+## Simulation Parameters (Descent Case)
+
+To replicate realistic flight conditions, the descent phase was simulated with specific parameters compliant with aviation standards:
+
+| Parameter | Value | Unit |
+| :--- | :--- | :--- |
+| **Altitude** | 6000 (19,685) | m (ft) |
+| **Air Speed** | 202.75 | m/s |
+| **Icing Air Temperature** | 256 (-17) | K (°C) |
+| **Icing Duration** | 151.5 | s |
+| **Liquid Water Content** | Langmuir D | - |
+
+
 ## Challenges and Learnings
 
-The study encountered challenges in accurately simulating ice accretion on aircraft wings, particularly in capturing transient heat transfer phenomena. Additionally, balancing computational efficiency with high-fidelity icing models required optimization of meshing strategies. One key finding was that electrothermal WIPS can achieve up to 50% power savings compared to conventional pneumatic systems, depending on icing severity and flight phase.
+The study encountered challenges in accurately simulating ice accretion on aircraft wings, particularly in capturing transient heat transfer phenomena. A constant **heating mat temperature of 303.15 K (30°C)** was applied to simulate the electrothermal protection. Additionally, balancing computational efficiency with high-fidelity icing models required optimization of meshing strategies. One key finding was that electrothermal WIPS can achieve up to 50% power savings compared to conventional pneumatic systems, depending on icing severity and flight phase.
 
-## Outcome
+## Results and Analysis
 
-The results demonstrated that e-WIPS significantly reduces power consumption, with an estimated savings of **13%** to **50%** compared to p-WIPS. The total power utilization for e-WIPS was **42.23 kW for climb** and **43.2 kW for descent**, leading to reduced fuel consumption. The study validates the potential of MEA technologies to improve aircraft efficiency and reduce emissions, aligning with the aviation industry's [2050 sustainability goals](https://www.un.org/sustainabledevelopment/sustainable-development-goals/).
+### Ice Formation Characteristics
+The study revealed distinct characteristics between different ice types:
+- **Rime Ice:** exhibited a constant water film thickness during formation, freezing instantly upon impact.
+- **Glaze Ice:** showed uneven water film thickness due to the "runback" phenomenon, where unfrozen water flows back across the surface before freezing, creating complex shapes.
+
+### Power Consumption & Efficiency
+The results confirmed that the Electrothermal WIPS (e-WIPS) offers significant efficiency improvements over conventional Pneumatic WIPS (p-WIPS). The e-WIPS demonstrated an estimated power savings of **13%** to **50%** depending on the severity of the icing conditions.
+
+- **Total Power (Climb):** 42.23 kW
+- **Total Power (Descent):** 43.2 kW
+
+This reduction in power requirement directly translates to lower fuel consumption and reduced emissions, validating the potential of MEA technologies to align with the aviation industry's [2050 sustainability goals](https://www.un.org/sustainabledevelopment/sustainable-development-goals/).
 
 ---
 
