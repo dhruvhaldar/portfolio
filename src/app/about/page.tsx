@@ -157,6 +157,7 @@ export default function About() {
               <SmartLink
                 href={about.calendar.link}
                 unstyled
+                className={styles.blockAlign}
                 style={{ textDecoration: 'none' }}
               >
                 <Flex
