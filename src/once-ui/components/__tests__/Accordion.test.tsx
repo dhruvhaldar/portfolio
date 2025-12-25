@@ -3,6 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import { Accordion } from '../Accordion'
 
+interface AccordionRef {
+    open: () => void;
+    close: () => void;
+}
+
 describe('Accordion', () => {
     it('renders title', () => {
         render(<Accordion title="Test Title">Content</Accordion>)
@@ -29,10 +34,6 @@ describe('Accordion', () => {
     })
 
     it('exposes imperative methods', () => {
-        interface AccordionRef {
-            open: () => void;
-            close: () => void;
-        }
         // We use a custom interface for the imperative handle, but the component forwardRef 
         // effectively returns a mutable ref object that React handles.
         // TypeScript complains because AccordionRef isn't an HTMLDivElement.

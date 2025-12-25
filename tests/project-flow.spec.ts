@@ -31,7 +31,7 @@ test.describe('Project Flow', () => {
         await projectLink.click();
 
         // Verify URL
-        await expect(page).toHaveURL(new RegExp(href));
+        await expect(page).toHaveURL(href);
 
         // Verify heading exists on detail page
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

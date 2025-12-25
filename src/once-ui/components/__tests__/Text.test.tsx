@@ -20,9 +20,8 @@ describe('Text', () => {
     it('applies variant classes', () => {
         render(<Text variant="display-strong-l">Variant Text</Text>)
         const text = screen.getByText('Variant Text')
-        // Check if classes are applied. Note: styles might be hashed if using modules, 
-        // but utility classes often pass through. 
-        expect(text.classList.toString()).toContain('font-display')
-        expect(text.classList.toString()).toContain('font-strong')
+        // Check if classes are applied
+        expect(text).toHaveClass('font-display')
+        expect(text).toHaveClass('font-strong')
     })
 })

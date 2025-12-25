@@ -89,6 +89,42 @@ This project includes scripts to optimize images for web performance:
    pnpm start
    ```
 
+## 🧪 Testing
+
+This project employs a comprehensive testing strategy using **Vitest** for unit/integration tests and **Playwright** for End-to-End (E2E) testing.
+
+### Unit & Integration Tests (Vitest)
+
+Unit tests focus on individual components (e.g., `Button`, `Input`, `Accordion`) and utilities, while integration tests verify interaction between components (e.g., `FeedbackForm`).
+
+```bash
+# Run all unit and integration tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Generate coverage report
+pnpm test:coverage
+```
+
+### End-to-End Tests (Playwright)
+
+E2E tests simulate real user scenarios across the application, starting from the landing page to complex project flows.
+
+```bash
+# Run E2E tests (requires dev server or build to be accessible, Playwright handles this)
+npx playwright test
+
+# Run E2E tests with UI mode (interactive)
+npx playwright test --ui
+
+# Show HTML report
+npx playwright show-report
+```
+
+*Note: Ensure you have installed Playwright browsers via `npx playwright install` if running for the first time.*
+
 ## 📊 Performance Analysis
 
 To analyze the bundle size and performance:
@@ -135,6 +171,8 @@ portfolio/
 - `pnpm start`: Start production server
 - `pnpm optimize-images`: Convert images to AVIF
 - `pnpm process-images`: Process images in multiple formats
+- `pnpm test`: Run unit and integration tests
+- `pnpm test:coverage`: Run tests with code coverage report
 
 ## Tech Stack
 

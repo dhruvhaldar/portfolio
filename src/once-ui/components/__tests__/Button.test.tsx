@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import { Button } from '../Button'
 
@@ -10,15 +11,17 @@ describe('Button', () => {
         expect(button).toBeInTheDocument()
     })
 
-    it('calls onClick when clicked', () => {
+    it('calls onClick when clicked', async () => {
+        const user = userEvent.setup()
         const handleClick = vi.fn()
         render(<Button label="Click me" onClick={handleClick} />)
         const button = screen.getByRole('button')
-        fireEvent.click(button)
+        await user.click(button)
         expect(handleClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does not call onClick when disabled', () => {
+    it('does not call onClick when disabled', async () => {
+        const user = userEvent.setup()
         const handleClick = vi.fn()
         render(<Button label="Click me" onClick={handleClick} disabled />)
         const button = screen.getByRole('button')
@@ -26,20 +29,16 @@ describe('Button', () => {
         // Check disabled attribute
         expect(button).toBeDisabled()
 
-        fireEvent.click(button)
+        await user.click(button)
         expect(handleClick).not.toHaveBeenCalled()
     })
 
     it('renders loading state', () => {
         render(<Button loading label="Click me" />)
-        // Check if Spinner is present. Assuming Spinner renders a specific role or class.
-        // Inspecting Spinner code would confirm, but usually it might not have 'button' role.
-        // We can check if button persists.
+        // Spinner has role="status" and aria-label="Loading" by default
+        const spinner = screen.getByRole('status')
+        expect(spinner).toBeInTheDocument()
         expect(screen.getByRole('button')).toBeInTheDocument()
-
-        // If Logic: {loading && <Spinner ... />}
-        // We can check for a common spinner testid if we added one, or check for absence of icon if it replaced it.
-        // But let's check basic render for now.
     })
 
     it('renders prefix and suffix icons', () => {
