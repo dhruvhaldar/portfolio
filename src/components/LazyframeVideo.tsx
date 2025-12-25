@@ -23,7 +23,7 @@ interface LazyframeVideoProps {
  */
 const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   src,
-  title = "Video player",
+  title = "Youtube",
   width = "100%",
   height = "auto",
 }) => {
