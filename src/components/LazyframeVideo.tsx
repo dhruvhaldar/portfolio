@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
+import 'lazyframe/dist/lazyframe.css';
 
 import { Flex } from "@/once-ui/components";
 
@@ -24,7 +25,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   src,
   title = "Video player",
   width = "100%",
-  height = "500px",
+  height = "auto",
 }) => {
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);

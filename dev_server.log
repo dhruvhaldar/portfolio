@@ -1,0 +1,17 @@
+
+> @once-ui-system/magic-portfolio@1.3.0 dev /app
+> next dev -p 3001
+
+   ▲ Next.js 16.0.10 (Turbopack)
+   - Local:         http://localhost:3001
+   - Network:       http://192.168.0.2:3001
+
+ ✓ Starting...
+ ✓ Ready in 1350ms
+ ○ Compiling /work/[slug] ...
+ GET /work/aesir-rocket-project 200 in 17.0s (compile: 14.2s, render: 2.9s)
+ GET /work/aesir-rocket-project 200 in 353ms (compile: 58ms, render: 295ms)
+ GET /work/aesir-rocket-project 200 in 849ms (compile: 153ms, render: 696ms)
+ GET /work/aesir-rocket-project 200 in 278ms (compile: 40ms, render: 238ms)
+ GET /work/aesir-rocket-project 200 in 1723ms (compile: 263ms, render: 1460ms)
+ GET /work/aesir-rocket-project 200 in 479ms (compile: 36ms, render: 443ms)
