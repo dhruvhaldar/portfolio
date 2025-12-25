@@ -22,21 +22,38 @@ import { Flex, Dropdown } from ".";
 import styles from "./DropdownWrapper.module.scss";
 
 export interface DropdownWrapperProps {
+  /** Whether to fill width */
   fillWidth?: boolean;
+  /** Minimum width of dropdown */
   minWidth?: number;
+  /** Maximum width of dropdown */
   maxWidth?: number;
+  /** Minimum height of dropdown */
   minHeight?: number;
+  /** Floating placement strategy */
   floatingPlacement?: Placement;
+  /** Trigger element */
   trigger: ReactNode;
+  /** Dropdown content element */
   dropdown: ReactNode;
+  /** Selected option value */
   selectedOption?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
+  /** Selection handler */
   onSelect?: (value: string) => void;
+  /** Whether the dropdown is open (controlled) */
   isOpen?: boolean;
+  /** Open state change handler */
   onOpenChange?: (isOpen: boolean) => void;
 }
 
+/**
+ * A wrapper component that manages the positioning and state of a dropdown.
+ * Uses floating-ui for positioning.
+ */
 const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
   (
     {
@@ -148,8 +165,8 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
         style={{
           ...(minHeight && isOpen
             ? {
-                marginBottom: `${minHeight + 8}px`,
-              }
+              marginBottom: `${minHeight + 8}px`,
+            }
             : {}),
           ...style,
         }}

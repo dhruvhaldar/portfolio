@@ -7,17 +7,12 @@ import { routes } from "@/app/resources";
 import { home, about, work, publications, gallery } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
 
-type TimeDisplayProps = {
-  timeZone: string;
-  locale?: string;
-};
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({}) => {
-  return <div>{}</div>;
-};
 
-export default TimeDisplay;
-
+/**
+ * The main header component containing navigation links and theme toggle.
+ * Responsive design that adapts to mobile and desktop views.
+ */
 export const Header = () => {
   const pathname = usePathname() ?? "";
 
@@ -33,8 +28,8 @@ export const Header = () => {
         horizontal="center"
         style={{ minHeight: "64px" }}
       >
-        <Flex 
-          fillWidth 
+        <Flex
+          fillWidth
           horizontal="center"
           style={{ maxWidth: "1200px", width: "100%" }}
         >
@@ -47,9 +42,9 @@ export const Header = () => {
             horizontal="center"
             style={{ minWidth: "fit-content" }}
           >
-            <Flex 
-              gap="4" 
-              vertical="center" 
+            <Flex
+              gap="4"
+              vertical="center"
               textVariant="body-default-s"
               style={{ minWidth: "fit-content" }}
             >
@@ -117,7 +112,7 @@ export const Header = () => {
                   />
                 </>
               )}
-             {routes["/gallery"] && (
+              {routes["/gallery"] && (
                 <>
                   <ToggleButton
                     className="s-flex-hide"

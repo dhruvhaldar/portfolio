@@ -10,15 +10,26 @@ import styles from "./Icon.module.scss";
 import iconStyles from "./IconButton.module.scss";
 
 interface IconProps extends React.ComponentProps<typeof Flex> {
+  /** Name of the icon to render */
   name: string;
+  /** Background color style */
   onBackground?: `${ColorScheme}-${ColorWeight}`;
+  /** Solid background style */
   onSolid?: `${ColorScheme}-${ColorWeight}`;
+  /** Size of the icon */
   size?: "xs" | "s" | "m" | "l" | "xl";
+  /** Whether the icon is decorative (hidden from assistive tech) */
   decorative?: boolean;
+  /** Tooltip text */
   tooltip?: ReactNode;
+  /** Tooltip position */
   tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
+/**
+ * Renders an icon from the icon library.
+ * Supports coloring, sizing, and tooltips.
+ */
 const Icon = forwardRef<HTMLDivElement, IconProps>(
   (
     {

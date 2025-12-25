@@ -6,20 +6,34 @@ import { Icon } from ".";
 import { ElementType } from "./ElementType";
 
 interface CommonProps {
+  /** Icon to display before text */
   prefixIcon?: string;
+  /** Icon to display after text */
   suffixIcon?: string;
+  /** Whether to fill available width */
   fillWidth?: boolean;
+  /** Size of the icons */
   iconSize?: "xs" | "s" | "m" | "l" | "xl";
+  /** Selected state */
   selected?: boolean;
+  /** Whether to remove default styling */
   unstyled?: boolean;
+  /** Content children */
   children: ReactNode;
+  /** HREF URL */
   href?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
 export type SmartLinkProps = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
+/**
+ * A flexible link component that enhances Next.js Link.
+ * Supports icons, active states, and styling variants.
+ */
 const SmartLink = forwardRef<HTMLAnchorElement, SmartLinkProps>(
   (
     {
@@ -54,15 +68,15 @@ const SmartLink = forwardRef<HTMLAnchorElement, SmartLinkProps>(
       }),
       style: !unstyled
         ? {
-            ...(selected && {
-              textDecoration: "underline",
-            }),
-            ...style,
-          }
+          ...(selected && {
+            textDecoration: "underline",
+          }),
+          ...style,
+        }
         : {
-            textDecoration: "none",
-            ...style,
-          },
+          textDecoration: "none",
+          ...style,
+        },
       ...props,
     };
 

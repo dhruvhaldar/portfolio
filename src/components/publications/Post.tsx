@@ -1,10 +1,18 @@
-import { Column, Flex, Heading, SmartImage, SmartLink, Spotlight, Tag, Text } from "@/once-ui/components";import styles from "./Posts.module.scss";import { formatDate } from "@/app/utils/formatDate";
+import { Column, Flex, Heading, SmartImage, SmartLink, Spotlight, Tag, Text } from "@/once-ui/components"; import styles from "./Posts.module.scss"; import { formatDate } from "@/app/utils/formatDate";
 
-interface PostProps { post: any; thumbnail: boolean; }
+interface PostProps {
+  /** The post data object */
+  post: any;
+  /** Whether to show a thumbnail image */
+  thumbnail: boolean;
+}
 
+/**
+ * Displays a single publication post card.
+ */
 export default function Post({ post, thumbnail }: PostProps) {
   return (
-    <Spotlight className="fill-width" style={{display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 'var(--static-space-16)'}}>
+    <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 'var(--static-space-16)' }}>
       <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/publications/${post.slug}`}
         style={{
           backdropFilter: 'blur(10px)',

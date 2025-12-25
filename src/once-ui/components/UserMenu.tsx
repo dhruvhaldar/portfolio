@@ -8,13 +8,20 @@ import { DropdownWrapperProps } from "./DropdownWrapper";
 
 interface UserMenuProps
   extends UserProps,
-    Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+  Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+  /** Selected state */
   selected?: boolean;
+  /** Dropdown content */
   dropdown?: React.ReactNode;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
 }
 
+/**
+ * A user profile component that triggers a dropdown menu.
+ */
 const UserMenu: React.FC<UserMenuProps> = ({
   selected = false,
   dropdown,

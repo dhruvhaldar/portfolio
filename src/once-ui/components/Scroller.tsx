@@ -7,8 +7,11 @@ import styles from "./Scroller.module.scss";
 import { Fade } from "./Fade";
 
 interface ScrollerProps extends React.ComponentProps<typeof Flex> {
+  /** Content children */
   children?: React.ReactNode;
+  /** Scroll direction */
   direction?: "row" | "column";
+  /** Item click handler */
   onItemClick?: (index: number) => void;
 }
 
@@ -17,6 +20,9 @@ interface ScrollableChildProps {
   onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
+/**
+ * A scrollable container with optional navigation buttons.
+ */
 const Scroller: React.FC<ScrollerProps> = ({
   children,
   direction = "row",
@@ -92,7 +98,7 @@ const Scroller: React.FC<ScrollerProps> = ({
         onKeyDown: (e: React.KeyboardEvent) => {
           childOnKeyDown?.(e);
           if (e.key === "Enter" || e.key === " ") {
-            childOnClick?.(e as any);
+            e.preventDefault();
             onItemClick?.(index);
           }
         },

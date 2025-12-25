@@ -8,7 +8,9 @@ import classNames from "classnames";
 import { style } from "@/app/resources";
 
 interface StylePanelProps extends React.ComponentProps<typeof Flex> {
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
@@ -48,6 +50,9 @@ const colorOptions = {
   neutral: ["sand", "gray", "slate"],
 };
 
+/**
+ * A panel component containing controls for customizing global design tokens.
+ */
 const StylePanel = forwardRef<HTMLDivElement, StylePanelProps>(({ ...rest }, ref) => {
   const [selectedShape, setSelectedShape] = useState(style.border);
   const [brandColor, setBrandColor] = useState(style.brand);
@@ -72,7 +77,7 @@ const StylePanel = forwardRef<HTMLDivElement, StylePanelProps>(({ ...rest }, ref
     root.setAttribute("data-transition", transition);
     root.setAttribute("data-scaling", scaling);
     root.setAttribute("data-surface", surface);
-    root.setAttribute("data-transition", transition);
+
   }, [
     selectedShape,
     brandColor,

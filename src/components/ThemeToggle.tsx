@@ -5,6 +5,10 @@ import { ToggleButton } from "./ui/ToggleButton";
 
 type Theme = 'light' | 'dark';
 
+/**
+ * A toggle button component to switch between light and dark themes.
+ * Persists preference to localStorage and respects system preferences.
+ */
 export const ThemeToggle = () => {
   const [mounted, setMounted] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<Theme>('light');
@@ -27,7 +31,7 @@ export const ThemeToggle = () => {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(initialTheme);
     setMounted(true);

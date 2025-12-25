@@ -5,11 +5,24 @@ import { Flex, Icon, Heading, Column } from ".";
 import styles from "./Accordion.module.scss";
 
 interface AccordionProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
+  /** The title of the accordion header */
   title: React.ReactNode;
+  /** The content to be displayed when expanded */
   children: React.ReactNode;
+  /** Whether the accordion is open by default */
   open?: boolean;
 }
 
+/**
+ * A collapsible accordion component.
+ * Supports expanding and collapsing content with animation.
+ * 
+ * @remarks
+ * The component is ref-forwarded and exposes imperative methods:
+ * - `toggle()`: Toggle the accordion open/closed state
+ * - `open()`: Programmatically open the accordion
+ * - `close()`: Programmatically close the accordion
+ */
 const Accordion: React.FC<AccordionProps> = forwardRef(
   ({ title, children, open = false, ...rest }, ref) => {
     const [isOpen, setIsOpen] = useState(open);

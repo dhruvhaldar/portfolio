@@ -6,11 +6,17 @@ import classNames from "classnames";
 import styles from "./Toast.module.scss";
 
 interface ToastProps {
+  /** Custom class name */
   className?: string;
+  /** Visual variant */
   variant: "success" | "danger";
+  /** Whether to show icon */
   icon?: boolean;
+  /** Close handler */
   onClose?: () => void;
+  /** Custom action element */
   action?: React.ReactNode;
+  /** Content children */
   children: React.ReactNode;
 }
 
@@ -19,6 +25,10 @@ const iconMap = {
   danger: "errorCircle",
 };
 
+/**
+ * A toast notification component.
+ * Displays temporary messages or statuses.
+ */
 const Toast = forwardRef<HTMLDivElement, ToastProps>(
   ({ variant, className, icon = true, onClose, action, children }, ref) => {
     const [visible, setVisible] = useState(true);

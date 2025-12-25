@@ -15,15 +15,25 @@ import { Flex, Heading, IconButton, Text } from ".";
 import styles from "./Dialog.module.scss";
 
 interface DialogProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
+  /** Whether the dialog is open */
   isOpen: boolean;
+  /** Close handler */
   onClose: () => void;
+  /** Dialog title */
   title: ReactNode;
+  /** Dialog description/subtitle */
   description?: ReactNode;
+  /** Dialog content */
   children: ReactNode;
+  /** Footer content */
   footer?: ReactNode;
+  /** Whether this is the base dialog in a stack */
   base?: boolean;
+  /** Whether to stack this dialog */
   stack?: boolean;
+  /** Height change handler */
   onHeightChange?: (height: number) => void;
+  /** Minimum height */
   minHeight?: number;
 }
 
@@ -32,7 +42,7 @@ const DialogContext = React.createContext<{
   setStackedDialogOpen: (open: boolean) => void;
 }>({
   stackedDialogOpen: false,
-  setStackedDialogOpen: () => {},
+  setStackedDialogOpen: () => { },
 });
 
 export const DialogProvider: React.FC<{
@@ -52,6 +62,10 @@ export const DialogProvider: React.FC<{
   );
 };
 
+/**
+ * A modal dialog component.
+ * Supports stacking, keyboard navigation, and accessibility features.
+ */
 const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
   (
     {

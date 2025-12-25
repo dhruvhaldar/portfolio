@@ -5,11 +5,13 @@ import { Column, Flex, Text } from "@/once-ui/components";
 import styles from "./about.module.scss";
 
 interface TableOfContentsProps {
+  /** Array of sections with title, visibility flag, and sub-items for the table of contents */
   structure: {
     title: string;
     display: boolean;
     items: string[];
   }[];
+  /** Configuration to control table of contents display and sub-item visibility */
   about: {
     tableOfContent: {
       display: boolean;
@@ -18,6 +20,10 @@ interface TableOfContentsProps {
   };
 }
 
+/**
+ * A floating table of contents component for the About page.
+ * Allows smooth scrolling to different sections of the page.
+ */
 const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) => {
   const scrollTo = (id: string, offset: number) => {
     const element = document.getElementById(id);

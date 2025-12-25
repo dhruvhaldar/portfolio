@@ -1,5 +1,21 @@
-"use client";import React, { forwardRef } from "react";import { Text, Flex, IconButton, IconButtonProps } from ".";interface InteractiveDetailsProps {label?: React.ReactNode;description?: React.ReactNode;iconButtonProps?: IconButtonProps;onClick: () => void;className?: string;id?: string;}
+"use client"; import React, { forwardRef } from "react"; import { Text, Flex, IconButton, IconButtonProps } from "."; interface InteractiveDetailsProps {
+  /** Label text */
+  label?: React.ReactNode;
+  /** Description text */
+  description?: React.ReactNode;
+  /** Info/Help button props */
+  iconButtonProps?: IconButtonProps;
+  /** Click handler */
+  onClick: () => void;
+  /** Custom class name */
+  className?: string;
+  /** Element ID */
+  id?: string;
+}
 
+/**
+ * A component for displaying interactive details with a label and optional description.
+ */
 const InteractiveDetails: React.FC<InteractiveDetailsProps> = forwardRef<
   HTMLDivElement,
   InteractiveDetailsProps

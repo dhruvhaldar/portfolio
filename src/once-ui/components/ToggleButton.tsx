@@ -7,34 +7,52 @@ import { Flex, Icon } from ".";
 import styles from "./ToggleButton.module.scss";
 
 interface CommonProps {
+  /** Button label */
   label?: ReactNode;
+  /** Selected state */
   selected: boolean;
+  /** Visual style variant */
   variant?: "ghost" | "outline";
+  /** Size dimension */
   size?: "s" | "m" | "l";
+  /** Border radius configuration */
   radius?:
-    | "none"
-    | "top"
-    | "right"
-    | "bottom"
-    | "left"
-    | "top-left"
-    | "top-right"
-    | "bottom-right"
-    | "bottom-left";
+  | "none"
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "top-left"
+  | "top-right"
+  | "bottom-right"
+  | "bottom-left";
+  /** Content alignment */
   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between";
+  /** Whether to fill available width */
   fillWidth?: boolean;
+  /** Font weight */
   weight?: "default" | "strong";
+  /** Truncate text */
   truncate?: boolean;
+  /** Prefix icon */
   prefixIcon?: string;
+  /** Suffix icon */
   suffixIcon?: string;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Content children */
   children?: ReactNode;
+  /** Link URL */
   href?: string;
 }
 
 export type ToggleButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * A button component that can be toggled between selected and unselected states.
+ */
 const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
   (
     {

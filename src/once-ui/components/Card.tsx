@@ -5,9 +5,13 @@ import { Flex } from ".";
 import styles from "./Card.module.scss";
 
 interface CardProps extends React.ComponentProps<typeof Flex> {
+  /** Card content */
   children?: React.ReactNode;
 }
 
+/**
+ * A basic card component providing a container with surface background and styling.
+ */
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ children, style, className, ...rest }, ref) => {
     return (

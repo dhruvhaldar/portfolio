@@ -6,17 +6,30 @@ import { Text, Icon, IconButton, IconButtonProps, Flex } from ".";
 import styles from "./Chip.module.scss";
 
 interface ChipProps extends React.ComponentProps<typeof Flex> {
+  /** Label text */
   label: string;
+  /** Selected state */
   selected?: boolean;
+  /** Icon before text */
   prefixIcon?: string;
+  /** Remove handler */
   onRemove?: () => void;
+  /** Click handler */
   onClick?: MouseEventHandler<HTMLDivElement>;
+  /** Content children */
   children?: ReactNode;
+  /** Props forwarded to the remove icon button */
   iconButtonProps?: Partial<IconButtonProps>;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
+/**
+ * A compact interactive element, often used for filters or selections.
+ * Supports distinct states and removal action.
+ */
 const Chip: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
   (
     {
