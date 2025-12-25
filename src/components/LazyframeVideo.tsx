@@ -30,6 +30,17 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
 
+  // Helper to extract YouTube ID
+  const getYouTubeId = (url: string) => {
+    // Regex from lazyframe/src/lazyframe.js for robust matching
+    const regex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  const youtubeId = getYouTubeId(src);
+  const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current);
@@ -53,6 +64,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         className="lazyframe"
         data-src={src}
         data-vendor="youtube"
+        data-thumbnail={thumbnailUrl}
         title={title}
         style={{
           width,
