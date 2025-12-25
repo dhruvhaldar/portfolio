@@ -47,12 +47,24 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
       children,
       className,
       style,
+      onFocus,
+      onBlur,
       ...props
     },
     ref,
   ) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
+
+    const handleFocus = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      setIsHover(true);
+      if (onFocus) onFocus(event as any);
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      setIsHover(false);
+      if (onBlur) onBlur(event as any);
+    };
 
     useEffect(() => {
       let timer: NodeJS.Timeout;
@@ -103,6 +115,8 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
         style={style}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         aria-label={tooltip || icon}
         {...props}
       >
