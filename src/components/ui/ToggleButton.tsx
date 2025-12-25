@@ -52,7 +52,7 @@ const Icon = ({ name, size = 's' }: { name: string; size?: 'xs' | 's' | 'm' }) =
 
   const iconSize = sizeMap[size] || '1rem';
 
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.ReactNode> = {
     sun: (
       <svg stroke="currentColor" fill="none" strokeWidth="1.5" viewBox="0 0 24 24"
         aria-hidden="true" height={iconSize} width={iconSize} xmlns="http://www.w3.org/2000/svg">
