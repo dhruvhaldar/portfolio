@@ -79,13 +79,13 @@ export default function About() {
   return (
     <Column maxWidth="m" marginTop="l">
       {/* Hidden H1 for accessibility */}
-      <h1 style={{ 
-        position: "absolute", 
-        width: "1px", 
-        height: "1px", 
-        overflow: "hidden", 
-        clip: "rect(1px, 1px, 1px, 1px)", 
-        whiteSpace: "nowrap" 
+      <h1 style={{
+        position: "absolute",
+        width: "1px",
+        height: "1px",
+        overflow: "hidden",
+        clip: "rect(1px, 1px, 1px, 1px)",
+        whiteSpace: "nowrap"
       }}>
         {about.title}
       </h1>
@@ -101,12 +101,12 @@ export default function About() {
 
       {/* Table of Contents */}
       {about.tableOfContent.display && (
-        <Column 
-          left="0" 
-          style={{ top: "50%", transform: "translateY(-50%)" }} 
-          position="fixed" 
-          paddingLeft="24" 
-          gap="32" 
+        <Column
+          left="0"
+          style={{ top: "50%", transform: "translateY(-50%)" }}
+          position="fixed"
+          paddingLeft="24"
+          gap="32"
           hide="s"
         >
           <TableOfContents structure={structure} about={about} />
@@ -116,18 +116,18 @@ export default function About() {
       <Flex fillWidth mobileDirection="column" horizontal="center">
         {/* Avatar Section */}
         {about.avatar.display && (
-          <Column 
-            className={styles.avatar} 
-            minWidth="160" 
-            paddingX="l" 
+          <Column
+            className={styles.avatar}
+            minWidth="160"
+            paddingX="l"
             paddingBottom="m"
-            paddingTop="0" 
-            gap="m" 
-            flex={3} 
+            paddingTop="0"
+            gap="m"
+            flex={3}
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" style={{border: '3px solid var(--brand-alpha-strong)'}}
-/>
+            <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
+            />
             <Flex gap="8" vertical="stretch">
               Languages
             </Flex>
@@ -146,37 +146,37 @@ export default function About() {
         {/* Main Content */}
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
           {/* Introduction Section */}
-          <Column 
-            id={about.intro.title} 
-            fillWidth 
-            minHeight="160" 
-            vertical="center" 
+          <Column
+            id={about.intro.title}
+            fillWidth
+            minHeight="160"
+            vertical="center"
             marginBottom="32"
           >
             {about.calendar.display && (
-              <Flex 
-                fitWidth 
-                border="brand-alpha-medium" 
-                className={styles.blockAlign} 
+              <Flex
+                fitWidth
+                border="brand-alpha-medium"
+                className={styles.blockAlign}
                 style={{
                   backdropFilter: "blur(var(--static-space-1))",
                 }}
-                background="brand-alpha-weak" 
-                radius="full" 
-                padding="4" 
-                gap="8" 
-                marginTop="0" 
-                marginBottom="l" 
+                background="brand-alpha-weak"
+                radius="full"
+                padding="4"
+                gap="8"
+                marginTop="0"
+                marginBottom="l"
                 vertical="center"
               >
                 <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
                 <Flex paddingX="xl" paddingY="xs" align="center">
                   Schedule a call
                 </Flex>
-                <IconButton 
-                  href={about.calendar.link} 
-                  data-border="rounded" 
-                  variant="secondary" 
+                <IconButton
+                  href={about.calendar.link}
+                  data-border="rounded"
+                  variant="secondary"
                   icon="chevronRight"
                   tooltip="Open calendar"
                 />
@@ -193,23 +193,23 @@ export default function About() {
 
             {/* Social Links */}
             {social.length > 0 && (
-              <Flex 
-                className={styles.blockAlign} 
-                paddingTop="20" 
-                paddingBottom="8" 
-                gap="8" 
-                wrap 
-                horizontal="center" 
+              <Flex
+                className={styles.blockAlign}
+                paddingTop="20"
+                paddingBottom="8"
+                gap="8"
+                wrap
+                horizontal="center"
                 fitWidth
               >
                 {social.map((item) => item.link && (
                   <React.Fragment key={item.name}>
-                    <Button 
-                      className="s-flex-hide" 
-                      href={item.link} 
-                      prefixIcon={item.icon} 
-                      label={item.name} 
-                      size="s" 
+                    <Button
+                      className="s-flex-hide"
+                      href={item.link}
+                      prefixIcon={item.icon}
+                      label={item.name}
+                      size="s"
                       variant="secondary"
                       style={{
                         backgroundColor: 'rgba(0, 0, 0, 0.01)',
@@ -218,11 +218,11 @@ export default function About() {
                         border: '1px solid var(--neutral-border-strong)',
                       }}
                     />
-                    <IconButton 
-                      className="s-flex-show" 
-                      size="l" 
-                      href={item.link} 
-                      icon={item.icon} 
+                    <IconButton
+                      className="s-flex-show"
+                      size="l"
+                      href={item.link}
+                      icon={item.icon}
                       tooltip={item.name}
                       variant="secondary"
                       style={{
@@ -240,9 +240,9 @@ export default function About() {
 
           {/* Introduction Description */}
           {about.intro.display && (
-            <Column 
-              textVariant="body-default-l" 
-              marginBottom="l" 
+            <Column
+              textVariant="body-default-l"
+              marginBottom="l"
               style={{ width: "100%", maxWidth: "900px" }}
             >
               {about.intro.description}
@@ -252,9 +252,9 @@ export default function About() {
           {/* Work Experience Section */}
           {about.work.display && (
             <>
-              <Heading className={`${styles.textAlign2} ${styles.nameHeading} ${styles.mediumWeight}`} 
-                id={about.work.title} 
-                variant="display-default-s" 
+              <Heading className={`${styles.textAlign2} ${styles.nameHeading} ${styles.mediumWeight}`}
+                id={about.work.title}
+                variant="display-default-s"
                 marginBottom="m"
               >
                 {about.work.title}
@@ -280,7 +280,7 @@ export default function About() {
                         {experience.role}
                       </Text>
                       <Column as="ul" gap="0" style={{ width: "100%", maxWidth: "900px" }}>
-                        {experience.achievements.map((achievement: JSX.Element, index: number) => (
+                        {experience.achievements.map((achievement: React.ReactNode, index: number) => (
                           <Text
                             as="li"
                             variant="body-default-m"

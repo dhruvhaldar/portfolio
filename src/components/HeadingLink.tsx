@@ -4,7 +4,7 @@ import React from "react";
 import { Heading, Flex, IconButton, useToast } from "@/once-ui/components";
 import styles from "@/components/HeadingLink.module.scss";
 
-interface HeadingLinkProps {
+interface HeadingLinkProps extends React.ComponentProps<typeof Flex> {
     /** The unique ID for the heading, used for the anchor link */
     id: string;
     /** The heading level (h1-h6) */
@@ -19,7 +19,7 @@ interface HeadingLinkProps {
  * A heading component that includes a copy-to-clipboard link.
  * Shows a toast notification when the link is copied.
  */
-export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, style }) => {
+export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, style, ...rest }) => {
     const { addToast } = useToast();
 
     const copyURL = (id: string): void => {
@@ -44,7 +44,7 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
     } as const;
 
     const variant = variantMap[level];
-    const asTag = `h${level}` as keyof JSX.IntrinsicElements;
+    const asTag = `h${level}` as keyof React.JSX.IntrinsicElements;
 
     return (
         <Flex
@@ -53,6 +53,7 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
             className={styles.control}
             vertical="center"
             gap="4"
+            {...rest}
         >
             <Heading className={styles.text} id={id} variant={variant} as={asTag}>
                 {children}

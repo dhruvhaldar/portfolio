@@ -24,7 +24,6 @@ import {
 import {
   HeadingLink,
   LazyframeVideo,
-  Table
 } from "@/components";
 
 import { TextProps } from "@/once-ui/interfaces";
@@ -92,7 +91,7 @@ function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
   const CustomHeading = ({
     children,
     ...props
-  }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id">) => {
+  }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id" | "level">) => {
     const slug = slugify(children as string);
     return (
       <HeadingLink marginTop="24" marginBottom="12" level={parseInt(as[1]) as any} id={slug} {...props}>
@@ -137,9 +136,9 @@ function createCodeBlock(props: any) {
       <CodeBlock
         marginTop="8"
         marginBottom="16"
-        codes={[
+        codeInstances={[
           {
-            code: children,
+            code: children as string,
             language,
             label,
           },
@@ -182,6 +181,32 @@ const components = {
   Icon,
   // Media,
   SmartLink,
+  Table: ({ data }: { data: { headers: string[], rows: string[][] } }) => (
+    <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--neutral-border-medium)' }}>
+        <thead>
+          <tr style={{ background: 'var(--neutral-alpha-weak)' }}>
+            {data.headers.map((header, index) => (
+              <th key={index} style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '1px solid var(--neutral-border-weak)' }}>
+                <Text variant="body-strong-m">{header}</Text>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.rows.map((row, rowIndex) => (
+            <tr key={rowIndex} style={{ borderBottom: '1px solid var(--neutral-border-weak)' }}>
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex} style={{ padding: '0.75rem' }}>
+                  <Text variant="body-default-m">{cell}</Text>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ),
   iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
 };
 
