@@ -115,7 +115,6 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
           buttonStyles.button,
           buttonStyles[variant],
           iconStyles[size],
-          className,
           radius === "none"
             ? "radius-none"
             : radius

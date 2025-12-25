@@ -34,13 +34,26 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         : (value?.toString() ?? ""),
     );
 
+    React.useEffect(() => {
+      if (value !== undefined) {
+        const formatted = padStart
+          ? value.toString().padStart(padStart, "0")
+          : value.toString();
+        setLocalValue(formatted);
+      }
+    }, [value, padStart]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
       setLocalValue(newValue);
 
       const numValue = parseFloat(newValue);
       if (!isNaN(numValue) && onChange) {
-        onChange(numValue);
+        const clampedValue = Math.min(
+          max ?? numValue,
+          Math.max(min ?? numValue, numValue)
+        );
+        onChange(clampedValue);
       }
     };
 

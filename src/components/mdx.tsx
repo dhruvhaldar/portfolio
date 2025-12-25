@@ -94,6 +94,9 @@ type CustomMDXProps = MDXRemoteProps & { components?: typeof components; };
 /**
  * A custom MDX renderer that includes custom components for the blog posts.
  * Supports code blocks, tables, images, and other custom elements.
+ * 
+ * @param {CustomMDXProps} props - Configuration object passed to MDXRemote with optional component overrides.
+ * @returns {React.ReactElement} A rendered MDX component.
  */
 export function CustomMDX(props: CustomMDXProps) {
   return (

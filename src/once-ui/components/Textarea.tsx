@@ -47,7 +47,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   labelAsPlaceholder?: boolean;
   /** Resize behavior */
   resize?: "horizontal" | "vertical" | "both" | "none";
-  /** Custom validation function */
+  /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
 }
 

@@ -17,7 +17,7 @@ interface LogoCloudProps extends React.ComponentProps<typeof Grid> {
   className?: string;
   /** Custom styles */
   style?: React.CSSProperties;
-  /** Number of visible logos */
+  /** Maximum number of visible logos (displays all if total <= limit) */
   limit?: number;
   /** Rotation interval in ms */
   rotationInterval?: number;

@@ -19,7 +19,7 @@ interface NavIconProps extends React.ComponentProps<typeof Flex> {
  * A navigation icon component with an active state style.
  * Renders a hamburger-like icon that changes when active.
  */
-const NavIcon = forwardRef<HTMLDivElement, Partial<NavIconProps>>(
+const NavIcon = forwardRef<HTMLDivElement, NavIconProps>(
     ({ className, isActive, style, onClick, ...rest }, ref) => {
         return (
             <Flex

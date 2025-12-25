@@ -10,10 +10,10 @@ import { join } from 'path';
  * @param {number} [options.width] - The width to resize the image to.
  * @param {number} [options.height] - The height to resize the image to.
  * @param {string} [options.format='avif'] - The output format ('avif', 'webp', 'jpeg', 'jpg').
- * @returns {Promise<import('sharp').Sharp>} The sharp pipeline instance.
+ * @returns {import('sharp').Sharp} The sharp pipeline instance.
  * @throws {Error} If the format is not supported.
  */
-export async function processImage(inputPath, options = {}) {
+export function processImage(inputPath, options = {}) {
   const {
     quality = 80,
     width,

@@ -5,6 +5,8 @@ import { Input, InputProps, IconButton } from ".";
 
 /**
  * An input component for passwords with visibility toggle.
+ * @param {InputProps} props - Input component props. All InputProps are supported.
+ * @returns {React.ReactElement} A password input with visibility toggle button.
  */
 export const PasswordInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const [showPassword, setShowPassword] = useState(false);

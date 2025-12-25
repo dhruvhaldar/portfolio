@@ -17,7 +17,7 @@ interface CarouselProps extends React.ComponentProps<typeof Flex> {
   aspectRatio?: string;
   /** Image sizes attribute */
   sizes?: string;
-  /** Whether the carousel is unrevealed by default */
+  /** Whether to skip the initial reveal animation and show the carousel immediately */
   revealedByDefault?: boolean;
   /** Whether to preload images */
   preload?: boolean;

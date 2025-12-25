@@ -5,13 +5,13 @@ import { Column, Flex, Text } from "@/once-ui/components";
 import styles from "./about.module.scss";
 
 interface TableOfContentsProps {
-  /** The structure of the table of contents */
+  /** Array of sections with title, visibility flag, and sub-items for the table of contents */
   structure: {
     title: string;
     display: boolean;
     items: string[];
   }[];
-  /** configuration settings */
+  /** Configuration to control table of contents display and sub-item visibility */
   about: {
     tableOfContent: {
       display: boolean;

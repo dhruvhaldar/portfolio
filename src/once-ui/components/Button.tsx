@@ -124,7 +124,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
             {label || children}
           </Flex>
         )}
-        {arrowIcon && (
+        {arrowIcon && id && (
           <Arrow
             style={{
               marginLeft: "calc(-1 * var(--static-space-4))",

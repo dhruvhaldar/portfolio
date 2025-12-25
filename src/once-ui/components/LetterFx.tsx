@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect, forwardRef, ReactNode } from "react";
+import React, { useState, useRef, useCallback, useEffect, forwardRef } from "react";
 import classNames from "classnames";
 
 const defaultCharset = ["X", "$", "@", "a", "H", "z", "o", "0", "y", "#", "?", "*", "0", "1", "+"];
@@ -73,7 +73,7 @@ function createEventHandler(
 
 type LetterFxProps = {
   /** Text content to animate */
-  children: ReactNode;
+  children: string;
   /** Trigger condition */
   trigger?: "hover" | "instant" | "custom";
   /** Animation speed */
@@ -104,10 +104,14 @@ const LetterFx = forwardRef<HTMLSpanElement, LetterFxProps>(
     },
     ref,
   ) => {
-    const [text, setText] = useState<string>(typeof children === "string" ? children : "");
+    const [text, setText] = useState<string>(children);
     const [inProgress, setInProgress] = useState<boolean>(false);
     const [hasAnimated, setHasAnimated] = useState<boolean>(false);
-    const originalText = useRef<string>(typeof children === "string" ? children : "");
+    const originalText = useRef<string>(children);
+
+    if (typeof children !== "string") {
+      console.error("LetterFx expects children to be a string.");
+    }
 
     const eventHandler = useCallback(() => {
       createEventHandler(
@@ -122,12 +126,10 @@ const LetterFx = forwardRef<HTMLSpanElement, LetterFxProps>(
     }, [inProgress, trigger, speed, charset]);
 
     useEffect(() => {
-      if (typeof children === "string") {
-        setText(children);
-        originalText.current = children;
-        if (trigger === "instant" && !hasAnimated) {
-          eventHandler();
-        }
+      setText(children);
+      originalText.current = children;
+      if (trigger === "instant" && !hasAnimated) {
+        eventHandler();
       }
     }, [children, trigger, eventHandler, hasAnimated]);
 

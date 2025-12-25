@@ -105,7 +105,12 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
             })}
           />
         </div>
-        {props.label && <InteractiveDetails {...props} onClick={() => { }} />}
+        {props.label && (
+          <InteractiveDetails
+            {...props}
+            onClick={() => { }} // Empty handler; clicks handled by parent Flex
+          />
+        )}
       </Flex>
     );
   },

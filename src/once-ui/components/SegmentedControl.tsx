@@ -108,6 +108,8 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
     <Scroller
       direction="row"
       minWidth={0}
+      className={className}
+      style={style}
       {...scrollerProps}
       role="tablist"
       aria-orientation="horizontal"

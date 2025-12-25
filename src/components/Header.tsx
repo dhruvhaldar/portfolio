@@ -7,16 +7,7 @@ import { routes } from "@/app/resources";
 import { home, about, work, publications, gallery } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
 
-type TimeDisplayProps = {
-  timeZone: string;
-  locale?: string;
-};
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ }) => {
-  return <div>{ }</div>;
-};
-
-export default TimeDisplay;
 
 /**
  * The main header component containing navigation links and theme toggle.

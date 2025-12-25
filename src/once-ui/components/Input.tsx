@@ -112,7 +112,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         if (error) {
           setValidationError(error);
         } else {
-          setValidationError(errorMessage || null);
+          setValidationError(null);
         }
       } else {
         setValidationError(null);

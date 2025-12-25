@@ -77,7 +77,7 @@ const StylePanel = forwardRef<HTMLDivElement, StylePanelProps>(({ ...rest }, ref
     root.setAttribute("data-transition", transition);
     root.setAttribute("data-scaling", scaling);
     root.setAttribute("data-surface", surface);
-    root.setAttribute("data-transition", transition);
+
   }, [
     selectedShape,
     brandColor,

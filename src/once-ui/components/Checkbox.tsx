@@ -21,6 +21,8 @@ const generateId = () => `checkbox-${Math.random().toString(36).substring(2, 9)}
 /**
  * A checkbox input component.
  * Supports checked, unchecked, and indeterminate states.
+ * @param props - The checkbox component props
+ * @returns A checkbox input element
  */
 const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxProps>(
   (

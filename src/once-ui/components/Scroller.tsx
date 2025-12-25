@@ -98,7 +98,7 @@ const Scroller: React.FC<ScrollerProps> = ({
         onKeyDown: (e: React.KeyboardEvent) => {
           childOnKeyDown?.(e);
           if (e.key === "Enter" || e.key === " ") {
-            childOnClick?.(e as any);
+            e.preventDefault();
             onItemClick?.(index);
           }
         },

@@ -8,8 +8,7 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
   selectedOption?: string;
   /** Dropdown options (children) */
   children?: ReactNode;
-  /** Escape key handler */
-  onEscape?: () => void;
+
   /** Selection handler */
   onSelect?: (event: string) => void;
 }
@@ -18,9 +17,11 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
  * A generic dropdown container with glassmorphism styling.
  */
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ selectedOption, className, children, onEscape, onSelect, ...rest }, ref) => {
+  ({ selectedOption, className, children, onSelect, ...rest }, ref) => {
     const handleSelect = (event: SyntheticEvent<HTMLDivElement>) => {
-      const value = event.currentTarget.getAttribute("data-value");
+      const target = event.target as HTMLElement;
+      const valueElement = target.closest("[data-value]") as HTMLElement | null;
+      const value = valueElement?.getAttribute("data-value");
       if (onSelect && value) {
         onSelect(value);
       }

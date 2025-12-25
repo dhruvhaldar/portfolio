@@ -144,8 +144,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
           <StatusIndicator
             size={statusIndicatorSizeMapping[size]}
             color={statusIndicator.color}
-            className={`${styles.className || ""} ${styles.indicator} ${size === "xl" ? styles.position : ""
-              }`}
+            className={`${styles.indicator} ${size === "xl" ? styles.position : ""}`}
             aria-label={`Status: ${statusIndicator.color}`}
           />
         )}

@@ -23,6 +23,12 @@ interface SkeletonProps extends React.ComponentProps<typeof Flex> {
 
 /**
  * A placeholder component that simulates content loading.
+ *
+ * @example
+ * ```tsx
+ * <Skeleton shape="line" width="m" height="s" />
+ * <Skeleton shape="circle" width="l" height="l" />
+ * ```
  */
 const Skeleton: React.FC<SkeletonProps> = forwardRef<HTMLDivElement, SkeletonProps>(
   ({ shape = "line", width, height, delay, style, className, ...props }, ref) => {

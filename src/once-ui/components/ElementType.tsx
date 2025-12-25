@@ -10,7 +10,7 @@ interface ElementTypeProps {
   className?: string;
   /** Custom styles */
   style?: React.CSSProperties;
-  /** Other props */
+  /** Additional HTML attributes passed to the underlying element (anchor, Link, or button) */
   [key: string]: any;
 }
 
@@ -19,6 +19,7 @@ const isExternalLink = (url: string) => /^https?:\/\//.test(url);
 /**
  * A polymorphic component that renders as a Link, anchor, or button based on props.
  * Handles external links automatically.
+ * Supports ref forwarding to the underlying element.
  */
 const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
   ({ href, children, className, style, ...props }, ref) => {

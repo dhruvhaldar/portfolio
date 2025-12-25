@@ -72,6 +72,7 @@ const Option = forwardRef<HTMLDivElement, OptionProps>(
           radius="m"
           role="option"
           aria-selected={selected}
+          // Inner flex uses -1 to keep option out of tab order; wrapper ElementType handles focus
           tabIndex={-1}
           borderWidth={1}
           borderStyle="solid"

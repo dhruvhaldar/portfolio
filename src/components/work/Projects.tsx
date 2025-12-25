@@ -10,7 +10,7 @@ interface ProjectsProps {
 }
 
 /**
- * fetching and displaying a list of project cards.
+ * Fetches and displays a list of project cards.
  * Renders a column of ProjectCard components.
  */
 export function Projects({ range, posts }: ProjectsProps) {
@@ -21,7 +21,7 @@ export function Projects({ range, posts }: ProjectsProps) {
   });
 
   const displayedProjects = range
-    ? sortedProjects.slice(range[0] - 1, range[1] ?? sortedProjects.length)
+    ? sortedProjects.slice(Math.max(0, range[0] - 1), range[1] ?? sortedProjects.length)
     : sortedProjects;
 
   return (

@@ -14,7 +14,7 @@ interface RowProps extends React.ComponentProps<typeof Flex> {
  */
 const Row = forwardRef<HTMLDivElement, RowProps>(({ children, ...rest }, ref) => {
   return (
-    <Flex ref={ref} {...rest}>
+    <Flex direction="row" ref={ref} {...rest}>
       {children}
     </Flex>
   );

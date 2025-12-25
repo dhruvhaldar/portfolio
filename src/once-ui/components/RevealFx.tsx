@@ -84,7 +84,11 @@ const RevealFx = forwardRef<HTMLDivElement, RevealFxProps>(
 
     const revealStyle: React.CSSProperties = {
       transitionDuration: getSpeedDuration(),
-      transform: isRevealed ? "translateY(0)" : `translateY(${translateValue})`,
+      transform: isRevealed
+        ? "translateY(0)"
+        : translateValue
+          ? `translateY(${translateValue})`
+          : "translateY(0)",
       ...style,
     };
 

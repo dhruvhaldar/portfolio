@@ -4,18 +4,24 @@ import styles from "./Spinner.module.scss";
 import { Flex } from "./Flex";
 
 interface SpinnerProps extends React.ComponentProps<typeof Flex> {
-  /** Size of the spinner */
+  /** 
+   * Size of the spinner
+   * @default "m"
+   */
   size?: "xs" | "s" | "m" | "l" | "xl";
-  /** Aria label for accessibility */
+  /** 
+   * Accessible label for screen readers
+   * @default "Loading"
+   */
   ariaLabel?: string;
-  /** Custom class name */
-  className?: string;
-  /** Custom styles */
-  style?: React.CSSProperties;
 }
 
 /**
- * A loading spinner component.
+ * A loading spinner component with customizable size and styling.
+ * Displays an animated circular spinner to indicate loading state.
+ * 
+ * @example
+ * <Spinner size="l" ariaLabel="Loading content" />
  */
 const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
   ({ size = "m", ariaLabel = "Loading", className, style, ...rest }, ref) => {

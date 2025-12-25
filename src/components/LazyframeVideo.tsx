@@ -12,8 +12,6 @@ interface LazyframeVideoProps {
   width?: string;
   /** Height of the video container */
   height?: string;
-  /** Whether to enable lazy loading */
-  lazyload?: true;
 }
 
 /**
@@ -26,8 +24,12 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   width = "100%",
   height = "500px",
 }) => {
+  const initializedRef = React.useRef(false);
   useEffect(() => {
-    lazyframe('.lazyframe');
+    if (!initializedRef.current) {
+      lazyframe('.lazyframe');
+      initializedRef.current = true;
+    }
   }, []);
 
   return (

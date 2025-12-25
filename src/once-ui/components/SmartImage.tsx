@@ -1,4 +1,9 @@
-"use client"; import React, { CSSProperties, useState, useRef, useEffect } from "react"; import Image from "next/image"; import { Flex, Skeleton } from "@/once-ui/components";
+"use client";
+
+import React, { CSSProperties, useState, useRef, useEffect } from "react";
+import Image from "next/image";
+
+import { Flex, Skeleton } from ".";
 
 export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   /** Aspect ratio of the image */
@@ -135,7 +140,8 @@ const SmartImage: React.FC<SmartImageProps> = ({
       : "";
   };
 
-  const isVideo = src?.endsWith(".mp4"); const isYouTube = isYouTubeVideo(src);
+  const isVideo = src?.endsWith(".mp4");
+  const isYouTube = isYouTubeVideo(src);
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -257,5 +263,9 @@ const SmartImage: React.FC<SmartImageProps> = ({
           </Flex>
         </Flex>
       )}
-    </>);
-}; SmartImage.displayName = "SmartImage"; export { SmartImage };
+    </>
+  );
+};
+
+SmartImage.displayName = "SmartImage";
+export { SmartImage };

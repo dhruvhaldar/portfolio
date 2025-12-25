@@ -9,7 +9,7 @@ import styles from "./AvatarGroup.module.scss";
 interface AvatarGroupProps extends React.ComponentProps<typeof Flex> {
   /** List of avatars to display */
   avatars: AvatarProps[];
-  /** Size of avatars */
+  /** Size of avatars: "xs" | "s" | "m" | "l" | "xl" */
   size?: "xs" | "s" | "m" | "l" | "xl";
   /** Reverse stacking order */
   reverse?: boolean;
@@ -19,11 +19,14 @@ interface AvatarGroupProps extends React.ComponentProps<typeof Flex> {
   className?: string;
   /** Custom styles */
   style?: React.CSSProperties;
+  /** Ref forwarded to the root Flex container */
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 /**
  * A component to display a stack of avatars.
  * Supports limiting the number of visible avatars.
+ * Inherits all props from Flex component.
  */
 const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ avatars, size = "m", reverse = false, limit, className, style, ...rest }, ref) => {

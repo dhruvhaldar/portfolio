@@ -38,6 +38,9 @@ interface LogoProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 /**
  * A logo component that can display an icon, a wordmark, or both.
  * Supports custom sources and sizing.
+ *
+ * Renders as a clickable link when `href` is provided, otherwise renders as static content.
+ * @warning Displays a console warning if both `icon` and `wordmark` are set to false.
  */
 const Logo: React.FC<LogoProps> = ({
   size = "m",

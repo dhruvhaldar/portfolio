@@ -12,7 +12,7 @@ interface ColumnProps extends React.ComponentProps<typeof Flex> {
  * A layout component for vertical stacking.
  * Alias for Flex with direction="column".
  */
-const Column = forwardRef<HTMLDivElement, ColumnProps>(({ children, ...rest }, ref) => {
+const Column = forwardRef<HTMLDivElement, ColumnProps>(({ children, direction, ...rest }, ref) => {
   return (
     <Flex direction="column" ref={ref} {...rest}>
       {children}
