@@ -123,7 +123,7 @@ npx playwright test --ui
 npx playwright show-report
 ```
 
-*Note: Ensure you have installed Playwright browsers via `npx playwright install` if running for the first time.*
+*Note: Ensure you have installed Playwright browsers via `sudo npx playwright install-deps` and then `npx playwright install` if running for the first time.*
 
 
 

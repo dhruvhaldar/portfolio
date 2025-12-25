@@ -123,6 +123,30 @@ function createInlineCode({ children }: { children: ReactNode }) {
   return <InlineCode>{children}</InlineCode>;
 }
 
+function createBlockquote({ children }: { children: ReactNode }) {
+  return (
+    <Flex
+      direction="column"
+      background="neutral-alpha-weak"
+      border="neutral-alpha-medium"
+      radius="l"
+      padding="m"
+      marginBottom="24"
+      style={{
+        borderLeft: "4px solid var(--brand-solid-strong)",
+        backdropFilter: "blur(var(--static-space-1))"
+      }}
+    >
+      <Text
+        variant="body-default-m"
+        onBackground="neutral-strong"
+      >
+        {children}
+      </Text>
+    </Flex>
+  );
+}
+
 function createCodeBlock(props: any) {
   // For pre tags that contain code blocks
   if (props.children && props.children.props && props.children.props.className) {
@@ -163,6 +187,7 @@ const components = {
   h6: createHeading("h6") as any,
   img: createImage as any,
   a: CustomLink as any,
+  blockquote: createBlockquote as any,
   code: createInlineCode as any,
   pre: createCodeBlock as any,
   Heading,
@@ -207,7 +232,8 @@ const components = {
       </table>
     </div>
   ),
-  iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
+  iframe: (props: any) => <LazyframeVideo {...props} />,
+  Video: LazyframeVideo,
 };
 
 type CustomMDXProps = MDXRemoteProps & {
