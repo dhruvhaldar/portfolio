@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartImage, Spotlight, Tag, Text } from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartLink, SmartImage, Spotlight, Tag, Text } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -154,33 +154,39 @@ export default function About() {
             marginBottom="32"
           >
             {about.calendar.display && (
-              <Flex
-                fitWidth
-                border="brand-alpha-medium"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginTop="0"
-                marginBottom="l"
-                vertical="center"
+              <SmartLink
+                href={about.calendar.link}
+                unstyled
+                style={{ textDecoration: 'none' }}
               >
-                <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
-                <Flex paddingX="xl" paddingY="xs" align="center">
-                  Schedule a call
+                <Flex
+                  fitWidth
+                  border="brand-alpha-medium"
+                  className={styles.blockAlign}
+                  style={{
+                    backdropFilter: "blur(var(--static-space-1))",
+                    cursor: "pointer"
+                  }}
+                  background="brand-alpha-weak"
+                  radius="full"
+                  padding="4"
+                  gap="8"
+                  marginTop="0"
+                  marginBottom="l"
+                  vertical="center"
+                >
+                  <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
+                  <Flex paddingX="xl" paddingY="xs" align="center">
+                    Schedule a call
+                  </Flex>
+                  <IconButton
+                    data-border="rounded"
+                    variant="secondary"
+                    icon="chevronRight"
+                    style={{ pointerEvents: "none" }}
+                  />
                 </Flex>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                  tooltip="Open calendar"
-                />
-              </Flex>
+              </SmartLink>
             )}
 
             <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} variant="display-default-l">
@@ -240,13 +246,22 @@ export default function About() {
 
           {/* Introduction Description */}
           {about.intro.display && (
-            <Column
-              textVariant="body-default-l"
-              marginBottom="l"
-              style={{ width: "100%", maxWidth: "900px" }}
-            >
-              {about.intro.description}
-            </Column>
+            <Spotlight className="fill-width">
+              <Column
+                textVariant="body-default-l"
+                marginBottom="l"
+                padding="16"
+                radius="l"
+                style={{
+                  width: "100%",
+                  maxWidth: "900px",
+                  backdropFilter: 'blur(10px)',
+                  background: 'var(--neutral-alpha-weak)'
+                }}
+              >
+                {about.intro.description}
+              </Column>
+            </Spotlight>
           )}
 
           {/* Work Experience Section */}

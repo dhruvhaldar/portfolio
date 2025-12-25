@@ -3,6 +3,8 @@
 import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 
+import { Flex } from "@/once-ui/components";
+
 interface LazyframeVideoProps {
   /** The source URL of the video (e.g., YouTube URL) */
   src: string;
@@ -33,18 +35,29 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   }, []);
 
   return (
-    <div
-      className="lazyframe"
-      data-src={src}
-      data-vendor="youtube"
-      title={title}
+    <Flex
+      fillWidth
+      radius="l"
+      padding="s"
+      border="neutral-alpha-medium"
+      background="neutral-alpha-weak"
       style={{
-        width,
-        height,
-        aspectRatio: '16/9',
-        objectFit: 'cover',
+        backdropFilter: "blur(var(--static-space-1))"
       }}
-    ></div>
+    >
+      <div
+        className="lazyframe"
+        data-src={src}
+        data-vendor="youtube"
+        title={title}
+        style={{
+          width,
+          height,
+          aspectRatio: '16/9',
+          objectFit: 'cover',
+        }}
+      ></div>
+    </Flex>
   );
 };
 
