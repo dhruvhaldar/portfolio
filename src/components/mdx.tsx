@@ -232,7 +232,7 @@ const components = {
       </table>
     </div>
   ),
-  iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
+  iframe: (props: any) => <LazyframeVideo {...props} />,
   Video: LazyframeVideo,
 };
 

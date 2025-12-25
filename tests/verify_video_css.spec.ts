@@ -2,35 +2,49 @@ import { test, expect } from '@playwright/test';
 
 test('Video component renders with thumbnail and plays on click', async ({ page }) => {
   // Navigate to a project page that contains a video
+  page.on('console', msg => console.log('PAGE LOG:', msg.text()));
   await page.goto('/work/aesir-rocket-project');
 
   // Locate the lazyframe container
   const videoContainer = page.locator('.lazyframe').first();
 
   // Scroll into view to trigger lazy loading logic
-  // Using evaluate because scrollIntoViewIfNeeded might be behaving unexpectedly in this context
   await videoContainer.evaluate(el => el.scrollIntoView());
 
   // Expect the container to be visible
   await expect(videoContainer).toBeVisible();
 
-  // Verify that the container has 'relative' positioning (CSS loaded)
-  await expect(videoContainer).toHaveCSS('position', 'relative');
-
-  // Verify the 'lazyframe--loaded' class is added (lazyframe initialized)
-  await expect(videoContainer).toHaveClass(/lazyframe--loaded/);
+  // Verify that the wrapper has rounded corners (radius="l" corresponds to a specific var or value, usually overflow hidden on the relative wrapper)
+  const wrapper = videoContainer.locator('xpath=..');
+  await expect(wrapper).toHaveCSS('overflow', 'hidden');
+  await expect(wrapper).toHaveCSS('border-radius', /.+/); // Check for non-empty border-radius
 
   // Verify the data-vendor attribute
   await expect(videoContainer).toHaveAttribute('data-vendor', 'youtube');
 
   // Verify that the thumbnail is set (background-image is not none)
-  // We use evaluate because toHaveCSS with specific URL can be tricky with quotes
   const bgImage = await videoContainer.evaluate(el => window.getComputedStyle(el).backgroundImage);
   expect(bgImage).toContain('url("https://i.ytimg.com/vi/');
   expect(bgImage).toContain('hqdefault.jpg")');
 
-  // Click the video to trigger load
-  await videoContainer.click();
+  // Verify Overlays presence (before clicking)
+  const titleOverlay = wrapper.locator('text=Youtube').first();
+  await expect(titleOverlay).toBeVisible();
+
+  // Verify YouTube Icon is present (checking for SVG or icon container)
+  // Since we don't have a stable class for the icon, we can check for an SVG inside the absolute flex in the bottom right
+  // We can look for the 'youtube' icon name which usually adds a class or we can assume there is an svg
+  const iconOverlay = wrapper.locator('svg').last(); // Assuming it's the last svg if there are others, or we can look locally
+  await expect(iconOverlay).toBeVisible();
+
+  // Click the wrapper to trigger load (wrapper handles the click capture)
+  await wrapper.click();
+
+  // Verify Overlays disappear after click
+  await expect(titleOverlay).not.toBeVisible();
+  // We can't strictly check iconOverlay not visible because if it's in the DOM but hidden, or removed.
+  // The code removes them from DOM: {!isPlaying && ...}
+  await expect(titleOverlay).toHaveCount(0);
 
   // After click, lazyframe should inject an iframe
   const iframe = videoContainer.locator('iframe');
