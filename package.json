@@ -13,7 +13,10 @@
     "build:prod": "cross-env NODE_ENV=production pnpm process-images && pnpm optimize-images && next build",
     "build:analyze": "cross-env ANALYZE=true NODE_ENV=production next build",
     "process-images": "node scripts/process-images.js",
-    "optimize-images": "node scripts/convert-images.js"
+    "optimize-images": "node scripts/convert-images.js",
+    "test": "vitest src",
+    "test:watch": "vitest src",
+    "test:coverage": "vitest run --coverage src"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.2",
@@ -44,20 +47,27 @@
     "@next/bundle-analyzer": "^15.4.10",
     "@next/eslint-plugin-next": "^15.0.0",
     "@playwright/test": "^1.57.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20.17.22",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/coverage-v8": "^2.1.9",
     "cross-env": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^15.0.0",
+    "happy-dom": "^20.0.11",
+    "jsdom": "^27.3.0",
     "once-ui-cli": "^3.1.0",
     "postcss": "^8.4.35",
     "postcss-custom-media": "^10.0.8",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.6.0",
     "react-devtools": "^6.1.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^2.1.9"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
