@@ -117,7 +117,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       } else {
         setValidationError(null);
       }
-    }, [debouncedValue, validate, errorMessage]);
+    }, [debouncedValue, validate]);
 
     useEffect(() => {
       validateInput();

@@ -14,7 +14,8 @@ describe('Input', () => {
     })
 
     it('displays error message', () => {
-        render(<Input id="test-input" label="Label" error errorMessage="Error occured" value="some value" onChange={() => { }} />)
-        expect(screen.getByText('Error occured')).toBeInTheDocument()
+        const handleChange = vi.fn()
+        render(<Input id="test-input" label="Label" error errorMessage="Error occurred" value="some value" onChange={handleChange} />)
+        expect(screen.getByText('Error occurred')).toBeInTheDocument()
     })
 })
