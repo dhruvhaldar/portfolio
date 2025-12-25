@@ -51,7 +51,7 @@
    pnpm install
    ```
 
-3. **Set up environment variables**
+3. **Set up environment variables (optional)**
    ```bash
    cp .env.example .env.local
    ```

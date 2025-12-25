@@ -9,13 +9,22 @@ export interface DateRange {
 }
 
 export interface DateRangePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
+  /** Selected date range */
   value?: DateRange;
+  /** Change handler */
   onChange?: (range: DateRange) => void;
+  /** Minimum selectable date */
   minDate?: Date;
+  /** Maximum selectable date */
   maxDate?: Date;
+  /** Size of the picker */
   size?: "s" | "m" | "l";
 }
 
+/**
+ * A component for selecting a range of dates.
+ * Combines two DatePickers.
+ */
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
   value,
   onChange,

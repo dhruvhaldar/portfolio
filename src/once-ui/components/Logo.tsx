@@ -17,16 +17,31 @@ const sizeMap: Record<string, SpacingToken> = {
 };
 
 interface LogoProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  /** Custom class name */
   className?: string;
+  /** Size of the logo */
   size?: "xs" | "s" | "m" | "l" | "xl";
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Whether to show the wordmark */
   wordmark?: boolean;
+  /** Whether to show the icon */
   icon?: boolean;
+  /** Custom icon source URL */
   iconSrc?: string;
+  /** Custom wordmark source URL */
   wordmarkSrc?: string;
+  /** Link URL */
   href?: string;
 }
 
+/**
+ * A logo component that can display an icon, a wordmark, or both.
+ * Supports custom sources and sizing.
+ *
+ * Renders as a clickable link when `href` is provided, otherwise renders as static content.
+ * @warning Displays a console warning if both `icon` and `wordmark` are set to false.
+ */
 const Logo: React.FC<LogoProps> = ({
   size = "m",
   wordmark = true,

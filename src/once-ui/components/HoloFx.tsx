@@ -11,19 +11,23 @@ interface MaskOptions {
 }
 
 interface HoloFxProps extends React.ComponentProps<typeof Flex> {
+  /** Content to apply holographic effect to */
   children: React.ReactNode;
+  /** Light layer configuration */
   light?: {
     opacity?: number;
     filter?: string;
     blending?: CSSProperties["mixBlendMode"];
     mask?: MaskOptions;
   };
+  /** Burn/Shadow layer configuration */
   burn?: {
     opacity?: number;
     filter?: string;
     blending?: CSSProperties["mixBlendMode"];
     mask?: MaskOptions;
   };
+  /** Texture layer configuration */
   texture?: {
     opacity?: number;
     filter?: string;
@@ -44,6 +48,10 @@ const getMaskStyle = (mask?: MaskOptions): string => {
   return mask?.maskPosition ? formatMask(mask.maskPosition) : formatMask();
 };
 
+/**
+ * A holographic visual effect component.
+ * Simulates light interaction and texture.
+ */
 const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
   const lastCall = useRef(0);

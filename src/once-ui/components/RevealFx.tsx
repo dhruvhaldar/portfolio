@@ -6,16 +6,27 @@ import styles from "./RevealFx.module.scss";
 import { Flex } from ".";
 
 interface RevealFxProps extends React.ComponentProps<typeof Flex> {
+  /** Content to reveal */
   children: React.ReactNode;
+  /** Animation speed */
   speed?: "slow" | "medium" | "fast";
+  /** Delay before reveal */
   delay?: number;
+  /** Whether content is initially revealed */
   revealedByDefault?: boolean;
+  /** Vertical translation distance */
   translateY?: number | SpacingToken;
+  /** Trigger state */
   trigger?: boolean;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
+/**
+ * A component that reveals its content with a fade/slide animation.
+ */
 const RevealFx = forwardRef<HTMLDivElement, RevealFxProps>(
   (
     {
@@ -73,7 +84,11 @@ const RevealFx = forwardRef<HTMLDivElement, RevealFxProps>(
 
     const revealStyle: React.CSSProperties = {
       transitionDuration: getSpeedDuration(),
-      transform: isRevealed ? "translateY(0)" : `translateY(${translateValue})`,
+      transform: isRevealed
+        ? "translateY(0)"
+        : translateValue
+          ? `translateY(${translateValue})`
+          : "translateY(0)",
       ...style,
     };
 

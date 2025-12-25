@@ -6,31 +6,51 @@ import { Flex, Text, Button, Grid, SegmentedControl, IconButton, RevealFx, Numbe
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
+  /** Selected date value */
   value?: Date;
+  /** Change handler */
   onChange?: (date: Date) => void;
+  /** Minimum selectable date */
   minDate?: Date;
+  /** Maximum selectable date */
   maxDate?: Date;
+  /** Show previous month navigation */
   previousMonth?: boolean;
+  /** Show next month navigation */
   nextMonth?: boolean;
+  /** Enable time selection */
   timePicker?: boolean;
+  /** Default date to show */
   defaultDate?: Date;
+  /** Default time to show */
   defaultTime?: {
     hours: number;
     minutes: number;
   };
+  /** Size of the picker */
   size?: "s" | "m" | "l";
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Current displayed month (0-11) */
   currentMonth?: number;
+  /** Current displayed year */
   currentYear?: number;
+  /** Month change handler */
   onMonthChange?: (increment: number) => void;
+  /** Date range for highlighting */
   range?: {
     startDate?: Date;
     endDate?: Date;
   };
+  /** Hover handler */
   onHover?: (date: Date | null) => void;
 }
 
+/**
+ * A calendar component for selecting dates and times.
+ */
 const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   (
     {
@@ -59,9 +79,9 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
     const [selectedTime, setSelectedTime] = useState<
       | {
-          hours: number;
-          minutes: number;
-        }
+        hours: number;
+        minutes: number;
+      }
       | undefined
     >(defaultTime);
     const [isPM, setIsPM] = useState(defaultTime?.hours ? defaultTime.hours >= 12 : false);

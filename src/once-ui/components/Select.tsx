@@ -12,17 +12,28 @@ type SelectOptionType = Omit<OptionProps, "selected">;
 
 interface SelectProps
   extends Omit<InputProps, "onSelect" | "value">,
-    Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+  Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+  /** List of selectable options */
   options: SelectOptionType[];
+  /** Current selected value */
   value?: string;
+  /** Content to display when no results found */
   emptyState?: ReactNode;
+  /** Selection handler */
   onSelect?: (value: string) => void;
+  /** Placement of the dropdown */
   floatingPlacement?: Placement;
+  /** Whether the select is searchable */
   searchable?: boolean;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
 }
 
+/**
+ * A dropdown select component with support for searching and custom options.
+ */
 const Select = forwardRef<HTMLDivElement, SelectProps>(
   (
     {

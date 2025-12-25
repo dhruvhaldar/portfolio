@@ -4,13 +4,21 @@ import React, { forwardRef, ReactNode } from "react";
 import { IconButton, Button, Icon, Flex, Text } from ".";
 
 interface FeedbackProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
+  /** Visual variant */
   variant?: "info" | "danger" | "warning" | "success";
+  /** Whether to show icon */
   icon?: boolean;
+  /** Alert title */
   title?: string;
+  /** Alert description */
   description?: string;
+  /** Show close button */
   showCloseButton?: boolean;
+  /** Close handler */
   onClose?: () => void;
+  /** Action button properties */
   actionButtonProps?: React.ComponentProps<typeof Button>;
+  /** Custom content */
   children?: ReactNode;
 }
 
@@ -23,6 +31,9 @@ const variantIconMap: {
   success: "checkCircle",
 };
 
+/**
+ * A notification or feedback component to display alerts.
+ */
 const Feedback = forwardRef<HTMLDivElement, FeedbackProps>(
   (
     {

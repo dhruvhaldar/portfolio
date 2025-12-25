@@ -9,15 +9,25 @@ interface ButtonOption extends Omit<ToggleButtonProps, "selected"> {
 }
 
 interface SegmentedControlProps extends Omit<React.ComponentProps<typeof Scroller>, "onToggle"> {
+  /** List of button options */
   buttons: ButtonOption[];
+  /** Toggle handler */
   onToggle: (value: string, event?: React.MouseEvent<HTMLButtonElement>) => void;
+  /** Default selected value */
   defaultSelected?: string;
+  /** Whether buttons fill width */
   fillWidth?: boolean;
+  /** Controlled selected value */
   selected?: string;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
 }
 
+/**
+ * A horizontal control for selecting one option from a set.
+ */
 const SegmentedControl: React.FC<SegmentedControlProps> = ({
   buttons,
   onToggle,
@@ -98,6 +108,8 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
     <Scroller
       direction="row"
       minWidth={0}
+      className={className}
+      style={style}
       {...scrollerProps}
       role="tablist"
       aria-orientation="horizontal"

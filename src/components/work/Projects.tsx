@@ -3,10 +3,16 @@ import { Column } from "@/once-ui/components";
 import { ProjectCard } from "@/components";
 
 interface ProjectsProps {
+  /** Optional range of projects to display */
   range?: [number, number?];
+  /** Optional pre-fetched posts data */
   posts?: ReturnType<typeof getPosts>;
 }
 
+/**
+ * Fetches and displays a list of project cards.
+ * Renders a column of ProjectCard components.
+ */
 export function Projects({ range, posts }: ProjectsProps) {
   let allProjects = posts || getPosts(["src", "app", "work", "projects"]);
 
@@ -15,7 +21,7 @@ export function Projects({ range, posts }: ProjectsProps) {
   });
 
   const displayedProjects = range
-    ? sortedProjects.slice(range[0] - 1, range[1] ?? sortedProjects.length)
+    ? sortedProjects.slice(Math.max(0, range[0] - 1), range[1] ?? sortedProjects.length)
     : sortedProjects;
 
   return (

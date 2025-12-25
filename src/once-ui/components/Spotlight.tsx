@@ -6,10 +6,20 @@ import classNames from "classnames";
 
 interface SpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  /**
+   * Color of the spotlight effect. Defaults to rgba(255, 255, 255, 0.1).
+   */
   color?: string;
+  /**
+   * Size of the spotlight effect in pixels. Defaults to 400.
+   */
   size?: number;
 }
 
+/**
+ * A container component that adds a "spotlight" radial gradient effect that follows the mouse cursor.
+ * The effect is applied using CSS variables `--spotlight-x` and `--spotlight-y`.
+ */
 export const Spotlight: React.FC<SpotlightProps> = ({
   children,
   className,
@@ -24,18 +34,25 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    let requestId: number = 0;
 
-      container.style.setProperty("--spotlight-x", `${x}px`);
-      container.style.setProperty("--spotlight-y", `${y}px`);
+    const handleMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(requestId);
+
+      requestId = requestAnimationFrame(() => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        container.style.setProperty("--spotlight-x", `${x}px`);
+        container.style.setProperty("--spotlight-y", `${y}px`);
+      });
     };
 
     container.addEventListener("mousemove", handleMouseMove);
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(requestId);
     };
   }, []);
 

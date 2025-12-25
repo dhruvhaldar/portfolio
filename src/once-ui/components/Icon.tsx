@@ -10,15 +10,26 @@ import styles from "./Icon.module.scss";
 import iconStyles from "./IconButton.module.scss";
 
 interface IconProps extends React.ComponentProps<typeof Flex> {
+  /** Name of the icon to render */
   name: string;
+  /** Background color style */
   onBackground?: `${ColorScheme}-${ColorWeight}`;
+  /** Solid background style */
   onSolid?: `${ColorScheme}-${ColorWeight}`;
+  /** Size of the icon */
   size?: "xs" | "s" | "m" | "l" | "xl";
+  /** Whether the icon is decorative (hidden from assistive tech) */
   decorative?: boolean;
+  /** Tooltip text */
   tooltip?: ReactNode;
+  /** Tooltip position */
   tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
+/**
+ * Renders an icon from the icon library.
+ * Supports coloring, sizing, and tooltips.
+ */
 const Icon = forwardRef<HTMLDivElement, IconProps>(
   (
     {
@@ -29,12 +40,24 @@ const Icon = forwardRef<HTMLDivElement, IconProps>(
       decorative = true,
       tooltip,
       tooltipPosition = "top",
+      onFocus,
+      onBlur,
       ...rest
     },
     ref,
   ) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
+
+    const handleFocus = (event: React.FocusEvent<HTMLDivElement>) => {
+      setIsHover(true);
+      if (onFocus) onFocus(event as any);
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+      setIsHover(false);
+      if (onBlur) onBlur(event as any);
+    };
 
     useEffect(() => {
       let timer: NodeJS.Timeout;
@@ -85,6 +108,8 @@ const Icon = forwardRef<HTMLDivElement, IconProps>(
         aria-label={decorative ? undefined : name}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...rest}
       >
         <IconComponent />

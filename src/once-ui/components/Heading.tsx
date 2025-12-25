@@ -11,6 +11,10 @@ type HeadingProps<T extends ElementType> = TextProps<T> &
   SpacingProps &
   ComponentPropsWithoutRef<T>;
 
+/**
+ * A typography component for headings (h1-h6).
+ * Supports standard typography variants and automatic line balancing.
+ */
 const Heading = <T extends ElementType = "h1">({
   as,
   variant,

@@ -4,13 +4,21 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Input, DropdownWrapper, Flex, DatePicker } from ".";
 
 interface DateInputProps extends Omit<React.ComponentProps<typeof Input>, "onChange" | "value"> {
+  /** Element ID */
   id: string;
+  /** Input label */
   label: string;
+  /** Date value */
   value?: Date;
+  /** Change handler */
   onChange?: (date: Date) => void;
+  /** Minimum dropdown height */
   minHeight?: number;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Whether to include time selection */
   timePicker?: boolean;
 }
 
@@ -29,6 +37,10 @@ const formatDate = (date: Date, timePicker: boolean) => {
   return date.toLocaleString("en-US", options);
 };
 
+/**
+ * A date selection input component.
+ * Combines an input field with a dropdown date picker.
+ */
 export const DateInput: React.FC<DateInputProps> = ({
   id,
   label,

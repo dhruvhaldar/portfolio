@@ -5,22 +5,25 @@ import styles from "./TiltFx.module.scss";
 import { Flex } from ".";
 
 interface TiltFxProps extends React.ComponentProps<typeof Flex> {
+  /** React element or node to apply the 3D tilt effect to */
   children: React.ReactNode;
 }
 
+/**
+ * A container that applies a 3D tilt effect on mouse movement (disabled on touch devices).
+ */
 const TiltFx: React.FC<TiltFxProps> = ({ children, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
-  let lastCall = 0;
-  let resetTimeout: NodeJS.Timeout;
+  const throttleRef = useRef({ lastCall: 0, resetTimeout: undefined as NodeJS.Timeout | undefined });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if ("ontouchstart" in window) return;
 
-    clearTimeout(resetTimeout);
+    clearTimeout(throttleRef.current.resetTimeout);
 
     const now = Date.now();
-    if (now - lastCall < 16) return;
-    lastCall = now;
+    if (now - throttleRef.current.lastCall < 16) return;
+    throttleRef.current.lastCall = now;
 
     const element = ref.current;
     if (!element) return;
@@ -48,7 +51,7 @@ const TiltFx: React.FC<TiltFxProps> = ({ children, ...rest }) => {
 
     const element = ref.current;
     if (element) {
-      resetTimeout = setTimeout(() => {
+      throttleRef.current.resetTimeout = setTimeout(() => {
         element.style.transform =
           "perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)";
       }, 100);

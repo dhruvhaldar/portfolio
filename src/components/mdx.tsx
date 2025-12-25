@@ -1,5 +1,5 @@
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";import React, { ReactNode } from "react";import { SmartImage, SmartLink, Text } from "@/once-ui/components";import { CodeBlock } from "@/once-ui/modules";import { HeadingLink, LazyframeVideo } from "@/components";import { TextProps } from "@/once-ui/interfaces";import { SmartImageProps } from "@/once-ui/components/SmartImage";
-type TableProps = { data: { headers: string[]; rows: string[][]; } };function Table({ data }: TableProps) {const headers = data.headers.map((header, index) => <th key={index}>{header}</th>);const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>));return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>);}
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc"; import React, { ReactNode } from "react"; import { Flex, SmartImage, SmartLink, Text } from "@/once-ui/components"; import { CodeBlock } from "@/once-ui/modules"; import { HeadingLink, LazyframeVideo } from "@/components"; import { TextProps } from "@/once-ui/interfaces"; import { SmartImageProps } from "@/once-ui/components/SmartImage";
+type TableProps = { data: { headers: string[]; rows: string[][]; } }; function Table({ data }: TableProps) { const headers = data.headers.map((header, index) => <th key={index}>{header}</th>); const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>)); return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>); }
 
 type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; children: ReactNode; };
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
@@ -10,23 +10,23 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
   return <a href={href} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} {...props}>{children}</a>;
 }
 
-let firstImageRendered = false;
+// let firstImageRendered = false;
 
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) { console.error("SmartImage requires a valid 'src' property."); return null; }
-  const isFirstImage = !firstImageRendered;
-  firstImageRendered = true;
+  // const isFirstImage = !firstImageRendered;
+  // firstImageRendered = true;
   return (
-    <SmartImage 
-      className="my-20" 
-      preload={isFirstImage}
-      loading={isFirstImage ? 'eager' : 'lazy'}
-      radius="m-4" 
-      aspectRatio="16/9" 
-      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }} 
-      alt={alt} 
-      src={src} 
-      {...props} 
+    <SmartImage
+      className="my-20"
+      preload={false}
+      loading={'lazy'}
+      radius="m-4"
+      aspectRatio="16/9"
+      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }}
+      alt={alt}
+      src={src}
+      {...props}
     />
   );
 }
@@ -48,8 +48,34 @@ function createParagraph({ children }: TextProps) {
   return <Text style={{ lineHeight: "175%" }} variant="body-default-m" onBackground="neutral-strong" marginTop="8" marginBottom="12">{children}</Text>;
 }
 
+/**
+ * Creates a blockquote element with glassmorphism styling and a left accent border.
+ */
+function createBlockquote({ children }: TextProps) {
+  return (
+    <Flex
+      background="surface"
+      radius="m"
+      padding="m"
+      marginBottom="m"
+      border="neutral-medium"
+      style={{
+        borderLeft: "4px solid var(--brand-solid-strong)",
+        backdropFilter: "blur(10px)",
+        background: "var(--neutral-alpha-weak)",
+        fontStyle: "italic",
+      }}
+    >
+      <Text variant="body-default-m" onBackground="neutral-strong">
+        {children}
+      </Text>
+    </Flex>
+  );
+}
+
 const components = {
   p: createParagraph,
+  blockquote: createBlockquote,
   h1: createHeading(1),
   h2: createHeading(2),
   h3: createHeading(3),
@@ -65,6 +91,13 @@ const components = {
 
 type CustomMDXProps = MDXRemoteProps & { components?: typeof components; };
 
+/**
+ * A custom MDX renderer that includes custom components for the blog posts.
+ * Supports code blocks, tables, images, and other custom elements.
+ * 
+ * @param {CustomMDXProps} props - Configuration object passed to MDXRemote with optional component overrides.
+ * @returns {React.ReactElement} A rendered MDX component.
+ */
 export function CustomMDX(props: CustomMDXProps) {
   return (
     // @ts-ignore

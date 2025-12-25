@@ -16,57 +16,94 @@ function setRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
 }
 
 interface MaskProps {
+  /** Whether the mask follows the cursor */
   cursor?: boolean;
+  /** Horizontal position percentage (0-100) */
   x?: number;
+  /** Vertical position percentage (0-100) */
   y?: number;
+  /** Radius of the mask */
   radius?: number;
 }
 
 interface GradientProps {
+  /** Whether to display the gradient */
   display?: boolean;
+  /** Opacity of the gradient */
   opacity?: DisplayProps["opacity"];
+  /** Horizontal position percentage */
   x?: number;
+  /** Vertical position percentage */
   y?: number;
+  /** Width percentage */
   width?: number;
+  /** Height percentage */
   height?: number;
+  /** Tilt angle in degrees */
   tilt?: number;
+  /** Start color token */
   colorStart?: string;
+  /** End color token */
   colorEnd?: string;
 }
 
 interface DotsProps {
+  /** Whether to display the dots pattern */
   display?: boolean;
+  /** Opacity of the dots */
   opacity?: DisplayProps["opacity"];
+  /** Color token for the dots */
   color?: string;
+  /** Size token for the dots */
   size?: SpacingToken;
 }
 
 interface GridProps {
+  /** Whether to display the grid pattern */
   display?: boolean;
+  /** Opacity of the grid */
   opacity?: DisplayProps["opacity"];
+  /** Color token for the grid lines */
   color?: string;
+  /** Width of grid cells */
   width?: string;
+  /** Height of grid cells */
   height?: string;
 }
 
 interface LinesProps {
+  /** Whether to display the lines pattern */
   display?: boolean;
+  /** Opacity of the lines */
   opacity?: DisplayProps["opacity"];
+  /** Size token for the spacing between lines */
   size?: SpacingToken;
 }
 
 interface BackgroundProps extends React.ComponentProps<typeof Flex> {
+  /** Positioning strategy */
   position?: CSSProperties["position"];
+  /** Gradient effect configuration */
   gradient?: GradientProps;
+  /** Dots pattern configuration */
   dots?: DotsProps;
+  /** Grid pattern configuration */
   grid?: GridProps;
+  /** Lines pattern configuration */
   lines?: LinesProps;
+  /** Mask configuration */
   mask?: MaskProps;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Content children */
   children?: React.ReactNode;
 }
 
+/**
+ * A versatile background component supporting gradients, patterns (dots, grid, lines), and masking.
+ */
 const Background = forwardRef<HTMLDivElement, BackgroundProps>(
   (
     {
@@ -239,7 +276,7 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
             className={styles.lines}
             opacity={lines.opacity}
             style={{
-              backgroundImage: `repeating-linear-gradient(45deg, var(--brand-on-background-weak) 0, var(--brand-on-background-weak) 0.5px, var(--static-transparent) 0.5px, var(--static-transparent) ${dots.size})`,
+              backgroundImage: `repeating-linear-gradient(45deg, var(--brand-on-background-weak) 0, var(--brand-on-background-weak) 0.5px, var(--static-transparent) 0.5px, var(--static-transparent) var(--static-space-${lines.size ?? "24"}))`,
             }}
           />
         )}

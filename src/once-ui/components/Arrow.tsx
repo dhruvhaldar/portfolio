@@ -6,13 +6,30 @@ import styles from "./Arrow.module.scss";
 import { Flex } from ".";
 
 interface ArrowProps {
+  /** CSS selector string for the element that triggers the arrow animation on hover */
   trigger: string;
+  /** Scale factor for the arrow size (default: 0.8) */
   scale?: number;
+  /** Color theme for the arrow. Use 'onBackground' for light backgrounds or 'onSolid' for solid backgrounds */
   color?: "onBackground" | "onSolid";
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
+/**
+ * An animated arrow component that responds to hover events on a trigger element.
+ *
+ * @example
+ * ```tsx
+ * <Arrow trigger="#my-button" scale={1.2} color="onBackground" />
+ * ```
+ *
+ * @remarks
+ * The trigger element is located using document.querySelector. If the element
+ * is not found, the arrow will render but won't respond to hover events.
+ */
 const Arrow: React.FC<ArrowProps> = ({
   trigger,
   scale = 0.8,

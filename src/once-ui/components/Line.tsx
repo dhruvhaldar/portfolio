@@ -4,10 +4,16 @@ import React, { forwardRef } from "react";
 import { Flex } from ".";
 
 interface LineProps extends React.ComponentProps<typeof Flex> {
+  /** Whether the line is vertical */
   vert?: boolean;
+  /** Custom styles */
   style?: React.CSSProperties;
 }
 
+/**
+ * A separator line component.
+ * Can be horizontal or vertical.
+ */
 const Line = forwardRef<HTMLDivElement, LineProps>(({ vert, className, style, ...rest }, ref) => {
   return (
     <Flex

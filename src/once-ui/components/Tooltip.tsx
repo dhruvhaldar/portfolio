@@ -6,13 +6,21 @@ import classNames from "classnames";
 import { Flex, Icon } from ".";
 
 type TooltipProps = {
+  /** Tooltip text/content */
   label: ReactNode;
+  /** Icon before text */
   prefixIcon?: string;
+  /** Icon after text */
   suffixIcon?: string;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
 };
 
+/**
+ * A tooltip component for displaying additional information on hover/focus.
+ */
 const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   ({ label, prefixIcon, suffixIcon, className, style }, ref) => {
     return (

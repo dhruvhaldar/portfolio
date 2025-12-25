@@ -14,18 +14,29 @@ type BaseColor =
   | "page";
 
 interface FadeProps extends React.ComponentProps<typeof Flex> {
+  /** Custom class name */
   className?: string;
+  /** Direction of the fade */
   to?: "bottom" | "top" | "left" | "right";
+  /** Base color for the fade */
   base?: BaseColor;
+  /** Blur amount */
   blur?: number;
+  /** Pattern configuration */
   pattern?: {
     display?: boolean;
     size?: SpacingToken;
   };
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Content children */
   children?: ReactNode;
 }
 
+/**
+ * A specialized background component that creates a fade/gradient effect.
+ * Useful for transitions or overlays.
+ */
 const Fade = forwardRef<HTMLDivElement, FadeProps>(
   (
     {

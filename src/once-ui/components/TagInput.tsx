@@ -11,10 +11,15 @@ import React, {
 import { Flex, Chip, Input, InputProps } from ".";
 
 interface TagInputProps extends Omit<InputProps, "onChange" | "value"> {
+  /** Current array of tags */
   value: string[];
+  /** Handler for tag changes */
   onChange: (value: string[]) => void;
 }
 
+/**
+ * An input component that converts text entries into tags.
+ */
 const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
   ({ value, onChange, label, placeholder, ...inputProps }, ref) => {
     const [inputValue, setInputValue] = useState("");

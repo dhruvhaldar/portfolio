@@ -21,6 +21,11 @@ type Metadata = {
   link?: string;
 };
 
+/**
+ * Reads all MDX files from a directory.
+ * @param dir - The directory to read from.
+ * @returns An array of filenames ending with .mdx.
+ */
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
     notFound();
@@ -28,6 +33,11 @@ function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
 }
 
+/**
+ * Reads and parses a specific MDX file.
+ * @param filePath - The absolute path to the MDX file.
+ * @returns An object containing the metadata and content of the file.
+ */
 function readMDXFile(filePath: string) {
   if (!fs.existsSync(filePath)) {
     notFound();
@@ -47,6 +57,11 @@ function readMDXFile(filePath: string) {
   return { metadata, content };
 }
 
+/**
+ * Retrieves metadata and content for all MDX files in a directory.
+ * @param dir - The directory to process.
+ * @returns An array of objects containing metadata, slug, and content for each file.
+ */
 function getMDXData(dir: string) {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
@@ -56,11 +71,22 @@ function getMDXData(dir: string) {
   });
 }
 
+/**
+ * Gets all posts from the specified directory path.
+ * @param customPath - Optional path segments to the posts directory. Defaults to root.
+ * @returns List of all posts with their metadata and content.
+ */
 export function getPosts(customPath = ["", "", "", ""]) {
   const postsDir = path.join(process.cwd(), ...customPath);
   return getMDXData(postsDir);
 }
 
+/**
+ * Gets a specific post by its slug.
+ * @param slug - The slug of the post to retrieve.
+ * @param customPath - Optional path segments to the posts directory. Defaults to root.
+ * @returns The post data including metadata and content, or undefined if not found.
+ */
 export function getPostBySlug(slug: string, customPath = ["", "", "", ""]) {
   const postsDir = path.join(process.cwd(), ...customPath);
   const filePath = path.join(postsDir, `${slug}.mdx`);

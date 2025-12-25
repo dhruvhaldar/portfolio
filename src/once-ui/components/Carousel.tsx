@@ -9,14 +9,23 @@ interface Image {
 }
 
 interface CarouselProps extends React.ComponentProps<typeof Flex> {
+  /** Array of images to display */
   images: Image[];
+  /** Indicator style */
   indicator?: "line" | "thumbnail";
+  /** Aspect ratio of the carousel */
   aspectRatio?: string;
+  /** Image sizes attribute */
   sizes?: string;
+  /** Whether to skip the initial reveal animation and show the carousel immediately */
   revealedByDefault?: boolean;
+  /** Whether to preload images */
   preload?: boolean;
 }
 
+/**
+ * An image carousel component with navigation indicators.
+ */
 const Carousel: React.FC<CarouselProps> = ({
   images = [],
   indicator = "thumbnail",
