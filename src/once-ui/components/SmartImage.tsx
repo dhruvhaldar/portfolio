@@ -60,6 +60,13 @@ const SmartImage: React.FC<SmartImageProps> = ({
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (enlarge && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      handleClick();
+    }
+  };
+
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isEnlarged) {
@@ -123,24 +130,27 @@ const SmartImage: React.FC<SmartImageProps> = ({
 
   return (
     <>
-      <Flex 
-      ref={imageRef} 
-      fillWidth 
-      overflow="hidden" 
-      position="relative" 
-      zIndex={0} 
-      cursor={enlarge ? "interactive" : ""} 
-      style={{
-        outline: "none",
-        isolation: "isolate",
-        height: calculateHeight(),
-        aspectRatio: aspectRatio,
-        borderRadius: isEnlarged ? "0" : undefined,
-        ...calculateTransform(),
-      }} 
-      onClick={handleClick} 
-      {...rest}
-    >
+      <Flex
+        ref={imageRef}
+        fillWidth
+        overflow="hidden"
+        position="relative"
+        zIndex={0}
+        cursor={enlarge ? "interactive" : ""}
+        style={{
+          isolation: "isolate",
+          height: calculateHeight(),
+          aspectRatio: aspectRatio,
+          borderRadius: isEnlarged ? "0" : undefined,
+          ...calculateTransform(),
+        }}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        role={enlarge ? "button" : undefined}
+        tabIndex={enlarge ? 0 : undefined}
+        aria-label={enlarge ? (isEnlarged ? "Zoom out" : "Zoom in") : undefined}
+        {...rest}
+      >
         {isLoading && <Skeleton shape="block" />}
         {!isLoading && isVideo && (
           <video

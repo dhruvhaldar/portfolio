@@ -28,6 +28,7 @@ export default function MasonryGrid() {
           aspectRatio={image.orientation === "horizontal" ? "16 / 9" : "3 / 4"}
           src={image.src}
           alt={image.alt}
+          enlarge
           className={styles.gridItem}
         />
       ))}
