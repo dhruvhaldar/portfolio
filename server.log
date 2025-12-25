@@ -1,0 +1,10 @@
+
+> @once-ui-system/magic-portfolio@1.3.0 start /app
+> next start
+
+   ▲ Next.js 15.4.10
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 501ms

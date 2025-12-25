@@ -39,6 +39,8 @@ interface CommonProps {
   href?: string;
   /** Content children (overrides icon) */
   children?: ReactNode;
+  /** Component to render if no href is provided */
+  as?: React.ElementType;
 }
 
 export type IconButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -63,6 +65,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
       style,
       onFocus,
       onBlur,
+      as,
       ...props
     },
     ref,
@@ -110,6 +113,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
       <ElementType
         id={id}
         href={href}
+        as={as}
         ref={ref}
         className={classNames(
           buttonStyles.button,

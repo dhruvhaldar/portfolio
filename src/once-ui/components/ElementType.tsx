@@ -4,6 +4,8 @@ import React, { ReactNode, forwardRef } from "react";
 interface ElementTypeProps {
   /** Link URL. If present, renders an anchor or Link. */
   href?: string;
+  /** Component to render if no href is provided. Defaults to "button". */
+  as?: React.ElementType;
   /** Content children */
   children: ReactNode;
   /** Custom class name */
@@ -22,7 +24,7 @@ const isExternalLink = (url: string) => /^https?:\/\//.test(url);
  * Supports ref forwarding to the underlying element.
  */
 const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
-  ({ href, children, className, style, ...props }, ref) => {
+  ({ href, as: Component = "button", children, className, style, ...props }, ref) => {
     if (href) {
       const isExternal = isExternalLink(href);
       if (isExternal) {
@@ -52,15 +54,16 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
         </Link>
       );
     }
+
     return (
-      <button
-        ref={ref as React.Ref<HTMLButtonElement>}
+      <Component
+        ref={ref}
         className={className}
         style={style}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...props}
       >
         {children}
-      </button>
+      </Component>
     );
   },
 );

@@ -73,6 +73,23 @@ function createBlockquote({ children }: TextProps) {
   );
 }
 
+const VideoComponent = ({ src, ...props }: any) => (
+  <Flex
+    fillWidth
+    radius="l"
+    border="neutral-medium"
+    background="neutral-alpha-weak"
+    padding="m"
+    marginBottom="m"
+    style={{
+      backdropFilter: 'blur(10px)',
+      overflow: 'hidden'
+    }}
+  >
+    <LazyframeVideo src={src} {...props} />
+  </Flex>
+);
+
 const components = {
   p: createParagraph,
   blockquote: createBlockquote,
@@ -86,7 +103,8 @@ const components = {
   a: CustomLink,
   Table,
   CodeBlock,
-  iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
+  iframe: VideoComponent,
+  Video: VideoComponent,
 };
 
 type CustomMDXProps = MDXRemoteProps & { components?: typeof components; };

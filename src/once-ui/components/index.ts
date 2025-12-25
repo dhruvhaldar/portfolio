@@ -17,6 +17,7 @@ export * from "./DateRangePicker";
 export * from "./Dialog";
 export * from "./Dropdown";
 export * from "./DropdownWrapper";
+export * from "./ElementType";
 export * from "./Fade";
 export * from "./Feedback";
 export * from "./Flex";
