@@ -148,9 +148,9 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
               >
                 <Text
                   variant="body-default-m"
-                  onBackground="neutral-strong"
                   style={{
-                    textShadow: "0 1px 2px rgba(0,0,0,0.5)"
+                    color: "white",
+                    textShadow: "0 1px 4px rgba(0,0,0,0.8)"
                   }}
                 >
                   {title}
@@ -163,17 +163,18 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
               position="absolute"
               bottom="0"
               right="0"
-              padding="m"
+              padding="s"
               style={{
                 pointerEvents: "none",
                 zIndex: 2
               }}
             >
-              <Icon
-                name="youtube"
-                size="l"
-                onSolid="brand-strong"
+              <img
+                src="/images/youtube_full_logo.avif"
+                alt="YouTube"
                 style={{
+                  height: '50px', // Scaled 2x
+                  width: 'auto',
                   filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
                 }}
               />
