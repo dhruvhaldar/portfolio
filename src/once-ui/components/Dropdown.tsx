@@ -10,6 +10,9 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
   onSelect?: (event: string) => void;
 }
 
+/**
+ * A generic dropdown container with glassmorphism styling.
+ */
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   ({ selectedOption, className, children, onEscape, onSelect, ...rest }, ref) => {
     const handleSelect = (event: SyntheticEvent<HTMLDivElement>) => {
@@ -28,6 +31,11 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         border="neutral-medium"
         background="surface"
         overflow="hidden"
+        style={{
+          backdropFilter: 'blur(10px)',
+          background: 'var(--neutral-alpha-strong)',
+          ...rest.style,
+        }}
         {...rest}
       >
         <Flex flex={1} overflowY="auto" direction="column" gap="2">
