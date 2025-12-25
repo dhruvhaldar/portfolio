@@ -1,21 +1,70 @@
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc"; import React, { ReactNode } from "react"; import { Flex, SmartImage, SmartLink, Text } from "@/once-ui/components"; import { CodeBlock } from "@/once-ui/modules"; import { HeadingLink, LazyframeVideo } from "@/components"; import { TextProps } from "@/once-ui/interfaces"; import { SmartImageProps } from "@/once-ui/components/SmartImage";
-type TableProps = { data: { headers: string[]; rows: string[][]; } }; function Table({ data }: TableProps) { const headers = data.headers.map((header, index) => <th key={index}>{header}</th>); const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>)); return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>); }
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
+import React, { ReactNode } from "react";
+import { slugify as transliterate } from "transliteration";
 
-type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; children: ReactNode; };
+import {
+  Heading,
+  Text,
+  InlineCode,
+  Feedback,
+  Button,
+  Grid,
+  Row,
+  Column,
+  Icon,
+  SmartLink,
+  SmartImage,
+  Flex
+} from "@/once-ui/components";
+
+import {
+  CodeBlock
+} from "@/once-ui/modules";
+
+import {
+  HeadingLink,
+  LazyframeVideo,
+  Table
+} from "@/components";
+
+import { TextProps } from "@/once-ui/interfaces";
+import { SmartImageProps } from "@/once-ui/components/SmartImage";
+
+type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  href: string;
+  children: ReactNode;
+};
+
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
-  const linkText = typeof children === "string" ? children.trim() : "";
-  const ariaLabel = !linkText ? `Link to ${href}` : undefined;
-  if (href.startsWith("/")) return <SmartLink href={href} aria-label={ariaLabel} {...props}>{children}</SmartLink>;
-  if (href.startsWith("#")) return <a href={href} aria-label={ariaLabel} {...props}>{children}</a>;
-  return <a href={href} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} {...props}>{children}</a>;
+  if (href.startsWith("/")) {
+    return (
+      <SmartLink href={href} {...props}>
+        {children}
+      </SmartLink>
+    );
+  }
+
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+      {children}
+    </a>
+  );
 }
 
-// let firstImageRendered = false;
-
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
-  if (!src) { console.error("SmartImage requires a valid 'src' property."); return null; }
-  // const isFirstImage = !firstImageRendered;
-  // firstImageRendered = true;
+  if (!src) {
+    console.error("Media requires a valid 'src' property.");
+    return null;
+  }
+
   return (
     <SmartImage
       className="my-20"
@@ -31,76 +80,115 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
   );
 }
 
-function slugify(str: string) {
-  return str.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/&/g, "-and-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-");
+function slugify(str: string): string {
+  const strWithAnd = str.replace(/&/g, " and "); // Replace & with 'and'
+  return transliterate(strWithAnd, {
+    lowercase: true,
+    separator: "-", // Replace spaces with -
+  }).replace(/\-\-+/g, "-"); // Replace multiple - with single -
 }
 
-function createHeading(level: 1 | 2 | 3 | 4 | 5 | 6) {
-  const CustomHeading = ({ children, ...props }: TextProps) => {
+function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+  const CustomHeading = ({
+    children,
+    ...props
+  }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id">) => {
     const slug = slugify(children as string);
-    return <HeadingLink style={{ marginTop: "var(--static-space-24)", marginBottom: "var(--static-space-12)" }} level={level} id={slug} {...props}>{children}</HeadingLink>;
+    return (
+      <HeadingLink marginTop="24" marginBottom="12" level={parseInt(as[1]) as any} id={slug} {...props}>
+        {children}
+      </HeadingLink>
+    );
   };
-  CustomHeading.displayName = `Heading${level}`;
+
+  CustomHeading.displayName = `${as}`;
+
   return CustomHeading;
 }
 
-function createParagraph({ children }: TextProps) {
-  return <Text style={{ lineHeight: "175%" }} variant="body-default-m" onBackground="neutral-strong" marginTop="8" marginBottom="12">{children}</Text>;
-}
-
-/**
- * Creates a blockquote element with glassmorphism styling and a left accent border.
- */
-function createBlockquote({ children }: TextProps) {
+function createParagraph({ children }: any) {
   return (
-    <Flex
-      background="surface"
-      radius="m"
-      padding="m"
-      marginBottom="m"
-      border="neutral-medium"
-      style={{
-        borderLeft: "4px solid var(--brand-solid-strong)",
-        backdropFilter: "blur(10px)",
-        background: "var(--neutral-alpha-weak)",
-        fontStyle: "italic",
-      }}
+    <Text
+      style={{ lineHeight: "175%" }}
+      variant="body-default-m"
+      onBackground="neutral-medium"
+      marginTop="8"
+      marginBottom="12"
     >
-      <Text variant="body-default-m" onBackground="neutral-strong">
-        {children}
-      </Text>
-    </Flex>
+      {children}
+    </Text>
   );
 }
 
+function createInlineCode({ children }: { children: ReactNode }) {
+  return <InlineCode>{children}</InlineCode>;
+}
+
+function createCodeBlock(props: any) {
+  // For pre tags that contain code blocks
+  if (props.children && props.children.props && props.children.props.className) {
+    const { className, children } = props.children.props;
+
+    // Extract language from className (format: language-xxx)
+    const language = className.replace("language-", "");
+    const label = language.charAt(0).toUpperCase() + language.slice(1);
+
+    return (
+      <CodeBlock
+        marginTop="8"
+        marginBottom="16"
+        codes={[
+          {
+            code: children,
+            language,
+            label,
+          },
+        ]}
+        copyButton={true}
+      />
+    );
+  }
+
+  // Fallback for other pre tags or empty code blocks
+  return <pre {...props} />;
+}
+
+
 const components = {
-  p: createParagraph,
-  blockquote: createBlockquote,
-  h1: createHeading(1),
-  h2: createHeading(2),
-  h3: createHeading(3),
-  h4: createHeading(4),
-  h5: createHeading(5),
-  h6: createHeading(6),
-  img: createImage,
-  a: CustomLink,
-  Table,
+  p: createParagraph as any,
+  h1: createHeading("h1") as any,
+  h2: createHeading("h2") as any,
+  h3: createHeading("h3") as any,
+  h4: createHeading("h4") as any,
+  h5: createHeading("h5") as any,
+  h6: createHeading("h6") as any,
+  img: createImage as any,
+  a: CustomLink as any,
+  code: createInlineCode as any,
+  pre: createCodeBlock as any,
+  Heading,
+  Text,
   CodeBlock,
+  InlineCode,
+  // Accordion,
+  // AccordionGroup,
+  // Table,
+  Feedback,
+  Button,
+  // Card,
+  Grid,
+  Row,
+  Column,
+  Icon,
+  // Media,
+  SmartLink,
   iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
 };
 
-type CustomMDXProps = MDXRemoteProps & { components?: typeof components; };
+type CustomMDXProps = MDXRemoteProps & {
+  components?: typeof components;
+};
 
-/**
- * A custom MDX renderer that includes custom components for the blog posts.
- * Supports code blocks, tables, images, and other custom elements.
- * 
- * @param {CustomMDXProps} props - Configuration object passed to MDXRemote with optional component overrides.
- * @returns {React.ReactElement} A rendered MDX component.
- */
 export function CustomMDX(props: CustomMDXProps) {
-  return (
-    // @ts-ignore
-    <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />
-  );
+  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
 }
