@@ -5,6 +5,10 @@ import { SmartImage } from "@/once-ui/components";
 import styles from "./Gallery.module.scss";
 import { gallery } from "@/app/resources/content";
 
+/**
+ * A responsive masonry grid component for displaying gallery images.
+ * Adjusts column count based on screen width.
+ */
 export default function MasonryGrid() {
   const breakpointColumnsObj = {
     default: 4,

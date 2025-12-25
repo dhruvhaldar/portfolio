@@ -4,10 +4,16 @@ import React, { useRef, forwardRef } from "react";
 import { Flex, Input, InputProps, IconButton, Icon } from ".";
 
 interface ColorInputProps extends Omit<InputProps, "onChange" | "value"> {
+  /** Color value (hex) */
   value: string;
+  /** Change handler */
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * An input component for selecting colors.
+ * Displays a color preview and supports hex input.
+ */
 const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
   ({ label, id, value, onChange, ...props }, ref) => {
     const colorInputRef = useRef<HTMLInputElement>(null);

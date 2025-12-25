@@ -9,18 +9,31 @@ import commonStyles from "./SharedInteractiveStyles.module.scss";
 
 interface SwitchProps
   extends Omit<InteractiveDetailsProps, "onClick">,
-    React.InputHTMLAttributes<HTMLInputElement> {
+  React.InputHTMLAttributes<HTMLInputElement> {
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
+  /** Whether the switch is checked */
   isChecked: boolean;
+  /** Form name */
   name?: string;
+  /** Input value */
   value?: string;
+  /** Disabled state */
   disabled?: boolean;
+  /** Reverse toggle direction */
   reverse?: boolean;
+  /** Aria label for accessibility */
   ariaLabel?: string;
+  /** Toggle handler */
   onToggle: () => void;
 }
 
+/**
+ * A toggle switch component.
+ * Allows binary selection.
+ */
 const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
@@ -92,7 +105,7 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
             })}
           />
         </div>
-        {props.label && <InteractiveDetails {...props} onClick={() => {}} />}
+        {props.label && <InteractiveDetails {...props} onClick={() => { }} />}
       </Flex>
     );
   },

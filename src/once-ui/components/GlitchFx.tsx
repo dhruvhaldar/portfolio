@@ -6,13 +6,21 @@ import { Flex } from "./Flex";
 import classNames from "classnames";
 
 interface GlitchFxProps extends React.ComponentProps<typeof Flex> {
+  /** Content to apply glitch effect to */
   children: React.ReactNode;
+  /** Animation speed */
   speed?: "slow" | "medium" | "fast";
+  /** Interval between glitches (custom trigger) */
   interval?: number;
+  /** Trigger method */
   trigger?: "instant" | "hover" | "custom";
+  /** Whether to loop continuously */
   continuous?: boolean;
 }
 
+/**
+ * A visual effect component that applies a digital glitch distortion.
+ */
 const GlitchFx = forwardRef<HTMLDivElement, GlitchFxProps>(
   (
     {

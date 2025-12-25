@@ -8,31 +8,45 @@ import iconStyles from "./IconButton.module.scss";
 import classNames from "classnames";
 
 interface CommonProps {
+  /** Icon name */
   icon?: string;
+  /** Element ID */
   id?: string;
+  /** Size of the button */
   size?: "s" | "m" | "l";
+  /** Border radius */
   radius?:
-    | "none"
-    | "top"
-    | "right"
-    | "bottom"
-    | "left"
-    | "top-left"
-    | "top-right"
-    | "bottom-right"
-    | "bottom-left";
+  | "none"
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "top-left"
+  | "top-right"
+  | "bottom-right"
+  | "bottom-left";
+  /** Tooltip text */
   tooltip?: string;
+  /** Tooltip position */
   tooltipPosition?: "top" | "bottom" | "left" | "right";
+  /** Visual variant */
   variant?: "primary" | "secondary" | "tertiary" | "danger" | "ghost";
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** HREF for anchor link */
   href?: string;
+  /** Content children (overrides icon) */
   children?: ReactNode;
 }
 
 export type IconButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 type AnchorProps = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
+/**
+ * A button component intended for displaying an icon.
+ */
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
   (
     {

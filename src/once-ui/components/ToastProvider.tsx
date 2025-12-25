@@ -26,6 +26,9 @@ export const useToast = () => {
   return context;
 };
 
+/**
+ * Provider component for managing toast notifications.
+ */
 const ToastProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
@@ -56,6 +59,7 @@ const ToastProvider: React.FC<{
     </ToastContext.Provider>
   );
 };
+
 
 ToastProvider.displayName = "ToastProvider";
 export { ToastProvider };

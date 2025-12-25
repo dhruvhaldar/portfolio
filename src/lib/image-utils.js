@@ -2,6 +2,17 @@ import sharp from 'sharp';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 
+/**
+ * Processes a single image file with specified options.
+ * @param {string} inputPath - The path to the input image file.
+ * @param {Object} options - Processing options.
+ * @param {number} [options.quality=80] - The quality of the output image (0-100).
+ * @param {number} [options.width] - The width to resize the image to.
+ * @param {number} [options.height] - The height to resize the image to.
+ * @param {string} [options.format='avif'] - The output format ('avif', 'webp', 'jpeg', 'jpg').
+ * @returns {Promise<import('sharp').Sharp>} The sharp pipeline instance.
+ * @throws {Error} If the format is not supported.
+ */
 export async function processImage(inputPath, options = {}) {
   const {
     quality = 80,
@@ -11,7 +22,7 @@ export async function processImage(inputPath, options = {}) {
   } = options;
 
   let pipeline = sharp(inputPath);
-  
+
   if (width || height) {
     pipeline = pipeline.resize(width, height, {
       fit: 'inside',
@@ -37,13 +48,19 @@ export async function processImage(inputPath, options = {}) {
   return pipeline;
 }
 
+/**
+ * Recursively processes all images in a directory.
+ * Generates AVIF, WebP, and optimized JPEG versions for each image.
+ * @param {string} dir - The directory to process.
+ * @returns {Promise<void>}
+ */
 export async function processImageDirectory(dir) {
   try {
     const entries = await fs.readdir(dir, { withFileTypes: true });
 
     for (const entry of entries) {
       const fullPath = join(dir, entry.name);
-      
+
       if (entry.isDirectory()) {
         await processImageDirectory(fullPath);
         continue;

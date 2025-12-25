@@ -4,13 +4,22 @@ import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 
 interface LazyframeVideoProps {
+  /** The source URL of the video (e.g., YouTube URL) */
   src: string;
+  /** The title of the video frame */
   title?: string;
+  /** Width of the video container */
   width?: string;
+  /** Height of the video container */
   height?: string;
+  /** Whether to enable lazy loading */
   lazyload?: true;
 }
 
+/**
+ * A video component that lazily loads video content (like YouTube) to improve performance.
+ * Uses the 'lazyframe' library.
+ */
 const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   src,
   title = "Video player",

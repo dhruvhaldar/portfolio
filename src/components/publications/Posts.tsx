@@ -3,11 +3,18 @@ import { Grid } from "@/once-ui/components";
 import Post from "./Post";
 
 interface PostsProps {
+  /** Range of posts to display [start, end] */
   range?: [number] | [number, number];
+  /** Number of columns for the grid layout */
   columns?: "1" | "2" | "3";
+  /** Whether to show thumbnails */
   thumbnail?: boolean;
 }
 
+/**
+ * fetching and displaying a list of publication posts.
+ * Supports filtering by range and custom grid layout.
+ */
 export function Posts({
   range,
   columns = "1",
@@ -24,9 +31,9 @@ export function Posts({
 
   const displayedPublications = range
     ? sortedPublications.slice(
-        range[0] - 1,
-        range.length === 2 ? range[1] : sortedPublications.length
-      )
+      range[0] - 1,
+      range.length === 2 ? range[1] : sortedPublications.length
+    )
     : sortedPublications;
 
   return (

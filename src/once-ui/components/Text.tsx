@@ -11,6 +11,10 @@ type TypeProps<T extends ElementType> = TextProps<T> &
   SpacingProps &
   ComponentPropsWithoutRef<T>;
 
+/**
+ * A universal typography component.
+ * Supports variants, responsive sizing, and alignment.
+ */
 const Text = <T extends ElementType = "span">({
   as,
   variant,

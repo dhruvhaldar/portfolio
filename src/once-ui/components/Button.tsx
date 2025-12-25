@@ -8,36 +8,56 @@ import { Spinner, Icon, Arrow, Flex } from ".";
 import styles from "./Button.module.scss";
 
 interface CommonProps {
+  /** Visual variant of the button */
   variant?: "primary" | "secondary" | "tertiary" | "danger";
+  /** Size of the button */
   size?: "s" | "m" | "l";
+  /** Border radius configuration */
   radius?:
-    | "none"
-    | "top"
-    | "right"
-    | "bottom"
-    | "left"
-    | "top-left"
-    | "top-right"
-    | "bottom-right"
-    | "bottom-left";
+  | "none"
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "top-left"
+  | "top-right"
+  | "bottom-right"
+  | "bottom-left";
+  /** Text label */
   label?: string;
+  /** Font weight */
   weight?: "default" | "strong";
+  /** Icon to display before text */
   prefixIcon?: string;
+  /** Icon to display after text */
   suffixIcon?: string;
+  /** Whether to show a loading spinner */
   loading?: boolean;
+  /** Whether to fill available width */
   fillWidth?: boolean;
+  /** Justification of content */
   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between";
+  /** Button content */
   children?: ReactNode;
+  /** HREF for anchor link */
   href?: string;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Element ID */
   id?: string;
+  /** Whether to show an arrow icon */
   arrowIcon?: boolean;
 }
 
 export type ButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 export type AnchorProps = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
+/**
+ * A flexible button component that can render as a button or an anchor link.
+ * Supports various styles, sizes, icons, and loading states.
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
   (
     {

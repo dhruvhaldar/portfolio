@@ -15,6 +15,9 @@ interface ToasterProps {
   removeToast: (id: string) => void;
 }
 
+/**
+ * A notification container compliant with WAI-ARIA.
+ */
 const Toaster: React.FC<ToasterProps> = ({ toasts, removeToast }) => {
   const [mounted, setMounted] = useState(false);
 

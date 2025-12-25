@@ -72,15 +72,25 @@ function createEventHandler(
 }
 
 type LetterFxProps = {
+  /** Text content to animate */
   children: ReactNode;
+  /** Trigger condition */
   trigger?: "hover" | "instant" | "custom";
+  /** Animation speed */
   speed?: "fast" | "medium" | "slow";
+  /** Character set for scrambling */
   charset?: string[];
+  /** Custom trigger handler */
   onTrigger?: (triggerFn: () => void) => void;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
 };
 
+/**
+ * A text animation component that scrambles letters before revealing content.
+ */
 const LetterFx = forwardRef<HTMLSpanElement, LetterFxProps>(
   (
     {

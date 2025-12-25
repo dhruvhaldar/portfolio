@@ -14,30 +14,47 @@ import styles from "./Input.module.scss";
 import useDebounce from "../hooks/useDebounce";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Element ID */
   id: string;
+  /** Input label */
   label: string;
+  /** Number of lines or auto-grow */
   lines?: number | "auto";
+  /** Error state */
   error?: boolean;
+  /** Error message text */
   errorMessage?: ReactNode;
+  /** Description help text */
   description?: ReactNode;
+  /** Border radius */
   radius?:
-    | "none"
-    | "top"
-    | "right"
-    | "bottom"
-    | "left"
-    | "top-left"
-    | "top-right"
-    | "bottom-right"
-    | "bottom-left";
+  | "none"
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "top-left"
+  | "top-right"
+  | "bottom-right"
+  | "bottom-left";
+  /** Custom class name */
   className?: string;
+  /** Prefix element */
   hasPrefix?: ReactNode;
+  /** Suffix element */
   hasSuffix?: ReactNode;
+  /** Whether label acts as placeholder */
   labelAsPlaceholder?: boolean;
+  /** Resize behavior */
   resize?: "horizontal" | "vertical" | "both" | "none";
+  /** Custom validation function */
   validate?: (value: ReactNode) => ReactNode | null;
 }
 
+/**
+ * A multi-line text input component.
+ * Supports auto-growing height and validation.
+ */
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {

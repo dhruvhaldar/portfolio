@@ -4,9 +4,13 @@ import React, { ReactNode, forwardRef, SyntheticEvent } from "react";
 import { Flex } from ".";
 
 interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelect"> {
+  /** Currently selected option value */
   selectedOption?: string;
+  /** Dropdown options (children) */
   children?: ReactNode;
+  /** Escape key handler */
   onEscape?: () => void;
+  /** Selection handler */
   onSelect?: (event: string) => void;
 }
 

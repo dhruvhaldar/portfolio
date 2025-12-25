@@ -3,6 +3,9 @@
 import React, { useState, forwardRef } from "react";
 import { Input, InputProps, IconButton } from ".";
 
+/**
+ * An input component for passwords with visibility toggle.
+ */
 export const PasswordInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 

@@ -5,9 +5,13 @@ import styles from "./TiltFx.module.scss";
 import { Flex } from ".";
 
 interface TiltFxProps extends React.ComponentProps<typeof Flex> {
+  /** Content to apply tilt effect to */
   children: React.ReactNode;
 }
 
+/**
+ * A container that applies a 3D tilt effect on mouse hover.
+ */
 const TiltFx: React.FC<TiltFxProps> = ({ children, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
   let lastCall = 0;

@@ -7,18 +7,28 @@ import styles from "./SharedInteractiveStyles.module.scss";
 
 interface RadioButtonProps
   extends Omit<InteractiveDetailsProps, "onClick">,
-    React.InputHTMLAttributes<HTMLInputElement> {
+  React.InputHTMLAttributes<HTMLInputElement> {
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
+  /** Whether the radio button is checked */
   isChecked?: boolean;
+  /** Form name */
   name?: string;
+  /** Input value */
   value?: string;
+  /** Disabled state */
   disabled?: boolean;
+  /** Toggle handler */
   onToggle?: () => void;
 }
-
 const generateId = () => `radio-${Math.random().toString(36).substring(2, 9)}`;
 
+/**
+ * A radio button component.
+ * Allows selection of a single option from a set.
+ */
 const RadioButton: React.FC<RadioButtonProps> = forwardRef<HTMLInputElement, RadioButtonProps>(
   (
     { style, className, isChecked: controlledIsChecked, name, value, onToggle, disabled, ...props },

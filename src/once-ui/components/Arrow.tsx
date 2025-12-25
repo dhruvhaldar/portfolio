@@ -6,13 +6,21 @@ import styles from "./Arrow.module.scss";
 import { Flex } from ".";
 
 interface ArrowProps {
+  /** The selector string for the trigger element */
   trigger: string;
+  /** Scale factor for the arrow */
   scale?: number;
+  /** Color theme for the arrow */
   color?: "onBackground" | "onSolid";
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Custom class name */
   className?: string;
 }
 
+/**
+ * An animated arrow component that responds to hover events on a trigger element.
+ */
 const Arrow: React.FC<ArrowProps> = ({
   trigger,
   scale = 0.8,

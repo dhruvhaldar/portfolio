@@ -6,16 +6,27 @@ import classNames from "classnames";
 import { Flex, Text, Skeleton, Tag, TagProps, Avatar, AvatarProps } from ".";
 
 interface UserProps {
+  /** User name */
   name?: string;
+  /** Custom content */
   children?: React.ReactNode;
+  /** Subtitle text or element */
   subline?: React.ReactNode;
+  /** Tag text */
   tag?: string;
+  /** Tag properties */
   tagProps?: TagProps;
+  /** Loading state */
   loading?: boolean;
+  /** Avatar properties */
   avatarProps?: AvatarProps;
+  /** Custom class name */
   className?: string;
 }
 
+/**
+ * A user profile component that displays an avatar, name, and subline.
+ */
 const User = forwardRef<HTMLDivElement, UserProps>(
   (
     { name, children, subline, tagProps = {}, loading = false, avatarProps = {}, className },

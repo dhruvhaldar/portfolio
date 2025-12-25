@@ -1,1 +1,42 @@
-export function formatDate(date: string, includeRelative = false) {const currentDate = new Date();if (!date.includes("T")) date = `${date}T00:00:00`;const targetDate = new Date(date);const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();const monthsAgo = currentDate.getMonth() - targetDate.getMonth();const daysAgo = currentDate.getDate() - targetDate.getDate();let formattedDate = "";if (yearsAgo > 0) formattedDate = `${yearsAgo}y ago`;else if (monthsAgo > 0) formattedDate = `${monthsAgo}mo ago`;else if (daysAgo > 0) formattedDate = `${daysAgo}d ago`;else formattedDate = "Today";const fullDate = targetDate.toLocaleString("en-us", {month: "long",day: "numeric",year: "numeric", });if (!includeRelative) return fullDate;return `${fullDate} (${formattedDate})`;}
+/**
+ * Formats a date string into a more readable format, optionally including a relative time string.
+ *
+ * @param date - The date string to format (e.g., "2023-01-01").
+ * @param includeRelative - Whether to include a relative time string (e.g., "(1y ago)"). Defaults to false.
+ * @returns The formatted date string.
+ */
+export function formatDate(date: string, includeRelative = false) {
+    const currentDate = new Date();
+    if (!date.includes("T")) {
+        date = `${date}T00:00:00`;
+    }
+    const targetDate = new Date(date);
+
+    const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();
+    const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
+    const daysAgo = currentDate.getDate() - targetDate.getDate();
+
+    let formattedDate = "";
+
+    if (yearsAgo > 0) {
+        formattedDate = `${yearsAgo}y ago`;
+    } else if (monthsAgo > 0) {
+        formattedDate = `${monthsAgo}mo ago`;
+    } else if (daysAgo > 0) {
+        formattedDate = `${daysAgo}d ago`;
+    } else {
+        formattedDate = "Today";
+    }
+
+    const fullDate = targetDate.toLocaleString("en-us", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    });
+
+    if (!includeRelative) {
+        return fullDate;
+    }
+
+    return `${fullDate} (${formattedDate})`;
+}

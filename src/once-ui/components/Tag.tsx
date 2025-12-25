@@ -7,14 +7,23 @@ import { Flex, Text, Icon } from ".";
 import styles from "./Tag.module.scss";
 
 interface TagProps extends React.ComponentProps<typeof Flex> {
+  /** Visual variant */
   variant?: "brand" | "accent" | "warning" | "success" | "danger" | "neutral" | "info" | "gradient";
+  /** Size of the tag */
   size?: "s" | "m" | "l";
+  /** Text label */
   label?: string;
+  /** Icon before text */
   prefixIcon?: string;
+  /** Icon after text */
   suffixIcon?: string;
+  /** Content children (alternative to label) */
   children?: ReactNode;
 }
 
+/**
+ * A compact element for labeling and categorization.
+ */
 const Tag = forwardRef<HTMLDivElement, TagProps>(
   (
     {

@@ -1,18 +1,31 @@
-"use client";import React, { CSSProperties, useState, useRef, useEffect } from "react";import Image from "next/image";import { Flex, Skeleton } from "@/once-ui/components";
+"use client"; import React, { CSSProperties, useState, useRef, useEffect } from "react"; import Image from "next/image"; import { Flex, Skeleton } from "@/once-ui/components";
 
 export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
+  /** Aspect ratio of the image */
   aspectRatio?: string;
+  /** Height of the image */
   height?: number;
+  /** Alt text */
   alt?: string;
+  /** Loading state */
   isLoading?: boolean;
+  /** Object fit property */
   objectFit?: CSSProperties["objectFit"];
+  /** Whether the image can be enlarged on click */
   enlarge?: boolean;
+  /** Source URL */
   src: string;
+  /** Whether to bypass Next.js image optimization */
   unoptimized?: boolean;
+  /** Sizes attribute for responsive images */
   sizes?: string;
+  /** Priority loading */
   priority?: boolean;
+  /** Preload image */
   preload?: boolean;
+  /** Loading behavior */
   loading?: "lazy" | "eager";
+  /** Responsive breakpoint sizes */
   responsive?: {
     mobile?: string;
     tablet?: string;
@@ -20,6 +33,10 @@ export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
   };
 }
 
+/**
+ * An enhanced image component that supports lazy loading, responsive sizing, and lightbox enlargement.
+ * Handles both images and video sources.
+ */
 const SmartImage: React.FC<SmartImageProps> = ({
   aspectRatio,
   height,
@@ -31,9 +48,9 @@ const SmartImage: React.FC<SmartImageProps> = ({
   unoptimized = true,
   priority,
   preload,
-  loading = "lazy", 
+  loading = "lazy",
   responsive,
-  sizes = responsive 
+  sizes = responsive
     ? `
       (max-width: 640px) ${responsive.mobile || '100vw'}, 
       (max-width: 1024px) ${responsive.tablet || '50vw'}, 
@@ -118,29 +135,29 @@ const SmartImage: React.FC<SmartImageProps> = ({
       : "";
   };
 
-  const isVideo = src?.endsWith(".mp4");const isYouTube = isYouTubeVideo(src);
+  const isVideo = src?.endsWith(".mp4"); const isYouTube = isYouTubeVideo(src);
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <>
-      <Flex 
-      ref={imageRef} 
-      fillWidth 
-      overflow="hidden" 
-      position="relative" 
-      zIndex={0} 
-      cursor={enlarge ? "interactive" : ""} 
-      style={{
-        outline: "none",
-        isolation: "isolate",
-        height: calculateHeight(),
-        aspectRatio: aspectRatio,
-        borderRadius: isEnlarged ? "0" : undefined,
-        ...calculateTransform(),
-      }} 
-      onClick={handleClick} 
-      {...rest}
-    >
+      <Flex
+        ref={imageRef}
+        fillWidth
+        overflow="hidden"
+        position="relative"
+        zIndex={0}
+        cursor={enlarge ? "interactive" : ""}
+        style={{
+          outline: "none",
+          isolation: "isolate",
+          height: calculateHeight(),
+          aspectRatio: aspectRatio,
+          borderRadius: isEnlarged ? "0" : undefined,
+          ...calculateTransform(),
+        }}
+        onClick={handleClick}
+        {...rest}
+      >
         {isLoading && <Skeleton shape="block" />}
         {!isLoading && isVideo && (
           <video
@@ -240,4 +257,5 @@ const SmartImage: React.FC<SmartImageProps> = ({
           </Flex>
         </Flex>
       )}
-    </>);};SmartImage.displayName = "SmartImage";export { SmartImage };
+    </>);
+}; SmartImage.displayName = "SmartImage"; export { SmartImage };

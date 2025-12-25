@@ -2,6 +2,9 @@ import { Flex, IconButton, SmartLink, Text } from "@/once-ui/components";
 import { person, social } from "@/app/resources/content";
 import styles from "./Footer.module.scss";
 
+/**
+ * Footer component displaying copyright info, credits, and social links.
+ */
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 

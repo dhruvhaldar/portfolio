@@ -16,13 +16,17 @@ import { SpacingToken, ColorScheme, ColorWeight } from "../types";
 
 interface ComponentProps
   extends GridProps,
-    SpacingProps,
-    SizeProps,
-    StyleProps,
-    CommonProps,
-    DisplayProps,
-    ConditionalProps {}
+  SpacingProps,
+  SizeProps,
+  StyleProps,
+  CommonProps,
+  DisplayProps,
+  ConditionalProps { }
 
+/**
+ * A layout component based on CSS Grid.
+ * Allows defining columns, rows, and gaps for complex layouts.
+ */
 const Grid = forwardRef<HTMLDivElement, ComponentProps>(
   (
     {
@@ -187,8 +191,8 @@ const Grid = forwardRef<HTMLDivElement, ComponentProps>(
         border || borderTop || borderRight || borderBottom || borderLeft,
       ),
       (border || borderTop || borderRight || borderBottom || borderLeft) &&
-        !borderStyle &&
-        "border-solid",
+      !borderStyle &&
+      "border-solid",
       border && !borderWidth && `border-1`,
       (borderTop || borderRight || borderBottom || borderLeft) && "border-reset",
       borderTop && "border-top-1",

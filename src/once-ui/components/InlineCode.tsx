@@ -8,6 +8,9 @@ interface InlineCodeProps extends React.ComponentProps<typeof Flex> {
   children: ReactNode;
 }
 
+/**
+ * A styled component for inline code snippets.
+ */
 const InlineCode = forwardRef<HTMLDivElement, InlineCodeProps>(({ children, ...rest }, ref) => {
   return (
     <Flex

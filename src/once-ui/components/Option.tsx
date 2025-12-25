@@ -5,19 +5,33 @@ import { ElementType } from "./ElementType";
 import React, { forwardRef } from "react";
 
 export interface OptionProps {
+  /** Label content */
   label: React.ReactNode;
+  /** Link URL (mutually exclusive with onClick) */
   href?: string;
+  /** Value identifier */
   value: string;
+  /** Prefix content */
   hasPrefix?: React.ReactNode;
+  /** Suffix content */
   hasSuffix?: React.ReactNode;
+  /** Description text */
   description?: React.ReactNode;
+  /** Danger style */
   danger?: boolean;
+  /** Selected state */
   selected?: boolean;
+  /** Highlighted state */
   highlighted?: boolean;
+  /** Tab index */
   tabIndex?: number;
+  /** Click handler */
   onClick?: (value: string) => void;
 }
 
+/**
+ * A selectable option component for dropdowns and lists.
+ */
 const Option = forwardRef<HTMLDivElement, OptionProps>(
   (
     {

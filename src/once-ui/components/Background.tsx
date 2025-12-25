@@ -56,17 +56,29 @@ interface LinesProps {
 }
 
 interface BackgroundProps extends React.ComponentProps<typeof Flex> {
+  /** Positioning strategy */
   position?: CSSProperties["position"];
+  /** Gradient effect configuration */
   gradient?: GradientProps;
+  /** Dots pattern configuration */
   dots?: DotsProps;
+  /** Grid pattern configuration */
   grid?: GridProps;
+  /** Lines pattern configuration */
   lines?: LinesProps;
+  /** Mask configuration */
   mask?: MaskProps;
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Content children */
   children?: React.ReactNode;
 }
 
+/**
+ * A versatile background component supporting gradients, patterns (dots, grid, lines), and masking.
+ */
 const Background = forwardRef<HTMLDivElement, BackgroundProps>(
   (
     {

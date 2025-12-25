@@ -9,14 +9,23 @@ import classNames from "classnames";
 
 interface NumberInputProps
   extends Omit<React.ComponentProps<typeof Input>, "type" | "value" | "onChange"> {
+  /** Current value */
   value?: number;
+  /** Change handler */
   onChange?: (value: number) => void;
+  /** Minimum value */
   min?: number;
+  /** Maximum value */
   max?: number;
+  /** Incremental step size */
   step?: number;
+  /** Padding width for leading zeros */
   padStart?: number;
 }
 
+/**
+ * An input component for numerical values with increment/decrement controls.
+ */
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   ({ value, onChange, min, max, step = 1, padStart, ...props }, ref) => {
     const [localValue, setLocalValue] = useState<string>(

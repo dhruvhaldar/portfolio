@@ -11,16 +11,24 @@ import { Flex } from "./Flex";
 type LogoProps = ComponentProps<typeof Logo>;
 
 interface LogoCloudProps extends React.ComponentProps<typeof Grid> {
+  /** List of logos to display */
   logos: LogoProps[];
+  /** Custom class name */
   className?: string;
+  /** Custom styles */
   style?: React.CSSProperties;
+  /** Number of visible logos */
   limit?: number;
+  /** Rotation interval in ms */
   rotationInterval?: number;
 }
 
 const ANIMATION_DURATION = 5000;
 const STAGGER_DELAY = 25;
 
+/**
+ * A component that displays a rotating grid of logos.
+ */
 const LogoCloud = forwardRef<HTMLDivElement, LogoCloudProps>(
   ({ logos, className, style, limit = 6, rotationInterval = ANIMATION_DURATION, ...rest }, ref) => {
     const [visibleLogos, setVisibleLogos] = useState<LogoProps[]>(() => logos.slice(0, limit));
