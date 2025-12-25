@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts, getPostBySlug } from "@/app/utils/utils";
-import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink,} from "@/once-ui/components";
+import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink, } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
@@ -97,8 +97,8 @@ export default async function Project({ params }: WorkParams) {
             image: post.metadata.image
               ? `https://${baseURL}${escapeHtml(post.metadata.image)}`
               : `https://${baseURL}/og?title=${encodeURIComponent(
-                  escapeHtml(post.metadata.title)
-                )}`,
+                escapeHtml(post.metadata.title)
+              )}`,
             url: `https://${baseURL}/work/${escapeHtml(post.slug)}`,
             author: {
               "@type": "Person",
@@ -124,7 +124,7 @@ export default async function Project({ params }: WorkParams) {
           </SmartLink>
         )}
       </Column>
-      {post.metadata.images.length > 0 && (
+      {post.metadata.images?.length > 0 && (
         <SmartImage
           preload={true}
           aspectRatio="16 / 9"
@@ -143,6 +143,7 @@ export default async function Project({ params }: WorkParams) {
           </Text>
         </Flex>
         <CustomMDX source={post.content} />
+        {/* <Text>MDX Disabled for Debugging</Text> */}
       </Column>
       <ScrollToHash />
     </Column>

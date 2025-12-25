@@ -1,5 +1,5 @@
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";import React, { ReactNode } from "react";import { Flex, SmartImage, SmartLink, Text } from "@/once-ui/components";import { CodeBlock } from "@/once-ui/modules";import { HeadingLink, LazyframeVideo } from "@/components";import { TextProps } from "@/once-ui/interfaces";import { SmartImageProps } from "@/once-ui/components/SmartImage";
-type TableProps = { data: { headers: string[]; rows: string[][]; } };function Table({ data }: TableProps) {const headers = data.headers.map((header, index) => <th key={index}>{header}</th>);const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>));return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>);}
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc"; import React, { ReactNode } from "react"; import { Flex, SmartImage, SmartLink, Text } from "@/once-ui/components"; import { CodeBlock } from "@/once-ui/modules"; import { HeadingLink, LazyframeVideo } from "@/components"; import { TextProps } from "@/once-ui/interfaces"; import { SmartImageProps } from "@/once-ui/components/SmartImage";
+type TableProps = { data: { headers: string[]; rows: string[][]; } }; function Table({ data }: TableProps) { const headers = data.headers.map((header, index) => <th key={index}>{header}</th>); const rows = data.rows.map((row, index) => (<tr key={index}>{row.map((cell, cellIndex) => (<td key={cellIndex}>{cell}</td>))}</tr>)); return (<table><thead><tr>{headers}</tr></thead><tbody>{rows}</tbody></table>); }
 
 type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; children: ReactNode; };
 function CustomLink({ href, children, ...props }: CustomLinkProps) {
@@ -17,16 +17,16 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
   // const isFirstImage = !firstImageRendered;
   // firstImageRendered = true;
   return (
-    <SmartImage 
-      className="my-20" 
+    <SmartImage
+      className="my-20"
       preload={false}
       loading={'lazy'}
-      radius="m-4" 
-      aspectRatio="16/9" 
-      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }} 
-      alt={alt} 
-      src={src} 
-      {...props} 
+      radius="m-4"
+      aspectRatio="16/9"
+      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }}
+      alt={alt}
+      src={src}
+      {...props}
     />
   );
 }
