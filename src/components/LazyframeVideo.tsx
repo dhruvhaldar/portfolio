@@ -26,10 +26,12 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   width = "100%",
   height = "500px",
 }) => {
+  const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
+
   useEffect(() => {
-    if (!initializedRef.current) {
-      lazyframe('.lazyframe');
+    if (!initializedRef.current && videoRef.current) {
+      lazyframe(videoRef.current);
       initializedRef.current = true;
     }
   }, []);
@@ -46,6 +48,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
       }}
     >
       <div
+        ref={videoRef}
         className="lazyframe"
         data-src={src}
         data-vendor="youtube"

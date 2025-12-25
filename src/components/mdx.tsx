@@ -208,6 +208,7 @@ const components = {
     </div>
   ),
   iframe: ({ src }: { src: string }) => <LazyframeVideo src={src} />,
+  Video: LazyframeVideo,
 };
 
 type CustomMDXProps = MDXRemoteProps & {
