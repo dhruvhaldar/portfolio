@@ -125,19 +125,7 @@ npx playwright show-report
 
 *Note: Ensure you have installed Playwright browsers via `npx playwright install` if running for the first time.*
 
-## 📊 Performance Analysis
 
-To analyze the bundle size and performance:
-
-```bash
-# Install dependencies (if not already installed)
-pnpm install
-
-# Generate bundle analysis (Windows)
-$env:ANALYZE="true"; $env:NODE_ENV="production"; npx next build
-```
-
-Reports will be available in the `.next/analyze/` directory.
 
 ## ❌ Contributing
 
@@ -174,27 +162,9 @@ portfolio/
 - `pnpm test`: Run unit and integration tests
 - `pnpm test:coverage`: Run tests with code coverage report
 
-## Tech Stack
 
-- **Framework**: Next.js 14
-- **Language**: TypeScript
-- **Styling**: SCSS Modules
-- **UI System**: Once UI
-- **Image Processing**: Sharp
-- **Optimization**: 
-  - SWC Minification
-  - Image optimization (AVIF, WebP)
-  - Bundle analysis
-  - Console removal in production
 
-## Performance Optimizations
 
-- Modern image formats (AVIF, WebP) with fallbacks
-- Automatic image optimization
-- Bundle size optimization
-- Code minification
-- Dead code elimination
-- Console removal in production
 
 ## Browser Support
 
