@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Flex, Line, ToggleButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
 import { routes } from "@/app/resources";
-import { home, about, work, publications, gallery } from "@/app/resources/content";
+import { home, about, work, publications, gallery, blog } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
 
 
@@ -127,6 +127,24 @@ export const Header = () => {
                     href="/gallery"
                     aria-label={gallery.label}
                     selected={pathname.startsWith("/gallery")}
+                  />
+                </>
+              )}
+              {routes["/blog"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="book"
+                    href="/blog"
+                    label={blog.label}
+                    selected={pathname.startsWith("/blog")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="book"
+                    href="/blog"
+                    aria-label={blog.label}
+                    selected={pathname.startsWith("/blog")}
                   />
                 </>
               )}

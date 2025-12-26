@@ -80,6 +80,7 @@ const about = {
   label: "About",
   title: "About me",
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  path: "/about",
   tableOfContent: { display: true, subItems: true },
   avatar: { display: true },
   calendar: { display: true, link: "https://cal.com/dhruvhaldar" },
@@ -272,6 +273,7 @@ const publications = {
   label: "Publications",
   title: "Publications",
   description: `Publications by ${person.name } `,
+  path: "/publications",
 };
 
 // Work page
@@ -279,6 +281,7 @@ const work = {
   label: "Work",
   title: "Projects",
   description: `Engineering projects by ${person.name}`,
+  path: "/work",
 };
 
 // Gallery Page
@@ -286,6 +289,7 @@ const gallery = {
   label: "Gallery",
   title: "Gallery",
   description: `A photo collection by ${person.name }`,
+  path: "/gallery",
   images: [
     {src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },
     {src: "/images/gallery/49605806978_f489af4e9a_o.avif", alt: "image", orientation: "vertical" },
@@ -309,4 +313,12 @@ const gallery = {
   ],
 };
 
-export { person, social, home, about, work, gallery, publications };
+// Blog Page
+const blog = {
+  label: "Blog",
+  title: "Blog",
+  description: `Read technical blog posts by ${person.name}`,
+  path: "/blog",
+};
+
+export { person, social, home, about, work, gallery, publications, blog };

@@ -1,0 +1,15 @@
+.hover {
+    transition: all 0.2s ease-in-out;
+}
+
+.hover:hover {
+    background: var(--neutral-alpha-medium) !important;
+}
+
+.image {
+    transition: transform 0.4s ease-in-out;
+}
+
+.hover:hover .image {
+    transform: scale(1.05);
+}
