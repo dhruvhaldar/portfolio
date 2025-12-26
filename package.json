@@ -87,5 +87,10 @@
     "boolean": "^3.2.0"
   },
   "description": "Dhruv Haldar Portfolio",
-  "author": "Dhruv Haldar"
+  "author": "Dhruv Haldar",
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not op_mini all"
+  ]
 }
