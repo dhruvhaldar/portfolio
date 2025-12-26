@@ -14,6 +14,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
+  experimental: {
+    optimizeCss: true,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
