@@ -88,6 +88,13 @@ export function getPosts(customPath = ["", "", "", ""]) {
  * @returns The post data including metadata and content, or undefined if not found.
  */
 export function getPostBySlug(slug: string, customPath = ["", "", "", ""]) {
+  // 🛡️ Sentinel: Prevent Path Traversal by validating the slug
+  const slugPattern = /^[a-zA-Z0-9_-]+$/;
+  if (!slugPattern.test(slug)) {
+    console.warn(`Security Warning: Invalid slug format detected: ${slug}`);
+    return undefined;
+  }
+
   const postsDir = path.join(process.cwd(), ...customPath);
   const filePath = path.join(postsDir, `${slug}.mdx`);
 
