@@ -92,7 +92,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
       />
 
       <Row fillWidth gap="xl" horizontal="center">
-        <Column flex={3} hide="m" />
+        <Column flex={3} hide="m" maxWidth={20} />
         <Column flex={6} maxWidth="s" gap="l" horizontal="center">
           <Column
             maxWidth="s"

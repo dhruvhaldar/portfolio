@@ -45,9 +45,29 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
     const indicatorTop = activeIndex !== -1 ? activeIndex * 48 : 0;
     const showIndicator = activeIndex !== -1;
 
-    const handleClick = (id: string) => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        e.preventDefault();
         isClicked.current = true;
         setActiveId(id);
+
+        const element = document.getElementById(id);
+        if (element) {
+            // Offset for sticky header if needed, but smooth scroll is key
+            const offset = 100; // Adjust this value based on your header height
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+
+        // Optional: Update URL without jumping
+        window.history.pushState(null, "", `#${id}`);
+
         setTimeout(() => {
             isClicked.current = false;
         }, 1000);
@@ -55,7 +75,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
 
     return (
         <Flex gap="16">
-            <Column minWidth="4" position="relative" background="neutral-medium" radius="full">
+            <Column minWidth="4" position="relative" radius="full" background="neutral-alpha-weak" style={{ backdropFilter: "blur(var(--static-space-1))" }}>
                 <Column
                     position="absolute"
                     background="brand-strong"
@@ -75,16 +95,19 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
                         key={item.id}
                         href={`#${item.id}`}
                         unstyled
-                        onClick={() => handleClick(item.id)}
+                        onClick={(e) => handleClick(e, item.id)}
                     >
                         <Flex
                             height="32"
                             vertical="center"
                         >
                             <Text
-                                variant={activeId === item.id ? "body-strong-s" : "body-default-s"}
+                                variant="body-default-s"
                                 onBackground={activeId === item.id ? "neutral-strong" : "neutral-medium"}
-                                style={{ transition: "color 0.2s" }}
+                                style={{
+                                    transition: "color 0.2s",
+                                    textShadow: activeId === item.id ? "0 0 1px currentColor" : "none"
+                                }}
                             >
                                 {item.label}
                             </Text>
