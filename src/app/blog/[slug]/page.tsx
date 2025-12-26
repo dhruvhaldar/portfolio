@@ -109,33 +109,31 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             </Heading>
           </Column>
 
-          <Row id="about" gap="12" vertical="center" horizontal="center">
-            <Avatar size="s" src={person.avatar} />
-            <Text variant="body-default-s" onBackground="neutral-weak">
-              {person.name}
-            </Text>
-            <Text variant="body-default-s" onBackground="neutral-weak">
-              {post.metadata.publishedAt &&
-                formatDate(post.metadata.publishedAt)}
-            </Text>
-          </Row>
+          <Column fillWidth gap="24" horizontal="center">
+            <Row id="about" gap="12" vertical="center" horizontal="center">
+              <Avatar size="s" src={person.avatar} />
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                {person.name}
+              </Text>
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                {post.metadata.publishedAt &&
+                  formatDate(post.metadata.publishedAt)}
+              </Text>
+            </Row>
 
-          {post.metadata.image && (
-            <SmartImage
-              src={post.metadata.image}
-              alt={post.metadata.title}
-              aspectRatio="16/9"
-              priority
-              sizes="(min-width: 768px) 100vw, 768px"
-              radius="l"
-              style={{
-                marginTop: "12px",
-                marginBottom: "8px",
-              }}
-            />
-          )}
-          <Column as="article" fillWidth maxWidth="s">
-            <CustomMDX source={post.content} />
+            {post.metadata.image && (
+              <SmartImage
+                src={post.metadata.image}
+                alt={post.metadata.title}
+                aspectRatio="16/9"
+                priority
+                sizes="(min-width: 768px) 100vw, 768px"
+                radius="l"
+              />
+            )}
+            <Column as="article" fillWidth maxWidth="s">
+              <CustomMDX source={post.content} />
+            </Column>
           </Column>
 
           <ShareSection

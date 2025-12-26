@@ -75,7 +75,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
 
     return (
         <Flex gap="16">
-            <Column minWidth="4" position="relative" radius="full" background="neutral-alpha-weak" style={{ backdropFilter: "blur(var(--static-space-1))" }}>
+            <Column minWidth="4" position="relative" radius="full" background="neutral-alpha-weak" style={{ backdropFilter: "blur(var(--static-space-1))", boxShadow: "var(--static-shadow-1)" }}>
                 <Column
                     position="absolute"
                     background="brand-strong"
