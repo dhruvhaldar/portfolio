@@ -130,6 +130,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           padding="0"
           className="font-sans antialiased"
         >
+          <a href="#main-content" className="skip-to-content">
+            Skip to main content
+          </a>
           <GoogleAnalytics gaId="G-D5DG6N0RGV" />
           <Background
             mask={{
@@ -181,6 +184,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <Flex fillWidth minHeight="16"></Flex>
           <Header />
           <Flex
+            id="main-content"
+            tabIndex={-1}
             position="relative"
             zIndex={0}
             fillWidth
@@ -188,6 +193,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             paddingX="l"
             horizontal="center"
             flex={1}
+            style={{ outline: 'none' }}
           >
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>
