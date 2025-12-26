@@ -89,7 +89,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     <Flex
       fillWidth
       radius="l"
-      padding="s"
+      padding="8"
       border="neutral-alpha-medium"
       background="neutral-alpha-weak"
       style={{
