@@ -14,7 +14,7 @@ team:
 link: "/documents/ImplementationofwingipsinmeaDhruv.pdf"
 ---
 
-> "Results revealed a significant reduction in e-WIPS power usage, ranging from 13% to 50% depending on the p-WIPS configuration chosen."
+> _Results revealed a significant reduction in e-WIPS power usage, ranging from 13% to 50% depending on the p-WIPS configuration chosen._
 
 ## Overview
 
@@ -46,14 +46,13 @@ The study employed a "divide and conquer" strategy to handle the complex physics
 
 To replicate realistic flight conditions, the descent phase was simulated with specific parameters compliant with aviation standards:
 
-| Parameter | Value | Unit |
-| :--- | :--- | :--- |
-| **Altitude** | 6000 (19,685) | m (ft) |
-| **Air Speed** | 202.75 | m/s |
-| **Icing Air Temperature** | 256 (-17) | K (°C) |
-| **Icing Duration** | 151.5 | s |
-| **Liquid Water Content** | Langmuir D | - |
-
+| Parameter                 | Value         | Unit   |
+| :------------------------ | :------------ | :----- |
+| **Altitude**              | 6000 (19,685) | m (ft) |
+| **Air Speed**             | 202.75        | m/s    |
+| **Icing Air Temperature** | 256 (-17)     | K (°C) |
+| **Icing Duration**        | 151.5         | s      |
+| **Liquid Water Content**  | Langmuir D    | -      |
 
 ## Challenges and Learnings
 
@@ -62,11 +61,14 @@ The study encountered challenges in accurately simulating ice accretion on aircr
 ## Results and Analysis
 
 ### Ice Formation Characteristics
+
 The study revealed distinct characteristics between different ice types:
+
 - **Rime Ice:** exhibited a constant water film thickness during formation, freezing instantly upon impact.
 - **Glaze Ice:** showed uneven water film thickness due to the "runback" phenomenon, where unfrozen water flows back across the surface before freezing, creating complex shapes.
 
 ### Power Consumption & Efficiency
+
 The results confirmed that the Electrothermal WIPS (e-WIPS) offers significant efficiency improvements over conventional Pneumatic WIPS (p-WIPS). The e-WIPS demonstrated an estimated power savings of **13%** to **50%** depending on the severity of the icing conditions.
 
 - **Total Power (Climb):** 42.23 kW

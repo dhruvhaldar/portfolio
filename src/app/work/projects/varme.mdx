@@ -12,7 +12,7 @@ team:
 link: "/documents/Optimizationproject.pdf"
 ---
 
-> "The best possible solution for the given problem comes out to be 3828.150 kkr, which is 0.350 kkr less than the total cost with mixed-integer programming."
+> _The best possible solution for the given problem comes out to be 3828.150 kkr, which is 0.350 kkr less than the total cost with mixed-integer programming._
 
 ## Overview
 
@@ -31,7 +31,6 @@ The objective of this project was to minimize the cost of operating a power plan
 - **Mathematical Optimization**: Linear and integer programming techniques were employed to balance demand and costs.
 - **Power Plant Data Analysis**: Historical energy consumption data was used to refine the model's accuracy.
 
-
 ## Challenges and Learnings
 
 One of the main challenges was ensuring that all constraints were correctly implemented while maintaining computational efficiency. Managing cold starts (where a unit has been turned off for multiple periods) proved to be critical, as these resulted in higher startup costs. Another key insight was that increasing the scheduling cycle from 24 hours to a longer duration could potentially reduce overall costs by minimizing cold starts.
@@ -39,6 +38,7 @@ One of the main challenges was ensuring that all constraints were correctly impl
 ## Outcome
 
 The optimal solution yielded a total operational cost of **3828.5 kkr**. The solver (GAMS) produced a schedule where:
+
 - **Unit 3** starts in Period 2.
 - **Unit 2** starts in Period 3.
 - **Unit 1** starts in Period 5.
