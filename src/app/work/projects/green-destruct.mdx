@@ -19,7 +19,7 @@ images:
   - "/images/projects/green-destruct/green-destruct.avif"
 ---
 
-> "Companies are effectively searching for efficient allocation of resources to increase their revenues and profits while keeping the costs under control."
+> _Companies are effectively searching for efficient allocation of resources to increase their revenues and profits while keeping the costs under control._
 
 ## Overview
 
@@ -31,8 +31,8 @@ This report presents an analysis for **Green Destruct AB**, a material destructi
 
 A wooden floorboard company generates approximately **31 tons of hazardous waste weekly** across its eight factories located in **Eskilstuna, Falun, Gävle, Norrköping, Stockholm, Uppsala, Västerås, and Örebro**. Green Destruct AB is contracted to handle this waste, charging **250 kr per kilogram**. Green Destruct AB operates four destruction factories with specific capacities: **Arboga (7 tons), Fagersta (8 tons), Ludvika (9 tons), and Nyköping (8 tons)**. They are also responsible for transportation, with costs at **1 kr per kilogram per kilometer up to 1800 kg**, and **1.45 kr per kilometer for every kilogram above 1800 kg**. Destruction costs are **120 kr per kilogram for waste up to 1800kg** and an estimated **100 kr per kilogram above 1800 kg** due to economies of scale. Distances between factories are also provided.
 
-* **Part 1 Objective:** Minimize Green Destruct AB's costs by identifying ideal transportation routes and waste destruction locations for a fixed amount of waste.
-* **Part 2 Objective:** Analyze the situation where waste amounts are uncertain and follow a **normal distribution with a 5% standard deviation**. The objective is to suggest changes, including potentially increasing plant capacities at a cost of **200 kr per kilogram extra capacity**, to handle fluctuations.
+- **Part 1 Objective:** Minimize Green Destruct AB's costs by identifying ideal transportation routes and waste destruction locations for a fixed amount of waste.
+- **Part 2 Objective:** Analyze the situation where waste amounts are uncertain and follow a **normal distribution with a 5% standard deviation**. The objective is to suggest changes, including potentially increasing plant capacities at a cost of **200 kr per kilogram extra capacity**, to handle fluctuations.
 
 ---
 
@@ -41,40 +41,45 @@ A wooden floorboard company generates approximately **31 tons of hazardous waste
 The problem was formulated using variables such as `x_low` (shipment quantities for less than 1.8 tons) and `x_high` (shipment quantities for more than 1.8 tons). Destruction costs (`Clow`, `Chigh`) and transportation costs (`flow`, `fhigh`) were also defined per ton/kilo.
 
 Key constraints include:
-* **Destruction factory capacity constraints:** Total shipments to a destruction factory cannot exceed its capacity.
-* **1.8-ton threshold:** Shipments are split into `x_low` (up to 1.8 tons) and `x_high` (excess above 1.8 tons).
-* **Supply and Demand Equations:** Equations were formulated to represent the supply from production companies and demand at destruction factories.
-* **Objective Function (Part 1):** Minimized total cost considering destruction, transportation, and pick-up fees.
-* **Part 2 Additions:** An `c_excess` cost was introduced for exceeding capacity, and the demand constraint was modified to include `x_excess`. The objective function for Part 2 also incorporated `c_excess`.
+
+- **Destruction factory capacity constraints:** Total shipments to a destruction factory cannot exceed its capacity.
+- **1.8-ton threshold:** Shipments are split into `x_low` (up to 1.8 tons) and `x_high` (excess above 1.8 tons).
+- **Supply and Demand Equations:** Equations were formulated to represent the supply from production companies and demand at destruction factories.
+- **Objective Function (Part 1):** Minimized total cost considering destruction, transportation, and pick-up fees.
+- **Part 2 Additions:** An `c_excess` cost was introduced for exceeding capacity, and the demand constraint was modified to include `x_excess`. The objective function for Part 2 also incorporated `c_excess`.
 
 ---
 
 ## Results and Analysis
 
 ### Part 1: Deterministic Demand
-* **Optimal Transportation Routes:** Table 5 illustrates the optimal transportation routes when no excess capacity is allowed.
-* **Waste Allocation:** Arboga, Fagersta, and Nyköping destruction factories operate at maximum capacity, while Ludvika has one ton to spare.
-* **Profit:** This allocation results in an optimal objective value of **-560,860 kr**, indicating a profit of **560,860 kr** for Green Destruct AB.
+
+- **Optimal Transportation Routes:** Table 5 illustrates the optimal transportation routes when no excess capacity is allowed.
+- **Waste Allocation:** Arboga, Fagersta, and Nyköping destruction factories operate at maximum capacity, while Ludvika has one ton to spare.
+- **Profit:** This allocation results in an optimal objective value of **-560,860 kr**, indicating a profit of **560,860 kr** for Green Destruct AB.
 
 ### Part 2: Uncertain Demand with Excess
-* **Optimal Allocation with Excess:** When allowing for excessive production, the optimal allocation shifts.
-* **Capacity Reallocation Recommendation:** Due to high transportation costs to Ludvika, it becomes more cost-effective to incur the higher destruction cost of exceeding capacity at Nyköping. A key recommendation is to **reallocate destruction capacity from Ludvika to Nyköping** if feasible.
-* **Normal Distribution Analysis:** With a mean weekly waste production of 31 tons and a standard deviation of 1.55 (5% of 31), there is approximately a **26% probability** that demand will exceed the supply limit of 32 tons. Therefore, increasing destruction capacity is a reasonable recommendation.
-* **Approximate Profit (Part 2):** The objective value for this model fluctuates around **-641,070 kr**, corresponding to an approximate profit of **641,070 kr**.
+
+- **Optimal Allocation with Excess:** When allowing for excessive production, the optimal allocation shifts.
+- **Capacity Reallocation Recommendation:** Due to high transportation costs to Ludvika, it becomes more cost-effective to incur the higher destruction cost of exceeding capacity at Nyköping. A key recommendation is to **reallocate destruction capacity from Ludvika to Nyköping** if feasible.
+- **Normal Distribution Analysis:** With a mean weekly waste production of 31 tons and a standard deviation of 1.55 (5% of 31), there is approximately a **26% probability** that demand will exceed the supply limit of 32 tons. Therefore, increasing destruction capacity is a reasonable recommendation.
+- **Approximate Profit (Part 2):** The objective value for this model fluctuates around **-641,070 kr**, corresponding to an approximate profit of **641,070 kr**.
 
 ---
 
 ## Challenges and Model Limitations
 
 While the results are considered reasonable and useful, the model has limitations:
-* **Simplification of Reality:** The model is a simplification, especially regarding transportation costs, which are represented by two fixed costs but can vary significantly in real-world scenarios.
-* **Lack of Contingency Planning:** The model does not account for potential breakdowns in transportation or factories, which would significantly impact costs and require alternative waste routing.
+
+- **Simplification of Reality:** The model is a simplification, especially regarding transportation costs, which are represented by two fixed costs but can vary significantly in real-world scenarios.
+- **Lack of Contingency Planning:** The model does not account for potential breakdowns in transportation or factories, which would significantly impact costs and require alternative waste routing.
 
 ---
 
 ## Summary and Conclusion
 
 Based on the analysis:
-* In a deterministic demand scenario, Ludvika is the site with excess capacity.
-* If excess capacity at factories is allowed, it is more efficient to allocate more waste destruction to Nyköping and less to Ludvika.
-* When demand follows a normal distribution, there is a **26% risk that demand surpasses supply**. Despite increased destruction costs in this scenario, the company is still projected to make a profit.
+
+- In a deterministic demand scenario, Ludvika is the site with excess capacity.
+- If excess capacity at factories is allowed, it is more efficient to allocate more waste destruction to Nyköping and less to Ludvika.
+- When demand follows a normal distribution, there is a **26% risk that demand surpasses supply**. Despite increased destruction costs in this scenario, the company is still projected to make a profit.

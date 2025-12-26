@@ -63,13 +63,6 @@ export default function Home() {
 
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
-      {/* Analytics Preconnect and Script */}
-      <link rel="preconnect" href="https://cloud.umami.is" crossOrigin="anonymous" />
-      <Script 
-        strategy="afterInteractive"
-        src="https://cloud.umami.is/script.js" 
-        data-website-id="bdc0e551-96ce-4161-8e5b-3e9e89a304a2"
-      />
 
       {/* Structured Data */}
       <script

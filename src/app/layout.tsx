@@ -8,6 +8,7 @@ import { Geist } from "next/font/google";
 
 import { person, home } from "@/app/resources/content";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const Footer = dynamic(
   () => import('@/components/Footer').then((mod) => mod.Footer),
@@ -129,6 +130,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           padding="0"
           className="font-sans antialiased"
         >
+          <GoogleAnalytics gaId="G-D5DG6N0RGV" />
           <Background
             mask={{
               cursor: effects.mask.cursor,
