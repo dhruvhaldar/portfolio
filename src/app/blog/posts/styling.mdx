@@ -1,7 +1,7 @@
 ---
 title: "Styling your portfolio"
 summary: "Magic Portfolio's styling is based on Once UI's customization through data-attributes."
-image: "/images/gallery/horizontal-3.jpg"
+image: "/images/projects/aesir-rocket-project/Sigmundr_group.avif"
 publishedAt: "2025-04-21"
 tag: "Magic Portfolio"
 ---
@@ -12,7 +12,7 @@ Magic Portfolio's styling is based on Once UI's customization through data-attri
 
 <CodeBlock
   marginBottom="16"
-  codes={[
+  codeInstances={[
     {
       code: `theme:       'dark',         // dark | light
 neutral:     'gray',         // sand | gray | slate
@@ -35,9 +35,9 @@ scaling:     '100',          // 90 | 95 | 100 | 105 | 110`,
 There's a pre-configured background in `layout.tsx` that you can modify in the config file. Set graphic elements such as gradient, dots, lines, and grid and configure their appearance.
 
 <CodeBlock
-  codeHeight={24}
+
   marginBottom="16"
-  codes={[
+  codeInstances={[
     {
       code: `const effects = {
     mask: {
@@ -81,3 +81,11 @@ There's a pre-configured background in `layout.tsx` that you can modify in the c
     },
   ]}
 />
+
+## Media
+
+You can now use images and videos in your blog posts. Supports lazy loading and custom styling.
+
+![The Aesir Rocket Project Team](/images/projects/aesir-rocket-project/Sigmundr_group.avif)
+
+<Video src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
