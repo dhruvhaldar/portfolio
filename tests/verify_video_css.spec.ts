@@ -28,14 +28,14 @@ test('Video component renders with thumbnail and plays on click', async ({ page 
   expect(bgImage).toContain('hqdefault.jpg")');
 
   // Verify Overlays presence (before clicking)
-  const titleOverlay = wrapper.locator('text=Youtube').first();
+  // Verify Overlays presence (before clicking)
+  // Check for the title text
+  const titleOverlay = wrapper.locator('text=Sigmundr Rocket Launch').first();
   await expect(titleOverlay).toBeVisible();
 
-  // Verify YouTube Icon is present (checking for SVG or icon container)
-  // Since we don't have a stable class for the icon, we can check for an SVG inside the absolute flex in the bottom right
-  // We can look for the 'youtube' icon name which usually adds a class or we can assume there is an svg
-  const iconOverlay = wrapper.locator('svg').last(); // Assuming it's the last svg if there are others, or we can look locally
-  await expect(iconOverlay).toBeVisible();
+  // Verify YouTube Logo is present (checking for image)
+  const logoOverlay = wrapper.locator('img[alt="YouTube"]').first();
+  await expect(logoOverlay).toBeVisible();
 
   // Click the wrapper to trigger load (wrapper handles the click capture)
   await wrapper.click();
