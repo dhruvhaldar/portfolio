@@ -16,6 +16,7 @@
   top: var(--static-space-4);
 }
 
+
 // Button styles with theme support
 .themeButton {
   // Light theme (default)
@@ -66,7 +67,7 @@
     /* Bold weight */
   }
 
-  .mobileUp {
+  .heroSpacing {
     margin-top: -24px !important; // Moves hero section up on mobile
   }
 

@@ -74,7 +74,7 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingTop="s" paddingBottom="0" horizontal="center" gap="m" className={styles.mobileUp}>
+      <Column fillWidth paddingTop="xs" paddingBottom="0" horizontal="center" gap="m" className={styles.heroSpacing}>
         <Column maxWidth="m" horizontal="center" align="center">
           {home.featured.display && (
             <RevealFx
