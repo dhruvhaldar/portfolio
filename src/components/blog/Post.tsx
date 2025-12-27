@@ -10,12 +10,14 @@ interface PostProps {
   thumbnail: boolean;
   /** Direction of the layout */
   direction?: 'row' | 'column';
+  /** Whether to prioritize loading the image */
+  priority?: boolean;
 }
 
 /**
  * Displays a single blog post card.
  */
-export default function Post({ post, thumbnail, direction = 'row' }: PostProps) {
+export default function Post({ post, thumbnail, direction = 'row', priority = false }: PostProps) {
   return (
     <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
       <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/blog/${post.slug}`}
@@ -40,7 +42,7 @@ export default function Post({ post, thumbnail, direction = 'row' }: PostProps) 
         >
           {post.metadata.image && thumbnail && (
             <SmartImage
-              preload={true}
+              priority={priority}
               className={`${styles.image} ${direction === 'row' ? styles.featured : ''}`}
               sizes="640px"
               border="neutral-alpha-weak"

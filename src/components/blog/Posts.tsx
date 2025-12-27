@@ -56,12 +56,13 @@ export function Posts({
           marginBottom="40"
           gap="m"
         >
-          {displayedPosts.map((post) => (
+          {displayedPosts.map((post, index) => (
             <Post
               key={post.slug}
               post={post}
               thumbnail={thumbnail}
               direction={direction}
+              priority={index === 0}
             />
           ))}
         </Grid>
