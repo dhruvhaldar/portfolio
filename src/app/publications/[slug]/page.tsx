@@ -116,7 +116,7 @@ export default async function Publication({ params }: PageProps) {
       />
       <Column maxWidth="s" marginTop="l" gap="16">
         <SmartLink href="/publications" prefixIcon="chevronLeft">
-          Posts
+          Publications
         </SmartLink>
         <Heading variant="display-strong-s">{post.metadata.title}</Heading>
 

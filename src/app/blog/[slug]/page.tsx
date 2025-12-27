@@ -100,7 +100,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             gap="16"
           >
             <SmartLink href="/blog" prefixIcon="chevronLeft">
-              Posts
+              Blog
             </SmartLink>
             <Heading variant="display-strong-s">
               {post.metadata.title}

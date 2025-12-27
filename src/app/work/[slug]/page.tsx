@@ -111,7 +111,7 @@ export default async function Project({ params }: WorkParams) {
       />
       <Column maxWidth="s" marginTop="l" gap="16">
         <SmartLink href="/work" prefixIcon="chevronLeft">
-          Projects
+          Work
         </SmartLink>
         <Heading variant="display-strong-s">{post.metadata.title}</Heading>
         {link && (
