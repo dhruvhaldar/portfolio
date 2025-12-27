@@ -72,3 +72,27 @@
   }
 
 }
+
+.aboutContainer {
+  max-width: var(--responsive-width-l);
+
+  @media (--m) {
+    max-width: var(--responsive-width-m);
+  }
+}
+
+.languagesGrid {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: var(--static-space-8);
+}
+
+.buttonRow {
+  display: flex;
+
+  @media (max-width: 584px) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
