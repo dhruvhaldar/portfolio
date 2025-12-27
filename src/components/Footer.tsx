@@ -29,13 +29,21 @@ export const Footer = () => {
         <Text variant="body-default-s" onBackground="neutral-strong">
           <Text onBackground="neutral-medium">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
-          <Text className={styles.footerText} onBackground="neutral-medium">
+          <Text className={styles.footerText} onBackground="neutral-medium" paddingX="2">
             / Made with{" "}
             <SmartLink
               style={{ marginLeft: "-0.125rem" }}
               href="https://once-ui.com/templates/magic-portfolio"
             >
               Once UI
+            </SmartLink>
+            <Text>
+              /
+            </Text>
+            <SmartLink
+              href="/sitemap.xml"
+            >
+              Sitemap
             </SmartLink>
           </Text>
         </Text>

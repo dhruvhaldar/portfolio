@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as cookie from "cookie";
 import crypto from "crypto";
+import { rateLimit } from "@/utils/rateLimit";
 
 // 🛡️ Sentinel: Pre-compute the hash of the correct password to avoid re-hashing on every request.
 // This assumes ADMIN_PASSWORD does not change during runtime.
@@ -16,6 +17,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!correctPasswordHash) {
       console.error("Critical Security Error: ADMIN_PASSWORD environment variable is not set.");
       return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    // 🛡️ Sentinel: Rate limiting to prevent brute force attacks
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+    if (!rateLimit(ip, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
+      return res.status(429).json({ message: "Too many attempts. Please try again later." });
     }
 
     // 🛡️ Sentinel: Validate input type and length to prevent DoS

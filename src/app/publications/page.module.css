@@ -1,11 +1,19 @@
-.textAlign {
-  text-align: center;
+.hover {
+  transition: all 0.2s ease-in-out;
 }
 
-.nameHeading {
-  /* Add any specific name heading styles here */
+.hover:hover {
+  background: var(--neutral-alpha-medium) !important;
 }
 
-.mediumWeight {
-  font-weight: 500;
+.headerTitle {
+  margin-top: var(--static-space-l);
+  margin-bottom: var(--static-space-s);
+}
+
+@media (min-width: 1024px) {
+  .headerTitle {
+    margin-top: calc(var(--static-space-xl) * -1);
+    margin-bottom: calc(var(--static-space-m) * -1);
+  }
 }

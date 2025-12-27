@@ -1,0 +1,941 @@
+http://www.diva-portal.org
+
+
+
+
+This is the published version of a paper presented at 33th Congress of the International
+Council of the Aeronautical Sciences.
+
+
+
+  Citation for the original published paper:
+
+  Holmgren, E., Haldar, D., Bertling Tjernberg, L., Johansson, J. (2022)
+  More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+  In: ICAS, Proceedings, 33th Congress of the International Council of the Aeronautical
+  Sciences, Stockholm, Sweden
+  ICAS Proceedings
+
+
+
+
+N.B. When citing this work, cite the original published paper.
+
+
+
+
+Permanent link to this version:
+http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-328210
+                         MORE ELECTRIC AIRCRAFT (MEA)
+                       SCALING ASPECTS AND WEIGHT IMPACT
+          Emil Holmgren1 , Dhruv Haldar1 , Lina Bertling Tjernberg2 & Andreas Johansson2,3
+                               1 KTH Royal Institute of Technology, Stockholm, Sweden
+    2 School of Electrical Engineering and Computer Science, KTH Royal Institute of Technology, Stockholm, Sweden
+                                             3 SAAB, Linköping, Sweden
+
+
+
+
+                                                     Abstract
+
+This paper is about investigating the differences in fuel consumption of conventional and equivalent electrical
+subsystems of passenger aircraft. The goal is to develop a framework that can help evaluate fuel consumption
+of passenger aircraft, both conventional aircraft and More Electric Aircraft (MEA), for a given size of aircraft
+and a given stretch of flight.
+The work presented in this paper originates from pre-studies within MEA research performed by the Reliability
+Centered Asset Management (RCAM) research group at KTH in collaboration with SAAB that has been done
+on a passenger aircraft with comparable size to the Airbus A320. The main difference to the prior study is
+the addition of subsystem weight, passenger scaling effects, environmental dependencies and flight profile, all
+added to increase the accuracy and diversity of the model. The fuel consumption is based on studies of existing
+technology for several passenger aircraft from Airbus and Boeing. The main focus was the Environmental
+Control System (ECS).
+A numerical model of passenger aircraft including the ECS was constructed in MATLAB with different levels
+of electrification, a conventional ECS or a fully electric ECS. A special case with an Airbus A320 with 180
+passengers doing a round trip between Copenhagen and Stockholm on a hot day was studied.
+The results show possible fuel savings in the magnitude of 4% to 8% when electrifying the ECS for the case
+studied and for aircraft with 156 to 700 passengers.
+Keywords: More Electric Aircraft (MEA), Environmental Control System (ECS), Fuel Consumption Simula-
+tion, Subsystem Weight Impact, Passenger Scaling
+
+
+1. Introduction
+The Advisory Council for Aeronautics Research in Europe (ACARE) [1] has set several goals to be
+accomplished by 2050 for aviation. Some goals proposed are a 75% reduction in carbon dioxide
+(CO2 ) emissions per passenger kilometre, a 90% reduction in nitrogen oxide (NOx ) emissions and a
+reduction of perceived noise emittance of aircraft by 65%. These goals are relative to typical new
+passenger aircraft in 2000.
+More Electric Aircraft (MEA) technologies aim in reducing greenhouse gas emissions to make air
+transport more energy-efficient, while still being cost-effective and reliable.
+To help decide if it is worth investing in a new subsystem, a framework has been developed to
+calculate the fuel consumption of conventional and electrical subsystems for a given flight and for the
+most common passenger aircraft sizes. The framework originates specifically from prior project [2].
+Due to time constraints, only the Environmental Control System (ECS), the largest secondary power
+consumer, has been modelled in detail. Other subsystems are included in the model, but are not
+described in the same level and are not presented in this paper.
+                                              More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+2. Methodology and Problem Formulation
+The general questions, leading to this paper, are:
+
+    • Can the MEA technology assist the air transportation industry in the reduction of fuel consump-
+      tion and achieving the climate goals?
+
+    • What is the fuel consumption of a passenger aircraft with different levels of electrification?
+
+    • Is the weight penalty going to eliminate the positive effect of higher efficiency for new subsys-
+      tems?
+
+    • How does passenger-scaling (pax-scaling) affect the overall fuel consumption of the aircraft?
+
+The fuel consumption is reflected by the power usage of the aircraft and all its subsystems, therefore
+it is important to understand how they work and what is affecting their power consumption. Power to
+generate thrust is the largest consumer and is called primary power. Secondary power is all other
+power that is not used to generate thrust.
+Subsystems may differ in technology, efficiency, power management, weight and drag. Since every
+subsystem on an aircraft are connected and affecting each other in many ways, it is not clear if one
+system solution is better than the other.
+The pax-scaling, which is the factor that more than any other factors determines the aircraft size, is
+thought to influence the overall efficiency of the aircraft.
+Flight conditions, such as ambient temperature, speed and altitude should have an impact on fuel
+consumption.
+To understand how all these factors affect the fuel consumption, detailed energy-models for every
+subsystem must be developed. When all the subsystems are modelled along with the flight dynamics,
+a simulation for the complete aircraft can be made for a given flight profile, to obtain the total fuel spent
+on a flight.
+By combining different subsystem technologies and various levels of electrification, multiple virtual
+aircraft can be simulated side by side and compared.
+
+3. Thrust Fuel Consumption
+Thrust fuel consumption can be calculated with:
+
+                                        ṁ f uel,T = T · T SFC   [kg/s]                                   (1)
+, where T [N] is the thrust and T SFC [kg/(N·s)] is the Thrust Specific Fuel Consumption of the aircraft
+jet engine.
+
+According to [3], the T SFC of modern passenger aircraft jet’s engines in cruise is around 16 [mg/(N·s)],
+based on JET-A1 as fuel. Very advanced engines can have a value as low as 14 [mg/(N·s)]. An esti-
+mation of T SFC as function of speed and temperature can be shown to be:
+                                                              r
+                                          −5          −5        Tamb
+                        T SFC = (1.13 · 10 + 1.25 · 10 · M) ·         [kg/(N · s)]
+                                                                 T0
+, where M is the flight Mach number. Tamb [K] is the ambient temperature at altitude and T0 = 288 K.
+
+To determine thrust, a simplified 2D model containing forces acting on the aircraft in flight was estab-
+lished according to fig. 1.
+
+
+
+
+                                                       2
+                                                    More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+
+
+
+                                 Figure 1 – 2D forces on the aircraft in flight.
+
+Thrust can then be expressed as:
+
+                                    T = D + m · (g + av ) · sin(θ ) + m · a           [N]                       (2)
+, where
+
+                  D    [N]        is the aircraft drag
+                  m    [kg]       is the aircraft mass
+                   g   [m/s2 ]    is the gravitational constant
+                  av   [m/s2 ]    is the vertical acceleration of the aircraft
+                  θ               is the climb angle of the aircraft
+                   a   [m/s2 ]    is the acceleration in the flight direction of the aircraft.
+
+Aircraft drag is a sum of zero-lift drag and lift induced drag. The zero-lift drag is relatively complicated
+to calculate as it depends on many factors such as aircraft size, configuration and flight profile.
+
+
+3.1 Weight Impact of Subsystems on the Fuel Consumption
+The weight of subsystems contributes to fuel consumption through the required thrust to carry them.
+Using eq. 1 and 2 in combination with subsystem mass, mss , and lift induced drag coefficient, CDi ,
+gives the subsystem weight fuel consumption:
+
+                    ṁ f uel,ss = T SFC · mss · ((g + av ) · (CDi · cos(θ ) + sin(θ )) + a)   [kg/s]
+
+4. Secondary Power Fuel Consumption
+There are many kinds of secondary power, and they can be divided into a few categories, depending
+on how they are transferred to the consumer. The difference between each category is simply their
+transfer efficiency. Since all secondary power is generated by the jet engine, they can be traced
+back to the engine shaft power. A flowchart showing the relation between secondary power and fuel
+consumption can be seen in fig. 2.
+Pneumatic power or bleed-air power is proportional to the bleed-air mass flow rate and the bleed-air
+temperature, while the bleed-air temperature is dependent on the engine and the thrust setting. It is
+therefore necessary to estimate the thrust setting of the engines and combine it with engine data to
+obtain the bleed-air temperature.
+
+According to [3], the engine shaft power fuel consumption can be calculated with:
+
+                                      ṁ f uel,sha f t = Psha f t · k p · T SFC   [kg/s]                        (3)
+, where Psha f t [W] is the engine shaft power and k p [N/W] is the Shaft Power Factor.
+
+
+
+                                                               3
+                                             More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+
+
+
+        Figure 2 – Flowchart showing how secondary power are related to fuel consumption.
+
+
+An approximation of the Shaft Power Factor, kP [N/W], for similar turbofan engines as function of Mach
+number, M, and altitude, h [m], was derived to be:
+
+            kP = 0.0057 + 4.60 · 10−8 h − 0.0106M − 4.44 · 10−13 h2 + 1.85 · 10−7 hM + 0.0049M 2
+
+5. Environmental Control System (ECS) Fuel Consumption
+The Environmental Control System (ECS) is responsible for maintaining a pleasant temperature,
+healthy pressure and good air quality in the cabin. The ECS is designed and operated to meet the
+requirements specified by the Code of Federal Regulations by the Federal Aviation Administration
+(FAA) [4].
+The operation of the ECS is simulated with a simplified thermodynamic model of the cabin, where
+the control volume is a function of aircraft size and the heat flux are functions of the flight profile and
+the number of passengers (pax). The number of passengers decides over the size of the aircraft.
+The fresh air mass flow rate that is injected into the cabin is determined by the temperature of the
+injected air and the heat flux balance of the cabin, while the fresh air mass flow rate must be at least
+0.55 pounds per minute (4.16 g/s) for each occupant. In this study, the minimum fresh air mass flow
+rate is chosen to be 6 g/(pax·s) [5].
+
+Three ECS variants are included in this study:
+
+  1. Conventional bleed-air driven Air Cycle Machine (ACM)
+
+  2. Electrical Air Cycle Machine (E-ACM)
+
+  3. Electrical Vapour Cycle Machine (E-VCM)
+
+5.1 Conventional Air Cycle Machine (ACM)
+The conventional Air Cycle Machine (ACM) is driven by pressurized air from the engine compressor,
+also called bleed-air. The ACM is responsible for cooling of the hot bleed-air before it is sent to the
+cabin. A relatively small amount of electric power is used to control the ECS and to drive electric
+circulation fans.
+
+To maintain a cabin temperature of 295.15 K (22 ◦ C) under various conditions, the ECS will initially
+adjust the temperature of the injected fresh air. If adjusting the fresh air temperature is not enough,
+then the airflow rate can be increased. Air pressure in the cabin is maintained and regulated through
+
+                                                     4
+                                                          More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+Out-Flow Valves, OFV, located at the bottom rear of the fuselage.
+
+Thermal equilibrium for a hot day and the aircraft stationary on the ground can be described with:
+
+                                             Q̇ECS + Q̇shadow + Q̇sun + Q̇ pax = 0                                       (4)
+, where
+
+                             Q̇ECS     is the heat flux from the ECS
+                           Q̇shadow    is the heat flux through the fuselage in the shadow
+                               Q̇sun   is the heat flux through the fuselage in the sun
+                              Q̇ pax   is the passenger associated heat flux.
+
+Heat flux from the ECS can be defined as:
+
+                                              Q̇ECS = ṁair ·Cp · (TECS − Tcabin )                                       (5)
+, where ṁair is the air mass flow rate, Cp is specific heat capacity of air, TECS is air temperature pro-
+vided by the ECS and Tcabin is the cabin temperature.
+
+Heat flux through the part of the fuselage, that is in the shadow, from ambient air is:
+
+                                       Q̇shadow = U · (Awet − A pro j ) · (Tamb − Tcabin )                               (6)
+, where U is the thermal conductivity of the fuselage skin, Awet is the wet surface area of the fuselage,
+A pro j is the projected area of the fuselage, Tamb is the ambient temperature and Tcabin is the cabin
+temperature.
+
+Heat flux through the part of the fuselage, that is in the sun, can be expressed as:
+
+                                         Q̇sun = U · A pro j · (Tamb + ∆Tsolar − Tcabin )                                (7)
+, where ∆Tsolar is the average temperature rise of the surface, due to solar radiation. The temperature
+rise is approximately 10 K, for a white surface [6].
+
+The passenger associated heat flux, Q̇ pax , is based on metabolic heat and all other facilities such as
+entertainment, lighting, galley etc. It is roughly 190 W/pax [7].
+
+5.1.1 ACM Fresh Air Mass Flow Rate
+By combining eq. 4-7 and solving for the air mass flow rate, for on ground conditions, gives:
+
+                           U · (Awet − A pro j ) · (Tamb − Tcabin ) +U · A pro j · (Tamb + ∆Tsolar − Tcabin ) + Q̇ pax
+          ṁair,static =                                                                                                 (8)
+                                                             Cp · (Tcabin − Tinlet )
+, where cooling is assumed with Tinlet = 259.37 K (-13.8 ◦ C) [9], for a hot day. Tinlet is the temperature
+of the air that is entering the mixing chamber before it is sent to the cabin.
+
+When flying, it is assumed that forced convection will remove most of the solar heating. The tem-
+perature rise due to solar heating will then be relatively small and can be neglected. The ambient
+temperature, Tamb , is replaced with total temperature, Ttot , to include the kinetic heating effect, thus
+the air mass flow rate can be calculated as:
+
+                                                         U · Awet · (Ttot − Tcabin ) + Q̇ pax
+                                         ṁair, f ly =                                                                   (9)
+                                                              Cp · (Tcabin − Tinlet )
+If heating is required (if eq. 8 or 9 gives negative values), then heating with Tinlet = 393.15 K (120 ◦ C)
+is assumed [9].
+
+                                                                    5
+                                                   More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+It must be ensured that the fresh air mass flow rate meets the regulation. If the calculated air mass
+flow rate is smaller than the minimum value, ṁair,min = 0.006 · pax kg/s, then ṁair is set to ṁair,min .
+With the regulated air mass flow rate, a new inlet temperature is calculated:
+
+                                                     U · Awet · (Ttot − Tcabin ) + Q̇ pax
+                                 Tinlet = Tcabin −
+                                                                Cp · ṁair,min
+
+5.1.2 ACM Pre-Cooler and Heat Exchangers
+Excessive heat from the bleed-air is expelled through the pre-cooler and the heat exchangers in the
+ACM. Cooling-air that is flowing through the pre-cooler comes from the engine fan and is costing
+engine shaft power. Cooling-air through the heat exchangers is taken via air scoops from outside air
+and is inducing drag to the aircraft.
+
+The air mass flow rate through the pre-cooler and heat exchangers are calculated with the simple
+assumption that the difference of temperature between the hot air inlet and the cold air outlet is ∆Thx .
+Further, an adiabatic process is assumed where no heat is transferred to the environment, except in
+the heat exchanger itself.
+
+For safety reasons, the bleed-air is cooled down in the pre-cooler below the autoignition temperature
+(Tsa f e = 200 ◦ C) of jet fuel before it leaves the engine. If cooling of bleed-air is needed (Tbleed > Tsa f e ),
+then the ratio of engine fan air to bleed-air mass flow rate can be expressed as:
+                                                ṁ f an        Tbleed − Tsa f e
+                                     ξ f an =           =
+                                                ṁair     (Tbleed − ∆Thx ) − T f an
+, otherwise ξ f an = 0.
+
+The cooling-air flow rate through the heat exchangers in the ACM is expressed as:
+                                                               Tsa f e − Tshx
+                                        ṁhx = ṁair ·                                                        (10)
+                                                         (Tsa f e − ∆Thx ) − Ttot
+, where Tshx is the air temperature after the secondary heat exchanger.
+
+5.1.3 ACM Air Scoops Drag
+Intake of cooling-air through the air scoops for the heat exchangers induces drag to the aircraft and
+can be expressed as:
+
+                                                   Dscoops = ṁhx · v                                         (11)
+, where ṁhx comes from eq. 10, while v is the true air speed of the aircraft.
+The fuel consumption that is induced by air scoops drag is calculated according to eq. 1 by:
+
+                                      ṁ f uel,scoops = Dscoops · T SFC     [kg/s]                            (12)
+
+5.1.4 ACM Shaft Power
+For bleed-air, shaft power is a function of air mass flow rate and bleed temperature. According to [7],
+exergy (in this case, engine shaft power) can be calculated using:
+
+                                Exergy = Psha f t = ṁair · [(h − h0 ) + T0 · (s − s0 )]                      (13)
+, where
+
+
+
+
+                                                            6
+                                                      More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+                           Psha f t      is the shaft power
+                            ṁair        is the bleed-air mass flow rate
+                                h        is the enthalpy of bleed-air
+                              h0         is the enthalpy of air at compressor inlet
+                              T0         is the temperature at compressor inlet
+                                 s       is the entropy of bleed-air
+                               s0        is the entropy of air at compressor inlet
+
+Enthalpy and entropy can be obtained from data tables when all the temperatures are known. The
+compressor inlet temperature is the total temperature (static + kinetic), while the compressor outlet
+temperature is the same as bleed temperature.
+
+When an Auxiliary Power Unit (APU) is providing bleed-air, the bleed-air temperature is:
+
+                                                    Tbleed = 1.352 · Ttot
+, assuming that the pressure ratio is 2.5 [8], and the compressor efficiency is 0.85. When the engines
+are running, the bleed temperature will be set by the engines and various conditions.
+
+The shaft power for the conventional ACM ECS is a sum of 3 different terms, shaft power for fresh
+air (bleed-air), shaft power for pre-cooler (bleed-air from engine fan) and shaft power for electric
+circulation fans:
+
+                                   Psha f t,ACM = Psha f t,bleed + Psha f t, f an + Psha f t,c f
+With help from eq. 13 these terms can be expressed as:
+
+                          Psha f t,bleed = ṁair · [(hbleed − htot ) + Ttot · (sbleed − stot )]
+
+
+                         Psha f t, f an = ξ f an · ṁair · [(h f an − htot ) + Ttot · (s f an − stot )]
+, where
+
+                         hbleed       is the enthalpy of bleed-air
+                          h f an      is the enthalpy of the engine fan-air
+                           htot       is the enthalpy of air at the compressor inlet
+                           Ttot       is the temperature at the compressor inlet
+                         sbleed       is the entropy of bleed-air
+                          s f an      is the entropy of the engine fan-air
+                           stot       is the entropy of air at the compressor inlet
+
+The engine shaft power to run the circulation fans is:
+                                                                      Pc f
+                                           Psha f t,c f =                                                        (14)
+                                                            ηgbx · ηgen · ηtrn · ηmot
+, where
+
+                              Pc f       is the power of the circulation fans
+                             ηgbx        is the accessory gearbox efficiency
+                             ηgen        is the generator efficiency
+                             ηtrn        is the electric power transfer efficiency
+                             ηmot        is the motor efficiency
+
+When the engine shaft power for the ACM ECS is known, then the fuel consumption is calculated
+with eq. 3.
+
+                                                                 7
+                                                  More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+5.2 Electrical Air Cycle Machine (E-ACM)
+The electric ACM works in the same way as the conventional version. The compressed air mass flow
+rate is the same as for the ACM. The only difference is the source of the compressed air and the
+shaft power calculation, since the power is taking a different path from the engine.
+
+Beginning with the supply of compressed fresh air from the electrical compressor. The supply pres-
+sure is about 150 kPa above cabin pressure [8]. The pressure ratio for the supply air is then:
+
+                                                         Pcabin + 150 kPa
+                                            πcomp =
+                                                                Ptot
+Depending on flight condition and compressor efficiency, the compressed air temperature can be
+expressed as:
+                                                        γ−1     
+                                                       πcomp − 1 
+                                                          γ
+
+                                   Tcomp = Ttot · 1 +                                     (15)
+                                                         ηcomp
+
+                                             C
+, where πcomp is the pressure ratio, γ = Cvp is the ratio of specific heat for air. It changes with tempera-
+ture, but can be approximated to γ ≈ 1.4 in this case. ηcomp is the compressor efficiency.
+
+5.2.1 E-ACM Heat Exchangers
+With the same procedure as with the conventional ACM, the cooling-air mass flow rate through the
+heat exchangers is calculated as:
+                                                             Tcomp − Tshx
+                                        ṁhx = ṁair ·
+                                                         (Tcomp − ∆Thx ) − Ttot
+, where Tcomp comes from eq. 15.
+
+5.2.2 E-ACM Air Scoops Drag
+The amount of air mass flow rate through air scoops for the E-ACM is the sum of cooling-air, ṁhx , and
+fresh air, ṁair . This leads to a drag calculation, similar to eq. 11:
+
+                                             Dscoops = v · (ṁhx + ṁair )
+The fuel consumption that is induced by air scoops drag is calculated with eq. 12.
+
+5.2.3 E-ACM Shaft Power
+With eq. 13, the compressor power can be calculated as:
+
+                               Pcomp = ṁair · [(hcomp − htot ) + Ttot · (scomp − stot )]
+This power comes from the engine shaft, through a gearbox, a generator, cables, power converters
+and a motor, all having an efficiency less than unity. Finally, shaft power that is extracted from the
+engine to the compressor and for the E-ACM can be calculated using:
+                                                                  Pcomp
+                                       Psha f t,comp =
+                                                         ηgbx · ηgen · ηtrn · ηmot
+
+                                       Psha f t,EACM = Psha f t,comp + Psha f t,c f
+, where shaft power for the circulation fans, Psha f t,c f , is the same as in eq. 14.
+
+The same way as with the conventional ECS, the fuel consumption of the electric version is calculated
+with eq. 3.
+
+
+
+                                                            8
+                                                 More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+5.3 Electrical Vapour Cycle Machine (E-VCM)
+Like the E-ACM, the E-VCM also uses an electric air compressor to deliver air to the cabin, but at a
+lower pressure, since the pressurized air is not used to drive the machine, as for the E-ACM. Cooling
+is done through the Vapour Cycle Machine (VCM). The fresh air mass flow rate and inlet temperature
+are the same for the VCM as for the previous machines, since they are all simulated with the same
+cabin model.
+
+5.3.1 E-VCM Operation
+The supply pressure is about 20 kPa above the cabin pressure [8]. The pressure ratio for the supply
+air is then:
+
+                                                         Pcabin + 20 kPa
+                                            πcomp =
+                                                                Ptot
+The compressed air temperature, Tcomp , is calculated as in eq. 15.
+
+If cooling is needed by the VCM, then the cooling power is expressed as:
+
+                                   Q̇VCM = ṁair ·Cp · ((Ttot + ∆Thx ) − Tinlet )
+The power to run the vapour cycle compressor is calculated as:
+
+                                                                Q̇VCM
+                                               Pcomp,VCM =
+                                                                COPR
+Coefficient of Performance Refrigerator (COPR ) can vary depending on temperatures and refrigerant,
+but be set to 3, for simplicity. This means that 1 kW of power input to the VCM motor can pull out 3
+kW of heat from the supplied air.
+
+Since the compressed air temperature is not as high as for the previous cycle machines, cooling
+through heat exchangers is not always necessary. Often, heat exchangers must be throttled or even
+turned off. The cooling-air mass flow rate through the primary heat exchanger is:
+
+                                                     Tcomp − (Ttot + ∆Thx )
+                                  ṁ phx = ṁair ·                          = ṁair
+                                                     (Tcomp − ∆Thx ) − Ttot
+While the cooling-air mass flow rate through the secondary heat exchanger is:
+
+                                                     Q̇VCM · (1 + 1/COPr )
+                                         ṁshx =
+                                                        Cp · (Tshx − Ttot )
+If no cooling is required, then the vapour cycle compressor is turned off, Pcomp,VCM = 0 and as a
+consequence, there is no cooling-air flow through the secondary heat exchanger, ṁshx = 0.
+Cooling-air mass flow rate through the primary heat exchanger is throttled according to:
+                                                             Tcomp − Tinlet
+                                      ṁ phx = ṁair ·
+                                                         (Tcomp − ∆Thx ) − Ttot
+In freezing conditions, such as cruising at high altitudes, an electric heater is most likely needed to
+add more heat to the cabin. If heating is needed, then the primary heat exchanger is bypassed,
+ṁ phx = 0, and the electric heater is turned on with a power of:
+
+                     Peh = −U · Awet · (Ttot − Tcabin ) − ṁair ·Cp · (Tcomp − Tcabin ) − Q̇ pax
+
+
+
+
+                                                            9
+                                                More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+5.3.2 E-VCM Air Scoops Drag
+The amount of air mass flow rate through air scoops for the E-VCM is the sum of cooling-air through
+the primary heat exchanger and secondary heat exchanger plus fresh air. The drag calculation is
+similar to eq. 11:
+
+                                       Dscoops = v · (ṁ phx + ṁshx + ṁair )
+The fuel consumption that is induced by air scoops drag is calculated with eq. 12.
+
+5.3.3 E-VCM Shaft Power
+Power to compress supply air is expressed as:
+
+                            Pcomp = ṁair · [(hcomp − htot ) + Ttot · (scomp − stot )]
+The total shaft power to run the E-VCM is:
+                                       Pcomp + Pcomp,VCM + Pc f + Phx f          Peh
+                     Psha f t,EVCM =                                    +
+                                           ηgbx · ηgen · ηtrn · ηmot      ηgbx · ηgen · ηtrn
+, where power for the circulation fans ,Pc f , is the same as for the conventional ACM. Power to pull
+cooling-air through the heat exchangers is Phx f .
+
+When the total shaft power to run the E-VCM is known, then the fuel consumption of the E-VCM ECS
+is calculated with eq. 3.
+
+
+
+
+                                                        10
+                                             More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+6. Numerical Model
+Everything on and around an aircraft is connected and interacts with each other in a variety of com-
+plexity. To make the result more interesting, all the details must be at a certain level, which will require
+the calculations to be automated.
+The complicated nature of the problem is tackled by dividing it up into several modules, each one
+focusing on a specific task. The modular structure also facilitates the reusing of code and improves
+its readability. See fig. 3. The flow of information between the modules is visualized by the arrows in
+the figure.
+The Numerical Model will form the Framework to compare various aircraft setups under different flight
+conditions. Several aircraft can be executed in parallel, making comparison easy.
+
+
+
+
+     Figure 3 – The MATLAB code is built with several modules to break down the problem into
+                                    uncomplicated steps.
+
+
+
+
+                                                    11
+                                            More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7. Simulation Result
+A case study was done with the Airbus A320 and 180 passengers (pax) on a round trip Copenhagen-
+Stockholm-Copenhagen. Three different passenger aircraft were simulated in parallel. They are all
+based on the same aircraft, but with different ECS, flying on the same path. A hot day (30 ◦ C on
+the ground) was chosen because it was thought that the heat will stress the ECS to work harder,
+magnifying the systems’ differences.
+
+7.1 ECS Fuel Consumption
+Fig. 4 shows a breakdown of the fuel consumption of all 3 ECS configurations. The labels in the
+figure are explained by:
+
+Operation is the fuel required to operate the ECS.
+Weight Penalty is the fuel spent to carry the weight of the ECS.
+Air Scoops Drag is the fuel consumption induced by the intake of the outside air through air scoops.
+ECS Forced Thrust is the increased thrust fuel consumption, forced by the ECS.
+
+
+
+
+                Figure 4 – ECS fuel consumption breakdown for a round trip flight,
+             Copenhagen-Stockholm-Copenhagen, with a modelled A320 and 180 pax.
+
+The ACM is more efficient than the E-ACM. If the effect of weight and drag are added, then the
+E-ACM becomes even more inferior. However, in this particular case, for the bleed-air driven ACM,
+there were some moments when the ECS forced the engines to run at a higher thrust setting than
+was required by the aircraft. If this thrust increased fuel consumption is taken into consideration, then
+the conventional ACM has a clear disadvantage over the electrical options.
+
+The VCM has the most efficient operation, consuming about half the fuel amount of the ACM. But the
+increased weight penalty and drag offset some operational efficiency.
+                                                   12
+                                            More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2 ECS Partial Results
+This section will show and discuss significant partial results from a simulation of the case study.
+
+7.2.1 Air Mass Flow Rates
+Beginning with the Air Mass Flow Rates for the case study. Fig. 5 shows the air mass flow rates
+for all 3 systems. When the ECS is active, the minimum fresh air flow rate for the cabin is ṁair,min =
+0.006 · 180 = 1.08 kg/s, otherwise it is zero. During the cruise, when heating is required, all systems
+will run at ṁair,min . When cooling is needed at lower altitudes, the flow rates are higher. All three
+systems use the same amount of fresh air. Ram air for the ACM heat exchanger and ram air for the
+VCM heat exchangers are also shown. The hot side of the VCM is not allowed to be more than 80
+◦ C, which is a relatively low temperature; this explains why the secondary heat exchanger requires
+
+much cooling-air.
+
+
+
+
+          Figure 5 – ECS air mass flow rates for the case study. The load factor is 100%.
+
+
+
+
+                                                   13
+                                          More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2.2 Compressed Air Temperatures
+The numerical model for the engine is based on engine maps for the CFM International CFM56-5B
+engine. Compressed air temperature from various parts can be seen in fig. 6. Each flight begins with
+the APU starting up and providing compressed air for the aircraft. Right before taxiing, the engines
+start and take over the role to provide power for the aircraft. Small steps can be seen in the graph.
+During takeoff, the engines are suddenly working much harder, which also increases the bleed-air
+temperature. It can be seen as spikes in the graph. A few seconds later, when the Low Pressure
+Compressor (LPC) pressure is high enough, switching over from High Pressure Compressor (HPC)
+to LPC occurs. This explains the sudden drop in the bleed-air temperature. Switching back to HPC
+from LPC instantly increases the bleed-air temperature.
+
+
+
+
+                    Figure 6 – Compressed air temperatures for the case study.
+
+
+
+
+                                                 14
+                                            More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2.3 Bleed Ports Air Pressure
+Pressure for the CFM56-5B engine bleed ports can be seen in fig. 7. It is desirable to extract bleed-air
+at the LPC, since lower bleed-pressure means lower bleed-temperature and lower fuel consumption.
+But, the bleed-pressure must exceed the lower limit, to be able to drive the ACM. It is set to 250 kPa
+[8].
+
+The bleed pressure is relatively constant during cruise, except for when the aircraft changes flight
+level. During the descent, the engines are idling or have just enough power to keep the bleed pressure
+limit. For landing, thrust and pressure increase slightly and continues during the taxi until the aircraft
+turns off the engines at the gate.
+
+
+
+
+                      Figure 7 – Pressure at the bleed ports for the case study.
+
+
+
+
+                                                   15
+                                           More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2.4 ECS Operational Fuel Consumption
+The fuel consumption to operate the ECS can be seen in fig. 8. It is interesting to see the transition
+from APU to the engine’s fuel consumption in the graph. The fuel consumption steps up for the ACM
+because bleed air temperature from the engines is higher. But for the electric machines, the fuel con-
+sumption steps down. This is explained by the higher efficiency of the engines to generate electricity.
+
+It can also be seen where minimum fuel consumption occurs for all three systems, a short moment
+after takeoff and before landing. This is at an altitude where internal and external heat loads for the
+fuselage is in balance and minimal effort is required by the ECS to maintain the temperature in the
+cabin. Below this "heat balance altitude" the ambient temperature is higher and cooling is needed,
+while flying above this altitude heating is necessary.
+
+
+
+
+                  Figure 8 – ECS operational fuel consumption for the case study.
+
+
+
+
+                                                  16
+                                           More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2.5 Effect of the Ground Temperature on the ECS Fuel Consumption
+How will the temperature on the ground affect the fuel consumption for the ECS? According to the
+International Standard Atmosphere (ISA), the temperature at ground level is 15 ◦ C and declining lin-
+early down to -56.5 ◦ C at an altitude of 11000 m. Above that altitude up to 20000 m it is constant at
+-56.5 ◦ C. For the simulations, the ISA model is modified to accommodate whatever temperature there
+is on the ground, by simply setting the temperature on the ground and let it change linearly down to
+-56.5 ◦ C at 11000 m and be constant up to 20000 m. With this simplification, it is obvious that when
+adjusting the ground temperature, the biggest changes will appear close to the ground.
+
+Fig. 9 show the total ECS fuel consumption for a range of temperatures on the ground. The curves
+appear to be segmented and can be approximated into simple functions. Each segment represents
+the domination of a particular operation of the ECS. The slope of the lines correspond to the sensi-
+tivity, of each system, to the temperature change on the ground.
+At lower temperature, the bleed-air driven ACM is dominated by heating operation, and it is relatively
+insensitive to temperature changes. The bleed-air from the engines is hot, and the ACM require little
+effort to heat up the cabin, even in freezing winter conditions. Above the breaking point, at around 22
+◦ C, cooling operation dominates, and the slope is steeper. More air is flowing through the air scoops
+
+and the heat exchangers, increasing the drag and fuel consumption. The ACM and the E-ACM are
+essentially the same machine with the same response to the ground temperature changes. The
+difference between them is mostly consisting of the ECS Forced Thrust fuel consumption.
+The E-VCM has an additional segment, revealing a feature that the other systems don’t have. The
+fuel consumption of the E-VCM in freezing conditions dominates by the usage of the electric heater.
+
+
+
+
+      Figure 9 – ECS fuel consumption for the case study with different ground temperatures.
+
+
+
+                                                  17
+                                          More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.2.6 Thrust Fuel Consumption
+The fuel consumption to generate thrust is plotted in fig. 10. The ECS Forced Thrust fuel consump-
+tion is marked as the shaded area. It is applied during the majority of the descent. The combination
+of low ambient pressure, at high altitude, and low thrust setting, resulted in too low bleed pressure
+from the engines. To maintain normal operation of the ACM, the ECS then forces the engines to run
+at a higher thrust setting.
+
+
+
+
+  Figure 10 – Fuel consumption due to thrust and ECS Forced Thrust (shaded area) for the case
+                     study. E-ACM and E-VCM curves are practically identical.
+
+
+
+
+                                                 18
+                                          More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+7.3 Passenger Scaling Effect on Fuel Consumption
+The effect of pax-scaling on the fuel consumption was investigated by running several simulations of
+the case study with passenger numbers from 156 to 700 pax. The result was then combined into
+figures to visualize the trends. First, the fuel consumption of different ECS is shown. The largest
+amount of fuel is used for propulsion, thus thrust fuel consumption is plotted. The fuel consumption
+of the whole aircraft is displayed. Lastly, the relative fuel savings are shown for all the passenger
+aircraft sizes in this study.
+
+The fuel consumption of the bleed-air driven ECS can be seen in fig. 11. The coloured areas
+represent different aspects of the ECS that contribute to fuel consumption. The fuel consumption of
+the ACM Operation, Weight Penalty and Air Scoops Drag are almost unaffected by the pax-scaling,
+while the ECS Forced Thrust shows a noticeable relation to pax-scaling. Since thrust is firmly
+connected to the aircraft’s weight, it can be presumed that the ECS Forced Thrust fuel consumption
+will reflect the weight per passenger of the aircraft. Compare the shape of the ECS Forced Thrust
+curve with the Aircraft Zero Fuel Mass per passenger in fig. 15.
+
+
+
+
+         Figure 11 – Pax-scaling effect on ACM ECS fuel consumption for the case study.
+
+
+
+
+                                                 19
+                                         More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+Fuel consumption for the E-ACM ECS is shown in fig. 12. The greatest difference from the conven-
+tional version is that there is no ECS Forced Thrust. The graph shows no distinct relation to the
+pax-scaling.
+
+
+
+
+        Figure 12 – Pax-scaling effect on E-ACM ECS fuel consumption for the case study.
+
+
+
+
+                                                20
+                                       More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+A similar graph is shown for the E-VCM ECS. See fig. 13. The E-VCM fuel consumption does not
+show a clear relation to pax-scaling.
+
+
+
+
+       Figure 13 – Pax-scaling effect on E-VCM ECS fuel consumption for the case study.
+
+
+
+
+                                              21
+                                         More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+The fuel consumption to generate thrust and its dependency on pax-scaling is plotted in fig. 14.
+The conventional passenger aircraft’s thrust fuel consumption is higher than the MEA alternatives
+throughout the pax-span and is due to the ECS Forced Thrust. As thrust is mainly a function of
+weight, these curves’ shapes will mostly follow the aircraft mass per passenger. Compare with fig.
+15.
+
+
+
+
+           Figure 14 – Pax-scaling effect on thrust fuel consumption for the case study.
+
+
+
+
+             Figure 15 – Pax-scaling effect on aircraft Zero Fuel Mass per passenger.
+
+
+
+
+                                                22
+                                           More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+By summing up the fuel consumption of all systems, the fuel consumption of the whole aircraft is
+obtained. See fig. 16.
+
+
+
+
+           Figure 16 – Pax-scaling effect on aircraft fuel consumption for the case study.
+
+The relative fuel savings of the aircraft with E-ACM compared to the aircraft with conventional setup
+can be seen in fig. 17. The graph shows an increasing trend of the relative fuel savings with the size
+of the passenger aircraft.
+
+
+
+
+ Figure 17 – Pax-scaling effect on aircraft relative fuel savings for the case study. Comparing ACM
+     and E-ACM setup. More Electric Aircraft consumes less fuel than the conventional setup.
+
+The relative fuel savings of the aircraft with E-VCM compared to the aircraft with conventional setup
+can be seen in fig. 18. The graph shows an increasing trend of the relative fuel savings with the size
+of the passenger aircraft.
+                                                  23
+                                           More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+
+
+
+ Figure 18 – Pax-scaling effect on aircraft relative fuel savings for the case study. Comparing ACM
+     and E-VCM setup. More Electric Aircraft consumes less fuel than the conventional setup.
+
+
+8. Conclusions
+Calculations show that a reduction in fuel consumption is possible when electrifying the ECS. The
+MEA technology can therefore help the air transport industry to meet the climate goals. The main
+reason is the increased controllability of the compressed air without relying on the engine thrust set-
+ting. The weight penalty and increased air scoops drag of the electric ECS offset some operational
+fuel efficiency.
+
+For this particular study, with passenger aircraft sizes between 156 and 700 passengers on a round
+trip between Copenhagen and Stockholm. The fuel savings varies between 4.0% and 6.8%, when
+comparing the ACM and the E-ACM setup. When comparing the ACM and the E-VCM setup, the fuel
+savings are even higher. It varies between 5.5% and 8.2%. The relative fuel savings increases with
+aircraft size.
+
+The relative fuel savings are affected by the flight distance. The ACM setup is more efficient than
+the E-ACM setup during all flight phases except for the takeoff, climb and descent, where the ACM
+setup is penalized by high bleed-air temperature and the ECS Forced Thrust. For longer flight dis-
+tances, when the mentioned flight phases becomes smaller parts of the flight, the differences in fuel
+consumption between ACM and E-ACM setup will also be less.
+
+The numerical model can handle various passenger aircraft configurations and sizes, along with dif-
+ferent flight profiles and conditions.
+
+The goal was to compare many subsystems of the passenger aircraft, both conventional and electric.
+Due to time constrain, only three types of ECS are included in the model, thus limiting the levels of
+electrification. More subsystems can be added in the modular code.
+
+Fuel consumption calculations are not easy to do, as all subsystems interact dynamically, affecting
+each other’s power usage. The fuel consumption also depends on many conditions. There is plenty
+of room for improvement. The Numerical Model can be calibrated to fit a specific aircraft, or one can
+
+                                                  24
+                                                More Electric Aircraft (MEA) - Scaling Aspects and Weight Impact
+
+introduce different Aircraft Profiles and Engine Models to make the simulations more versatile and
+accurate. More subsystems may be electrified and integrated. It is also recommended to try many
+Flight Profiles, different distances and weather conditions.
+
+9. Contact Author Email Address
+Emil Holmgren: lime@kth.se
+Dhruv Haldar: haldar@kth.se
+Lina Bertling Tjernberg: linab@kth.se
+Andreas Johansson: andreas.x.johansson@saabgroup.com
+
+10. Copyright Statement
+The authors confirm that they, and/or their company or organization, hold copyright on all the original material
+included in this paper. The authors also confirm that they have obtained permission, from the copyright holder
+of any third party material included in this paper, to publish it as part of their paper. The authors confirm that
+they give permission, or have obtained permission from the copyright holder of this paper, for the publication
+and distribution of this paper as part of the ICAS proceedings or as individual off-prints from the proceedings.
+
+References
+ [1] Advisory Council for Aviation Research and Innovation in Europe (ACARE). Protecting the environment
+     and the energy supply. Url: https://www.acare4europe.org/sria/flightpath-2050-goals/
+     protecting-environment-and-energy-supply-0 . Accessed 23 January 2022.
+ [2] Yildiz M. On more electric airplane: case study Stockholm - Copenhagen. Master’s thesis, KTH Royal
+     Institute of Technology, 2019.
+ [3] Scholz D, Seresinhe R, Staack I and Lawson C. Fuel consumption due to shaft power off-takes from
+     the engine. 4th International Workshop on Aircraft System Technologies (AST 2013), Hamburg, Ger-
+     many, pp. 169–179, 2013. Available online: https://www.fzt.haw-hamburg.de/pers/Scholz/
+     Off-Takes/Off-Takes_PUB_AST-CD-Version_13-04-23.pdf
+ [4] Code of Federal Regulations by the Federal Aviation Administration (FAA). Code of Federal Regulations.
+     Url: https://www.ecfr.gov/current/title-14/chapter-I/subchapter-C/part-25#25.
+     831. Accessed 28 January 2022.
+ [5] Hunt E H, Reid D H, Space D R and Tilton F E. Commercial airliner environmental control system:
+     Engineering aspects of cabin air quality. Aerospace Medical Association annual meeting, Anaheim, Cali-
+     fornia, pp. 1–8, 1995. Available online: https://web.archive.org/web/20120331055732/http:
+     //www.cabinfiles.com/?CFrequest=file;03032001100119. Accessed 18 May 2022.
+ [6] Cottony H V, Dill R S. Building materials and structures report BMS64 Solar heating of various surfaces.
+     United States Government Printing Office, Washington, 1941. Available online: https://nvlpubs.
+     nist.gov/nistpubs/Legacy/BMS/nbsbuildingmaterialsstructures64.pdf
+ [7] Slingerland R, Zandstra S. Bleed air versus electric power off-takes from a turbofan gas tur-
+     bine over the flight cycle. 7th AIAA Aviation Technology, Integration and Operations Conference
+     (ATIO), Belfast, Northern Ireland, vol. 2, no. September, pp.1516–1527, 2007. Available on-
+     line:         https://www.researchgate.net/publication/268571644_Bleed_Air_versus_
+     Electric_Power_Off-takes_from_a_Turbofan_Gas_Turbine_over_the_Flight_Cycle
+ [8] Martínez I. Aircraft environmental control. Available online: http://webserver.dmt.upm.es/
+     ~isidoro/tc3/Aircraft%20ECS.pdf
+ [9] Merzvinskas M, Bringhenti C, Tomita J T, De Andrade R. Air conditioning systems for aero-
+     nautical applications: A review. Aeronautical Journal, Vol. 124, no. 1274, pp. 499–532, 2020.
+     Available online:     https://www.cambridge.org/core/journals/aeronautical-journal/
+     article/abs/air-conditioning-systems-for-aeronautical-applications-a-review/
+     2ACB28C145158B38CD2437CDEBAF1350
+
+
+
+
+                                                       25
+

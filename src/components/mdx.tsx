@@ -131,6 +131,7 @@ function createBlockquote({ children }: { children: ReactNode }) {
       border="neutral-alpha-medium"
       radius="l"
       padding="m"
+      marginTop="24"
       marginBottom="24"
       style={{
         borderLeft: "4px solid var(--brand-solid-strong)",
@@ -240,6 +241,20 @@ type CustomMDXProps = MDXRemoteProps & {
   components?: typeof components;
 };
 
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
 export function CustomMDX(props: CustomMDXProps) {
-  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
+  return (
+    <MDXRemote
+      {...props}
+      components={{ ...components, ...(props.components || {}) }}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+        },
+      }}
+    />
+  );
 }

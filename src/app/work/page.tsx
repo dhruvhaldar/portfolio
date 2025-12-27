@@ -41,36 +41,40 @@ export default function Work() {
   const allProjects = getPosts(["src", "app", "work", "projects"]);
 
   return (
-    <Column maxWidth="m" marginTop="0">
-      <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} marginTop="l" marginBottom="s" variant="display-default-l">
-        {work.title}
-      </Heading>
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            headline: work.title,
-            description: work.description,
-            url: `https://${baseURL}/projects`,
-            image: `${baseURL}/og?title=Design%20Projects`,
-            author: {
-              "@type": "Person",
-              name: person.name,
-            },
-            hasPart: allProjects.map((project) => ({
-              "@type": "CreativeWork",
-              headline: project.metadata.title,
-              description: project.metadata.summary,
-              url: `https://${baseURL}/projects/${project.slug}`,
-              image: `${baseURL}/${project.metadata.image}`,
-            })),
-          }),
-        }}
-      />
-      <Projects posts={allProjects} />
+    <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
+      <Column maxWidth="m" fillWidth gap="l">
+        <Column fillWidth gap="l" align="center">
+          <Heading className={styles.headerTitle} variant="display-strong-xl">
+            {work.title}
+          </Heading>
+        </Column>
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              headline: work.title,
+              description: work.description,
+              url: `https://${baseURL}/projects`,
+              image: `${baseURL}/og?title=Design%20Projects`,
+              author: {
+                "@type": "Person",
+                name: person.name,
+              },
+              hasPart: allProjects.map((project) => ({
+                "@type": "CreativeWork",
+                headline: project.metadata.title,
+                description: project.metadata.summary,
+                url: `https://${baseURL}/projects/${project.slug}`,
+                image: `${baseURL}/${project.metadata.image}`,
+              })),
+            }),
+          }}
+        />
+        <Projects posts={allProjects} />
+      </Column>
     </Column>
   );
 }

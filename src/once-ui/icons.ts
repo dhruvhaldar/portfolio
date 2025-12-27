@@ -20,6 +20,7 @@ import {
   HiCalendarDays,
   HiClipboard,
   HiArrowRight,
+  HiOutlineShare,
 } from "react-icons/hi2";
 import {
   PiHouseDuotone,
@@ -36,6 +37,26 @@ import {
   FaYoutube,
   FaInstagram,
   FaXTwitter,
+  FaQuoteRight,
+  FaPython,
+  FaDocker,
+  FaReact,
+  FaAngular,
+  FaRProject,
+} from "react-icons/fa6";
+
+import {
+  SiAnsys,
+  SiSiemens,
+} from "react-icons/si";
+
+import {
+  FaChartPie,
+  FaCalculator,
+  FaWind,
+  FaRocket,
+  FaCube,
+  FaCode
 } from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {
@@ -54,6 +75,7 @@ export const iconLibrary: Record<string, IconType> = {
   close: HiMiniXMark,
   openLink: HiOutlineLink,
   clipboard: HiClipboard,
+  share: HiOutlineShare,
 
   // Status icons
   helpCircle: HiMiniQuestionMarkCircle,
@@ -82,4 +104,20 @@ export const iconLibrary: Record<string, IconType> = {
   github: FaGithub,
   linkedin: FaLinkedin,
   x: FaXTwitter,
+  quote: FaQuoteRight,
+
+  // Tech Stack & Skills
+  python: FaPython,
+  docker: FaDocker,
+  react: FaReact,
+  angular: FaAngular,
+  r: FaRProject,
+  matlab: FaCode,
+  ansys: SiAnsys,
+  openfoam: FaWind,
+  paraview: FaChartPie,
+  gams: FaCalculator,
+  nastran: FaRocket,
+  siemens: SiSiemens,
+  solidworks: FaCube,
 };

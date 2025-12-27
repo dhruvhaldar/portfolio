@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartLink, SmartImage, Spotlight, Tag, Text } from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartLink, SmartImage, Spotlight, Tag, Text, Row } from "@/once-ui/components";
+import { ShareButton } from "@/components/ShareButton";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -100,7 +101,7 @@ export default function About() {
       />
 
       {/* Table of Contents */}
-      {about.tableOfContent.display && (
+      {/* {about.tableOfContent.display && (
         <Column
           left="0"
           style={{ top: "50%", transform: "translateY(-50%)" }}
@@ -111,7 +112,7 @@ export default function About() {
         >
           <TableOfContents structure={structure} about={about} />
         </Column>
-      )}
+      )} */}
 
       <Flex fillWidth mobileDirection="column" horizontal="center">
         {/* Avatar Section */}
@@ -128,17 +129,25 @@ export default function About() {
           >
             <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
             />
-            <Flex gap="8" vertical="stretch">
-              Languages
+            <Flex gap="8" vertical="stretch" horizontal="center" className="s-flex-hide">
+              <Heading variant="display-default-xs" align="center" marginBottom="8">Languages</Heading>
             </Flex>
             {person.languages.length > 0 && (
-              <Flex wrap gap="8">
+              <Flex wrap gap="8" horizontal="center" className="s-flex-hide">
                 {person.languages.map((language, index) => (
                   <Tag key={index} size="l">
                     {language}
                   </Tag>
                 ))}
               </Flex>
+            )}
+            {about.tableOfContent.display && (
+              <Column className="s-flex-hide" fillWidth gap="12" marginTop="32" horizontal="center">
+                <Heading variant="display-default-xs" align="center" marginBottom="8">
+                  On this page
+                </Heading>
+                <TableOfContents structure={structure} about={about} />
+              </Column>
             )}
           </Column>
         )}
@@ -180,12 +189,17 @@ export default function About() {
                   <Flex paddingX="xl" paddingY="xs" align="center">
                     Schedule a call
                   </Flex>
-                  <IconButton
-                    data-border="rounded"
-                    variant="secondary"
-                    icon="chevronRight"
+                  <Flex
+                    width="32"
+                    height="32"
+                    center
+                    radius="full"
+                    border="neutral-medium"
+                    background="neutral-alpha-medium"
                     style={{ pointerEvents: "none" }}
-                  />
+                  >
+                    <Icon name="chevronRight" size="s" />
+                  </Flex>
                 </Flex>
               </SmartLink>
             )}
@@ -263,6 +277,22 @@ export default function About() {
                 {about.intro.description}
               </Column>
             </Spotlight>
+          )}
+
+          {/* Languages Section (Mobile Only) */}
+          {about.avatar.display && person.languages.length > 0 && (
+            <Column className="s-flex-show" horizontal="center" gap="16" marginBottom="40" fillWidth>
+              <Heading variant="display-default-xs" align="center">
+                Languages
+              </Heading>
+              <Flex wrap gap="8" horizontal="center">
+                {person.languages.map((language, index) => (
+                  <Tag key={index} size="l">
+                    {language}
+                  </Tag>
+                ))}
+              </Flex>
+            </Column>
           )}
 
           {/* Work Experience Section */}
@@ -389,17 +419,24 @@ export default function About() {
                   <Spotlight key={`${skill}-${index}`} className="fill-width">
                     <Column
                       fillWidth
-                      gap="4"
                       padding="16"
                       radius="l"
                       style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)' }}
                     >
-                      <Text variant="body-default-xl">
-                        {skill.title}
-                      </Text>
-                      <Text variant="body-strong-l" onBackground="neutral-weak">
-                        {skill.description}
-                      </Text>
+                      <Row gap="24" vertical="center">
+                        <Column vertical="center">
+                          {/* @ts-ignore */}
+                          {skill.icon && <Icon name={skill.icon} size="xl" />}
+                        </Column>
+                        <Column gap="4">
+                          <Text variant="body-default-xl">
+                            {skill.title}
+                          </Text>
+                          <Text variant="body-strong-l" onBackground="neutral-weak">
+                            {skill.description}
+                          </Text>
+                        </Column>
+                      </Row>
                       {skill.images && skill.images.length > 0 && (
                         <Flex fillWidth paddingTop="m" gap="12" wrap>
                           {skill.images.map((image, index) => (
@@ -432,6 +469,14 @@ export default function About() {
               </Column>
             </>
           )}
+
+          <Row gap="16" vertical="center" horizontal="center" marginTop="32">
+            <ShareButton
+              title={about.title}
+              url={`https://${baseURL}/about`}
+              text="Share via Link"
+            />
+          </Row>
         </Column>
       </Flex>
     </Column>

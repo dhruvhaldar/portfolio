@@ -61,7 +61,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Text variant="body-default-s">View project</Text>
+                    <Text variant="body-default-s">View more details</Text>
                   </SmartLink>
                 )}
               </Flex>

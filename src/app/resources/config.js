@@ -7,7 +7,8 @@ const routes = {
   "/about": true,
   "/work": true,
   "/publications": true,
-  "/gallery": true
+  "/gallery": false,
+  "/blog": true
 };
 
 // Protected routes configuration

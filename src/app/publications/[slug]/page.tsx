@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getPosts, getPostBySlug } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Heading, Row, SmartLink, Text } from "@/once-ui/components";
+import { AvatarGroup, Button, Column, Heading, Row, SmartLink, Text, Flex } from "@/once-ui/components";
+import BlogTableOfContents from "@/components/blog/TableOfContents";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
@@ -65,6 +66,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+import CiteButton from "@/components/publications/CiteButton";
+import { formatAuthors, formatYear, cleanCitationText } from "@/app/utils/formatCitation";
+
 export default async function Publication({ params }: PageProps) {
   const { slug } = await params;
   let post = getPostBySlug(slug, ["src", "app", "publications", "posts"]);
@@ -81,8 +85,14 @@ export default async function Publication({ params }: PageProps) {
   // Destructure the link from metadata
   const { link } = post.metadata;
 
+  const authors = formatAuthors(post.metadata.team);
+  const year = formatYear(post.metadata.publishedAt);
+  const journal = cleanCitationText(post.metadata.journal || "Publication");
+  const title = cleanCitationText(post.metadata.title);
+  const citationText = `${authors} (${year}). ${title}. ${journal}.`;
+
   return (
-    <Column as="section" maxWidth="s" gap="l">
+    <Column as="section" maxWidth="l" gap="l">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -105,36 +115,92 @@ export default async function Publication({ params }: PageProps) {
           }),
         }}
       />
-      <Column maxWidth="s" marginTop="l" gap="16">
-      <SmartLink href="/publications"
-      prefixIcon="chevronLeft"
-        >
-        Posts
-      </SmartLink>
-      <Heading variant="display-strong-s">{post.metadata.title}</Heading>
 
-      {/* Move the View Project link to the top, below the headline */}
-      {link && (
-          <SmartLink
-            suffixIcon="arrowUpRightFromSquare"
-            style={{ margin: "0", width: "fit-content" }}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Text variant="body-default-s">View project</Text>
-          </SmartLink>
-        )}
+      <Row fillWidth gap="xl" horizontal="center">
+        <Column flex={9} maxWidth="m" gap="l" horizontal="center">
+          <Column maxWidth="m" marginTop="l" gap="16">
+            <SmartLink href="/publications" prefixIcon="chevronLeft">
+              Publications
+            </SmartLink>
+            <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+
+            <Row gap="16" vertical="center">
+              {link && (
+                <SmartLink
+                  suffixIcon="arrowUpRightFromSquare"
+                  style={{ margin: "0", width: "fit-content" }}
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Text variant="body-default-s" style={{ whiteSpace: "nowrap" }}>View paper</Text>
+                </SmartLink>
+              )}
+              <CiteButton citationText={citationText} />
+              {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                {formatDate(post.metadata.publishedAt)}
+              </Text>
+            </Row>
+          </Column>
+
+          <Column as="article" fillWidth maxWidth="m">
+            <CustomMDX source={post.content} />
+          </Column>
         </Column>
-      <Row gap="12" vertical="center">
-        {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
-        <Text variant="body-default-s" onBackground="neutral-weak">
-          {formatDate(post.metadata.publishedAt)}
-        </Text>
+
+        <Column
+          flex={3}
+          position="relative"
+          hide="m"
+          maxWidth={20}
+        >
+          <Column
+            position="sticky"
+            top="128"
+            gap="16"
+          >
+            <Flex gap="12" vertical="center" marginBottom="8">
+              <svg
+                style={{ marginLeft: "-8px" }}
+                stroke="currentColor"
+                fill="none"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                height="20"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                ></path>
+              </svg>
+              <Text variant="label-default-s" onBackground="neutral-medium">
+                On this page
+              </Text>
+            </Flex>
+            <BlogTableOfContents
+              items={[
+                ...post.content
+                  .split("\n")
+                  .filter((line) => line.startsWith("##"))
+                  .map((line) => {
+                    const level = line.startsWith("###") ? 3 : 2;
+                    const text = line.replace(/^#+\s/, "");
+                    const id = text
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")
+                      .replace(/(^-|-$)+/g, "");
+                    return { label: text, id };
+                  }),
+              ]}
+            />
+          </Column>
+        </Column>
       </Row>
-      <Column as="article" fillWidth>
-        <CustomMDX source={post.content} />
-      </Column>
       <ScrollToHash />
     </Column>
   );

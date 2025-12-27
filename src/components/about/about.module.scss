@@ -16,6 +16,7 @@
   top: var(--static-space-4);
 }
 
+
 // Button styles with theme support
 .themeButton {
   // Light theme (default)
@@ -23,19 +24,19 @@
   border: 1px solid var(--neutral-border-strong) !important;
   color: var(--on-surface) !important;
   transition: all var(--transition-micro-medium) !important;
-  
+
   // Hover state for light theme
   &:hover:not(:disabled) {
     background-color: color-mix(in srgb, var(--surface-background) 90%, var(--on-surface)) !important;
     border-color: color-mix(in srgb, var(--neutral-border-strong) 80%, var(--on-surface)) !important;
   }
-  
+
   // Dark theme overrides
   @media (prefers-color-scheme: dark) {
     background-color: var(--static-black-medium) !important;
     border-color: var(--neutral-alpha-medium) !important;
     color: var(--neutral-on-background-strong) !important;
-    
+
     // Hover state for dark theme
     &:hover:not(:disabled) {
       background-color: color-mix(in srgb, var(--static-black-medium) 90%, var(--neutral-on-background-strong)) !important;
@@ -48,17 +49,26 @@
   .avatar {
     top: auto;
   }
+
   .textAlign {
     text-align: center;
   }
+
   .textAlign2 {
     text-align: left;
   }
+
   .blockAlign {
     align-self: center;
   }
 
-.nameHeading {
-  font-weight: 900; /* Bold weight */
-}
+  .nameHeading {
+    font-weight: 900;
+    /* Bold weight */
+  }
+
+  .heroSpacing {
+    margin-top: -24px !important; // Moves hero section up on mobile
+  }
+
 }
