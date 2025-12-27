@@ -92,10 +92,9 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
       />
 
       <Row fillWidth gap="xl" horizontal="center">
-        <Column flex={3} hide="m" maxWidth={20} />
-        <Column flex={6} maxWidth="s" gap="l" horizontal="center">
+        <Column flex={9} maxWidth="m" gap="l" horizontal="center">
           <Column
-            maxWidth="s"
+            maxWidth="m"
             marginTop="l"
             gap="16"
           >
@@ -132,7 +131,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
                 radius="l"
               />
             )}
-            <Column as="article" fillWidth maxWidth="s">
+            <Column as="article" fillWidth maxWidth="m">
               <CustomMDX source={post.content} />
             </Column>
           </Column>
