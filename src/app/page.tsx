@@ -105,7 +105,7 @@ export default function Home() {
           </RevealFx>
 
           <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="m">
-            <Text wrap="balance" onBackground="neutral-medium" variant="heading-default-l">
+            <Text paddingX="l" wrap="balance" onBackground="neutral-medium" variant="heading-default-l">
               {home.subline}
             </Text>
           </RevealFx>
