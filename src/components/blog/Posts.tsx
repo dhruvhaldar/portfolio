@@ -24,6 +24,7 @@ export function Posts({
   columns = "1",
   thumbnail = false,
   exclude = [],
+  direction,
 }: PostsProps) {
   let allPosts = getPosts(["src", "app", "blog", "posts"]);
 
@@ -56,7 +57,12 @@ export function Posts({
           gap="m"
         >
           {displayedPosts.map((post) => (
-            <Post key={post.slug} post={post} thumbnail={thumbnail} />
+            <Post
+              key={post.slug}
+              post={post}
+              thumbnail={thumbnail}
+              direction={direction}
+            />
           ))}
         </Grid>
       )}

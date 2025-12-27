@@ -69,8 +69,8 @@ const home = {
     <>
       👋 Hi! I&apos;m Dhruv Haldar, a CFD specialist at{" "}
       <InlineCode>
-      <a href="https://www.tridiagonal.com/" style={{ color: 'inherit', textDecoration: 'none' }}>Tridiagonal Inc.</a>
-    </InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. After hours, I build and publish my own projects on <a href="https://github.com/dhruvhaldar" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>GitHub</a>.
+        <a href="https://www.tridiagonal.com/" style={{ color: 'inherit', textDecoration: 'none' }}>Tridiagonal Inc.</a>
+      </InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. After hours, I build and publish my own projects on <a href="https://github.com/dhruvhaldar" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>GitHub</a>.
     </>
   ),
 };
@@ -117,7 +117,7 @@ const about = {
           </>,
           <> Worked with test cases (Drivaer model, Eppler airfoil, Ahmed Body) using High Performance Computing (HPC).
           </>,
-          <> Parallel programming using Message Passing Interface (MPI).  
+          <> Parallel programming using Message Passing Interface (MPI).
           </>,
           <> Preparing User Documentation using Sphinx.
           </>,
@@ -151,7 +151,7 @@ const about = {
         role: "Technical Consultant",
         achievements: [
           <>
-             Led a team of 5 in developing the award-winning start-up idea, "Cyclodash: A Social Game for Bike Commuting".
+            Led a team of 5 in developing the award-winning start-up idea, "Cyclodash: A Social Game for Bike Commuting".
           </>,
           <>
             Leveraged Augmented Reality (AR) to improve public perception of biking, achieving a 10% increase in positive sentiment.
@@ -174,7 +174,7 @@ const about = {
             Conducted ground testing to optimize engine thermal performance and calibrated test stand and scaffolding systems.
           </>,
           <>
-           Mentored bachelors students in preparing and performing rocket engine tests, fostering their technical expertise and practical skills.
+            Mentored bachelors students in preparing and performing rocket engine tests, fostering their technical expertise and practical skills.
           </>,
         ],
         images: [],
@@ -272,7 +272,7 @@ const about = {
 const publications = {
   label: "Publications",
   title: "Publications",
-  description: `Publications by ${person.name } `,
+  description: `Publications by ${person.name} `,
   path: "/publications",
 };
 
@@ -288,23 +288,23 @@ const work = {
 const gallery = {
   label: "Gallery",
   title: "Gallery",
-  description: `A photo collection by ${person.name }`,
+  description: `A photo collection by ${person.name}`,
   path: "/gallery",
   images: [
-    {src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },
-    {src: "/images/gallery/49605806978_f489af4e9a_o.avif", alt: "image", orientation: "vertical" },
-    {src: "/images/gallery/49605807048_1386aaac7d_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49605815838_851a2d0c3b_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606315876_45293a5727_o.avif", alt: "image", orientation: "vertical" },
-    {src: "/images/gallery/49606315921_1023ed28b1_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606323636_447ab2c88e_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606324896_a4a5b18f5a_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606566657_0cea39b69a_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/49605806838_50152b0fa6_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/49605806978_f489af4e9a_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/49605807048_1386aaac7d_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49605807303_2277086af9_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49605815283_26d53b69ed_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49605815538_2f03204319_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49605815838_851a2d0c3b_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606315876_45293a5727_o.avif", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/49606315921_1023ed28b1_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606323636_447ab2c88e_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606324896_a4a5b18f5a_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606566657_0cea39b69a_o.avif", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/49606576132_e01f5b5875_o.avif", alt: "image", orientation: "horizontal" },
-    {src: "/images/gallery/49606576712_746dec0e82_o.avif", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/49606576712_746dec0e82_o.avif", alt: "image", orientation: "horizontal" },
     { src: "/images/gallery/50122281262_e7f9caaaf1_o.avif", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/50123293593_911f2bacf0_o.avif", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/50123396478_dfd7d42b1c_o.avif", alt: "image", orientation: "horizontal" },
@@ -321,4 +321,12 @@ const blog = {
   path: "/blog",
 };
 
-export { person, social, home, about, work, gallery, publications, blog };
+// Newsletter
+const newsletter = {
+  display: true,
+  title: "Subscribe to Selene's Newsletter",
+  description: "My weekly newsletter about creativity and engineering",
+  action: "https://url/subscribe/post?parameters",
+};
+
+export { person, social, home, about, work, gallery, publications, blog, newsletter };
