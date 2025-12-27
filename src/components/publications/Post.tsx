@@ -3,24 +3,24 @@
 import { Flex, SmartLink, Spotlight, Text, IconButton, Icon } from "@/once-ui/components";
 import React, { useState } from 'react';
 import styles from "./Posts.module.scss";
-import { formatAuthors, formatYear } from "@/app/utils/formatCitation";
+import { formatAuthors, formatYear, cleanCitationText } from "@/app/utils/formatCitation";
 
 interface PostProps {
   /** The post data object */
   post: any;
   /** Whether to show a thumbnail image */
-  thumbnail: boolean;
+  thumbnail?: boolean;
 }
 
 /**
  * Displays a single publication as an APA citation inside a glass card with copy functionality.
  */
-export default function Post({ post }: PostProps) {
+export default function Post({ post, thumbnail = false }: PostProps) {
   const [copied, setCopied] = useState(false);
   const authors = formatAuthors(post.metadata.team);
   const year = formatYear(post.metadata.publishedAt);
-  const title = post.metadata.title;
-  const publication = post.metadata.journal || "Publication";
+  const title = cleanCitationText(post.metadata.title);
+  const publication = cleanCitationText(post.metadata.journal || "Publication");
   const citationText = `${authors} (${year}). ${title}. ${publication}.`;
 
   const handleCopy = (e: React.MouseEvent) => {

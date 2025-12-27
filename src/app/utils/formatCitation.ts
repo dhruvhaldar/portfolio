@@ -37,3 +37,7 @@ export function formatYear(date: string): string {
     if (!date) return "";
     return new Date(date).getFullYear().toString();
 }
+
+export function cleanCitationText(text: string): string {
+    return text.replace(/\s+/g, " ").trim();
+}

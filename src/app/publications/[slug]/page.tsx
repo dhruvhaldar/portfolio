@@ -65,6 +65,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+import CiteButton from "@/components/publications/CiteButton";
+import { formatAuthors, formatYear, cleanCitationText } from "@/app/utils/formatCitation";
+
 export default async function Publication({ params }: PageProps) {
   const { slug } = await params;
   let post = getPostBySlug(slug, ["src", "app", "publications", "posts"]);
@@ -80,6 +83,12 @@ export default async function Publication({ params }: PageProps) {
 
   // Destructure the link from metadata
   const { link } = post.metadata;
+
+  const authors = formatAuthors(post.metadata.team);
+  const year = formatYear(post.metadata.publishedAt);
+  const journal = cleanCitationText(post.metadata.journal || "Publication");
+  const title = cleanCitationText(post.metadata.title);
+  const citationText = `${authors} (${year}). ${title}. ${journal}.`;
 
   return (
     <Column as="section" maxWidth="s" gap="l">
@@ -106,26 +115,26 @@ export default async function Publication({ params }: PageProps) {
         }}
       />
       <Column maxWidth="s" marginTop="l" gap="16">
-      <SmartLink href="/publications"
-      prefixIcon="chevronLeft"
-        >
-        Posts
-      </SmartLink>
-      <Heading variant="display-strong-s">{post.metadata.title}</Heading>
+        <SmartLink href="/publications" prefixIcon="chevronLeft">
+          Posts
+        </SmartLink>
+        <Heading variant="display-strong-s">{post.metadata.title}</Heading>
 
-      {/* Move the View Project link to the top, below the headline */}
-      {link && (
-          <SmartLink
-            suffixIcon="arrowUpRightFromSquare"
-            style={{ margin: "0", width: "fit-content" }}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Text variant="body-default-s">View project</Text>
-          </SmartLink>
-        )}
-        </Column>
+        <Row gap="16" vertical="center">
+          {link && (
+            <SmartLink
+              suffixIcon="arrowUpRightFromSquare"
+              style={{ margin: "0", width: "fit-content" }}
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Text variant="body-default-s">View project</Text>
+            </SmartLink>
+          )}
+          <CiteButton citationText={citationText} />
+        </Row>
+      </Column>
       <Row gap="12" vertical="center">
         {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
         <Text variant="body-default-s" onBackground="neutral-weak">
