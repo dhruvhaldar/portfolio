@@ -28,7 +28,7 @@ export function Projects({ range, posts }: ProjectsProps) {
     <Column fillWidth gap="xl" marginBottom="40" paddingX="l">
       {displayedProjects.map((post, index) => (
         <ProjectCard
-          preload={index === 0}
+          preload={index === 0 || post.slug === 'space-debris-project'}
           key={post.slug}
           href={`work/${post.slug}`}
           images={post.metadata.images}

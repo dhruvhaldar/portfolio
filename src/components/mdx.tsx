@@ -64,11 +64,13 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
     return null;
   }
 
+  const isSpaceDebrisAvif = src.includes('stuffinspace2.avif');
+
   return (
     <SmartImage
       className="my-20"
-      preload={false}
-      loading={'lazy'}
+      preload={isSpaceDebrisAvif}
+      loading={isSpaceDebrisAvif ? 'eager' : 'lazy'}
       radius="m-4"
       aspectRatio="16/9"
       responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }}
