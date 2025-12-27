@@ -8,7 +8,7 @@ const person = {
     return `${this.firstName} ${this.lastName}`;
   },
   role: "CFD Specialist",
-  avatar: "/images/1700894012265.avif",
+  avatar: "/images/my_profile.avif",
   location: "Asia/Kolkata",
   languages: ["English", "Swedish", "German", "Hindi", "Bengali"],
 };

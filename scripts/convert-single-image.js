@@ -21,7 +21,7 @@ async function convertToAvif(inputPath, outputPath) {
 
 async function main() {
   try {
-    const inputPath = join(IMAGES_DIR, '1700894012265.jpeg'); // Image path
+    const inputPath = join(IMAGES_DIR, 'my_profile.jpeg'); // Image path
     const outputPath = inputPath.replace('.jpeg', '.avif');
     await convertToAvif(inputPath, outputPath);
     console.log('Image conversion complete!');
