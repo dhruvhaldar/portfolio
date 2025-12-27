@@ -19,7 +19,7 @@ type Metadata = {
   tag?: string;
   team: Team[];
   link?: string;
-  publication?: string;
+  journal?: string;
 };
 
 /**
@@ -54,7 +54,7 @@ function readMDXFile(filePath: string) {
     tag: data.tag || [],
     team: data.team || [],
     link: data.link || "",
-    publication: data.publication || "",
+    journal: data.journal || "",
   };
   return { metadata, content };
 }

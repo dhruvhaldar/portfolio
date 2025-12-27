@@ -20,7 +20,7 @@ export default function Post({ post }: PostProps) {
   const authors = formatAuthors(post.metadata.team);
   const year = formatYear(post.metadata.publishedAt);
   const title = post.metadata.title;
-  const publication = post.metadata.publication || "Publication";
+  const publication = post.metadata.journal || "Publication";
   const citationText = `${authors} (${year}). ${title}. ${publication}.`;
 
   const handleCopy = (e: React.MouseEvent) => {
