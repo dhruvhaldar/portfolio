@@ -129,11 +129,11 @@ export default function About() {
           >
             <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
             />
-            <Flex gap="8" vertical="stretch">
+            <Flex gap="8" vertical="stretch" horizontal="center">
               Languages
             </Flex>
             {person.languages.length > 0 && (
-              <Flex wrap gap="8">
+              <Flex wrap gap="8" horizontal="center">
                 {person.languages.map((language, index) => (
                   <Tag key={index} size="l">
                     {language}
