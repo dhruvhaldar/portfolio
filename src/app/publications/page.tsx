@@ -1,4 +1,4 @@
-import { Column, Flex, Heading, SmartLink } from "@/once-ui/components";
+import { Column, Flex, Heading, SmartLink, Spotlight, Text } from "@/once-ui/components";
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person } from "@/app/resources/content";
@@ -41,38 +41,62 @@ export default function Publication() {
           <Heading marginTop="l" marginBottom="s" variant="display-strong-xl">
             {publications.title}
           </Heading>
-          <Flex marginBottom="m" marginTop="xs" direction="column" gap="8" horizontal="center">
-            <SmartLink
-              className="body-default-s"
-              suffixIcon="arrowUpRightFromSquare"
-              style={{ margin: "0", width: "fit-content" }}
-              href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
-              target="_blank"
-              rel="me noopener noreferrer"
-            >
-              <img
-                src="/images/icons/g_scholar.avif"
-                alt="Scholar icon"
-                style={{ width: "1em", marginInlineStart: "0.5em" }}
-              />
-              Google Scholar profile
-            </SmartLink>
-            <SmartLink
-              id="cy-effective-orcid-url"
-              className="body-default-s"
-              href="https://orcid.org/0000-0002-2734-313X"
-              target="orcid.widget"
-              rel="me noopener noreferrer"
-              style={{ verticalAlign: "top" }}
-              suffixIcon="arrowUpRightFromSquare"
-            >
-              <img
-                src="/images/icons/orcid.avif"
-                style={{ width: "1em", marginInlineStart: "0.5em" }}
-                alt="ORCID iD icon"
-              />
-              ORCiD profile
-            </SmartLink>
+          <Flex marginBottom="m" marginTop="xs" gap="16" wrap horizontal="center">
+            <Spotlight style={{ borderRadius: 'var(--radius-l)' }}>
+              <SmartLink
+                href="https://scholar.google.com/citations?user=261XKxgAAAAJ&hl=en"
+                target="_blank"
+                className={styles.hover}
+                unstyled
+                style={{
+                  display: 'flex',
+                  padding: 'var(--static-space-16)',
+                  background: 'var(--neutral-alpha-weak)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: 'var(--radius-l)',
+                  border: '1px solid var(--neutral-alpha-medium)',
+                }}
+              >
+                <Flex gap="12" vertical="center">
+                  <img
+                    src="/images/icons/g_scholar.avif"
+                    alt="Scholar icon"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                  <Text variant="body-default-m" onBackground="neutral-strong">
+                    Google Scholar profile
+                  </Text>
+                </Flex>
+              </SmartLink>
+            </Spotlight>
+
+            <Spotlight style={{ borderRadius: 'var(--radius-l)' }}>
+              <SmartLink
+                href="https://orcid.org/0000-0002-2734-313X"
+                target="_blank"
+                className={styles.hover}
+                unstyled
+                style={{
+                  display: 'flex',
+                  padding: 'var(--static-space-16)',
+                  background: 'var(--neutral-alpha-weak)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: 'var(--radius-l)',
+                  border: '1px solid var(--neutral-alpha-medium)',
+                }}
+              >
+                <Flex gap="12" vertical="center">
+                  <img
+                    src="/images/icons/orcid.avif"
+                    alt="ORCID icon"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                  <Text variant="body-default-m" onBackground="neutral-strong">
+                    ORCID profile
+                  </Text>
+                </Flex>
+              </SmartLink>
+            </Spotlight>
           </Flex>
         </Column>
         <Column fillWidth flex={1}>

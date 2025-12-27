@@ -9,3 +9,11 @@
 .mediumWeight {
   font-weight: 500;
 }
+
+.hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.hover:hover {
+  background: var(--neutral-alpha-medium) !important;
+}
