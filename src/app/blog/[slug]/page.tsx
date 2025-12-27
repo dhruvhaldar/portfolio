@@ -18,7 +18,7 @@ import { getPosts } from "@/app/utils/utils";
 import { Metadata } from "next";
 import React from "react";
 import { Posts } from "@/components/blog/Posts";
-import { ShareSection } from "@/components/blog/ShareSection";
+import { ShareButton } from "@/components/ShareButton";
 import ScrollToHash from "@/components/ScrollToHash"; // Import from components
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -137,10 +137,13 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             </Column>
           </Column>
 
-          <ShareSection
-            title={post.metadata.title}
-            url={`${baseURL}${blog.path}/${post.slug}`}
-          />
+          <Row gap="16" vertical="center" marginTop="32">
+            <ShareButton
+              title={post.metadata.title}
+              url={`${baseURL}${blog.path}/${post.slug}`}
+              text="Share this Blog post"
+            />
+          </Row>
 
           <Column fillWidth gap="40" marginTop="40">
             <Text

@@ -20,6 +20,7 @@ import {
   HiCalendarDays,
   HiClipboard,
   HiArrowRight,
+  HiOutlineShare,
 } from "react-icons/hi2";
 import {
   PiHouseDuotone,
@@ -55,6 +56,7 @@ export const iconLibrary: Record<string, IconType> = {
   close: HiMiniXMark,
   openLink: HiOutlineLink,
   clipboard: HiClipboard,
+  share: HiOutlineShare,
 
   // Status icons
   helpCircle: HiMiniQuestionMarkCircle,

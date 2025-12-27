@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getPosts, getPostBySlug } from "@/app/utils/utils";
-import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink, } from "@/once-ui/components";
+import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink, Row } from "@/once-ui/components";
+import { ShareButton } from "@/components/ShareButton";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
@@ -122,7 +123,7 @@ export default async function Project({ params }: WorkParams) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Text variant="body-default-s">View project</Text>
+            <Text variant="body-default-s">View more details</Text>
           </SmartLink>
         )}
       </Column>
@@ -146,6 +147,13 @@ export default async function Project({ params }: WorkParams) {
         </Flex>
         <CustomMDX source={post.content} />
         {/* <Text>MDX Disabled for Debugging</Text> */}
+        <Row gap="16" vertical="center" horizontal="center" marginTop="32">
+          <ShareButton
+            title={post.metadata.title}
+            url={`https://${baseURL}/work/${post.slug}`}
+            text="Share this Project"
+          />
+        </Row>
       </Column>
       <ScrollToHash />
     </Column>

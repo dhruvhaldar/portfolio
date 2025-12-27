@@ -129,7 +129,7 @@ export default async function Publication({ params }: PageProps) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Text variant="body-default-s">View project</Text>
+              <Text variant="body-default-s">View more details</Text>
             </SmartLink>
           )}
           <CiteButton citationText={citationText} />

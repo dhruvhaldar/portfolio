@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartLink, SmartImage, Spotlight, Tag, Text } from "@/once-ui/components";
+import { Avatar, Button, Column, Flex, Heading, Icon, IconButton, SmartLink, SmartImage, Spotlight, Tag, Text, Row } from "@/once-ui/components";
+import { ShareButton } from "@/components/ShareButton";
 import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
@@ -432,6 +433,14 @@ export default function About() {
               </Column>
             </>
           )}
+
+          <Row gap="16" vertical="center" horizontal="center" marginTop="32">
+            <ShareButton
+              title={about.title}
+              url={`https://${baseURL}/about`}
+              text="Share via Link"
+            />
+          </Row>
         </Column>
       </Flex>
     </Column>
