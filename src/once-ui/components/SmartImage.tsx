@@ -5,11 +5,11 @@ import Image from "next/image";
 
 import { Flex, Skeleton } from ".";
 
-export interface SmartImageProps extends React.ComponentProps<typeof Flex> {
+export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, 'height'> {
   /** Aspect ratio of the image */
   aspectRatio?: string;
   /** Height of the image */
-  height?: number;
+  height?: number | string;
   /** Alt text */
   alt?: string;
   /** Loading state */

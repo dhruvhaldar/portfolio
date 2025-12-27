@@ -32,25 +32,20 @@ export default function Post({ post, thumbnail, direction = 'row' }: PostProps) 
           fillWidth
           paddingY="12"
           paddingX="16"
-          gap={direction === 'row' ? '64' : '32'}
+          gap={direction === 'row' ? '48' : '32'}
           direction={direction}
         >
           {post.metadata.image && thumbnail && (
             <SmartImage
               preload={true}
-              className={styles.image}
+              className={`${styles.image} ${direction === 'row' ? styles.featured : ''}`}
               sizes="640px"
               border="neutral-alpha-weak"
               cursor="interactive"
               radius="l"
               src={post.metadata.image}
-              alt={"Thumbnail of " + post.metadata.title}
               aspectRatio="16 / 9"
-              style={{
-                width: direction === 'row' ? '50%' : '100%',
-                height: direction === 'row' ? 'auto' : '200px',
-                objectFit: 'cover'
-              }}
+              height={direction === 'row' ? undefined : '200px'}
             />
           )}
           <Column position="relative" fillWidth gap="8" vertical="center" align="start">

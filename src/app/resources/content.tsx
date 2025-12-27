@@ -324,8 +324,8 @@ const blog = {
 // Newsletter
 const newsletter = {
   display: true,
-  title: "Subscribe to Selene's Newsletter",
-  description: "My weekly newsletter about creativity and engineering",
+  title: "Subscribe to Dhruv's Newsletter",
+  description: "My weekly newsletter about programming and engineering",
   action: "https://url/subscribe/post?parameters",
 };
 
