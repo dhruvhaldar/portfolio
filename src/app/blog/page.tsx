@@ -43,7 +43,7 @@ export default function Blog() {
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
       <Column maxWidth="m" fillWidth gap="l">
         <Column fillWidth gap="m" align="center">
-          <Heading variant="display-strong-xl" marginBottom="l" wrap="balance">
+          <Heading variant="display-strong-xl" marginTop="l" marginBottom="s" wrap="balance">
             {blog.title}
           </Heading>
         </Column>

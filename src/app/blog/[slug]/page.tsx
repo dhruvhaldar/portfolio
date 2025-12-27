@@ -98,22 +98,23 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             maxWidth="s"
             marginTop="l"
             gap="16"
-            horizontal="center"
-            align="center"
           >
             <SmartLink href="/blog" prefixIcon="chevronLeft">
               Posts
             </SmartLink>
-            <Heading variant="display-strong-s" align="center">
+            <Heading variant="display-strong-s">
               {post.metadata.title}
             </Heading>
           </Column>
 
-          <Column fillWidth gap="24" horizontal="center">
-            <Row id="about" gap="12" vertical="center" horizontal="center">
+          <Column fillWidth gap="24">
+            <Row id="about" gap="12" vertical="center">
               <Avatar size="s" src={person.avatar} />
               <Text variant="body-default-s" onBackground="neutral-weak">
                 {person.name}
+              </Text>
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                •
               </Text>
               <Text variant="body-default-s" onBackground="neutral-weak">
                 {post.metadata.publishedAt &&
@@ -141,13 +142,12 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             url={`${baseURL}${blog.path}/${post.slug}`}
           />
 
-          <Column fillWidth gap="40" marginTop="40" horizontal="center">
+          <Column fillWidth gap="40" marginTop="40">
             <Text
               as="h2"
               id="recent-posts"
               variant="heading-strong-xl"
               marginBottom="24"
-              align="center"
             >
               Recent posts
             </Text>
