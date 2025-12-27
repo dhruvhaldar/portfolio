@@ -1,0 +1,51 @@
+export type RateLimitRecord = {
+  count: number;
+  resetTime: number;
+};
+
+const rateLimitMap = new Map<string, RateLimitRecord>();
+
+/**
+ * Rate limiter function.
+ * @param ip - The IP address to check.
+ * @param limit - The maximum number of requests allowed within the window.
+ * @param windowMs - The time window in milliseconds.
+ * @returns true if the request is allowed, false if the limit is exceeded.
+ */
+export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 * 1000): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, {
+      count: 1,
+      resetTime: now + windowMs
+    });
+    return true;
+  }
+
+  if (record.count >= limit) {
+    return false;
+  }
+
+  record.count += 1;
+  return true;
+}
+
+// Cleanup periodically to avoid memory leaks
+// We use a global interval check to prevent setting multiple intervals in dev HMR
+if (typeof global.rateLimitInterval === 'undefined') {
+  global.rateLimitInterval = setInterval(() => {
+    const now = Date.now();
+    for (const [ip, record] of rateLimitMap.entries()) {
+      if (now > record.resetTime) {
+        rateLimitMap.delete(ip);
+      }
+    }
+  }, 60 * 1000);
+}
+
+// Declare global type for the interval to avoid TS errors
+declare global {
+  var rateLimitInterval: NodeJS.Timeout | undefined;
+}
