@@ -146,9 +146,16 @@ export default function Home() {
 
       {/* Blog Section (Conditional) */}
       {routes["/blog"] && (
-        <Flex fillWidth gap="24" mobileDirection="column">
+        <Flex
+          fillWidth gap="24"
+          mobileDirection="column"
+          padding="xl"
+          radius="l"
+          border="neutral-alpha-weak"
+          background="surface"
+        >
           <Flex flex={1} paddingLeft="l">
-            <Heading as="h1" variant="display-strong-xs" wrap="balance">
+            <Heading as="h2" variant="display-strong-xs" wrap="balance">
               Latest from the blog
             </Heading>
           </Flex>
@@ -159,7 +166,14 @@ export default function Home() {
       )}
 
       {/* Additional Projects */}
-      <Projects range={[2]} posts={allProjects} />
+      <Column fillWidth gap="24">
+        <Flex flex={1} paddingLeft="l">
+          <Heading as="h2" variant="display-strong-xs" wrap="balance">
+            Other Work and Publications
+          </Heading>
+        </Flex>
+        <Projects range={[2]} posts={allProjects} />
+      </Column>
     </Column>
   );
 }
