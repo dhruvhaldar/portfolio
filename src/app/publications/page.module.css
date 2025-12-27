@@ -1,15 +1,3 @@
-.textAlign {
-  text-align: center;
-}
-
-.nameHeading {
-  /* Add any specific name heading styles here */
-}
-
-.mediumWeight {
-  font-weight: 500;
-}
-
 .hover {
   transition: all 0.2s ease-in-out;
 }

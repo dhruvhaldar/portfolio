@@ -1,4 +1,9 @@
-import { Column, Flex, Heading, SmartImage, SmartLink, Spotlight, Tag, Text } from "@/once-ui/components"; import styles from "./Posts.module.scss"; import { formatDate } from "@/app/utils/formatDate";
+"use client";
+
+import { Flex, SmartLink, Spotlight, Text, IconButton, Icon } from "@/once-ui/components";
+import React, { useState } from 'react';
+import styles from "./Posts.module.scss";
+import { formatAuthors, formatYear } from "@/app/utils/formatCitation";
 
 interface PostProps {
   /** The post data object */
@@ -8,47 +13,59 @@ interface PostProps {
 }
 
 /**
- * Displays a single publication post card.
+ * Displays a single publication as an APA citation inside a glass card with copy functionality.
  */
-export default function Post({ post, thumbnail }: PostProps) {
+export default function Post({ post }: PostProps) {
+  const [copied, setCopied] = useState(false);
+  const authors = formatAuthors(post.metadata.team);
+  const year = formatYear(post.metadata.publishedAt);
+  const title = post.metadata.title;
+  const publication = post.metadata.publication || "Publication";
+  const citationText = `${authors} (${year}). ${title}. ${publication}.`;
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(citationText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 'var(--static-space-16)' }}>
-      <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/publications/${post.slug}`}
-        style={{
-          backdropFilter: 'blur(10px)',
-          background: 'var(--neutral-alpha-weak)',
-          borderRadius: 'var(--radius-l)',
-          overflow: 'hidden'
-        }}
-      >
-        <Flex position="relative" mobileDirection="column" fillWidth paddingY="12" paddingX="16" gap="64">
-          {post.metadata.image && thumbnail && (
-            <SmartImage
-              preload={true}
-              maxWidth={20}
-              className={styles.image}
-              sizes="640px"
-              border="neutral-alpha-weak"
-              cursor="interactive"
-              radius="l"
-              src={post.metadata.image}
-              alt={"Thumbnail of " + post.metadata.title}
-              aspectRatio="16 / 9"
-            />
-          )}
-          <Column position="relative" fillWidth gap="8" vertical="center">
-            <Heading as="h1" variant="heading-strong-l" wrap="balance">
-              {post.metadata.title}
-            </Heading>
-            <Text variant="label-default-s" onBackground="neutral-weak">
-              {formatDate(post.metadata.publishedAt, false)}
-            </Text>
-            {post.metadata.tag && (
-              <Tag className="mt-8" label={post.metadata.tag} variant="neutral" />
-            )}
-          </Column>
-        </Flex>
-      </SmartLink>
+    <Spotlight
+      className={`fill-width ${styles.citationHover}`}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        marginBottom: 'var(--static-space-16)',
+        padding: 'var(--static-space-24)',
+        borderRadius: 'var(--radius-l)',
+        backdropFilter: 'blur(10px)',
+        background: 'var(--neutral-alpha-weak)',
+        border: '1px solid var(--neutral-alpha-medium)',
+        transition: 'background 0.2s ease-in-out',
+        cursor: 'pointer'
+      }}
+    >
+      <Flex fillWidth gap="16" vertical="start" horizontal="space-between">
+        <SmartLink
+          unstyled
+          key={post.slug}
+          href={`/publications/${post.slug}`}
+          style={{ flex: 1 }}
+        >
+          <Text variant="body-default-m" onBackground="neutral-strong">
+            {authors} ({year}). <span style={{ fontWeight: 'bold' }}>{title}</span>. <span style={{ fontStyle: 'italic' }}>{publication}</span>.
+          </Text>
+        </SmartLink>
+        <IconButton
+          icon={copied ? "check" : "clipboard"}
+          variant="ghost"
+          onClick={handleCopy}
+          tooltip={copied ? "Copied!" : "Copy citation"}
+        />
+      </Flex>
     </Spotlight>
   );
 }

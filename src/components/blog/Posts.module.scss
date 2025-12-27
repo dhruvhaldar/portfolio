@@ -2,6 +2,10 @@
     transition: all 0.2s ease-in-out;
 }
 
+.citationHover:hover {
+    background: var(--neutral-alpha-weak);
+}
+
 .hover:hover {
     background: var(--neutral-alpha-medium) !important;
 }
