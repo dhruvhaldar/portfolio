@@ -190,7 +190,7 @@ export default function About() {
                   radius="full"
                   padding="4"
                   gap="8"
-                  marginTop="0"
+                  marginTop="l"
                   marginBottom="l"
                   vertical="center"
                 >
@@ -217,7 +217,7 @@ export default function About() {
             {social.length > 0 && (
               <Flex
                 className={styles.blockAlign}
-                paddingTop="20"
+                paddingTop="0"
                 paddingBottom="8"
                 gap="8"
                 wrap
