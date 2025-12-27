@@ -339,7 +339,8 @@ const newsletter = {
   display: true,
   title: "Subscribe to Dhruv's Newsletter",
   description: "I write about programming and engineering",
-  action: "https://url/subscribe/post?parameters",
+  // Replace with your ConvertKit Form Action URL (e.g., https://app.convertkit.com/forms/12345/subscriptions)
+  action: "https://app.kit.com/forms/8910146/subscriptions",
 };
 
 export { person, social, home, about, work, gallery, publications, blog, newsletter };

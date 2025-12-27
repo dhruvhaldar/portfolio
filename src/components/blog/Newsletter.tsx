@@ -50,6 +50,7 @@ export const Newsletter = () => {
                     <Flex fillWidth gap="8" direction="column" mobileDirection="column">
                         <Input
                             id="email"
+                            name="email_address"
                             label="Email"
                             placeholder="Email"
                             type="email"
