@@ -129,11 +129,11 @@ export default function About() {
           >
             <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
             />
-            <Flex gap="8" vertical="stretch" horizontal="center">
+            <Flex gap="8" vertical="stretch" horizontal="center" className="s-flex-hide">
               Languages
             </Flex>
             {person.languages.length > 0 && (
-              <Flex wrap gap="8" horizontal="center">
+              <Flex wrap gap="8" horizontal="center" className="s-flex-hide">
                 {person.languages.map((language, index) => (
                   <Tag key={index} size="l">
                     {language}
@@ -269,6 +269,22 @@ export default function About() {
                 {about.intro.description}
               </Column>
             </Spotlight>
+          )}
+
+          {/* Languages Section (Mobile Only) */}
+          {about.avatar.display && person.languages.length > 0 && (
+            <Column className="s-flex-show" horizontal="center" gap="16" marginBottom="40" fillWidth>
+              <Heading variant="display-default-xs" align="center">
+                Languages
+              </Heading>
+              <Flex wrap gap="8" horizontal="center">
+                {person.languages.map((language, index) => (
+                  <Tag key={index} size="l">
+                    {language}
+                  </Tag>
+                ))}
+              </Flex>
+            </Column>
           )}
 
           {/* Work Experience Section */}
