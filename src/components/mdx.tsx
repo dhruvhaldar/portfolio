@@ -240,6 +240,20 @@ type CustomMDXProps = MDXRemoteProps & {
   components?: typeof components;
 };
 
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
 export function CustomMDX(props: CustomMDXProps) {
-  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
+  return (
+    <MDXRemote
+      {...props}
+      components={{ ...components, ...(props.components || {}) }}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+        },
+      }}
+    />
+  );
 }

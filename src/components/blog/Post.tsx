@@ -62,7 +62,11 @@ export default function Post({ post, thumbnail, direction = 'row' }: PostProps) 
               {post.metadata.title}
             </Heading>
             {post.metadata.tag && (
-              <Tag className="mt-8" label={post.metadata.tag} variant="neutral" />
+              <Flex gap="8" className="mt-8" wrap>
+                {post.metadata.tag.split(',').map((tag: string) => (
+                  <Tag key={tag} label={tag.trim()} variant="neutral" />
+                ))}
+              </Flex>
             )}
           </Column>
         </Flex>
