@@ -162,6 +162,15 @@ export default function About() {
             vertical="center"
             marginBottom="32"
           >
+
+
+            <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} variant="display-default-l">
+              {person.name}
+            </Heading>
+
+            <Text className={styles.textAlign} variant="display-default-xs" onBackground="neutral-weak">
+              {person.role}
+            </Text>
             {about.calendar.display && (
               <SmartLink
                 href={about.calendar.link}
@@ -203,14 +212,6 @@ export default function About() {
                 </Flex>
               </SmartLink>
             )}
-
-            <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} variant="display-default-l">
-              {person.name}
-            </Heading>
-
-            <Text className={styles.textAlign} variant="display-default-xs" onBackground="neutral-weak">
-              {person.role}
-            </Text>
 
             {/* Social Links */}
             {social.length > 0 && (
