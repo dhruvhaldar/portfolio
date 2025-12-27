@@ -62,7 +62,7 @@ export default function Home() {
   const allProjects = getPosts(["src", "app", "work", "projects"]);
 
   return (
-    <Column maxWidth="m" gap="xl" horizontal="center">
+    <Column maxWidth="m" gap="24" horizontal="center">
 
       {/* Structured Data */}
       <script
@@ -74,14 +74,14 @@ export default function Home() {
       />
 
       {/* Hero Section */}
-      <Column fillWidth paddingY="s" horizontal="center" gap="m">
+      <Column fillWidth paddingY="s" horizontal="center" gap="m" className={styles.mobileUp}>
         <Column maxWidth="s" horizontal="center" align="center">
           {home.featured.display && (
             <RevealFx
               fillWidth
               horizontal="center"
               paddingTop="m"
-              paddingBottom="m"
+              paddingBottom="24"
               paddingLeft="12"
             >
               <Badge
@@ -98,13 +98,13 @@ export default function Home() {
             </RevealFx>
           )}
 
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="xs">
+          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="24">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
             </Heading>
           </RevealFx>
 
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="m">
+          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="24">
             <Text paddingX="l" wrap="balance" onBackground="neutral-medium" variant="heading-default-l">
               {home.subline}
             </Text>
