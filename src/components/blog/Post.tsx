@@ -33,7 +33,7 @@ export default function Post({ post, thumbnail, direction = 'row' }: PostProps) 
           position="relative"
           mobileDirection="column"
           fillWidth
-          paddingY="12"
+          paddingY="4"
           paddingX="16"
           gap={direction === 'row' ? '48' : '32'}
           direction={direction}
@@ -54,12 +54,6 @@ export default function Post({ post, thumbnail, direction = 'row' }: PostProps) 
           <Column position="relative" fillWidth gap="8" vertical="center" align="start">
             <Flex gap="8" vertical="center">
               <Avatar size="s" src={person.avatar} />
-              <Text variant="body-default-s" onBackground="neutral-strong">
-                {person.name}
-              </Text>
-              <Text variant="body-default-s" onBackground="neutral-weak">
-                •
-              </Text>
               <Text variant="body-default-s" onBackground="neutral-weak">
                 {formatDate(post.metadata.publishedAt, false)}
               </Text>
