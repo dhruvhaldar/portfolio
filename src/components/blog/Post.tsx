@@ -35,7 +35,7 @@ export default function Post({ post, thumbnail, direction = 'row', priority = fa
           position="relative"
           mobileDirection="column"
           fillWidth
-          paddingY="4"
+          paddingY="12"
           paddingX="16"
           gap={direction === 'row' ? '48' : '32'}
           direction={direction}
