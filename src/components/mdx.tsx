@@ -131,6 +131,7 @@ function createBlockquote({ children }: { children: ReactNode }) {
       border="neutral-alpha-medium"
       radius="l"
       padding="m"
+      marginTop="24"
       marginBottom="24"
       style={{
         borderLeft: "4px solid var(--brand-solid-strong)",
