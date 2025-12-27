@@ -38,7 +38,7 @@ export default function Publication() {
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
       <Column maxWidth="s" fillWidth gap="l">
         <Column fillWidth gap="m" align="center">
-          <Heading marginTop="l" marginBottom="s" variant="display-strong-xl">
+          <Heading className={styles.headerTitle} variant="display-strong-xl">
             {publications.title}
           </Heading>
           <Flex marginBottom="m" marginTop="xs" gap="16" wrap horizontal="center">

@@ -44,7 +44,7 @@ export default function Work() {
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
       <Column maxWidth="m" fillWidth gap="l">
         <Column fillWidth gap="l" align="center">
-          <Heading marginTop="l" marginBottom="s" variant="display-strong-xl">
+          <Heading className={styles.headerTitle} variant="display-strong-xl">
             {work.title}
           </Heading>
         </Column>

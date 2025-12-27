@@ -9,3 +9,15 @@
 .mediumWeight {
   font-weight: 500;
 }
+
+.headerTitle {
+  margin-top: var(--static-space-l);
+  margin-bottom: var(--static-space-s);
+}
+
+@media (min-width: 1024px) {
+  .headerTitle {
+    margin-top: calc(var(--static-space-xl) * -1);
+    margin-bottom: calc(var(--static-space-m) * -1);
+  }
+}
