@@ -9,6 +9,7 @@ import { Geist } from "next/font/google";
 import { person, home } from "@/app/resources/content";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { themeScript } from "@/app/resources/theme-script";
 
 const Footer = dynamic(
   () => import('@/components/Footer').then((mod) => mod.Footer),
@@ -108,6 +109,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <Flex
       as="html"
       lang="en"
+      suppressHydrationWarning
       background="page"
       data-neutral={style.neutral}
       data-brand={style.brand}
@@ -130,6 +132,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           padding="0"
           className="font-sans antialiased"
         >
+          <script
+            dangerouslySetInnerHTML={{
+              __html: themeScript,
+            }}
+          />
           <a href="#main-content" className="skip-to-content">
             Skip to main content
           </a>
