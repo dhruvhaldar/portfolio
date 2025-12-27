@@ -130,7 +130,7 @@ export default function About() {
             <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
             />
             <Flex gap="8" vertical="stretch" horizontal="center" className="s-flex-hide">
-              Languages
+              <Heading variant="display-default-xs" align="center" marginBottom="8">Languages</Heading>
             </Flex>
             {person.languages.length > 0 && (
               <Flex wrap gap="8" horizontal="center" className="s-flex-hide">
@@ -140,6 +140,14 @@ export default function About() {
                   </Tag>
                 ))}
               </Flex>
+            )}
+            {about.tableOfContent.display && (
+              <Column className="s-flex-hide" fillWidth gap="12" marginTop="32" horizontal="center">
+                <Heading variant="display-default-xs" align="center" marginBottom="8">
+                  On this page
+                </Heading>
+                <TableOfContents structure={structure} about={about} />
+              </Column>
             )}
           </Column>
         )}
