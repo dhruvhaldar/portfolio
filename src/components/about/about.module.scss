@@ -19,31 +19,21 @@
 
 // Button styles with theme support
 .themeButton {
-  // Light theme (default)
-  background-color: var(--surface-background) !important;
-  border: 1px solid var(--neutral-border-strong) !important;
-  color: var(--on-surface) !important;
+  // Frosted glass effect matching Badge
+  background-color: var(--brand-alpha-weak) !important;
+  border: 1px solid var(--brand-alpha-medium) !important;
+  color: var(--neutral-on-background-strong) !important; // Ensure text is legible
+  backdrop-filter: blur(var(--static-space-12)); // Adjust blur amount as needed
   transition: all var(--transition-micro-medium) !important;
+  border-radius: var(--radius-full) !important; // Ensure pill shape for uniform glow
 
-  // Hover state for light theme
+  // Hover state
   &:hover:not(:disabled) {
-    background-color: color-mix(in srgb, var(--surface-background) 90%, var(--on-surface)) !important;
-    border-color: color-mix(in srgb, var(--neutral-border-strong) 80%, var(--on-surface)) !important;
-  }
-
-  // Dark theme overrides
-  @media (prefers-color-scheme: dark) {
-    background-color: var(--static-black-medium) !important;
-    border-color: var(--neutral-alpha-medium) !important;
-    color: var(--neutral-on-background-strong) !important;
-
-    // Hover state for dark theme
-    &:hover:not(:disabled) {
-      background-color: color-mix(in srgb, var(--static-black-medium) 90%, var(--neutral-on-background-strong)) !important;
-      border-color: color-mix(in srgb, var(--neutral-alpha-medium) 80%, var(--neutral-on-background-strong)) !important;
-    }
+    background-color: var(--brand-alpha-medium) !important;
+    border-color: var(--brand-alpha-strong) !important;
   }
 }
+
 
 @media (--s) {
   .avatar {
@@ -94,5 +84,26 @@
   @media (max-width: 584px) {
     flex-direction: column;
     width: 100%;
+  }
+}
+
+.glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px 0px var(--brand-alpha-weak);
+    border-color: var(--brand-alpha-weak);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 4px var(--brand-alpha-strong), 0 0 10px 2px var(--brand-solid-strong);
+    border-color: var(--brand-alpha-strong);
+  }
+
+  100% {
+    box-shadow: 0 0 5px 0px var(--brand-alpha-weak);
+    border-color: var(--brand-alpha-weak);
   }
 }

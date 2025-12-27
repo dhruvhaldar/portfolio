@@ -110,7 +110,7 @@ export default function Home() {
             </Text>
           </RevealFx>
 
-          <RevealFx translateY="12" delay={0.4} horizontal="center" paddingBottom="0">
+          <RevealFx translateY="12" delay={0.4} horizontal="center" padding="16">
             <Button
               id="about"
               data-border="rounded"
@@ -119,7 +119,7 @@ export default function Home() {
               size="m"
               weight="default"
               arrowIcon
-              className={styles.themeButton}
+              className={`${styles.themeButton} ${styles.glow}`}
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
