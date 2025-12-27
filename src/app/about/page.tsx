@@ -78,7 +78,7 @@ const structuredData = {
 
 export default function About() {
   return (
-    <Column maxWidth="m" marginTop="l">
+    <Column className={styles.aboutContainer} marginTop="l">
       {/* Hidden H1 for accessibility */}
       <h1 style={{
         position: "absolute",
@@ -124,7 +124,6 @@ export default function About() {
             paddingBottom="m"
             paddingTop="0"
             gap="m"
-            flex={3}
             horizontal="center"
           >
             <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
@@ -133,13 +132,13 @@ export default function About() {
               <Heading variant="display-default-xs" align="center" marginBottom="8">Languages</Heading>
             </Flex>
             {person.languages.length > 0 && (
-              <Flex wrap gap="8" horizontal="center" className="s-flex-hide">
+              <div className={`${styles.languagesGrid} s-flex-hide`}>
                 {person.languages.map((language, index) => (
                   <Tag key={index} size="l">
                     {language}
                   </Tag>
                 ))}
-              </Flex>
+              </div>
             )}
             {about.tableOfContent.display && (
               <Column className="s-flex-hide" fillWidth gap="12" marginTop="32" horizontal="center">
@@ -153,7 +152,7 @@ export default function About() {
         )}
 
         {/* Main Content */}
-        <Column className={styles.blockAlign} flex={9} maxWidth={40}>
+        <Column className={styles.blockAlign} flex={1}>
           {/* Introduction Section */}
           <Column
             id={about.intro.title}
@@ -162,47 +161,7 @@ export default function About() {
             vertical="center"
             marginBottom="32"
           >
-            {about.calendar.display && (
-              <SmartLink
-                href={about.calendar.link}
-                unstyled
-                className={styles.blockAlign}
-                style={{ textDecoration: 'none' }}
-              >
-                <Flex
-                  fitWidth
-                  border="brand-alpha-medium"
-                  className={styles.blockAlign}
-                  style={{
-                    backdropFilter: "blur(var(--static-space-1))",
-                    cursor: "pointer"
-                  }}
-                  background="brand-alpha-weak"
-                  radius="full"
-                  padding="4"
-                  gap="8"
-                  marginTop="0"
-                  marginBottom="l"
-                  vertical="center"
-                >
-                  <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
-                  <Flex paddingX="xl" paddingY="xs" align="center">
-                    Schedule a call
-                  </Flex>
-                  <Flex
-                    width="32"
-                    height="32"
-                    center
-                    radius="full"
-                    border="neutral-medium"
-                    background="neutral-alpha-medium"
-                    style={{ pointerEvents: "none" }}
-                  >
-                    <Icon name="chevronRight" size="s" />
-                  </Flex>
-                </Flex>
-              </SmartLink>
-            )}
+
 
             <Heading className={`${styles.textAlign} ${styles.nameHeading} ${styles.mediumWeight}`} variant="display-default-l">
               {person.name}
@@ -211,52 +170,95 @@ export default function About() {
             <Text className={styles.textAlign} variant="display-default-xs" onBackground="neutral-weak">
               {person.role}
             </Text>
+            <Flex className={styles.buttonRow} gap="16" vertical="center" wrap marginTop="32">
+              {about.calendar.display && (
+                <SmartLink
+                  href={about.calendar.link}
+                  unstyled
+                  className={styles.blockAlign}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Flex
+                    fitWidth
+                    border="brand-alpha-medium"
+                    className={styles.blockAlign}
+                    style={{
+                      backdropFilter: "blur(var(--static-space-1))",
+                      cursor: "pointer"
+                    }}
+                    background="brand-alpha-weak"
+                    radius="full"
+                    padding="4"
+                    gap="8"
+                    marginTop="0"
+                    marginBottom="0"
+                    vertical="center"
+                  >
+                    <Icon paddingLeft="l" name="calendar" onBackground="brand-weak" />
+                    <Flex paddingX="xl" paddingY="xs" align="center">
+                      Schedule a call
+                    </Flex>
+                    <Flex
+                      width="32"
+                      height="32"
+                      center
+                      radius="full"
+                      border="neutral-medium"
+                      background="neutral-alpha-medium"
+                      style={{ pointerEvents: "none" }}
+                    >
+                      <Icon name="chevronRight" size="s" />
+                    </Flex>
+                  </Flex>
+                </SmartLink>
+              )}
 
-            {/* Social Links */}
-            {social.length > 0 && (
-              <Flex
-                className={styles.blockAlign}
-                paddingTop="20"
-                paddingBottom="8"
-                gap="8"
-                wrap
-                horizontal="center"
-                fitWidth
-              >
-                {social.map((item) => item.link && (
-                  <React.Fragment key={item.name}>
-                    <Button
-                      className="s-flex-hide"
-                      href={item.link}
-                      prefixIcon={item.icon}
-                      label={item.name}
-                      size="s"
-                      variant="secondary"
-                      style={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.01)',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        border: '1px solid var(--neutral-border-strong)',
-                      }}
-                    />
-                    <IconButton
-                      className="s-flex-show"
-                      size="l"
-                      href={item.link}
-                      icon={item.icon}
-                      tooltip={item.name}
-                      variant="secondary"
-                      style={{
-                        backgroundColor: 'var(--neutral-background)',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        border: '1px solid var(--neutral-border-strong)',
-                      }}
-                    />
-                  </React.Fragment>
-                ))}
-              </Flex>
-            )}
+              {/* Social Links */}
+              {social.length > 0 && (
+                <Flex
+                  className={styles.blockAlign}
+                  paddingTop="0"
+                  paddingBottom="0"
+                  gap="8"
+                  wrap
+                  horizontal="center"
+                  fitWidth
+                >
+                  {social.map((item) => item.link && (
+                    <React.Fragment key={item.name}>
+                      <Button
+                        className="s-flex-hide"
+                        href={item.link}
+                        prefixIcon={item.icon}
+                        label={item.name}
+                        size="s"
+                        variant="secondary"
+                        style={{
+                          backgroundColor: 'rgba(0, 0, 0, 0.01)',
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          border: '1px solid var(--neutral-border-strong)',
+                        }}
+                      />
+                      <IconButton
+                        className="s-flex-show"
+                        size="l"
+                        href={item.link}
+                        icon={item.icon}
+                        tooltip={item.name}
+                        variant="secondary"
+                        style={{
+                          backgroundColor: 'var(--neutral-background)',
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          border: '1px solid var(--neutral-border-strong)',
+                        }}
+                      />
+                    </React.Fragment>
+                  ))}
+                </Flex>
+              )}
+            </Flex>
           </Column>
 
           {/* Introduction Description */}
@@ -269,7 +271,6 @@ export default function About() {
                 radius="l"
                 style={{
                   width: "100%",
-                  maxWidth: "900px",
                   backdropFilter: 'blur(10px)',
                   background: 'var(--neutral-alpha-weak)'
                 }}
