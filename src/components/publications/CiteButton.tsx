@@ -2,6 +2,7 @@
 
 import { SmartLink, Text } from "@/once-ui/components";
 import { useState } from "react";
+import { cleanCitationText } from "@/app/utils/formatCitation";
 
 interface CiteButtonProps {
     citationText: string;
@@ -12,9 +13,7 @@ export default function CiteButton({ citationText }: CiteButtonProps) {
 
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();
-        // Robust cleaning: split by any newline sequence, trim parts, join with space
-        const cleanText = citationText.split(/[\r\n]+/).map(part => part.trim()).join(" ").replace(/\s+/g, " ");
-        navigator.clipboard.writeText(cleanText);
+        navigator.clipboard.writeText(cleanCitationText(citationText));
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };

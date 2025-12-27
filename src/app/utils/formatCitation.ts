@@ -39,5 +39,5 @@ export function formatYear(date: string): string {
 }
 
 export function cleanCitationText(text: string): string {
-    return text.replace(/\s+/g, " ").trim();
+    return text.split(/[\r\n]+/).map(part => part.trim()).join(" ").replace(/\s+/g, " ").trim();
 }
