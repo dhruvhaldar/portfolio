@@ -395,17 +395,24 @@ export default function About() {
                   <Spotlight key={`${skill}-${index}`} className="fill-width">
                     <Column
                       fillWidth
-                      gap="4"
                       padding="16"
                       radius="l"
                       style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)' }}
                     >
-                      <Text variant="body-default-xl">
-                        {skill.title}
-                      </Text>
-                      <Text variant="body-strong-l" onBackground="neutral-weak">
-                        {skill.description}
-                      </Text>
+                      <Row gap="24" vertical="center">
+                        <Column vertical="center">
+                          {/* @ts-ignore */}
+                          {skill.icon && <Icon name={skill.icon} size="xl" />}
+                        </Column>
+                        <Column gap="4">
+                          <Text variant="body-default-xl">
+                            {skill.title}
+                          </Text>
+                          <Text variant="body-strong-l" onBackground="neutral-weak">
+                            {skill.description}
+                          </Text>
+                        </Column>
+                      </Row>
                       {skill.images && skill.images.length > 0 && (
                         <Flex fillWidth paddingTop="m" gap="12" wrap>
                           {skill.images.map((image, index) => (
