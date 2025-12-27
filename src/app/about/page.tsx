@@ -180,12 +180,17 @@ export default function About() {
                   <Flex paddingX="xl" paddingY="xs" align="center">
                     Schedule a call
                   </Flex>
-                  <IconButton
-                    data-border="rounded"
-                    variant="secondary"
-                    icon="chevronRight"
+                  <Flex
+                    width="32"
+                    height="32"
+                    center
+                    radius="full"
+                    border="neutral-medium"
+                    background="neutral-alpha-medium"
                     style={{ pointerEvents: "none" }}
-                  />
+                  >
+                    <Icon name="chevronRight" size="s" />
+                  </Flex>
                 </Flex>
               </SmartLink>
             )}
