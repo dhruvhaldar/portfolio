@@ -17,9 +17,12 @@ interface PostProps {
  */
 export default function Post({ post, thumbnail, direction = 'row' }: PostProps) {
   return (
-    <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 'var(--static-space-16)' }}>
+    <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
       <SmartLink fillWidth className={styles.hover} unstyled key={post.slug} href={`/blog/${post.slug}`}
         style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
           backdropFilter: 'blur(10px)',
           background: 'var(--neutral-alpha-weak)',
           borderRadius: 'var(--radius-l)',

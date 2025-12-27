@@ -3,7 +3,7 @@ import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row, Badge } fro
 import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
-import { Posts } from "@/components/publications/Posts";
+import { Posts } from "@/components/blog/Posts";
 import styles from "@/components/about/about.module.scss";
 import { getPosts } from "@/app/utils/utils";
 
@@ -24,11 +24,11 @@ export async function generateMetadata() {
       type: "website",
       url: pageUrl,
       siteName: `${person.firstName}'s Portfolio (With Projects & Publications)`,
-      images: [{ 
-        url: ogImage, 
-        width: 1200, 
-        height: 630, 
-        alt: alt_title 
+      images: [{
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: alt_title
       }],
     },
     twitter: {
@@ -111,11 +111,11 @@ export default function Home() {
           </RevealFx>
 
           <RevealFx translateY="12" delay={0.4} horizontal="center" paddingBottom="0">
-            <Button 
-              id="about" 
+            <Button
+              id="about"
               data-border="rounded"
-              href="/about" 
-              variant="secondary" 
+              href="/about"
+              variant="secondary"
               size="m"
               weight="default"
               arrowIcon
@@ -123,12 +123,12 @@ export default function Home() {
             >
               <Row gap="8" vertical="center" paddingRight="4">
                 {about.avatar.display && (
-                  <Avatar 
+                  <Avatar
                     marginRight="8"
-                    style={{ 
+                    style={{
                       marginLeft: "-0.75rem",
-                    }} 
-                    src={person.avatar} 
+                    }}
+                    src={person.avatar}
                     size="m"
                   />
                 )}
