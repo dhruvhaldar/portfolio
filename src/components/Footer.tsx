@@ -1,12 +1,16 @@
+"use client";
+
 import { Flex, IconButton, SmartLink, Text } from "@/once-ui/components";
 import { person, social } from "@/app/resources/content";
 import styles from "./Footer.module.scss";
+import { usePathname } from "next/navigation";
 
 /**
  * Footer component displaying copyright info, credits, and social links.
  */
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
 
   return (
     <Flex
@@ -48,7 +52,7 @@ export const Footer = () => {
           </Text>
         </Text>
         <Flex gap="16">
-          {social.map((item) =>
+          {pathname !== '/about' && social.map((item) =>
             item.link && (
               <IconButton
                 key={item.name}

@@ -271,7 +271,6 @@ export default function About() {
                 radius="l"
                 style={{
                   width: "100%",
-                  maxWidth: "900px",
                   backdropFilter: 'blur(10px)',
                   background: 'var(--neutral-alpha-weak)'
                 }}
