@@ -3,7 +3,11 @@ export type RateLimitRecord = {
   resetTime: number;
 };
 
-const rateLimitMap = new Map<string, RateLimitRecord>();
+// Export map for testing purposes
+export const rateLimitMap = new Map<string, RateLimitRecord>();
+
+// 🛡️ Sentinel: Maximum number of records to keep in memory to prevent DoS via memory exhaustion
+const MAX_RECORDS = 10000;
 
 /**
  * Rate limiter function.
@@ -17,6 +21,12 @@ export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 *
   const record = rateLimitMap.get(ip);
 
   if (!record || now > record.resetTime) {
+    // 🛡️ Sentinel: Prevent Memory Exhaustion DoS
+    if (rateLimitMap.size >= MAX_RECORDS) {
+      console.warn('Rate limit map full, clearing to prevent OOM.');
+      rateLimitMap.clear();
+    }
+
     rateLimitMap.set(ip, {
       count: 1,
       resetTime: now + windowMs
