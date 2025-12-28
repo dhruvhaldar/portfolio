@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
-import { Flex, Skeleton, Text, Icon } from "@/once-ui/components";
+import { Flex, Text } from "@/once-ui/components";
 
 interface LazyframeVideoProps {
   /** The source URL of the video (e.g., YouTube URL) */
@@ -44,35 +44,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const youtubeId = getYouTubeId(src);
   const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
 
-  const [isLoading, setIsLoading] = React.useState(true);
   const [isPlaying, setIsPlaying] = React.useState(false);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    if (thumbnailUrl) {
-      const img = new Image();
-      img.src = thumbnailUrl;
-
-      const handleLoad = () => {
-        if (isMounted) setIsLoading(false);
-      };
-
-      const handleError = () => {
-        // Fallback to showing the frame even if thumbnail fails
-        if (isMounted) setIsLoading(false);
-      };
-
-      img.onload = handleLoad;
-      img.onerror = handleError;
-    } else {
-      setIsLoading(false);
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [thumbnailUrl]);
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
@@ -106,16 +78,6 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           isolation: "isolate"
         }}
       >
-        {isLoading && (
-          <Skeleton
-            shape="block"
-            fillWidth
-            style={{
-              height: height === "auto" ? "auto" : height,
-              aspectRatio: "16/9"
-            }}
-          />
-        )}
         <div
           ref={videoRef}
           className="lazyframe"
@@ -127,10 +89,10 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
             height,
             aspectRatio: '16/9',
             objectFit: 'cover',
-            display: isLoading ? 'none' : 'block'
+            display: 'block'
           }}
         ></div>
-        {!isPlaying && !isLoading && (
+        {!isPlaying && (
           <>
             {/* Title Overlay */}
             {title && (
