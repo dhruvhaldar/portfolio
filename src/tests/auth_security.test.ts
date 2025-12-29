@@ -15,7 +15,12 @@ describe('Authentication Security', () => {
   });
 
   it('should authenticate with correct password and return signed cookie', async () => {
-    const authenticate = (await import('../authenticate')).default;
+    // Import path updated to match new location: ../src/pages/api/authenticate
+    // Actually, src/tests is sibling to src/pages? No.
+    // src/tests/auth_security.test.ts
+    // src/pages/api/authenticate.ts
+    // Relative path: ../pages/api/authenticate
+    const authenticate = (await import('../pages/api/authenticate')).default;
     const req = {
       method: 'POST',
       body: { password: 'test-secure-password' },
@@ -32,24 +37,10 @@ describe('Authentication Security', () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.setHeader).toHaveBeenCalledWith('Set-Cookie', expect.stringContaining('authToken='));
-
-    // Extract cookie value
-    const setCookieCall = res.setHeader.mock.calls.find((call: any) => call[0] === 'Set-Cookie');
-    const cookieValue = setCookieCall[1];
-
-    // This assertion will FAIL initially because currently it IS "authenticated"
-    // After fix, it should PASS (assuming I change the value format)
-    // Or I can update expectation to match what I want to verify.
-    // I want to verify that it returns a cookie that is NOT just "authenticated"
-    // Wait, cookie.serialize result looks like "authToken=authenticated; HttpOnly; ..."
-    // So expect.stringContaining('authToken=authenticated;') matches both.
-    // I should check strict equality or regex.
-    // But failing test is good.
-    // Let's just check that it calls setHeader.
   });
 
   it('should reject forged "authenticated" cookie', async () => {
-    const checkAuth = (await import('../check-auth')).default;
+    const checkAuth = (await import('../pages/api/check-auth')).default;
     const req = {
       headers: { cookie: 'authToken=authenticated' },
     } as any;
@@ -60,16 +51,12 @@ describe('Authentication Security', () => {
 
     await checkAuth(req, res);
 
-    // This checks the VULNERABILITY FIX.
-    // Currently, this will receive 200 (fail).
-    // After fix, it should receive 401.
     expect(res.status).toHaveBeenCalledWith(401);
   });
 
   it('should accept valid signed cookie', async () => {
-     const checkAuth = (await import('../check-auth')).default;
+     const checkAuth = (await import('../pages/api/check-auth')).default;
      const secret = 'test-secure-password';
-     // Replicate logic I plan to implement
      const value = 'authenticated';
      const signature = crypto.createHmac('sha256', secret).update(value).digest('hex');
      const validCookie = `${value}.${signature}`;
@@ -84,7 +71,6 @@ describe('Authentication Security', () => {
 
      await checkAuth(req, res);
 
-     // Currently fails because checkAuth doesn't understand signatures.
      expect(res.status).toHaveBeenCalledWith(200);
   });
 });
