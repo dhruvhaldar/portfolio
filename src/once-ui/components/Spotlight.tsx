@@ -35,23 +35,37 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     if (!container) return;
 
     let requestId: number = 0;
+    const cachedRect = { left: 0, top: 0 };
+
+    const updateRect = () => {
+      const rect = container.getBoundingClientRect();
+      cachedRect.left = rect.left + window.scrollX;
+      cachedRect.top = rect.top + window.scrollY;
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
       cancelAnimationFrame(requestId);
 
       requestId = requestAnimationFrame(() => {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = e.pageX - cachedRect.left;
+        const y = e.pageY - cachedRect.top;
 
         container.style.setProperty("--spotlight-x", `${x}px`);
         container.style.setProperty("--spotlight-y", `${y}px`);
       });
     };
 
+    // Initialize cache
+    updateRect();
+
     container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("mouseenter", updateRect);
+    window.addEventListener("resize", updateRect);
+
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseenter", updateRect);
+      window.removeEventListener("resize", updateRect);
       cancelAnimationFrame(requestId);
     };
   }, []);
