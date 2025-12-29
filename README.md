@@ -8,7 +8,6 @@
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=ffffff)](https://tailwindcss.com/)
   [![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=ffffff)](https://vercel.com)
   [![Once UI](https://img.shields.io/badge/Once_UI-8A2BE2?style=flat-square&logo=once-ui&logoColor=ffffff)](https://once-ui.com)
-  [![CodeRabbit PRs](https://img.shields.io/coderabbit/prs/github/dhruvhaldar/portfolio?color=FF570A&label=CodeRabbit%20Reviews)](https://coderabbit.ai)
 </div>
 
 ## 🚀 Features
