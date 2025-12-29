@@ -221,6 +221,10 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
         zIndex={0}
         overflow="hidden"
         style={{
+          position,
+          top: 0,
+          left: 0,
+          zIndex: 0,
           ...maskStyle(),
           ...style,
         }}
