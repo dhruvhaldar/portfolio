@@ -82,6 +82,13 @@ const SmartImage: React.FC<SmartImageProps> = ({
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (enlarge && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      setIsEnlarged(!isEnlarged);
+    }
+  };
+
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isEnlarged) {
@@ -169,6 +176,10 @@ const SmartImage: React.FC<SmartImageProps> = ({
           ...calculateTransform(),
         }}
         onClick={handleClick}
+        onKeyDown={enlarge ? handleKeyDown : undefined}
+        role={enlarge ? "button" : undefined}
+        tabIndex={enlarge ? 0 : undefined}
+        aria-label={enlarge ? (isEnlarged ? "Close image" : "Enlarge image") : undefined}
         {...rest}
       >
         {isLoading && <Skeleton shape="block" />}
