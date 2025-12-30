@@ -35,9 +35,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const bufferA = crypto.createHash('sha256').update(password).digest();
 
     if (crypto.timingSafeEqual(bufferA, correctPasswordHash)) {
+      // 🛡️ Sentinel: Sign the cookie to prevent tampering
+      // We know correctPassword is defined here because correctPasswordHash check passed
+      const val = "authenticated";
+      const signature = crypto.createHmac('sha256', correctPassword as string).update(val).digest('hex');
+      const cookieValue = `${val}.${signature}`;
+
       res.setHeader(
         "Set-Cookie",
-        cookie.serialize("authToken", "authenticated", {
+        cookie.serialize("authToken", cookieValue, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           maxAge: 60 * 60,
