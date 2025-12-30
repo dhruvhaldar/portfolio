@@ -1,0 +1,76 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import * as crypto from 'crypto';
+import * as cookie from 'cookie';
+
+describe('Authentication Security', () => {
+  const originalEnv = process.env;
+
+  beforeEach(() => {
+    vi.resetModules();
+    process.env = { ...originalEnv, ADMIN_PASSWORD: 'test-secure-password', NODE_ENV: 'test' };
+  });
+
+  afterEach(() => {
+    process.env = originalEnv;
+  });
+
+  it('should authenticate with correct password and return signed cookie', async () => {
+    // Import path updated to match new location: ../src/pages/api/authenticate
+    // Actually, src/tests is sibling to src/pages? No.
+    // src/tests/auth_security.test.ts
+    // src/pages/api/authenticate.ts
+    // Relative path: ../pages/api/authenticate
+    const authenticate = (await import('../pages/api/authenticate')).default;
+    const req = {
+      method: 'POST',
+      body: { password: 'test-secure-password' },
+      headers: {},
+      socket: { remoteAddress: '127.0.0.1' },
+    } as any;
+    const res = {
+      setHeader: vi.fn(),
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    await authenticate(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.setHeader).toHaveBeenCalledWith('Set-Cookie', expect.stringContaining('authToken='));
+  });
+
+  it('should reject forged "authenticated" cookie', async () => {
+    const checkAuth = (await import('../pages/api/check-auth')).default;
+    const req = {
+      headers: { cookie: 'authToken=authenticated' },
+    } as any;
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    await checkAuth(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+  });
+
+  it('should accept valid signed cookie', async () => {
+     const checkAuth = (await import('../pages/api/check-auth')).default;
+     const secret = 'test-secure-password';
+     const value = 'authenticated';
+     const signature = crypto.createHmac('sha256', secret).update(value).digest('hex');
+     const validCookie = `${value}.${signature}`;
+
+     const req = {
+       headers: { cookie: `authToken=${validCookie}` },
+     } as any;
+     const res = {
+       status: vi.fn().mockReturnThis(),
+       json: vi.fn(),
+     } as any;
+
+     await checkAuth(req, res);
+
+     expect(res.status).toHaveBeenCalledWith(200);
+  });
+});
