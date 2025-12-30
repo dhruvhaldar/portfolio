@@ -57,6 +57,13 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     setIsPlaying(true);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handlePlay();
+    }
+  };
+
   return (
     <Flex
       fillWidth
@@ -73,9 +80,14 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         fillWidth
         radius="l"
         overflow="hidden"
-        onClickCapture={handlePlay}
+        onClickCapture={isPlaying ? undefined : handlePlay}
+        onKeyDown={isPlaying ? undefined : handleKeyDown}
+        role={isPlaying ? undefined : "button"}
+        tabIndex={isPlaying ? -1 : 0}
+        aria-label={isPlaying ? undefined : `Play video: ${title}`}
         style={{
-          isolation: "isolate"
+          isolation: "isolate",
+          cursor: isPlaying ? "default" : "pointer"
         }}
       >
         <div
