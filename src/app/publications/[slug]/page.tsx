@@ -6,6 +6,7 @@ import BlogTableOfContents from "@/components/blog/TableOfContents";
 import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
+import { sanitizeJsonLd } from "@/app/utils/security"; // 🛡️ Sentinel: Sanitize JSON-LD
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from 'next';
 
@@ -97,7 +98,7 @@ export default async function Publication({ params }: PageProps) {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.metadata.title,

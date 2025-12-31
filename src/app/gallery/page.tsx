@@ -2,6 +2,7 @@ import { Flex, Heading } from "@/once-ui/components";
 import MasonryGrid from "@/components/gallery/MasonryGrid";
 import { baseURL } from "@/app/resources";
 import { gallery, person } from "@/app/resources/content";
+import { sanitizeJsonLd } from "@/app/utils/security"; // 🛡️ Sentinel: Sanitize JSON-LD
 import styles from './page.module.css';
 
 export async function generateMetadata() {
@@ -43,7 +44,7 @@ export default function Gallery() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "ImageGallery",
             name: gallery.title,

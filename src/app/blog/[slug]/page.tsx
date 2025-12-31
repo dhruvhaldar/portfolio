@@ -15,6 +15,7 @@ import BlogTableOfContents from "@/components/blog/TableOfContents";
 import { baseURL, about, blog, person } from "@/app/resources";
 import { formatDate } from "@/app/utils/formatDate"; // Fixed import path
 import { getPosts } from "@/app/utils/utils";
+import { sanitizeJsonLd } from "@/app/utils/security"; // 🛡️ Sentinel: Sanitize JSON-LD
 import { Metadata } from "next";
 import React from "react";
 import { Posts } from "@/components/blog/Posts";
@@ -76,7 +77,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.metadata.title,
