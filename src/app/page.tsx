@@ -59,7 +59,7 @@ const structuredData = {
 };
 
 export default function Home() {
-  const allProjects = getPosts(["src", "app", "work", "projects"]);
+  const allProjects = getPosts(["src", "app", "work", "projects"], false);
 
   return (
     <Column maxWidth="m" gap="24" horizontal="center">

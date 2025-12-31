@@ -37,9 +37,10 @@ function getMDXFiles(dir: string) {
 /**
  * Reads and parses a specific MDX file.
  * @param filePath - The absolute path to the MDX file.
+ * @param includeContent - Whether to return the content string (default: true).
  * @returns An object containing the metadata and content of the file.
  */
-function readMDXFile(filePath: string) {
+function readMDXFile(filePath: string, includeContent = true) {
   if (!fs.existsSync(filePath)) {
     notFound();
   }
@@ -56,31 +57,38 @@ function readMDXFile(filePath: string) {
     link: data.link || "",
     journal: data.journal || "",
   };
-  return { metadata, content };
+
+  return {
+    metadata,
+    content: includeContent ? content : "",
+    hasContent: content.trim().length > 0
+  };
 }
 
 /**
  * Retrieves metadata and content for all MDX files in a directory.
  * @param dir - The directory to process.
+ * @param includeContent - Whether to return the content string (default: true).
  * @returns An array of objects containing metadata, slug, and content for each file.
  */
-function getMDXData(dir: string) {
+function getMDXData(dir: string, includeContent = true) {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file));
+    const { metadata, content, hasContent } = readMDXFile(path.join(dir, file), includeContent);
     const slug = path.basename(file, path.extname(file));
-    return { metadata, slug, content };
+    return { metadata, slug, content, hasContent };
   });
 }
 
 /**
  * Gets all posts from the specified directory path.
  * @param customPath - Optional path segments to the posts directory. Defaults to root.
+ * @param includeContent - Whether to return the content string. Defaults to true.
  * @returns List of all posts with their metadata and content.
  */
-export function getPosts(customPath = ["", "", "", ""]) {
+export function getPosts(customPath = ["", "", "", ""], includeContent = true) {
   const postsDir = path.join(process.cwd(), ...customPath);
-  return getMDXData(postsDir);
+  return getMDXData(postsDir, includeContent);
 }
 
 /**
@@ -104,6 +112,6 @@ export function getPostBySlug(slug: string, customPath = ["", "", "", ""]) {
     return undefined;
   }
 
-  const { metadata, content } = readMDXFile(filePath);
-  return { metadata, slug, content };
+  const { metadata, content, hasContent } = readMDXFile(filePath);
+  return { metadata, slug, content, hasContent };
 }

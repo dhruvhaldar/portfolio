@@ -20,7 +20,7 @@ export function Posts({
   columns = "1",
   thumbnail = false,
 }: PostsProps) {
-  let allPublications = getPosts(["src", "app", "publications", "posts"]);
+  let allPublications = getPosts(["src", "app", "publications", "posts"], false);
 
   const sortedPublications = allPublications.sort((a, b) => {
     return (
