@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/once-ui/components";
+import { Button, useToast } from "@/once-ui/components";
 
 interface ShareButtonProps {
     url: string;
@@ -10,6 +10,8 @@ interface ShareButtonProps {
 }
 
 export function ShareButton({ url, title, text = "Share", style }: ShareButtonProps) {
+    const { addToast } = useToast();
+
     const handleShare = async () => {
         if (navigator.share) {
             try {
@@ -22,8 +24,18 @@ export function ShareButton({ url, title, text = "Share", style }: ShareButtonPr
             }
         } else {
             // Fallback to clipboard
-            navigator.clipboard.writeText(url);
-            alert("Link copied to clipboard!");
+            navigator.clipboard.writeText(url).then(() => {
+                addToast({
+                    variant: "success",
+                    message: "Link copied to clipboard",
+                });
+            }).catch((err) => {
+                console.error("Failed to copy:", err);
+                addToast({
+                    variant: "danger",
+                    message: "Failed to copy link",
+                });
+            });
         }
     };
 
