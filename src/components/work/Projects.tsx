@@ -14,7 +14,7 @@ interface ProjectsProps {
  * Renders a column of ProjectCard components.
  */
 export function Projects({ range, posts }: ProjectsProps) {
-  let allProjects = posts || getPosts(["src", "app", "work", "projects"]);
+  let allProjects = posts || getPosts(["src", "app", "work", "projects"], false);
 
   const sortedProjects = allProjects.sort((a, b) => {
     return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
@@ -35,6 +35,7 @@ export function Projects({ range, posts }: ProjectsProps) {
           title={post.metadata.title}
           description={post.metadata.summary}
           content={post.content}
+          hasContent={post.hasContent}
           avatars={post.metadata.team?.map((member) => ({ src: member.avatar })) || []}
           link={post.metadata.link || ""}
         />

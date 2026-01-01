@@ -38,7 +38,7 @@ export async function generateMetadata() {
 }
 
 export default function Work() {
-  const allProjects = getPosts(["src", "app", "work", "projects"]);
+  const allProjects = getPosts(["src", "app", "work", "projects"], false);
 
   return (
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
