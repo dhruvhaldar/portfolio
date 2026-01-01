@@ -5,6 +5,7 @@ import { baseURL } from "@/app/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import { person, about, social } from "@/app/resources/content";
+import { sanitizeJsonLd } from "@/app/utils/security";
 
 // Generate metadata for SEO and social sharing
 export async function generateMetadata() {
@@ -96,7 +97,7 @@ export default function About() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: sanitizeJsonLd(structuredData),
         }}
       />
 
