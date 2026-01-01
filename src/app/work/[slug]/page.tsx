@@ -8,8 +8,8 @@ import { baseURL } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
-import escapeHtml from 'escape-html';
 import BlogTableOfContents from "@/components/blog/TableOfContents";
+import { sanitizeJsonLd } from "@/app/utils/security";
 
 
 interface WorkParams {
@@ -91,22 +91,22 @@ export default async function Project({ params }: WorkParams) {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            headline: escapeHtml(post.metadata.title),
-            datePublished: escapeHtml(post.metadata.publishedAt),
-            dateModified: escapeHtml(post.metadata.publishedAt),
-            description: escapeHtml(post.metadata.summary),
+            headline: post.metadata.title,
+            datePublished: post.metadata.publishedAt,
+            dateModified: post.metadata.publishedAt,
+            description: post.metadata.summary,
             image: post.metadata.image
-              ? `https://${baseURL}${escapeHtml(post.metadata.image)}`
+              ? `https://${baseURL}${post.metadata.image}`
               : `https://${baseURL}/og?title=${encodeURIComponent(
-                escapeHtml(post.metadata.title)
+                post.metadata.title
               )}`,
-            url: `https://${baseURL}/work/${escapeHtml(post.slug)}`,
+            url: `https://${baseURL}/work/${post.slug}`,
             author: {
               "@type": "Person",
-              name: escapeHtml(person.name),
+              name: person.name,
             },
           }),
         }}

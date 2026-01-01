@@ -8,6 +8,7 @@ import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from 'next';
+import { sanitizeJsonLd } from "@/app/utils/security";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -97,7 +98,7 @@ export default async function Publication({ params }: PageProps) {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.metadata.title,
