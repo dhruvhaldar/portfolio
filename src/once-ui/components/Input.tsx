@@ -125,6 +125,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const displayError = validationError || errorMessage;
 
+    const describedBy: string[] = [];
+    if (displayError) describedBy.push(`${id}-error`);
+    if (description) describedBy.push(`${id}-description`);
+
     const inputClassNames = classNames(styles.input, "font-body", "font-default", "font-m", {
       [styles.filled]: isFilled,
       [styles.focused]: isFocused,
@@ -179,7 +183,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               onFocus={handleFocus}
               onBlur={handleBlur}
               className={inputClassNames}
-              aria-describedby={displayError ? `${id}-error` : undefined}
+              aria-describedby={describedBy.length > 0 ? describedBy.join(" ") : undefined}
               aria-invalid={!!displayError}
             />
             {!labelAsPlaceholder && (
