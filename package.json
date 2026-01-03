@@ -64,7 +64,7 @@
     "critters": "^0.0.25",
     "cross-env": "^10.1.0",
     "eslint": "^9.25.0",
-    "eslint-config-next": "15.0.0",
+    "eslint-config-next": "16.0.10",
     "happy-dom": "^20.0.11",
     "jsdom": "^27.3.0",
     "once-ui-cli": "^3.1.0",
