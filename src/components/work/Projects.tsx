@@ -14,10 +14,13 @@ interface ProjectsProps {
  * Renders a column of ProjectCard components.
  */
 export function Projects({ range, posts }: ProjectsProps) {
-  let allProjects = posts || getPosts(["src", "app", "work", "projects"], false);
+  // Use provided posts or fetch them if not provided
+  const sourceProjects = posts || getPosts(["src", "app", "work", "projects"], false);
 
-  const sortedProjects = allProjects.sort((a, b) => {
-    return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
+  // Optimization: Create a shallow copy to avoid mutating the source array (especially if passed as prop)
+  // Optimization: Use localeCompare for string dates (YYYY-MM-DD) instead of new Date() for performance
+  const sortedProjects = [...sourceProjects].sort((a, b) => {
+    return b.metadata.publishedAt.localeCompare(a.metadata.publishedAt);
   });
 
   const displayedProjects = range
