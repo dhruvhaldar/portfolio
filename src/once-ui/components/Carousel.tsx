@@ -121,6 +121,15 @@ const Carousel: React.FC<CarouselProps> = ({
                 <Flex
                   key={index}
                   onClick={() => handleControlClick(index)}
+                  onKeyDown={(e: React.KeyboardEvent) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleControlClick(index);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Go to slide ${index + 1}`}
                   style={{
                     background:
                       activeIndex === index
@@ -139,6 +148,15 @@ const Carousel: React.FC<CarouselProps> = ({
               {images.map((image, index) => (
                 <Flex
                   key={index}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Go to slide ${index + 1}`}
+                  onKeyDown={(e: React.KeyboardEvent) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleControlClick(index);
+                    }
+                  }}
                   style={{
                     border: activeIndex === index ? "2px solid var(--brand-solid-strong)" : "none",
                     borderRadius: "var(--radius-m-nest-4)",
