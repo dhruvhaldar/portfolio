@@ -26,7 +26,7 @@ export function Posts({
   exclude = [],
   direction,
 }: PostsProps) {
-  let allPosts = getPosts(["src", "app", "blog", "posts"]);
+  let allPosts = getPosts(["src", "app", "blog", "posts"], false);
 
   const sortedPosts = allPosts.sort((a, b) => {
     return (
