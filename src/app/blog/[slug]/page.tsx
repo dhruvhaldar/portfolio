@@ -20,6 +20,7 @@ import React from "react";
 import { Posts } from "@/components/blog/Posts";
 import { ShareButton } from "@/components/ShareButton";
 import ScrollToHash from "@/components/ScrollToHash"; // Import from components
+import { sanitizeJsonLd } from "@/app/utils/security";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "blog", "posts"]);
@@ -76,7 +77,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: sanitizeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.metadata.title,

@@ -15,6 +15,11 @@ export async function GET(request: Request) {
   let url = new URL(request.url);
   let title = url.searchParams.get("title") || "Portfolio";
 
+  // 🛡️ Sentinel: Limit title length to prevent DoS (resource exhaustion) during image generation
+  if (title.length > 100) {
+    title = title.substring(0, 100);
+  }
+
   return new ImageResponse(
     <div
       style={{

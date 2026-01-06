@@ -24,19 +24,37 @@ const isExternalLink = (url: string) => /^https?:\/\//.test(url);
 const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
   ({ href, children, className, style, ...props }, ref) => {
     if (href) {
+      // 🛡️ Sentinel: Validate href to prevent XSS via javascript: URLs
+      // React 19 blocks them, but we fail securely by not rendering the link at all or sanitizing.
+      if (href.trim().toLowerCase().startsWith('javascript:')) {
+        console.error("Security: Blocked javascript: URL in ElementType");
+        return (
+          <button
+             ref={ref as React.Ref<HTMLButtonElement>}
+             className={className}
+             style={style}
+             disabled
+             {...props}
+          >
+             {children}
+          </button>
+        );
+      }
+
       const isExternal = isExternalLink(href);
       if (isExternal) {
         return (
           <a
             href={href}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             ref={ref as React.Ref<HTMLAnchorElement>}
             className={className}
             style={style}
             {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
           >
             {children}
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         );
       }

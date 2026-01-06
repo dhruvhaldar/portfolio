@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, ReactNode } from "react";
 import "./CodeHighlight.css";
 import styles from "./CodeBlock.module.scss";
-import { Flex, Button, IconButton, DropdownWrapper, Option, Spotlight } from "@/once-ui/components";
+import { Flex, Button, IconButton, DropdownWrapper, Option, Spotlight, useToast } from "@/once-ui/components";
 import Prism from "prismjs";
 import "prismjs/plugins/line-highlight/prism-line-highlight";
 import "prismjs/components/prism-jsx";
@@ -53,6 +53,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     label: "Select Code",
   };
   const [copyIcon, setCopyIcon] = useState<string>("clipboard");
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (codeRef.current && codeInstances.length > 0) {
@@ -66,6 +67,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         .writeText(code)
         .then(() => {
           setCopyIcon("check");
+          addToast({ variant: "success", message: "Code copied to clipboard." });
 
           setTimeout(() => {
             setCopyIcon("clipboard");
@@ -73,6 +75,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         })
         .catch((err) => {
           console.error("Failed to copy code: ", err);
+          addToast({ variant: "danger", message: "Failed to copy code." });
         });
     }
   };
@@ -153,7 +156,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
                   }}
                   radius="none"
                   size="l"
-                  tooltip="Copy"
+                  tooltip={copyIcon === "check" ? "Copied!" : "Copy"}
                   tooltipPosition="left"
                   variant="secondary"
                   onClick={handleCopy}
@@ -192,7 +195,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
                 position="absolute"
               >
                 <IconButton
-                  aria-label="Copy code"
+                  aria-label={copyIcon === "check" ? "Copied!" : "Copy code"}
                   onClick={handleCopy}
                   icon={copyIcon}
                   size="m"

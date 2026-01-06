@@ -6,6 +6,7 @@ import { home, about, person } from "@/app/resources/content";
 import { Posts } from "@/components/blog/Posts";
 import styles from "@/components/about/about.module.scss";
 import { getPosts } from "@/app/utils/utils";
+import { sanitizeJsonLd } from "@/app/utils/security";
 
 // Generate metadata for SEO and social sharing
 export async function generateMetadata() {
@@ -59,7 +60,7 @@ const structuredData = {
 };
 
 export default function Home() {
-  const allProjects = getPosts(["src", "app", "work", "projects"]);
+  const allProjects = getPosts(["src", "app", "work", "projects"], false);
 
   return (
     <Column maxWidth="m" gap="24" horizontal="center">
@@ -69,7 +70,7 @@ export default function Home() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: sanitizeJsonLd(structuredData),
         }}
       />
 

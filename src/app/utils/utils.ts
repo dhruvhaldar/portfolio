@@ -39,7 +39,7 @@ function getMDXFiles(dir: string) {
  * @param filePath - The absolute path to the MDX file.
  * @returns An object containing the metadata and content of the file.
  */
-function readMDXFile(filePath: string) {
+function readMDXFile(filePath: string, includeContent = true) {
   if (!fs.existsSync(filePath)) {
     notFound();
   }
@@ -47,7 +47,7 @@ function readMDXFile(filePath: string) {
   const { data, content } = matter(rawContent);
   const metadata: Metadata = {
     title: data.title || "",
-    publishedAt: data.publishedAt,
+    publishedAt: data.publishedAt || "",
     summary: data.summary || "",
     image: data.image || "",
     images: data.images || [],
@@ -56,31 +56,44 @@ function readMDXFile(filePath: string) {
     link: data.link || "",
     journal: data.journal || "",
   };
-  return { metadata, content };
+  return {
+    metadata,
+    content: includeContent ? content : "",
+    hasContent: content.trim().length > 0,
+  };
 }
 
 /**
  * Retrieves metadata and content for all MDX files in a directory.
  * @param dir - The directory to process.
- * @returns An array of objects containing metadata, slug, and content for each file.
+ * @param includeContent - Whether to include the full content string. Defaults to true.
+ * @returns An array of objects containing metadata, slug, content (if requested), and hasContent.
  */
-function getMDXData(dir: string) {
+function getMDXData(dir: string, includeContent = true) {
   const mdxFiles = getMDXFiles(dir);
-  return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file));
-    const slug = path.basename(file, path.extname(file));
-    return { metadata, slug, content };
-  });
+  return mdxFiles
+    .map((file) => {
+      const { metadata, content, hasContent } = readMDXFile(
+        path.join(dir, file),
+        includeContent
+      );
+      const slug = path.basename(file, path.extname(file));
+      return { metadata, slug, content, hasContent };
+    })
+    .sort((a, b) => {
+      return b.metadata.publishedAt.localeCompare(a.metadata.publishedAt);
+    });
 }
 
 /**
  * Gets all posts from the specified directory path.
  * @param customPath - Optional path segments to the posts directory. Defaults to root.
+ * @param includeContent - Whether to include the full content string. Defaults to true.
  * @returns List of all posts with their metadata and content.
  */
-export function getPosts(customPath = ["", "", "", ""]) {
+export function getPosts(customPath = ["", "", "", ""], includeContent = true) {
   const postsDir = path.join(process.cwd(), ...customPath);
-  return getMDXData(postsDir);
+  return getMDXData(postsDir, includeContent);
 }
 
 /**

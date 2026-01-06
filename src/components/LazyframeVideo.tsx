@@ -46,6 +46,10 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
+  if (!youtubeId) {
+    return null;
+  }
+
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current);

@@ -3,6 +3,7 @@ import { Column, Heading } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL } from "@/app/resources";
 import { person, work } from "@/app/resources/content";
+import { sanitizeJsonLd } from "@/app/utils/security";
 import styles from './page.module.css';
 
 export async function generateMetadata() {
@@ -38,7 +39,7 @@ export async function generateMetadata() {
 }
 
 export default function Work() {
-  const allProjects = getPosts(["src", "app", "work", "projects"]);
+  const allProjects = getPosts(["src", "app", "work", "projects"], false);
 
   return (
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
@@ -52,7 +53,7 @@ export default function Work() {
           type="application/ld+json"
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: sanitizeJsonLd({
               "@context": "https://schema.org",
               "@type": "CollectionPage",
               headline: work.title,

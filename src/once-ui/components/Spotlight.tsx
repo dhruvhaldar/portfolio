@@ -58,13 +58,28 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     // Initialize cache
     updateRect();
 
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseenter", updateRect);
-    window.addEventListener("resize", updateRect);
+    const onMouseEnter = () => {
+      updateRect();
+      container.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("resize", updateRect);
+    };
+
+    const onMouseLeave = () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", updateRect);
+    };
+
+    container.addEventListener("mouseenter", onMouseEnter);
+    container.addEventListener("mouseleave", onMouseLeave);
+
+    if (container.matches(":hover")) {
+      onMouseEnter();
+    }
 
     return () => {
+      container.removeEventListener("mouseenter", onMouseEnter);
+      container.removeEventListener("mouseleave", onMouseLeave);
       container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseenter", updateRect);
       window.removeEventListener("resize", updateRect);
       cancelAnimationFrame(requestId);
     };

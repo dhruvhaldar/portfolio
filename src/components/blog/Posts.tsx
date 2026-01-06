@@ -26,16 +26,10 @@ export function Posts({
   exclude = [],
   direction,
 }: PostsProps) {
-  let allPosts = getPosts(["src", "app", "blog", "posts"]);
+  const allPosts = getPosts(["src", "app", "blog", "posts"], false);
 
-  const sortedPosts = allPosts.sort((a, b) => {
-    return (
-      new Date(b.metadata.publishedAt).getTime() -
-      new Date(a.metadata.publishedAt).getTime()
-    );
-  });
-
-  const filteredPosts = sortedPosts.filter(
+  // Posts are already sorted by publishedAt in descending order by getPosts
+  const filteredPosts = allPosts.filter(
     (post) => !exclude.includes(post.slug)
   );
 
