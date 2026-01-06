@@ -3,7 +3,7 @@
 import React, { CSSProperties, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-import { Flex, Skeleton } from ".";
+import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, 'height'> {
   /** Aspect ratio of the image */
@@ -245,6 +245,13 @@ const SmartImage: React.FC<SmartImageProps> = ({
             height: "100vh",
           }}
         >
+          <IconButton
+            icon="close"
+            variant="ghost"
+            style={{ position: "absolute", top: "16px", right: "16px", zIndex: 10 }}
+            onClick={() => setIsEnlarged(false)}
+            tooltip="Close"
+          />
           <Flex
             position="relative"
             style={{
