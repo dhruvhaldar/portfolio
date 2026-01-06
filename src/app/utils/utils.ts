@@ -47,7 +47,7 @@ function readMDXFile(filePath: string, includeContent = true) {
   const { data, content } = matter(rawContent);
   const metadata: Metadata = {
     title: data.title || "",
-    publishedAt: data.publishedAt,
+    publishedAt: data.publishedAt || "",
     summary: data.summary || "",
     image: data.image || "",
     images: data.images || [],
@@ -71,14 +71,18 @@ function readMDXFile(filePath: string, includeContent = true) {
  */
 function getMDXData(dir: string, includeContent = true) {
   const mdxFiles = getMDXFiles(dir);
-  return mdxFiles.map((file) => {
-    const { metadata, content, hasContent } = readMDXFile(
-      path.join(dir, file),
-      includeContent
-    );
-    const slug = path.basename(file, path.extname(file));
-    return { metadata, slug, content, hasContent };
-  });
+  return mdxFiles
+    .map((file) => {
+      const { metadata, content, hasContent } = readMDXFile(
+        path.join(dir, file),
+        includeContent
+      );
+      const slug = path.basename(file, path.extname(file));
+      return { metadata, slug, content, hasContent };
+    })
+    .sort((a, b) => {
+      return b.metadata.publishedAt.localeCompare(a.metadata.publishedAt);
+    });
 }
 
 /**

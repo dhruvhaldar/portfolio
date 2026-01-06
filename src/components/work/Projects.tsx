@@ -15,17 +15,12 @@ interface ProjectsProps {
  */
 export function Projects({ range, posts }: ProjectsProps) {
   // Use provided posts or fetch them if not provided
+  // Posts are already sorted by publishedAt in descending order by getPosts
   const sourceProjects = posts || getPosts(["src", "app", "work", "projects"], false);
 
-  // Optimization: Create a shallow copy to avoid mutating the source array (especially if passed as prop)
-  // Optimization: Use localeCompare for string dates (YYYY-MM-DD) instead of new Date() for performance
-  const sortedProjects = [...sourceProjects].sort((a, b) => {
-    return b.metadata.publishedAt.localeCompare(a.metadata.publishedAt);
-  });
-
   const displayedProjects = range
-    ? sortedProjects.slice(Math.max(0, range[0] - 1), range[1] ?? sortedProjects.length)
-    : sortedProjects;
+    ? sourceProjects.slice(Math.max(0, range[0] - 1), range[1] ?? sourceProjects.length)
+    : sourceProjects;
 
   return (
     <Column fillWidth gap="xl" marginBottom="40" paddingX="l">
