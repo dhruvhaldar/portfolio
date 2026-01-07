@@ -34,7 +34,7 @@ type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
-function CustomLink({ href, children, ...props }: CustomLinkProps) {
+export function CustomLink({ href, children, ...props }: CustomLinkProps) {
   if (href.startsWith("/")) {
     return (
       <SmartLink href={href} {...props}>
@@ -48,6 +48,16 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
       <a href={href} {...props}>
         {children}
       </a>
+    );
+  }
+
+  // 🛡️ Sentinel: Block javascript: URLs to prevent XSS
+  if (href.trim().toLowerCase().startsWith("javascript:")) {
+    console.warn("Security: Blocked javascript: URL in CustomLink");
+    return (
+      <span {...props} style={{ cursor: "not-allowed", textDecoration: "line-through", ...props.style }}>
+        {children}
+      </span>
     );
   }
 
