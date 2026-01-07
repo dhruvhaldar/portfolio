@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { AvatarGroup, Carousel, Column, Flex, Heading, SmartLink, Spotlight, Text, } from "@/once-ui/components";
 
 interface ProjectCardProps {
@@ -39,10 +40,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const showExploreLink = hasContent || (content && content.trim().length > 0);
 
+  const carouselImages = useMemo(() => images.map((image) => ({ src: image, alt: title })), [images, title]);
+
   return (
     <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Column fillWidth gap="m" style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)', borderRadius: 'var(--radius-l)', padding: 'var(--static-space-16)' }}>
-        <Carousel sizes="(max-width: 960px) 100vw, 960px" preload={preload} images={images.map((image) => ({ src: image, alt: title, }))} />
+        <Carousel sizes="(max-width: 960px) 100vw, 960px" preload={preload} images={carouselImages} />
         <Flex mobileDirection="column" fillWidth paddingX="s" paddingTop="12" paddingBottom="24" gap="l"> {title && (<Flex flex={5}><Heading as="h2" wrap="balance" variant="heading-strong-xl">{title}</Heading></Flex>)}
           {(avatars.length > 0 || description?.trim() || showExploreLink) && (
             <Column flex={7} gap="16">

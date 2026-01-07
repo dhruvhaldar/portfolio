@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, useState, useRef, useEffect } from "react";
+import React, { CSSProperties, useState, useRef, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 
 import { Flex, IconButton, Skeleton } from ".";
@@ -42,7 +42,7 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
  * An enhanced image component that supports lazy loading, responsive sizing, and lightbox enlargement.
  * Handles both images and video sources.
  */
-const SmartImage: React.FC<SmartImageProps> = ({
+const SmartImageComponent: React.FC<SmartImageProps> = ({
   aspectRatio,
   height,
   alt = "",
@@ -55,23 +55,25 @@ const SmartImage: React.FC<SmartImageProps> = ({
   preload,
   loading = "lazy",
   responsive,
-  sizes = responsive
-    ? `
-      (max-width: 640px) ${responsive.mobile || '100vw'}, 
-      (max-width: 1024px) ${responsive.tablet || '50vw'}, 
-      ${responsive.desktop || '33vw'}
-    `
-    : "(max-width: 1200px) 100vw, 33vw",
+  sizes,
   ...rest
 }) => {
   // Use preload if provided, otherwise fall back to priority for backward compatibility
   const shouldPreload = preload !== undefined ? preload : priority;
-  const calculateHeight = () => {
+
+  const calculatedSizes = useMemo(() => {
+    if (sizes) return sizes;
+    return responsive
+      ? `(max-width: 640px) ${responsive.mobile || '100vw'}, (max-width: 1024px) ${responsive.tablet || '50vw'}, ${responsive.desktop || '33vw'}`
+      : "(max-width: 1200px) 100vw, 33vw";
+  }, [sizes, responsive]);
+
+  const calculateHeight = useMemo(() => {
     if (height) return typeof height === 'number' ? `${height}rem` : height;
     if (responsive?.mobile) return responsive.mobile;
     if (aspectRatio) return 'auto';
     return '100%';
-  };
+  }, [height, responsive, aspectRatio]);
 
   const [isEnlarged, setIsEnlarged] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -112,11 +114,8 @@ const SmartImage: React.FC<SmartImageProps> = ({
     };
   }, [isEnlarged]);
 
-  const calculateTransform = () => {
-    if (!imageRef.current) return {};
-
-    // Performance optimization: Skip expensive calculation if not enlarged
-    if (!isEnlarged) {
+  const transformStyle = useMemo(() => {
+    if (!imageRef.current || !isEnlarged) {
       return {
         transform: "translate(0, 0) scale(1)",
         transition: "all 0.3s ease-in-out",
@@ -137,7 +136,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
       transition: "all 0.3s ease-in-out",
       zIndex: 2,
     };
-  };
+  }, [isEnlarged]);
 
   const isYouTubeVideo = (url: string) => {
     const youtubeRegex =
@@ -170,10 +169,10 @@ const SmartImage: React.FC<SmartImageProps> = ({
         style={{
           outline: "none",
           isolation: "isolate",
-          height: calculateHeight(),
+          height: calculateHeight,
           aspectRatio: aspectRatio,
           borderRadius: isEnlarged ? "0" : undefined,
-          ...calculateTransform(),
+          ...transformStyle,
         }}
         onClick={handleClick}
         onKeyDown={enlarge ? handleKeyDown : undefined}
@@ -214,7 +213,7 @@ const SmartImage: React.FC<SmartImageProps> = ({
             src={src}
             alt={alt}
             priority={shouldPreload}
-            sizes={sizes}
+            sizes={calculatedSizes}
             unoptimized={unoptimized}
             fill
             onLoad={() => setIsLoaded(true)}
@@ -292,5 +291,6 @@ const SmartImage: React.FC<SmartImageProps> = ({
   );
 };
 
+const SmartImage = memo(SmartImageComponent);
 SmartImage.displayName = "SmartImage";
 export { SmartImage };
