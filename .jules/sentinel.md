@@ -17,3 +17,8 @@
 **Vulnerability:** The Open Graph image generation endpoint (`src/app/og/route.tsx`) accepted unlimited string length for the `title` parameter, potentially leading to Resource Exhaustion (DoS) as the image generator processes massive strings.
 **Learning:** Edge functions and image generation are computationally expensive. Always limit input size for parameters that affect rendering complexity.
 **Prevention:** Enforce a strict character limit (e.g., 100 chars) on text inputs used in image generation.
+
+## 2026-01-08 - [HIGH] XSS Vulnerability in CustomLink
+**Vulnerability:** The `CustomLink` component in `src/components/mdx.tsx` failed to validate `href` props, allowing `javascript:` URLs to be rendered in MDX content which could lead to XSS execution when clicked.
+**Learning:** Custom components that bypass standard link handlers (like `next/link` or specialized secure components) must implement their own input validation. Assuming "everything not / or #" is a safe external link is dangerous.
+**Prevention:** Explicitly check for and block `javascript:` schemes in all link-rendering components, regardless of whether they are internal or external.
