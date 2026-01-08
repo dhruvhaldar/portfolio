@@ -31,6 +31,13 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
       setIsOpen(!isOpen);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleAccordion();
+      }
+    };
+
     useImperativeHandle(ref, () => ({
       ...((ref as React.MutableRefObject<HTMLDivElement>)?.current ?? {}),
       toggle: toggleAccordion,
@@ -46,6 +53,7 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
       <Flex fillWidth direction="column" className={styles.border}>
         <Flex
           tabIndex={0}
+          role="button"
           className={styles.accordion}
           cursor="pointer"
           transition="macro-medium"
@@ -54,6 +62,7 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
           vertical="center"
           horizontal="space-between"
           onClick={toggleAccordion}
+          onKeyDown={handleKeyDown}
           aria-expanded={isOpen}
           aria-controls="accordion-content"
         >
