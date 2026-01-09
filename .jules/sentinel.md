@@ -22,3 +22,8 @@
 **Vulnerability:** The `CustomLink` component in `src/components/mdx.tsx` failed to validate `href` props, allowing `javascript:` URLs to be rendered in MDX content which could lead to XSS execution when clicked.
 **Learning:** Custom components that bypass standard link handlers (like `next/link` or specialized secure components) must implement their own input validation. Assuming "everything not / or #" is a safe external link is dangerous.
 **Prevention:** Explicitly check for and block `javascript:` schemes in all link-rendering components, regardless of whether they are internal or external.
+
+## 2026-02-14 - [HIGH] Regex Validation Bypass in LazyframeVideo
+**Vulnerability:** The `LazyframeVideo` component's URL validation regex was not anchored to the start of the string, allowing malicious URLs (e.g., `https://evil.com/?u=youtube.com...`) to bypass the check and inject arbitrary iframes.
+**Learning:** When using regex for security validation (allowlisting), always anchor the pattern (`^...$`) to ensure the *entire* string matches the expected format, not just a substring.
+**Prevention:** Use `^` to anchor the start of the regex and validate the protocol/domain explicitly, while allowing for valid subdomains (e.g., `m.`, `music.`).
