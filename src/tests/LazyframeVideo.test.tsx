@@ -19,6 +19,16 @@ describe('LazyframeVideo Security', () => {
     expect(lazyframeDiv).toBeInTheDocument();
   });
 
+  it('should render for valid mobile YouTube URLs', () => {
+    const { container } = render(<LazyframeVideo src="https://m.youtube.com/watch?v=dQw4w9WgXcQ" />);
+    expect(container.firstChild).not.toBeNull();
+  });
+
+  it('should render for valid music YouTube URLs', () => {
+    const { container } = render(<LazyframeVideo src="https://music.youtube.com/watch?v=dQw4w9WgXcQ" />);
+    expect(container.firstChild).not.toBeNull();
+  });
+
   it('should return null for invalid URLs (XSS protection)', () => {
     // Malicious URL
     const { container } = render(<LazyframeVideo src="javascript:alert(1)" />);
@@ -27,6 +37,12 @@ describe('LazyframeVideo Security', () => {
 
   it('should return null for non-YouTube URLs (Vendor enforcement)', () => {
     const { container } = render(<LazyframeVideo src="https://vimeo.com/123456" />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('should return null for URLs containing youtube pattern but hosted elsewhere', () => {
+    // This attempts to trick the regex by including youtube.com in the query string
+    const { container } = render(<LazyframeVideo src="https://evil.com/fake?u=youtube.com/watch?v=dQw4w9WgXcQ" />);
     expect(container.firstChild).toBeNull();
   });
 });
