@@ -5,3 +5,8 @@ Discovered that responsive designs often toggle between text-labeled buttons for
 
 **Action:**
 When hiding text labels for responsiveness (e.g., using `display: none` or conditional rendering), always ensure the icon-only alternative includes a descriptive `aria-label` mirroring the hidden text content.
+
+## 2025-02-23 - PasswordInput Accessibility
+
+**Learning:** `IconButton` components use `tooltip` as a fallback for `aria-label`. Relying on icon names like "eye" or "eyeOff" (the default if `tooltip` is missing) provides a confusing experience for screen reader users.
+**Action:** Always provide explicit `tooltip` or `aria-label` for interactive state toggles like password visibility to ensure the announcement conveys intent ("Show password") rather than visual description.
