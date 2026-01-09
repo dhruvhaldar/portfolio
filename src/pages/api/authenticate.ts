@@ -20,7 +20,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // 🛡️ Sentinel: Rate limiting to prevent brute force attacks
-    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+    // Handle x-forwarded-for safely whether it's string or array
+    const forwarded = req.headers['x-forwarded-for'];
+    const ip = (typeof forwarded === 'string' ? forwarded.split(',')[0] : forwarded?.[0]) || req.socket.remoteAddress || 'unknown';
+
     if (!rateLimit(ip, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
       return res.status(429).json({ message: "Too many attempts. Please try again later." });
     }
@@ -38,8 +41,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       // 🛡️ Sentinel: Sign the cookie to prevent tampering
       // We know correctPassword is defined here because correctPasswordHash check passed
       const val = "authenticated";
-      const signature = crypto.createHmac('sha256', correctPassword as string).update(val).digest('hex');
-      const cookieValue = `${val}.${signature}`;
+      // Add expiration to the signed payload (1 hour from now) to prevent infinite replay
+      const expiry = Date.now() + 60 * 60 * 1000;
+      const dataToSign = `${val}.${expiry}`;
+
+      const signature = crypto.createHmac('sha256', correctPassword as string).update(dataToSign).digest('hex');
+      const cookieValue = `${dataToSign}.${signature}`;
 
       res.setHeader(
         "Set-Cookie",
