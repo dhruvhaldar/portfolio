@@ -22,8 +22,9 @@ const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0
 
 // Helper to extract YouTube ID
 const getYouTubeId = (url: string) => {
-  // Regex from lazyframe/src/lazyframe.js for robust matching
-  const regex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
+  // 🛡️ Sentinel: Strictly validate the URL starts with expected domains
+  // Allow subdomains like www, m, music, etc.
+  const regex = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
   const match = url.match(regex);
   return match ? match[1] : null;
 };

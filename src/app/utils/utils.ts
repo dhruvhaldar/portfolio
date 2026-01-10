@@ -97,6 +97,16 @@ export function getPosts(customPath = ["", "", "", ""], includeContent = true) {
 }
 
 /**
+ * Gets all post slugs from the specified directory path.
+ * @param customPath - Optional path segments to the posts directory. Defaults to root.
+ * @returns List of all post slugs.
+ */
+export function getPostSlugs(customPath = ["", "", "", ""]) {
+  const postsDir = path.join(process.cwd(), ...customPath);
+  return getMDXFiles(postsDir).map((file) => path.basename(file, path.extname(file)));
+}
+
+/**
  * Gets a specific post by its slug.
  * @param slug - The slug of the post to retrieve.
  * @param customPath - Optional path segments to the posts directory. Defaults to root.

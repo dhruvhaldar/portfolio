@@ -17,3 +17,18 @@
 **Vulnerability:** The Open Graph image generation endpoint (`src/app/og/route.tsx`) accepted unlimited string length for the `title` parameter, potentially leading to Resource Exhaustion (DoS) as the image generator processes massive strings.
 **Learning:** Edge functions and image generation are computationally expensive. Always limit input size for parameters that affect rendering complexity.
 **Prevention:** Enforce a strict character limit (e.g., 100 chars) on text inputs used in image generation.
+
+## 2026-01-08 - [HIGH] XSS Vulnerability in CustomLink
+**Vulnerability:** The `CustomLink` component in `src/components/mdx.tsx` failed to validate `href` props, allowing `javascript:` URLs to be rendered in MDX content which could lead to XSS execution when clicked.
+**Learning:** Custom components that bypass standard link handlers (like `next/link` or specialized secure components) must implement their own input validation. Assuming "everything not / or #" is a safe external link is dangerous.
+**Prevention:** Explicitly check for and block `javascript:` schemes in all link-rendering components, regardless of whether they are internal or external.
+
+## 2026-02-14 - [HIGH] Regex Validation Bypass in LazyframeVideo
+**Vulnerability:** The `LazyframeVideo` component's URL validation regex was not anchored to the start of the string, allowing malicious URLs (e.g., `https://evil.com/?u=youtube.com...`) to bypass the check and inject arbitrary iframes.
+**Learning:** When using regex for security validation (allowlisting), always anchor the pattern (`^...$`) to ensure the *entire* string matches the expected format, not just a substring.
+**Prevention:** Use `^` to anchor the start of the regex and validate the protocol/domain explicitly, while allowing for valid subdomains (e.g., `m.`, `music.`).
+
+## 2025-02-14 - [MEDIUM] Rate Limit Bypass via Cache Flushing
+**Vulnerability:** The in-memory rate limiter cleared the entire storage map when it reached its size limit (10,000 records) to prevent OOM.
+**Learning:** "Fail-open" strategies for resource exhaustion (like clearing all security state) can be weaponized by attackers to reset their own restrictions by flooding the system.
+**Prevention:** Implement Least Recently Used (LRU) eviction or similar strategies that gracefully degrade (remove oldest/least important) rather than resetting the entire security state.

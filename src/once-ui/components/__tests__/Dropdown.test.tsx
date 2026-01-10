@@ -27,4 +27,33 @@ describe('Dropdown', () => {
         await user.click(screen.getByText('Option 1'))
         expect(onSelect).toHaveBeenCalledWith('opt1')
     })
+
+    it('supports arrow key navigation', async () => {
+        const user = userEvent.setup()
+        render(
+            <Dropdown>
+                <button data-testid="opt1">Option 1</button>
+                <button data-testid="opt2">Option 2</button>
+                <button data-testid="opt3">Option 3</button>
+            </Dropdown>
+        )
+
+        const dropdown = screen.getByRole('listbox')
+        dropdown.focus()
+
+        // Navigate down
+        await user.keyboard('{ArrowDown}')
+        expect(document.activeElement).toBe(screen.getByTestId('opt1'))
+
+        await user.keyboard('{ArrowDown}')
+        expect(document.activeElement).toBe(screen.getByTestId('opt2'))
+
+        // Navigate up
+        await user.keyboard('{ArrowUp}')
+        expect(document.activeElement).toBe(screen.getByTestId('opt1'))
+
+        // Wrap around top to bottom
+        await user.keyboard('{ArrowUp}')
+        expect(document.activeElement).toBe(screen.getByTestId('opt3'))
+    })
 })

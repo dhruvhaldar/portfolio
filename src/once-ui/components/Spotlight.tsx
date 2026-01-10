@@ -35,6 +35,8 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     if (!container) return;
 
     let requestId: number = 0;
+    let mouseX = 0;
+    let mouseY = 0;
     const cachedRect = { left: 0, top: 0 };
 
     const updateRect = () => {
@@ -43,16 +45,23 @@ export const Spotlight: React.FC<SpotlightProps> = ({
       cachedRect.top = rect.top + window.scrollY;
     };
 
+    const updateSpotlight = () => {
+      const x = mouseX - cachedRect.left;
+      const y = mouseY - cachedRect.top;
+
+      container.style.setProperty("--spotlight-x", `${x}px`);
+      container.style.setProperty("--spotlight-y", `${y}px`);
+
+      requestId = 0;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      cancelAnimationFrame(requestId);
+      mouseX = e.pageX;
+      mouseY = e.pageY;
 
-      requestId = requestAnimationFrame(() => {
-        const x = e.pageX - cachedRect.left;
-        const y = e.pageY - cachedRect.top;
-
-        container.style.setProperty("--spotlight-x", `${x}px`);
-        container.style.setProperty("--spotlight-y", `${y}px`);
-      });
+      if (!requestId) {
+        requestId = requestAnimationFrame(updateSpotlight);
+      }
     };
 
     // Initialize cache

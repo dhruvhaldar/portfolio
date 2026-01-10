@@ -54,12 +54,57 @@ describe('Authentication Security', () => {
     expect(res.status).toHaveBeenCalledWith(401);
   });
 
+  it('should reject legacy cookie format (no expiry)', async () => {
+    const checkAuth = (await import('../pages/api/check-auth')).default;
+    const secret = 'test-secure-password';
+    const value = 'authenticated';
+    const signature = crypto.createHmac('sha256', secret).update(value).digest('hex');
+    // Legacy format: value.signature (2 parts)
+    const legacyCookie = `${value}.${signature}`;
+
+    const req = {
+      headers: { cookie: `authToken=${legacyCookie}` },
+    } as any;
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    await checkAuth(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+  });
+
+  it('should reject expired cookie', async () => {
+    const checkAuth = (await import('../pages/api/check-auth')).default;
+    const secret = 'test-secure-password';
+    const value = 'authenticated';
+    const expiredTime = Date.now() - 10000; // 10 seconds ago
+    const dataToSign = `${value}.${expiredTime}`;
+    const signature = crypto.createHmac('sha256', secret).update(dataToSign).digest('hex');
+    const expiredCookie = `${dataToSign}.${signature}`;
+
+    const req = {
+      headers: { cookie: `authToken=${expiredCookie}` },
+    } as any;
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    await checkAuth(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+  });
+
   it('should accept valid signed cookie', async () => {
      const checkAuth = (await import('../pages/api/check-auth')).default;
      const secret = 'test-secure-password';
      const value = 'authenticated';
-     const signature = crypto.createHmac('sha256', secret).update(value).digest('hex');
-     const validCookie = `${value}.${signature}`;
+     const expiry = Date.now() + 60 * 60 * 1000; // 1 hour future
+     const dataToSign = `${value}.${expiry}`;
+     const signature = crypto.createHmac('sha256', secret).update(dataToSign).digest('hex');
+     const validCookie = `${dataToSign}.${signature}`;
 
      const req = {
        headers: { cookie: `authToken=${validCookie}` },

@@ -176,6 +176,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <Flex fillWidth direction="column" position="relative">
             <input
+              aria-label={labelAsPlaceholder ? label : undefined}
               {...props}
               ref={ref}
               id={id}

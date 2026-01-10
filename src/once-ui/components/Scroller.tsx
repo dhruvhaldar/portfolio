@@ -37,7 +37,10 @@ const Scroller: React.FC<ScrollerProps> = ({
 
   useEffect(() => {
     const scroller = scrollerRef.current;
-    const handleScroll = () => {
+    let animationFrameId: number;
+    let ticking = false;
+
+    const updateButtons = () => {
       if (scroller) {
         const scrollPosition = direction === "row" ? scroller.scrollLeft : scroller.scrollTop;
         const maxScrollPosition =
@@ -49,15 +52,32 @@ const Scroller: React.FC<ScrollerProps> = ({
       }
     };
 
+    const handleScroll = () => {
+      if (!ticking) {
+        // Bolt: Optimize scroll handler using requestAnimationFrame throttling
+        // This reduces layout thrashing and unnecessary state updates during high-frequency scroll events
+        animationFrameId = window.requestAnimationFrame(() => {
+          updateButtons();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
     if (
       scroller &&
       (direction === "row"
         ? scroller.scrollWidth > scroller.clientWidth
         : scroller.scrollHeight > scroller.clientHeight)
     ) {
-      handleScroll();
+      updateButtons();
       scroller.addEventListener("scroll", handleScroll);
-      return () => scroller.removeEventListener("scroll", handleScroll);
+      return () => {
+        scroller.removeEventListener("scroll", handleScroll);
+        if (animationFrameId) {
+          window.cancelAnimationFrame(animationFrameId);
+        }
+      };
     }
   }, [direction]);
 
