@@ -23,8 +23,16 @@ export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 *
   if (!record || now > record.resetTime) {
     // 🛡️ Sentinel: Prevent Memory Exhaustion DoS
     if (rateLimitMap.size >= MAX_RECORDS) {
-      console.warn('Rate limit map full, clearing to prevent OOM.');
-      rateLimitMap.clear();
+      // Sentinel Fix: Use LRU eviction instead of clearing the whole map
+      // This prevents an attacker from flushing the map to bypass rate limits
+      const oldestKeyIterator = rateLimitMap.keys().next();
+
+      if (!oldestKeyIterator.done) {
+        rateLimitMap.delete(oldestKeyIterator.value);
+      } else {
+        // Fallback if map is somehow empty but size > MAX_RECORDS (shouldn't happen)
+        rateLimitMap.clear();
+      }
     }
 
     rateLimitMap.set(ip, {
