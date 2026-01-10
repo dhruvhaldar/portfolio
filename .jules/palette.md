@@ -10,3 +10,8 @@ When hiding text labels for responsiveness (e.g., using `display: none` or condi
 
 **Learning:** `IconButton` components use `tooltip` as a fallback for `aria-label`. Relying on icon names like "eye" or "eyeOff" (the default if `tooltip` is missing) provides a confusing experience for screen reader users.
 **Action:** Always provide explicit `tooltip` or `aria-label` for interactive state toggles like password visibility to ensure the announcement conveys intent ("Show password") rather than visual description.
+
+## 2025-05-21 - Consistent Form Accessibility
+
+**Learning:** Discovered that while `Input` components correctly linked helper text via `aria-describedby`, `Textarea` components only visually displayed the text without the programmatic association. Inconsistent accessibility patterns within the same form system can confuse screen reader users who expect similar behaviors from similar controls.
+**Action:** When creating or maintaining form components, audit all input types (`Input`, `Textarea`, `Select`) together to ensure feature parity for accessibility attributes like `aria-describedby`, `aria-invalid`, and `aria-required`.
