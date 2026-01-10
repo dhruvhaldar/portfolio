@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, forwardRef, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, forwardRef, useEffect, useRef, memo, useMemo } from "react";
 import { SpacingToken } from "../types";
 import { Flex } from "./Flex";
 import { DisplayProps } from "../interfaces";
@@ -104,7 +104,7 @@ interface BackgroundProps extends React.ComponentProps<typeof Flex> {
 /**
  * A versatile background component supporting gradients, patterns (dots, grid, lines), and masking.
  */
-const Background = forwardRef<HTMLDivElement, BackgroundProps>(
+const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
   (
     {
       position = "fixed",
@@ -123,8 +123,8 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
     const dotsColor = dots.color ?? "brand-on-background-weak";
     const dotsSize = "var(--static-space-" + (dots.size ?? "24") + ")";
 
-    const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-    const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 });
+    const cursorRef = useRef({ x: 0, y: 0 });
+    const smoothRef = useRef({ x: 0, y: 0 });
     const backgroundRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -132,70 +132,86 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
     }, [forwardedRef]);
 
     useEffect(() => {
-      const handleMouseMove = (event: MouseEvent) => {
-        if (backgroundRef.current) {
-          const rect = backgroundRef.current.getBoundingClientRect();
-          setCursorPosition({
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top,
-          });
+      if (!mask.cursor) return;
+
+      const element = backgroundRef.current;
+      if (!element) return;
+
+      let requestRef: number;
+      // Cache the rect to avoid reflows on every mouse move
+      let rect = element.getBoundingClientRect();
+
+      const updateRect = () => {
+        if (element) {
+          rect = element.getBoundingClientRect();
         }
       };
 
+      const handleMouseMove = (event: MouseEvent) => {
+        cursorRef.current = {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        };
+      };
+
+      const updateLoop = () => {
+        const cursor = cursorRef.current;
+        const smooth = smoothRef.current;
+
+        const dx = cursor.x - smooth.x;
+        const dy = cursor.y - smooth.y;
+        const easingFactor = 0.05;
+
+        // Apply smoothing
+        smooth.x += dx * easingFactor;
+        smooth.y += dy * easingFactor;
+
+        // Direct DOM manipulation to avoid React re-renders
+        if (element) {
+          element.style.setProperty("--mask-position-x", `${Math.round(smooth.x)}px`);
+          element.style.setProperty("--mask-position-y", `${Math.round(smooth.y)}px`);
+        }
+
+        requestRef = requestAnimationFrame(updateLoop);
+      };
+
+      window.addEventListener("resize", updateRect);
+      window.addEventListener("scroll", updateRect);
       document.addEventListener("mousemove", handleMouseMove);
 
+      requestRef = requestAnimationFrame(updateLoop);
+
       return () => {
+        window.removeEventListener("resize", updateRect);
+        window.removeEventListener("scroll", updateRect);
         document.removeEventListener("mousemove", handleMouseMove);
+        if (requestRef) cancelAnimationFrame(requestRef);
       };
-    }, []);
+    }, [mask.cursor]);
 
-    useEffect(() => {
-      let animationFrameId: number;
-
-      const updateSmoothPosition = () => {
-        setSmoothPosition((prev) => {
-          const dx = cursorPosition.x - prev.x;
-          const dy = cursorPosition.y - prev.y;
-          const easingFactor = 0.05;
-
-          return {
-            x: Math.round(prev.x + dx * easingFactor),
-            y: Math.round(prev.y + dy * easingFactor),
-          };
-        });
-        animationFrameId = requestAnimationFrame(updateSmoothPosition);
-      };
-
-      if (mask.cursor) {
-        animationFrameId = requestAnimationFrame(updateSmoothPosition);
-      }
-
-      return () => {
-        cancelAnimationFrame(animationFrameId);
-      };
-    }, [cursorPosition, mask]);
-
-    const maskStyle = (): CSSProperties => {
+    const maskStyle: CSSProperties = useMemo(() => {
       if (!mask) return {};
 
+      // Basic mask properties
+      const baseStyle: CSSProperties = {
+        "--mask-radius": `${mask.radius || 50}vh`,
+      } as CSSProperties;
+
       if (mask.cursor) {
-        return {
-          "--mask-position-x": `${smoothPosition.x}px`,
-          "--mask-position-y": `${smoothPosition.y}px`,
-          "--mask-radius": `${mask.radius || 50}vh`,
-        } as CSSProperties;
+        // Position handled by effect
+        return baseStyle;
       }
 
       if (mask.x != null && mask.y != null) {
         return {
+          ...baseStyle,
           "--mask-position-x": `${mask.x}%`,
           "--mask-position-y": `${mask.y}%`,
-          "--mask-radius": `${mask.radius || 50}vh`,
         } as CSSProperties;
       }
 
       return {};
-    };
+    }, [mask]);
 
     const remap = (
       value: number,
@@ -225,7 +241,7 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
           top: 0,
           left: 0,
           zIndex: 0,
-          ...maskStyle(),
+          ...maskStyle,
           ...style,
         }}
         {...rest}
@@ -323,6 +339,7 @@ const Background = forwardRef<HTMLDivElement, BackgroundProps>(
   },
 );
 
+const Background = memo(BackgroundComponent);
 Background.displayName = "Background";
 
 export { Background };
