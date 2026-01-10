@@ -14,7 +14,7 @@ import {
 import BlogTableOfContents from "@/components/blog/TableOfContents";
 import { baseURL, about, blog, person } from "@/app/resources";
 import { formatDate } from "@/app/utils/formatDate"; // Fixed import path
-import { getPosts } from "@/app/utils/utils";
+import { getPosts, getPostSlugs, getPostBySlug } from "@/app/utils/utils";
 import { Metadata } from "next";
 import React from "react";
 import { Posts } from "@/components/blog/Posts";
@@ -23,9 +23,9 @@ import ScrollToHash from "@/components/ScrollToHash"; // Import from components
 import { sanitizeJsonLd } from "@/app/utils/security";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  return posts.map((post) => ({
-    slug: post.slug,
+  const slugs = getPostSlugs(["src", "app", "blog", "posts"]);
+  return slugs.map((slug) => ({
+    slug,
   }));
 }
 
@@ -36,8 +36,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  let post = posts.find((post) => post.slug === slug);
+  let post = getPostBySlug(slug, ["src", "app", "blog", "posts"]);
 
   if (!post) return {};
 
@@ -59,7 +58,7 @@ export async function generateMetadata({
 export default async function Blog({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slug);
+  let post = getPostBySlug(slug, ["src", "app", "blog", "posts"]);
 
   if (!post) {
     notFound();
