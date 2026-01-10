@@ -27,10 +27,39 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const target = event.currentTarget;
+      const focusableQuery =
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+      const focusableElements = Array.from(
+        target.querySelectorAll(focusableQuery),
+      ) as HTMLElement[];
+
+      if (focusableElements.length === 0) return;
+
+      const focusedIndex = focusableElements.indexOf(document.activeElement as HTMLElement);
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const nextIndex =
+          focusedIndex === -1 ? 0 : (focusedIndex + 1) % focusableElements.length;
+        focusableElements[nextIndex].focus();
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        const prevIndex =
+          focusedIndex === -1
+            ? focusableElements.length - 1
+            : (focusedIndex - 1 + focusableElements.length) % focusableElements.length;
+        focusableElements[prevIndex].focus();
+      }
+    };
+
     return (
       <Flex
         ref={ref}
         role="listbox"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
         onClick={handleSelect}
         flex={1}
         border="neutral-medium"
