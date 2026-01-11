@@ -8,18 +8,17 @@ describe('Authentication Security', () => {
   beforeEach(() => {
     vi.resetModules();
     process.env = { ...originalEnv, ADMIN_PASSWORD: 'test-secure-password', NODE_ENV: 'test' };
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.spyOn(console, 'info').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     process.env = originalEnv;
+    vi.restoreAllMocks();
   });
 
-  it('should authenticate with correct password and return signed cookie', async () => {
-    // Import path updated to match new location: ../src/pages/api/authenticate
-    // Actually, src/tests is sibling to src/pages? No.
-    // src/tests/auth_security.test.ts
-    // src/pages/api/authenticate.ts
-    // Relative path: ../pages/api/authenticate
+  it('should authenticate with correct password and return signed cookie and log success', async () => {
     const authenticate = (await import('../pages/api/authenticate')).default;
     const req = {
       method: 'POST',
@@ -37,6 +36,27 @@ describe('Authentication Security', () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.setHeader).toHaveBeenCalledWith('Set-Cookie', expect.stringContaining('authToken='));
+    expect(console.info).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Login successful. IP: 127.0.0.1'));
+  });
+
+  it('should fail authentication with incorrect password and log warning', async () => {
+    const authenticate = (await import('../pages/api/authenticate')).default;
+    const req = {
+      method: 'POST',
+      body: { password: 'wrong-password' },
+      headers: {},
+      socket: { remoteAddress: '127.0.0.1' },
+    } as any;
+    const res = {
+      setHeader: vi.fn(),
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    await authenticate(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Login failed. IP: 127.0.0.1'));
   });
 
   it('should reject forged "authenticated" cookie', async () => {
@@ -117,5 +137,27 @@ describe('Authentication Security', () => {
      await checkAuth(req, res);
 
      expect(res.status).toHaveBeenCalledWith(200);
+  });
+
+  it('should log warning for invalid signature (tampering)', async () => {
+     const checkAuth = (await import('../pages/api/check-auth')).default;
+     const value = 'authenticated';
+     const expiry = Date.now() + 60 * 60 * 1000;
+     const dataToSign = `${value}.${expiry}`;
+     const invalidSignature = 'deadbeef'; // Wrong signature
+     const tamperedCookie = `${dataToSign}.${invalidSignature}`;
+
+     const req = {
+       headers: { cookie: `authToken=${tamperedCookie}` },
+     } as any;
+     const res = {
+       status: vi.fn().mockReturnThis(),
+       json: vi.fn(),
+     } as any;
+
+     await checkAuth(req, res);
+
+     expect(res.status).toHaveBeenCalledWith(401);
+     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Invalid cookie signature detected'));
   });
 });

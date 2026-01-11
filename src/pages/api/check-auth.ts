@@ -52,6 +52,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (valid && val === "authenticated") {
     return res.status(200).json({ authenticated: true });
   } else {
+    // 🛡️ Sentinel: Log invalid signature as potential tampering attempt
+    console.warn(`[SECURITY] Invalid cookie signature detected.`);
     return res.status(401).json({ authenticated: false });
   }
 }
