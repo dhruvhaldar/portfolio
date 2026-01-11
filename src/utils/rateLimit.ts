@@ -18,20 +18,30 @@ const MAX_RECORDS = 10000;
  */
 export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 * 1000): boolean {
   const now = Date.now();
-  const record = rateLimitMap.get(ip);
+  let record = rateLimitMap.get(ip);
 
-  if (!record || now > record.resetTime) {
+  // If record exists, verify if it's expired
+  if (record && now > record.resetTime) {
+    // Expired record. Treat as if it doesn't exist, but we reuse the key slot later.
+    record = undefined;
+    // We will overwrite it, so no need to delete explicitly yet,
+    // but to ensure LRU order (newest at end), we should delete it before setting new one.
+    rateLimitMap.delete(ip);
+  }
+
+  if (!record) {
     // 🛡️ Sentinel: Prevent Memory Exhaustion DoS
+    // Only check size if we are adding a truly new key (we already deleted expired one above)
+    // Note: If we just deleted an expired key, size decreased by 1, so we are fine.
+    // If we didn't find a key, size is whatever it is.
+
     if (rateLimitMap.size >= MAX_RECORDS) {
-      // Sentinel Fix: Use LRU eviction instead of clearing the whole map
-      // This prevents an attacker from flushing the map to bypass rate limits
+      // Sentinel Fix: Use True LRU eviction.
+      // The first key in a Map is the "oldest" (least recently inserted/updated).
       const oldestKeyIterator = rateLimitMap.keys().next();
 
       if (!oldestKeyIterator.done) {
         rateLimitMap.delete(oldestKeyIterator.value);
-      } else {
-        // Fallback if map is somehow empty but size > MAX_RECORDS (shouldn't happen)
-        rateLimitMap.clear();
       }
     }
 
@@ -41,6 +51,11 @@ export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 *
     });
     return true;
   }
+
+  // Record exists and is valid.
+  // Move to end of Map to mark as recently used (LRU policy).
+  rateLimitMap.delete(ip);
+  rateLimitMap.set(ip, record);
 
   if (record.count >= limit) {
     return false;

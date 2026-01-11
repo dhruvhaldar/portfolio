@@ -61,4 +61,33 @@ describe('rateLimit', () => {
     expect(rateLimitMap.has('ip-new')).toBe(true);
     expect(rateLimitMap.has(victimIP)).toBe(false);
   });
+
+  it('should implement True LRU eviction (protecting active users)', () => {
+    // MAX_RECORDS is 10000.
+    const limit = 10000;
+
+    // 1. Fill the map with 10,000 records.
+    for (let i = 0; i < limit; i++) {
+        rateLimit(`ip-${i}`, 10, 100000);
+    }
+
+    // 2. Access the FIRST inserted record ('ip-0') to make it "recently used".
+    // This should move it to the end of the LRU list (if implemented correctly).
+    rateLimit('ip-0', 10, 100000);
+
+    // 3. Add one new record ('ip-new') to trigger eviction.
+    rateLimit('ip-new', 10, 100000);
+
+    // 4. Check results.
+    // If FIFO (current vulnerable behavior): 'ip-0' (oldest inserted) will be evicted.
+    // If LRU (secure behavior): 'ip-0' should remain, and 'ip-1' (least recently used) should be evicted.
+
+    const ip0Exists = rateLimitMap.has('ip-0');
+    const ip1Exists = rateLimitMap.has('ip-1');
+    const ipNewExists = rateLimitMap.has('ip-new');
+
+    expect(ipNewExists).toBe(true);
+    expect(ip0Exists).toBe(true); // Should be true if LRU
+    expect(ip1Exists).toBe(false); // Should be evicted if LRU
+  });
 });
