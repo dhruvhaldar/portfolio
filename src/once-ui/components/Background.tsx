@@ -176,18 +176,24 @@ const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
       };
 
       window.addEventListener("resize", updateRect);
-      window.addEventListener("scroll", updateRect);
+      // Bolt: Optimize performance by skipping scroll listener for fixed backgrounds
+      // Fixed elements don't move relative to the viewport, so rect remains constant
+      if (position !== "fixed") {
+        window.addEventListener("scroll", updateRect);
+      }
       document.addEventListener("mousemove", handleMouseMove);
 
       requestRef = requestAnimationFrame(updateLoop);
 
       return () => {
         window.removeEventListener("resize", updateRect);
-        window.removeEventListener("scroll", updateRect);
+        if (position !== "fixed") {
+          window.removeEventListener("scroll", updateRect);
+        }
         document.removeEventListener("mousemove", handleMouseMove);
         if (requestRef) cancelAnimationFrame(requestRef);
       };
-    }, [mask.cursor]);
+    }, [mask.cursor, position]);
 
     const maskStyle: CSSProperties = useMemo(() => {
       if (!mask) return {};
