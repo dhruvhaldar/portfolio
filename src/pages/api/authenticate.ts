@@ -25,12 +25,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const ip = (typeof forwarded === 'string' ? forwarded.split(',')[0] : forwarded?.[0]) || req.socket.remoteAddress || 'unknown';
 
     if (!rateLimit(ip, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
+      console.warn(`[SECURITY] Rate limit exceeded. IP: ${ip}`);
       return res.status(429).json({ message: "Too many attempts. Please try again later." });
     }
 
     // 🛡️ Sentinel: Validate input type and length to prevent DoS
     if (!password || typeof password !== 'string' || password.length > 128) {
        // Return generic error to avoid leaking details
+       console.warn(`[SECURITY] Invalid password input format. IP: ${ip}`);
        return res.status(401).json({ message: "Incorrect password" });
     }
 
@@ -58,8 +60,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           path: "/",
         })
       );
+      console.info(`[SECURITY] Login successful. IP: ${ip}`);
       return res.status(200).json({ success: true });
     } else {
+      console.warn(`[SECURITY] Login failed. IP: ${ip}`);
       return res.status(401).json({ message: "Incorrect password" });
     }
   }
