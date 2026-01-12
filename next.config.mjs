@@ -14,6 +14,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
+  poweredByHeader: false, // 🛡️ Sentinel: Disable X-Powered-By header to prevent information leakage
   experimental: {
     optimizeCss: true,
   },
