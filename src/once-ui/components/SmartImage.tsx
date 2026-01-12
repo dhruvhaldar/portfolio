@@ -154,7 +154,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
 
   const isVideo = src?.endsWith(".mp4");
   const isYouTube = isYouTubeVideo(src);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(!!shouldPreload);
 
   return (
     <>

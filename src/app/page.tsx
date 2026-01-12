@@ -141,7 +141,7 @@ export default function Home() {
       </Column>
 
       {/* Featured Project */}
-      <RevealFx translateY="0" delay={0}>
+      <RevealFx translateY="0" delay={0} revealedByDefault={true}>
         <Projects range={[1, 1]} posts={allProjects} />
       </RevealFx>
 
