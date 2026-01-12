@@ -197,6 +197,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 })}
               >
                 {label}
+                {props.required && (
+                  <Text as="span" onBackground="danger-weak" aria-hidden="true">
+                    &nbsp;*
+                  </Text>
+                )}
               </Text>
             )}
             {children}

@@ -230,6 +230,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 })}
               >
                 {label}
+                {props.required && (
+                  <Text as="span" onBackground="danger-weak" aria-hidden="true">
+                    &nbsp;*
+                  </Text>
+                )}
               </Text>
             )}
             {children && children}
