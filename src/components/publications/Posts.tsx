@@ -20,21 +20,17 @@ export function Posts({
   columns = "1",
   thumbnail = false,
 }: PostsProps) {
-  let allPublications = getPosts(["src", "app", "publications", "posts"]);
-
-  const sortedPublications = allPublications.sort((a, b) => {
-    return (
-      new Date(b.metadata.publishedAt).getTime() -
-      new Date(a.metadata.publishedAt).getTime()
-    );
-  });
+  // Bolt: Optimize performance by skipping content loading (includeContent=false)
+  // The Post component only requires metadata (title, date, team, etc.)
+  // Posts are already sorted by publishedAt in descending order by getPosts
+  let allPublications = getPosts(["src", "app", "publications", "posts"], false);
 
   const displayedPublications = range
-    ? sortedPublications.slice(
+    ? allPublications.slice(
       range[0] - 1,
-      range.length === 2 ? range[1] : sortedPublications.length
+      range.length === 2 ? range[1] : allPublications.length
     )
-    : sortedPublications;
+    : allPublications;
 
   return (
     <>
