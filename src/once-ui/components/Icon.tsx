@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect, ReactNode } from "react";
+import React, { forwardRef, useState, useEffect, ReactNode, memo } from "react";
 import classNames from "classnames";
 import { IconType } from "react-icons";
 import { iconLibrary } from "../icons";
@@ -30,7 +30,7 @@ interface IconProps extends React.ComponentProps<typeof Flex> {
  * Renders an icon from the icon library.
  * Supports coloring, sizing, and tooltips.
  */
-const Icon = forwardRef<HTMLDivElement, IconProps>(
+const IconComponent = forwardRef<HTMLDivElement, IconProps>(
   (
     {
       name,
@@ -123,6 +123,10 @@ const Icon = forwardRef<HTMLDivElement, IconProps>(
   },
 );
 
+IconComponent.displayName = "IconComponent";
+
+// Bolt: Memoize Icon to prevent unnecessary re-renders of this frequently used leaf component
+const Icon = memo(IconComponent);
 Icon.displayName = "Icon";
 
 export { Icon };
