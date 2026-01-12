@@ -16,7 +16,9 @@ type PageProps = {
 };
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "publications", "posts"]);
+  // Bolt: Optimize build performance by skipping content loading
+  // generateStaticParams only needs slugs to generate paths
+  const posts = getPosts(["src", "app", "publications", "posts"], false);
   return posts.map((post) => ({
     slug: post.slug,
   }));
