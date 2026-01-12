@@ -1,6 +1,5 @@
 import "@/once-ui/styles/index.scss";
 import "@/once-ui/tokens/index.scss";
-import "katex/dist/katex.min.css";
 import classNames from "classnames";
 import { Header, RouteGuard } from "@/components";
 import dynamic from "next/dynamic";

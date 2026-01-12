@@ -32,3 +32,8 @@
 **Vulnerability:** The in-memory rate limiter cleared the entire storage map when it reached its size limit (10,000 records) to prevent OOM.
 **Learning:** "Fail-open" strategies for resource exhaustion (like clearing all security state) can be weaponized by attackers to reset their own restrictions by flooding the system.
 **Prevention:** Implement Least Recently Used (LRU) eviction or similar strategies that gracefully degrade (remove oldest/least important) rather than resetting the entire security state.
+
+## 2025-06-15 - [MEDIUM] Log Injection via Untrusted Headers
+**Vulnerability:** The authentication API blindly trusted the `X-Forwarded-For` header for logging and rate limiting, allowing attackers to inject CRLF characters to forge log entries or flood logs with garbage data.
+**Learning:** Logs are often treated as trusted internal data streams. Injecting newlines into untrusted input (like headers) can corrupt logs (Log Spoofing), confusing monitoring systems and administrators.
+**Prevention:** Always sanitize untrusted input before logging. Specifically, strip CR/LF characters and truncate strings to reasonable lengths.
