@@ -152,6 +152,10 @@ const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
           x: event.clientX - rect.left,
           y: event.clientY - rect.top,
         };
+
+        if (!requestRef) {
+          requestRef = requestAnimationFrame(updateLoop);
+        }
       };
 
       const updateLoop = () => {
@@ -160,6 +164,21 @@ const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
 
         const dx = cursor.x - smooth.x;
         const dy = cursor.y - smooth.y;
+
+        // Bolt: Stop the loop if the values have converged to save CPU/battery
+        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+          smooth.x = cursor.x;
+          smooth.y = cursor.y;
+
+          if (element) {
+            element.style.setProperty("--mask-position-x", `${Math.round(smooth.x)}px`);
+            element.style.setProperty("--mask-position-y", `${Math.round(smooth.y)}px`);
+          }
+
+          requestRef = 0;
+          return;
+        }
+
         const easingFactor = 0.05;
 
         // Apply smoothing
@@ -176,18 +195,24 @@ const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
       };
 
       window.addEventListener("resize", updateRect);
-      window.addEventListener("scroll", updateRect);
+      // Bolt: Optimize performance by skipping scroll listener for fixed backgrounds
+      // Fixed elements don't move relative to the viewport, so rect remains constant
+      if (position !== "fixed") {
+        window.addEventListener("scroll", updateRect);
+      }
       document.addEventListener("mousemove", handleMouseMove);
 
       requestRef = requestAnimationFrame(updateLoop);
 
       return () => {
         window.removeEventListener("resize", updateRect);
-        window.removeEventListener("scroll", updateRect);
+        if (position !== "fixed") {
+          window.removeEventListener("scroll", updateRect);
+        }
         document.removeEventListener("mousemove", handleMouseMove);
         if (requestRef) cancelAnimationFrame(requestRef);
       };
-    }, [mask.cursor]);
+    }, [mask.cursor, position]);
 
     const maskStyle: CSSProperties = useMemo(() => {
       if (!mask) return {};

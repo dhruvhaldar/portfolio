@@ -42,6 +42,11 @@ export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 *
     return true;
   }
 
+  // Sentinel Fix: Move accessed record to the end (MRU) to prevent eviction
+  // This ensures active IPs (even if blocked) stay in memory
+  rateLimitMap.delete(ip);
+  rateLimitMap.set(ip, record);
+
   if (record.count >= limit) {
     return false;
   }

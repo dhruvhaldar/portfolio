@@ -64,6 +64,8 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
 
     return (
       <Flex
+        fit={!reverse}
+        inline={!reverse}
         gap="16"
         vertical="center"
         horizontal={reverse ? "space-between" : undefined}
@@ -73,11 +75,12 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
           [styles.disabled]: disabled,
         })}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         role="switch"
         aria-checked={isChecked}
         aria-label={ariaLabel}
         aria-disabled={disabled}
-        tabIndex={-1}
+        tabIndex={disabled ? -1 : 0}
       >
         <input
           ref={ref}
@@ -97,8 +100,6 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
           })}
         >
           <div
-            onKeyDown={handleKeyDown}
-            tabIndex={disabled ? -1 : 0}
             className={classNames(styles.element, {
               [styles.checked]: isChecked,
               [styles.disabled]: disabled,

@@ -15,3 +15,8 @@ When hiding text labels for responsiveness (e.g., using `display: none` or condi
 
 **Learning:** Discovered that while `Input` components correctly linked helper text via `aria-describedby`, `Textarea` components only visually displayed the text without the programmatic association. Inconsistent accessibility patterns within the same form system can confuse screen reader users who expect similar behaviors from similar controls.
 **Action:** When creating or maintaining form components, audit all input types (`Input`, `Textarea`, `Select`) together to ensure feature parity for accessibility attributes like `aria-describedby`, `aria-invalid`, and `aria-required`.
+
+## 2025-05-22 - Focus Rings on Flexible Containers
+
+**Learning:** Found that making a parent `Flex` container interactive (to increase the hit area) without constraining its width can cause the focus ring to stretch unexpectedly in column layouts, confusing the user about which element is focused.
+**Action:** When delegating interaction to a container wrapper, explicitly set `fit` or `width: fit-content` on the container unless a full-width clickable area is intentionally designed.
