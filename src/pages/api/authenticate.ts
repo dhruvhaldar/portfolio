@@ -22,7 +22,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     // 🛡️ Sentinel: Rate limiting to prevent brute force attacks
     // Handle x-forwarded-for safely whether it's string or array
     const forwarded = req.headers['x-forwarded-for'];
-    const ip = (typeof forwarded === 'string' ? forwarded.split(',')[0] : forwarded?.[0]) || req.socket.remoteAddress || 'unknown';
+    const rawIp = (typeof forwarded === 'string' ? forwarded.split(',')[0] : forwarded?.[0]) || req.socket.remoteAddress || 'unknown';
+
+    // 🛡️ Sentinel: Sanitize IP to prevent Log Injection (CRLF) and truncate
+    // Remove all newlines and control characters, and limit length to avoid log flooding
+    const ip = rawIp.replace(/[\r\n]/g, '').substring(0, 45);
 
     if (!rateLimit(ip, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
       console.warn(`[SECURITY] Rate limit exceeded. IP: ${ip}`);
