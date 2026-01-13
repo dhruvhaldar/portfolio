@@ -4,6 +4,7 @@ import { person } from "@/app/resources/content";
 import { Geist } from "next/font/google";
 
 export const runtime = "edge";
+export const dynamic = 'force-static';
 
 const route_font = Geist({
   subsets: ['latin'],
