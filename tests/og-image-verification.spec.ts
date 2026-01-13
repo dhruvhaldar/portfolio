@@ -17,20 +17,40 @@ test.describe('OpenGraph Image Verification', () => {
 
       // Locate the og:image meta tag
       const ogImageMeta = page.locator('meta[property="og:image"]');
+
+      // Allow for cases where custom OG image logic might be missing but fallback should exist
+      // We wait for it to be attached
       await expect(ogImageMeta).toHaveCount(1);
 
       const ogImageUrl = await ogImageMeta.getAttribute('content');
       expect(ogImageUrl).toBeTruthy();
 
-      // Handle absolute vs relative URLs
-      const absoluteUrl = new URL(ogImageUrl!, baseURL).toString();
+      console.log(`Found OG Image URL for ${route}: ${ogImageUrl}`);
 
-      console.log(`Verifying OG Image for ${route}: ${absoluteUrl}`);
+      // Rewrite URL to localhost for verification against local build
+      let urlToFetch = ogImageUrl!;
+      try {
+        const urlObj = new URL(ogImageUrl!);
+        // If it points to the production domain, rewrite to localhost
+        if (urlObj.hostname !== 'localhost') {
+             urlToFetch = `${baseURL}${urlObj.pathname}${urlObj.search}`;
+        }
+      } catch (e) {
+        // Relative URL, resolve against baseURL
+        urlToFetch = new URL(ogImageUrl!, baseURL).toString();
+      }
+
+      console.log(`Verifying OG Image content at: ${urlToFetch}`);
 
       // Fetch the image to verify it exists
-      const response = await request.get(absoluteUrl);
+      const response = await request.get(urlToFetch);
+
+      // Check for 200 OK
       expect(response.status()).toBe(200);
-      expect(response.headers()['content-type']).toMatch(/^image\//);
+
+      // Check content type (should be image/png, image/jpeg, etc.)
+      const contentType = response.headers()['content-type'];
+      expect(contentType).toMatch(/^image\//);
     });
   }
 });
