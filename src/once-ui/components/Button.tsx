@@ -1,10 +1,11 @@
 "use client";
 
-import React, { ReactNode, forwardRef } from "react";
-import { ElementType } from "./ElementType";
 import classNames from "classnames";
+import type React from "react";
+import { type ReactNode, forwardRef } from "react";
+import { ElementType } from "./ElementType";
 
-import { Spinner, Icon, Arrow, Flex } from ".";
+import { Arrow, Flex, Icon, Spinner } from ".";
 import styles from "./Button.module.scss";
 
 interface CommonProps {
@@ -14,15 +15,15 @@ interface CommonProps {
   size?: "s" | "m" | "l";
   /** Border radius configuration */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Text label */
   label?: string;
   /** Font weight */
@@ -81,6 +82,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
     },
     ref,
   ) => {
+    // biome-ignore lint/suspicious/noExplicitAny: ButtonHTMLAttributes includes disabled, but AnchorHTMLAttributes does not
+    const isDisabled = (props as any).disabled || loading;
     const iconSize = size === "l" ? "s" : size === "m" ? "s" : "xs";
     const radiusSize = size === "s" || size === "m" ? "m" : "l";
 
@@ -89,6 +92,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
         id={id}
         href={href}
         ref={ref}
+        disabled={isDisabled}
+        aria-busy={loading ? "true" : undefined}
         className={classNames(
           styles.button,
           styles[variant],
