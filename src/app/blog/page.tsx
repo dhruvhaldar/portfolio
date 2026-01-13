@@ -12,7 +12,6 @@ import styles from './page.module.css';
 export async function generateMetadata() {
   const title = blog.title;
   const description = blog.description;
-  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
@@ -23,18 +22,11 @@ export async function generateMetadata() {
       type: "website",
       url: `https://${baseURL}/blog`,
       siteName: `${person.firstName}'s Portfolio`,
-      images: [
-        {
-          url: ogImage,
-          alt: title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
     },
   };
 }

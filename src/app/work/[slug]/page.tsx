@@ -49,9 +49,12 @@ export async function generateMetadata({ params }: WorkParams) {
     team,
   } = post.metadata;
 
-  const ogImage = image
-    ? `https://${baseURL}${image}`
-    : `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
+  // Use the post's specific image if available, otherwise let opengraph-image.tsx handle it
+  // Note: Next.js automatically resolves opengraph-image.tsx, but if we specify images here, it overrides it.
+  // We should include the specific image if it exists.
+  const ogImages = image
+    ? [{ url: `https://${baseURL}${image}` }]
+    : undefined;
 
   return {
     title,
@@ -64,17 +67,13 @@ export async function generateMetadata({ params }: WorkParams) {
       type: "article",
       publishedTime,
       url: `https://${baseURL}/work/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
+      images: ogImages,
     },
   };
 }
@@ -127,7 +126,7 @@ export default async function Project({ params }: WorkParams) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `https://${baseURL}${post.metadata.image}`
-              : `https://${baseURL}/og?title=${encodeURIComponent(post.metadata.title)}`,
+              : `https://${baseURL}/work/${post.slug}/opengraph-image`,
             url: `https://${baseURL}/work/${post.slug}`,
             author: {
               "@type": "Person",

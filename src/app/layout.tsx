@@ -20,9 +20,7 @@ const Footer = dynamic(
 
 export async function generateMetadata() {
   const title = home.title;
-  const alt_title = 'Showcasing the Best Projects';
   const description = home.description;
-  const ogImage = `https://${baseURL}/opengraph.jpg`;
   const pageUrl = `https://${baseURL}`;
 
   return {
@@ -56,20 +54,11 @@ export async function generateMetadata() {
       url: pageUrl,
       siteName: `${person.firstName} Portfolio (With Projects & Publications)`,
       locale: "en_US",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: alt_title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
     },
     robots: {
       index: true,
