@@ -26,11 +26,29 @@ interface IconProps extends React.ComponentProps<typeof Flex> {
   tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
-/**
- * Renders an icon from the icon library.
- * Supports coloring, sizing, and tooltips.
- */
-const IconComponent = forwardRef<HTMLDivElement, IconProps>(
+const getIconClasses = (
+  size: string,
+  onBackground?: string,
+  onSolid?: string,
+) => {
+  let colorClass = "color-inherit";
+
+  if (onBackground) {
+    const [scheme, weight] = onBackground.split("-") as [
+      ColorScheme,
+      ColorWeight,
+    ];
+    colorClass = `${scheme}-on-background-${weight}`;
+  } else if (onSolid) {
+    const [scheme, weight] = onSolid.split("-") as [ColorScheme, ColorWeight];
+    colorClass = `${scheme}-on-solid-${weight}`;
+  }
+
+  return classNames(colorClass, styles.icon, styles[size]);
+};
+
+// Bolt: Heavy component handling tooltip state and effects
+const IconWithTooltip = forwardRef<HTMLDivElement, IconProps>(
   (
     {
       name,
@@ -48,6 +66,7 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
   ) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
+    const IconC: IconType | undefined = iconLibrary[name];
 
     const handleFocus = (event: React.FocusEvent<HTMLDivElement>) => {
       setIsHover(true);
@@ -68,13 +87,10 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
       } else {
         setTooltipVisible(false);
       }
-
       return () => clearTimeout(timer);
     }, [isHover]);
 
-    const IconComponent: IconType | undefined = iconLibrary[name];
-
-    if (!IconComponent) {
+    if (!IconC) {
       console.warn(`Icon "${name}" does not exist in the library.`);
       return null;
     }
@@ -85,15 +101,7 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
       );
     }
 
-    let colorClass = "color-inherit";
-
-    if (onBackground) {
-      const [scheme, weight] = onBackground.split("-") as [ColorScheme, ColorWeight];
-      colorClass = `${scheme}-on-background-${weight}`;
-    } else if (onSolid) {
-      const [scheme, weight] = onSolid.split("-") as [ColorScheme, ColorWeight];
-      colorClass = `${scheme}-on-solid-${weight}`;
-    }
+    const classes = getIconClasses(size, onBackground, onSolid);
 
     return (
       <Flex
@@ -102,7 +110,7 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
         position="relative"
         as="div"
         ref={ref}
-        className={classNames(colorClass, styles.icon, styles[size])}
+        className={classes}
         role={decorative ? "presentation" : undefined}
         aria-hidden={decorative ? "true" : undefined}
         aria-label={decorative ? undefined : name}
@@ -112,9 +120,13 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
         onBlur={handleBlur}
         {...rest}
       >
-        <IconComponent />
-        {tooltip && isTooltipVisible && (
-          <Flex position="absolute" zIndex={1} className={iconStyles[tooltipPosition]}>
+        <IconC />
+        {isTooltipVisible && (
+          <Flex
+            position="absolute"
+            zIndex={1}
+            className={iconStyles[tooltipPosition]}
+          >
             <Tooltip label={tooltip} />
           </Flex>
         )}
@@ -122,6 +134,68 @@ const IconComponent = forwardRef<HTMLDivElement, IconProps>(
     );
   },
 );
+IconWithTooltip.displayName = "IconWithTooltip";
+
+// Bolt: Lightweight component for icons without tooltips (no state/hooks)
+const BasicIcon = forwardRef<HTMLDivElement, IconProps>(
+  (
+    {
+      name,
+      onBackground,
+      onSolid,
+      size = "m",
+      decorative = true,
+      tooltip, // Unused
+      tooltipPosition, // Unused
+      ...rest
+    },
+    ref,
+  ) => {
+    const IconC: IconType | undefined = iconLibrary[name];
+
+    if (!IconC) {
+      console.warn(`Icon "${name}" does not exist in the library.`);
+      return null;
+    }
+
+    if (onBackground && onSolid) {
+      console.warn(
+        "You cannot use both 'onBackground' and 'onSolid' props simultaneously. Only one will be applied.",
+      );
+    }
+
+    const classes = getIconClasses(size, onBackground, onSolid);
+
+    return (
+      <Flex
+        inline
+        fit
+        position="relative"
+        as="div"
+        ref={ref}
+        className={classes}
+        role={decorative ? "presentation" : undefined}
+        aria-hidden={decorative ? "true" : undefined}
+        aria-label={decorative ? undefined : name}
+        {...rest}
+      >
+        <IconC />
+      </Flex>
+    );
+  },
+);
+BasicIcon.displayName = "BasicIcon";
+
+/**
+ * Renders an icon from the icon library.
+ * Supports coloring, sizing, and tooltips.
+ */
+const IconComponent = forwardRef<HTMLDivElement, IconProps>((props, ref) => {
+  if (props.tooltip) {
+    return <IconWithTooltip {...props} ref={ref} />;
+  }
+  return <BasicIcon {...props} ref={ref} />;
+});
 
 IconComponent.displayName = "IconComponent";
 
