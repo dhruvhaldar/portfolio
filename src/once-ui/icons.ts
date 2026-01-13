@@ -21,6 +21,8 @@ import {
   HiClipboard,
   HiArrowRight,
   HiOutlineShare,
+  HiSun,
+  HiMoon,
 } from "react-icons/hi2";
 import {
   PiHouseDuotone,
@@ -83,6 +85,10 @@ export const iconLibrary: Record<string, IconType> = {
   warningTriangle: HiExclamationTriangle,
   errorCircle: HiExclamationCircle,
   checkCircle: HiCheckCircle,
+
+  // Theme icons
+  sun: HiSun,
+  moon: HiMoon,
 
   // Feature icons
   article: MdOutlineArticle,

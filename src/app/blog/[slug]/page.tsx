@@ -50,7 +50,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.metadata.publishedAt,
       authors: [person.name],
-      images: [post.metadata.image || `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`]
+      images: post.metadata.image ? [post.metadata.image] : undefined
     }
   };
 }
