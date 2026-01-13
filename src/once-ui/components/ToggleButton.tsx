@@ -1,10 +1,11 @@
 "use client";
 
-import React, { forwardRef, ReactNode } from "react";
+import React, { forwardRef, ReactNode, useState, useEffect } from "react";
 import classNames from "classnames";
 import { ElementType } from "./ElementType";
-import { Flex, Icon } from ".";
+import { Flex, Icon, Tooltip } from ".";
 import styles from "./ToggleButton.module.scss";
+import iconStyles from "./IconButton.module.scss";
 
 interface CommonProps {
   /** Button label */
@@ -46,6 +47,10 @@ interface CommonProps {
   children?: ReactNode;
   /** Link URL */
   href?: string;
+  /** Tooltip text */
+  tooltip?: string;
+  /** Tooltip position */
+  tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
 export type ToggleButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -71,10 +76,40 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
       style,
       children,
       href,
+      tooltip,
+      tooltipPosition = "top",
+      onFocus,
+      onBlur,
       ...props
     },
     ref,
   ) => {
+    const [isTooltipVisible, setTooltipVisible] = useState(false);
+    const [isHover, setIsHover] = useState(false);
+
+    const handleFocus = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      setIsHover(true);
+      if (onFocus) onFocus(event as any);
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      setIsHover(false);
+      if (onBlur) onBlur(event as any);
+    };
+
+    useEffect(() => {
+      let timer: NodeJS.Timeout;
+      if (isHover) {
+        timer = setTimeout(() => {
+          setTooltipVisible(true);
+        }, 400);
+      } else {
+        setTooltipVisible(false);
+      }
+
+      return () => clearTimeout(timer);
+    }, [isHover]);
+
     return (
       <ElementType
         ref={ref}
@@ -100,6 +135,10 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
           className,
         )}
         style={style}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "m" : "s"} />}
@@ -114,6 +153,11 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
           </Flex>
         )}
         {suffixIcon && <Icon name={suffixIcon} size={size === "l" ? "m" : "s"} />}
+        {tooltip && isTooltipVisible && (
+          <Flex position="absolute" zIndex={1} className={iconStyles[tooltipPosition]}>
+            <Tooltip label={tooltip} />
+          </Flex>
+        )}
       </ElementType>
     );
   },

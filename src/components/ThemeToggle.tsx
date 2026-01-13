@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ToggleButton } from "./ui/ToggleButton";
+import { ToggleButton } from "@/once-ui/components";
 
 type Theme = 'light' | 'dark';
 
@@ -51,6 +51,7 @@ export const ThemeToggle = () => {
       prefixIcon={currentTheme === 'dark' ? 'sun' : 'moon'}
       onClick={toggleTheme}
       aria-label={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
+      tooltip={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
       aria-pressed={currentTheme === 'dark'}
       variant="ghost"
       size="m"

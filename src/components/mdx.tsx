@@ -140,6 +140,7 @@ function createInlineCode({ children }: { children: ReactNode }) {
 function createBlockquote({ children }: { children: ReactNode }) {
   return (
     <Flex
+      as="blockquote"
       direction="column"
       background="neutral-alpha-weak"
       border="neutral-alpha-medium"
@@ -222,7 +223,12 @@ const components = {
   // Media,
   SmartLink,
   Table: ({ data }: { data: { headers: string[], rows: string[][] } }) => (
-    <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
+    <div
+      role="region"
+      aria-label="Table"
+      tabIndex={0}
+      style={{ overflowX: 'auto', marginBottom: '1rem' }}
+    >
       <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--neutral-border-medium)' }}>
         <thead>
           <tr style={{ background: 'var(--neutral-alpha-weak)' }}>
