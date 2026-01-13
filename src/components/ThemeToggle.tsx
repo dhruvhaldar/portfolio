@@ -54,7 +54,6 @@ export const ThemeToggle = () => {
       aria-label={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
       tooltip={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
       aria-pressed={currentTheme === 'dark'}
-      selected={currentTheme === 'dark'}
       variant="ghost"
       size="m"
     />
