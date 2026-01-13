@@ -1,12 +1,13 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import type { ComponentProps } from "react";
+import { Flex } from "./Flex";
 import { Grid } from "./Grid";
 import { Logo } from "./Logo";
 import styles from "./LogoCloud.module.scss";
-import type { ComponentProps } from "react";
-import { Flex } from "./Flex";
 
 type LogoProps = ComponentProps<typeof Logo>;
 
@@ -31,40 +32,39 @@ const STAGGER_DELAY = 25;
  */
 const LogoCloud = forwardRef<HTMLDivElement, LogoCloudProps>(
   ({ logos, className, style, limit = 6, rotationInterval = ANIMATION_DURATION, ...rest }, ref) => {
-    const [visibleLogos, setVisibleLogos] = useState<LogoProps[]>(() => logos.slice(0, limit));
-    const [key, setKey] = useState(0);
+    // Bolt: Use simple index logic instead of expensive array lookups
+    const [startIndex, setStartIndex] = useState(0);
 
     useEffect(() => {
+      // If we don't have enough logos to rotate, don't start the interval
       if (logos.length <= limit) {
-        setVisibleLogos(logos);
         return;
       }
 
       const interval = setInterval(
         () => {
-          setVisibleLogos((currentLogos) => {
-            const currentIndices = currentLogos.map((logo) => logos.findIndex((l) => l === logo));
-
-            const nextIndices = currentIndices
-              .map((index) => (index + 1) % logos.length)
-              .sort((a, b) => a - b);
-
-            const nextLogos = nextIndices.map((index) => logos[index]);
-            setKey((k) => k + 1);
-            return nextLogos;
-          });
+          setStartIndex((prevIndex) => (prevIndex + 1) % logos.length);
         },
         rotationInterval + STAGGER_DELAY * limit,
       );
 
       return () => clearInterval(interval);
-    }, [logos, limit, rotationInterval]);
+    }, [logos.length, limit, rotationInterval]);
+
+    // Calculate visible logos based on startIndex and limit
+    // Bolt: This is O(limit) instead of O(limit * total)
+    const visibleLogos: LogoProps[] = [];
+    for (let i = 0; i < Math.min(limit, logos.length); i++) {
+      const index = (startIndex + i) % logos.length;
+      visibleLogos.push(logos[index]);
+    }
 
     return (
       <Grid ref={ref} className={classNames(styles.container, className)} style={style} {...rest}>
         {visibleLogos.map((logo, index) => (
           <Flex
-            key={`${key}-${index}`}
+            // biome-ignore lint/suspicious/noArrayIndexKey: Animation requires key to change based on position
+            key={`${startIndex}-${index}`}
             vertical="center"
             horizontal="center"
             paddingX="24"
