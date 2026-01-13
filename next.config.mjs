@@ -12,6 +12,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
   poweredByHeader: false, // 🛡️ Sentinel: Disable X-Powered-By header to prevent information leakage

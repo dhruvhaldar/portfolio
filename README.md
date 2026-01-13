@@ -88,6 +88,22 @@ This project includes scripts to optimize images for web performance:
    pnpm start
    ```
 
+## 📊 Benchmarking
+
+To measure performance metrics (LCP, FCP, etc.) using [Lighthouse](https://github.com/GoogleChrome/lighthouse), run:
+
+```bash
+pnpm benchmark
+```
+
+This will automatically:
+1. Build the application for production.
+2. Start the production server on port 3002.
+3. Run Lighthouse against the local instance.
+4. Generate a `lighthouse-report.html` file in the root directory.
+
+Open `lighthouse-report.html` in your browser to view the detailed performance report.
+
 ## 🧪 Testing
 
 This project employs a comprehensive testing strategy using **Vitest** for unit/integration tests and **Playwright** for End-to-End (E2E) testing.
