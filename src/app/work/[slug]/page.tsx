@@ -1,21 +1,29 @@
-import { notFound } from "next/navigation";
-import { CustomMDX } from "@/components/mdx";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { getPosts, getPostBySlug } from "@/app/utils/utils";
-import { AvatarGroup, Column, Flex, Heading, SmartImage, Text, SmartLink, Row } from "@/once-ui/components";
-import { ShareButton } from "@/components/ShareButton";
-import { baseURL } from "@/app/resources";
+import { baseURL, protectedRoutes } from "@/app/resources";
 import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
-import ScrollToHash from "@/components/ScrollToHash";
-import BlogTableOfContents from "@/components/blog/TableOfContents";
 import { sanitizeJsonLd } from "@/app/utils/security";
-
+import { getPostBySlug, getPosts } from "@/app/utils/utils";
+import ScrollToHash from "@/components/ScrollToHash";
+import { ShareButton } from "@/components/ShareButton";
+import BlogTableOfContents from "@/components/blog/TableOfContents";
+import { CustomMDX } from "@/components/mdx";
+import {
+  AvatarGroup,
+  Column,
+  Flex,
+  Heading,
+  Icon,
+  Row,
+  SmartImage,
+  SmartLink,
+  Text,
+} from "@/once-ui/components";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { notFound } from "next/navigation";
 
 interface WorkParams {
   params: Promise<{ slug: string }>;
 }
-
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -26,13 +34,13 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: WorkParams) {
   const { slug } = await params;
-  let post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
+  const post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
 
   if (!post) {
     return;
   }
 
-  let {
+  const {
     title,
     publishedAt: publishedTime,
     summary: description,
@@ -41,9 +49,12 @@ export async function generateMetadata({ params }: WorkParams) {
     team,
   } = post.metadata;
 
-  let ogImage = image
-    ? `https://${baseURL}${image}`
-    : `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
+  // Use the post's specific image if available, otherwise let opengraph-image.tsx handle it
+  // Note: Next.js automatically resolves opengraph-image.tsx, but if we specify images here, it overrides it.
+  // We should include the specific image if it exists.
+  const ogImages = image
+    ? [{ url: `https://${baseURL}${image}` }]
+    : undefined;
 
   return {
     title,
@@ -56,32 +67,46 @@ export async function generateMetadata({ params }: WorkParams) {
       type: "article",
       publishedTime,
       url: `https://${baseURL}/work/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
+      images: ogImages,
     },
   };
 }
 
 export default async function Project({ params }: WorkParams) {
   const { slug } = await params;
-  let post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
+
+  // 🛡️ Sentinel: Server-Side Protection
+  // If the route is protected, do not render the content.
+  // This prevents the content from being included in the RSC payload or static HTML.
+  // We cast protectedRoutes to any to allow dynamic key access since the keys are inferred as specific strings.
+  if ((protectedRoutes as Record<string, boolean>)[`/work/${slug}`]) {
+    return (
+      <Column as="section" fillWidth paddingY="128" horizontal="center" gap="l">
+        <Icon name="lock" size="xl" />
+        <Heading variant="display-strong-s">Protected Content</Heading>
+        <Text variant="body-default-m" align="center">
+          This content is password protected.
+        </Text>
+      </Column>
+    );
+  }
+
+  const post = getPostBySlug(slug, ["src", "app", "work", "projects"]);
 
   if (!post) {
     notFound();
   }
 
-  const avatars = post.metadata.team?.map((person) => ({
-    src: person.avatar,
-  })) || [];
+  const avatars =
+    post.metadata.team?.map((person) => ({
+      src: person.avatar,
+    })) || [];
 
   const { link } = post.metadata;
 
@@ -90,6 +115,7 @@ export default async function Project({ params }: WorkParams) {
       <script
         type="application/ld+json"
         suppressHydrationWarning
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is sanitized
         dangerouslySetInnerHTML={{
           __html: sanitizeJsonLd({
             "@context": "https://schema.org",
@@ -100,9 +126,7 @@ export default async function Project({ params }: WorkParams) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `https://${baseURL}${post.metadata.image}`
-              : `https://${baseURL}/og?title=${encodeURIComponent(
-                post.metadata.title
-              )}`,
+              : `https://${baseURL}/work/${post.slug}/opengraph-image`,
             url: `https://${baseURL}/work/${post.slug}`,
             author: {
               "@type": "Person",
@@ -131,9 +155,7 @@ export default async function Project({ params }: WorkParams) {
                   <Text variant="body-default-s">View more details</Text>
                 </SmartLink>
               )}
-              {avatars.length > 0 && (
-                <AvatarGroup reverse avatars={avatars} size="m" />
-              )}
+              {avatars.length > 0 && <AvatarGroup reverse avatars={avatars} size="m" />}
               <Text variant="body-default-s" onBackground="neutral-weak">
                 {formatDate(post.metadata.publishedAt)}
               </Text>
@@ -162,17 +184,8 @@ export default async function Project({ params }: WorkParams) {
           </Column>
         </Column>
 
-        <Column
-          flex={3}
-          position="relative"
-          hide="m"
-          maxWidth={20}
-        >
-          <Column
-            position="sticky"
-            top="128"
-            gap="16"
-          >
+        <Column flex={3} position="relative" hide="m" maxWidth={20}>
+          <Column position="sticky" top="128" gap="16">
             <Flex gap="12" vertical="center" marginBottom="8">
               <svg
                 style={{ marginLeft: "-8px" }}
@@ -189,7 +202,7 @@ export default async function Project({ params }: WorkParams) {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-                ></path>
+                />
               </svg>
               <Text variant="label-default-s" onBackground="neutral-medium">
                 On this page

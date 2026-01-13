@@ -93,6 +93,7 @@ const Carousel: React.FC<CarouselProps> = ({
       <RevealFx
         onClick={handleImageClick}
         fillWidth
+        revealedByDefault={revealedByDefault}
         trigger={isTransitioning}
         translateY="16"
         aspectRatio={aspectRatio}

@@ -20,3 +20,8 @@ When hiding text labels for responsiveness (e.g., using `display: none` or condi
 
 **Learning:** Found that making a parent `Flex` container interactive (to increase the hit area) without constraining its width can cause the focus ring to stretch unexpectedly in column layouts, confusing the user about which element is focused.
 **Action:** When delegating interaction to a container wrapper, explicitly set `fit` or `width: fit-content` on the container unless a full-width clickable area is intentionally designed.
+
+## 2025-10-26 - Button Loading State Accessibility
+
+**Learning:** The `Button` component visually indicated loading with a spinner but remained interactive, allowing for accidental double-submissions. Additionally, the lack of `aria-busy` meant screen readers weren't informed of the processing state.
+**Action:** Always couple visual loading states with functional disabling (`disabled` attribute) and semantic state indicators (`aria-busy="true"`) to prevent errors and communicate status effectively.

@@ -9,7 +9,6 @@ import styles from './page.module.css';
 export async function generateMetadata() {
   const title = work.title;
   const description = work.description;
-  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
@@ -22,18 +21,11 @@ export async function generateMetadata() {
       alternates: {
         canonical: `https://${baseURL}/`,
       },
-      images: [
-        {
-          url: ogImage,
-          alt: title,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
     },
   };
 }
