@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode, forwardRef, SyntheticEvent } from "react";
+import type React from "react";
+import { type ReactNode, type SyntheticEvent, forwardRef } from "react";
 import { Flex } from ".";
 
 interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelect"> {
@@ -41,8 +42,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        const nextIndex =
-          focusedIndex === -1 ? 0 : (focusedIndex + 1) % focusableElements.length;
+        const nextIndex = focusedIndex === -1 ? 0 : (focusedIndex + 1) % focusableElements.length;
         focusableElements[nextIndex].focus();
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
@@ -66,8 +66,8 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         background="surface"
         overflow="hidden"
         style={{
-          backdropFilter: 'blur(10px)',
-          background: 'var(--neutral-alpha-strong)',
+          backdropFilter: "blur(10px)",
+          background: "var(--neutral-alpha-strong)",
           ...rest.style,
         }}
         {...rest}

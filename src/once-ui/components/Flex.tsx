@@ -1,9 +1,9 @@
 "use client";
 
 import classNames from "classnames";
-import { CSSProperties, forwardRef } from "react";
+import { type CSSProperties, forwardRef } from "react";
 
-import {
+import type {
   CommonProps,
   ConditionalProps,
   DisplayProps,
@@ -12,16 +12,16 @@ import {
   SpacingProps,
   StyleProps,
 } from "../interfaces";
-import { ColorScheme, ColorWeight, SpacingToken, TextVariant } from "../types";
+import type { ColorScheme, ColorWeight, SpacingToken, TextVariant } from "../types";
 
 interface ComponentProps
   extends FlexProps,
-  SpacingProps,
-  SizeProps,
-  StyleProps,
-  CommonProps,
-  DisplayProps,
-  ConditionalProps { }
+    SpacingProps,
+    SizeProps,
+    StyleProps,
+    CommonProps,
+    DisplayProps,
+    ConditionalProps {}
 
 /**
  * A utility component for creating flexible layouts using CSS Flexbox.
@@ -200,8 +200,8 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
         border || borderTop || borderRight || borderBottom || borderLeft,
       ),
       (border || borderTop || borderRight || borderBottom || borderLeft) &&
-      !borderStyle &&
-      "border-solid",
+        !borderStyle &&
+        "border-solid",
       border && !borderWidth && "border-1",
       (borderTop || borderRight || borderBottom || borderLeft) && "border-reset",
       borderTop && "border-top-1",
@@ -233,13 +233,13 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
       overflowY && `overflow-y-${overflowY}`,
       flex && `flex-${flex}`,
       horizontal &&
-      (direction === "row" || direction === "row-reverse" || direction === undefined
-        ? `justify-${horizontal}`
-        : `align-${horizontal}`),
+        (direction === "row" || direction === "row-reverse" || direction === undefined
+          ? `justify-${horizontal}`
+          : `align-${horizontal}`),
       vertical &&
-      (direction === "row" || direction === "row-reverse" || direction === undefined
-        ? `align-${vertical}`
-        : `justify-${vertical}`),
+        (direction === "row" || direction === "row-reverse" || direction === undefined
+          ? `align-${vertical}`
+          : `justify-${vertical}`),
       center && "center",
       fit && "fit",
       fitWidth && "fit-width",

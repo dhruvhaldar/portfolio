@@ -1,4 +1,8 @@
-"use client"; import React, { forwardRef } from "react"; import { Text, Flex, IconButton, IconButtonProps } from "."; interface InteractiveDetailsProps {
+"use client";
+import type React from "react";
+import { forwardRef } from "react";
+import { Flex, IconButton, type IconButtonProps, Text } from ".";
+interface InteractiveDetailsProps {
   /** Label text */
   label?: React.ReactNode;
   /** Description text */
@@ -11,6 +15,8 @@
   className?: string;
   /** Element ID */
   id?: string;
+  /** Whether the input is required */
+  required?: boolean;
 }
 
 /**
@@ -19,12 +25,17 @@
 const InteractiveDetails: React.FC<InteractiveDetailsProps> = forwardRef<
   HTMLDivElement,
   InteractiveDetailsProps
->(({ label, description, iconButtonProps, onClick, className, id }, ref) => {
+>(({ label, description, iconButtonProps, onClick, className, id, required }, ref) => {
   return (
     <Flex ref={ref} direction="column" className={className} onClick={onClick} id={id}>
       <Flex gap="4" vertical="center">
         <Text as="span" variant="label-default-m" onBackground="neutral-strong">
           {label}
+          {required && (
+            <Text as="span" onBackground="danger-weak" aria-hidden="true">
+              &nbsp;*
+            </Text>
+          )}
         </Text>
         {iconButtonProps?.tooltip && (
           <div onClick={(e) => e.stopPropagation()}>

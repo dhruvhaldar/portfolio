@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
-import styles from "./TiltFx.module.scss";
+import type React from "react";
+import { useRef } from "react";
 import { Flex } from ".";
+import styles from "./TiltFx.module.scss";
 
 interface TiltFxProps extends React.ComponentProps<typeof Flex> {
   /** React element or node to apply the 3D tilt effect to */
@@ -14,7 +15,10 @@ interface TiltFxProps extends React.ComponentProps<typeof Flex> {
  */
 const TiltFx: React.FC<TiltFxProps> = ({ children, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const throttleRef = useRef({ lastCall: 0, resetTimeout: undefined as NodeJS.Timeout | undefined });
+  const throttleRef = useRef({
+    lastCall: 0,
+    resetTimeout: undefined as NodeJS.Timeout | undefined,
+  });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if ("ontouchstart" in window) return;

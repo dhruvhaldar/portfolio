@@ -1,29 +1,30 @@
 "use client";
 
-import React, { forwardRef } from "react";
 import classNames from "classnames";
-import styles from "./StatusIndicator.module.scss";
+import type React from "react";
+import { forwardRef } from "react";
 import { Flex } from "./Flex";
+import styles from "./StatusIndicator.module.scss";
 
 interface StatusIndicatorProps extends React.ComponentProps<typeof Flex> {
   /** Size of the indicator */
   size: "s" | "m" | "l";
   /** Color theme */
   color:
-  | "blue"
-  | "indigo"
-  | "violet"
-  | "magenta"
-  | "pink"
-  | "red"
-  | "orange"
-  | "yellow"
-  | "moss"
-  | "green"
-  | "emerald"
-  | "aqua"
-  | "cyan"
-  | "gray";
+    | "blue"
+    | "indigo"
+    | "violet"
+    | "magenta"
+    | "pink"
+    | "red"
+    | "orange"
+    | "yellow"
+    | "moss"
+    | "green"
+    | "emerald"
+    | "aqua"
+    | "cyan"
+    | "gray";
   /** Aria label for accessibility */
   ariaLabel?: string;
   /** Custom class name */

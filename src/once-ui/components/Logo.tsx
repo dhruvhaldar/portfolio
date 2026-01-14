@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import classNames from "classnames";
-import styles from "./Logo.module.scss";
-import { SpacingToken } from "../types";
+import Image from "next/image";
+import Link from "next/link";
+import type React from "react";
+import { useEffect } from "react";
 import { Flex } from ".";
+import type { SpacingToken } from "../types";
+import styles from "./Logo.module.scss";
 
 const sizeMap: Record<string, SpacingToken> = {
   xs: "20",
@@ -61,7 +62,7 @@ const Logo: React.FC<LogoProps> = ({
     }
   }, [icon, wordmark]);
 
-  const height = parseInt(sizeMap[size]);
+  const height = Number.parseInt(sizeMap[size]);
 
   const content = (
     <>
@@ -119,13 +120,7 @@ const Logo: React.FC<LogoProps> = ({
       {content}
     </Link>
   ) : (
-    <Flex
-      className={classNames(className)}
-      radius="l"
-      fitHeight
-      style={style}
-      aria-label="Logo"
-    >
+    <Flex className={classNames(className)} radius="l" fitHeight style={style} aria-label="Logo">
       {content}
     </Flex>
   );

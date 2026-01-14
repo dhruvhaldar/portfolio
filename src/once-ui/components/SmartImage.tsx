@@ -1,11 +1,12 @@
 "use client";
 
-import React, { CSSProperties, useState, useRef, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
+import type React from "react";
+import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
 import { Flex, IconButton, Skeleton } from ".";
 
-export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, 'height'> {
+export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
   /** Aspect ratio of the image */
   aspectRatio?: string;
   /** Height of the image */
@@ -67,15 +68,15 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   const calculatedSizes = useMemo(() => {
     if (sizes) return sizes;
     return responsive
-      ? `(max-width: 640px) ${responsive.mobile || '100vw'}, (max-width: 1024px) ${responsive.tablet || '50vw'}, ${responsive.desktop || '33vw'}`
+      ? `(max-width: 640px) ${responsive.mobile || "100vw"}, (max-width: 1024px) ${responsive.tablet || "50vw"}, ${responsive.desktop || "33vw"}`
       : "(max-width: 1200px) 100vw, 33vw";
   }, [sizes, responsive]);
 
   const calculateHeight = useMemo(() => {
-    if (height) return typeof height === 'number' ? `${height}rem` : height;
+    if (height) return typeof height === "number" ? `${height}rem` : height;
     if (responsive?.mobile) return responsive.mobile;
-    if (aspectRatio) return 'auto';
-    return '100%';
+    if (aspectRatio) return "auto";
+    return "100%";
   }, [height, responsive, aspectRatio]);
 
   const [isEnlarged, setIsEnlarged] = useState(false);
@@ -88,7 +89,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (enlarge && (event.key === 'Enter' || event.key === ' ')) {
+    if (enlarge && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault();
       setIsEnlarged(!isEnlarged);
     }

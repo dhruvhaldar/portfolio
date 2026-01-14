@@ -1,11 +1,11 @@
 "use client";
 
-import { forwardRef, useState, useEffect } from "react";
-import { Flex, Text, SegmentedControl, IconButton, Scroller, Column } from ".";
+import { forwardRef, useEffect, useState } from "react";
+import { Column, Flex, IconButton, Scroller, SegmentedControl, Text } from ".";
 
-import styles from "./StylePanel.module.scss";
-import classNames from "classnames";
 import { style } from "@/app/resources";
+import classNames from "classnames";
+import styles from "./StylePanel.module.scss";
 
 interface StylePanelProps extends React.ComponentProps<typeof Flex> {
   /** Custom styles */
@@ -77,7 +77,6 @@ const StylePanel = forwardRef<HTMLDivElement, StylePanelProps>(({ ...rest }, ref
     root.setAttribute("data-transition", transition);
     root.setAttribute("data-scaling", scaling);
     root.setAttribute("data-surface", surface);
-
   }, [
     selectedShape,
     brandColor,

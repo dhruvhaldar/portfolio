@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, forwardRef } from "react";
-import { Input, InputProps, IconButton } from ".";
+import { IconButton, Input, type InputProps } from ".";
 
 /**
  * An input component for passwords with visibility toggle.

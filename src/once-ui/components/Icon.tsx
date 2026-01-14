@@ -1,11 +1,12 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect, ReactNode, memo } from "react";
 import classNames from "classnames";
-import { IconType } from "react-icons";
-import { iconLibrary } from "../icons";
-import { ColorScheme, ColorWeight } from "../types";
+import type React from "react";
+import { type ReactNode, forwardRef, memo, useEffect, useState } from "react";
+import type { IconType } from "react-icons";
 import { Flex, Tooltip } from ".";
+import { iconLibrary } from "../icons";
+import type { ColorScheme, ColorWeight } from "../types";
 import styles from "./Icon.module.scss";
 import iconStyles from "./IconButton.module.scss";
 
@@ -26,18 +27,11 @@ interface IconProps extends React.ComponentProps<typeof Flex> {
   tooltipPosition?: "top" | "bottom" | "left" | "right";
 }
 
-const getIconClasses = (
-  size: string,
-  onBackground?: string,
-  onSolid?: string,
-) => {
+const getIconClasses = (size: string, onBackground?: string, onSolid?: string) => {
   let colorClass = "color-inherit";
 
   if (onBackground) {
-    const [scheme, weight] = onBackground.split("-") as [
-      ColorScheme,
-      ColorWeight,
-    ];
+    const [scheme, weight] = onBackground.split("-") as [ColorScheme, ColorWeight];
     colorClass = `${scheme}-on-background-${weight}`;
   } else if (onSolid) {
     const [scheme, weight] = onSolid.split("-") as [ColorScheme, ColorWeight];
@@ -122,11 +116,7 @@ const IconWithTooltip = forwardRef<HTMLDivElement, IconProps>(
       >
         <IconC />
         {isTooltipVisible && (
-          <Flex
-            position="absolute"
-            zIndex={1}
-            className={iconStyles[tooltipPosition]}
-          >
+          <Flex position="absolute" zIndex={1} className={iconStyles[tooltipPosition]}>
             <Tooltip label={tooltip} />
           </Flex>
         )}

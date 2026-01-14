@@ -1,5 +1,6 @@
 import Link from "next/link";
-import React, { ReactNode, forwardRef } from "react";
+import type React from "react";
+import { type ReactNode, forwardRef } from "react";
 
 interface ElementTypeProps {
   /** Link URL. If present, renders an anchor or Link. */
@@ -26,17 +27,17 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
     if (href) {
       // 🛡️ Sentinel: Validate href to prevent XSS via javascript: URLs
       // React 19 blocks them, but we fail securely by not rendering the link at all or sanitizing.
-      if (href.trim().toLowerCase().startsWith('javascript:')) {
+      if (href.trim().toLowerCase().startsWith("javascript:")) {
         console.error("Security: Blocked javascript: URL in ElementType");
         return (
           <button
-             ref={ref as React.Ref<HTMLButtonElement>}
-             className={className}
-             style={style}
-             disabled
-             {...props}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            className={className}
+            style={style}
+            disabled
+            {...props}
           >
-             {children}
+            {children}
           </button>
         );
       }

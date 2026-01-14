@@ -1,10 +1,10 @@
 "use client";
 
 import { forwardRef, useState } from "react";
-import { IconButton, StylePanel, Flex } from ".";
+import { Flex, IconButton, StylePanel } from ".";
 import styles from "./StyleOverlay.module.scss";
 
-interface StyleOverlayProps extends React.ComponentProps<typeof Flex> { }
+interface StyleOverlayProps extends React.ComponentProps<typeof Flex> {}
 
 /**
  * A toggleable overlay panel for design/style settings.

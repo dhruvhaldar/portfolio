@@ -1,15 +1,16 @@
 "use client";
 
-import React, { forwardRef } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef } from "react";
 
-import { Flex, InteractiveDetails, InteractiveDetailsProps } from ".";
-import styles from "./Switch.module.scss";
+import { Flex, InteractiveDetails, type InteractiveDetailsProps } from ".";
 import commonStyles from "./SharedInteractiveStyles.module.scss";
+import styles from "./Switch.module.scss";
 
 interface SwitchProps
   extends Omit<InteractiveDetailsProps, "onClick">,
-  React.InputHTMLAttributes<HTMLInputElement> {
+    React.InputHTMLAttributes<HTMLInputElement> {
   /** Custom styles */
   style?: React.CSSProperties;
   /** Custom class name */
@@ -45,6 +46,7 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
       disabled,
       name,
       value,
+      required,
       ...props
     },
     ref,
@@ -80,6 +82,7 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
         aria-checked={isChecked}
         aria-label={ariaLabel}
         aria-disabled={disabled}
+        aria-required={required}
         tabIndex={disabled ? -1 : 0}
       >
         <input
@@ -91,6 +94,8 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
           onChange={onToggle}
           className={commonStyles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
+          required={required}
           {...props}
         />
         <div
@@ -109,7 +114,8 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
         {props.label && (
           <InteractiveDetails
             {...props}
-            onClick={() => { }} // Empty handler; clicks handled by parent Flex
+            required={required}
+            onClick={() => {}} // Empty handler; clicks handled by parent Flex
           />
         )}
       </Flex>

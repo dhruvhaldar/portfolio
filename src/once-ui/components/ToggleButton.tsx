@@ -1,11 +1,12 @@
 "use client";
 
-import React, { forwardRef, ReactNode, useState, useEffect } from "react";
 import classNames from "classnames";
-import { ElementType } from "./ElementType";
+import type React from "react";
+import { type ReactNode, forwardRef, useEffect, useState } from "react";
 import { Flex, Icon, Tooltip } from ".";
-import styles from "./ToggleButton.module.scss";
+import { ElementType } from "./ElementType";
 import iconStyles from "./IconButton.module.scss";
+import styles from "./ToggleButton.module.scss";
 
 interface CommonProps {
   /** Button label */
@@ -18,15 +19,15 @@ interface CommonProps {
   size?: "s" | "m" | "l";
   /** Border radius configuration */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Content alignment */
   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between";
   /** Whether to fill available width */

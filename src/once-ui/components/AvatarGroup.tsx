@@ -1,9 +1,10 @@
 "use client";
 
-import React, { forwardRef } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef } from "react";
 
-import { Avatar, AvatarProps, Flex } from ".";
+import { Avatar, type AvatarProps, Flex } from ".";
 import styles from "./AvatarGroup.module.scss";
 
 interface AvatarGroupProps extends React.ComponentProps<typeof Flex> {

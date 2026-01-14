@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, forwardRef, useEffect } from "react";
 import classNames from "classnames";
-import { Flex, Text, Button, Grid, SegmentedControl, IconButton, RevealFx, NumberInput } from ".";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Button, Flex, Grid, IconButton, NumberInput, RevealFx, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
@@ -79,9 +80,9 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
     const [selectedTime, setSelectedTime] = useState<
       | {
-        hours: number;
-        minutes: number;
-      }
+          hours: number;
+          minutes: number;
+        }
       | undefined
     >(defaultTime);
     const [isPM, setIsPM] = useState(defaultTime?.hours ? defaultTime.hours >= 12 : false);

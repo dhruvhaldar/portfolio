@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState, forwardRef } from "react";
-import styles from "./GlitchFx.module.scss";
-import { Flex } from "./Flex";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Flex } from "./Flex";
+import styles from "./GlitchFx.module.scss";
 
 interface GlitchFxProps extends React.ComponentProps<typeof Flex> {
   /** Content to apply glitch effect to. */
@@ -20,10 +21,10 @@ interface GlitchFxProps extends React.ComponentProps<typeof Flex> {
 
 /**
  * A visual effect component that applies a digital glitch distortion to its children.
- * 
+ *
  * Supports multiple trigger modes ("instant", "hover", "custom") and animation speeds ("slow", "medium", "fast").
  * Can loop continuously or trigger on demand. Extends the Flex component and supports ref forwarding.
- * 
+ *
  * @example
  * <GlitchFx trigger="hover" speed="fast">
  *   <h1>Glitched Text</h1>

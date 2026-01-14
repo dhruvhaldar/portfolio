@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import styles from "./Spotlight.module.scss";
 import classNames from "classnames";
+import type React from "react";
+import { useEffect, useRef } from "react";
+import styles from "./Spotlight.module.scss";
 
 interface SpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -34,7 +35,7 @@ export const Spotlight: React.FC<SpotlightProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    let requestId: number = 0;
+    let requestId = 0;
     let mouseX = 0;
     let mouseY = 0;
     const cachedRect = { left: 0, top: 0 };

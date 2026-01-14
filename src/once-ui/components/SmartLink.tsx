@@ -1,7 +1,8 @@
 "use client";
 
-import React, { forwardRef, ReactNode } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { type ReactNode, forwardRef } from "react";
 import { Icon } from ".";
 import { ElementType } from "./ElementType";
 
@@ -68,15 +69,15 @@ const SmartLink = forwardRef<HTMLAnchorElement, SmartLinkProps>(
       }),
       style: !unstyled
         ? {
-          ...(selected && {
-            textDecoration: "underline",
-          }),
-          ...style,
-        }
+            ...(selected && {
+              textDecoration: "underline",
+            }),
+            ...style,
+          }
         : {
-          textDecoration: "none",
-          ...style,
-        },
+            textDecoration: "none",
+            ...style,
+          },
       ...props,
     };
 

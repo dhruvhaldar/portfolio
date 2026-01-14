@@ -1,7 +1,8 @@
 "use client";
 
-import React, { forwardRef } from "react";
-import { Skeleton, Icon, Text, StatusIndicator, Flex, SmartImage } from ".";
+import type React from "react";
+import { forwardRef } from "react";
+import { Flex, Icon, Skeleton, SmartImage, StatusIndicator, Text } from ".";
 import styles from "./Avatar.module.scss";
 
 interface AvatarProps extends React.ComponentProps<typeof Flex> {
@@ -33,10 +34,7 @@ const sizeMapping: Record<"xs" | "s" | "m" | "l" | "xl", number> = {
   xl: 160,
 };
 
-const statusIndicatorSizeMapping: Record<
-  "xs" | "s" | "m" | "l" | "xl",
-  "s" | "m" | "l"
-> = {
+const statusIndicatorSizeMapping: Record<"xs" | "s" | "m" | "l" | "xl", "s" | "m" | "l"> = {
   xs: "s",
   s: "s",
   m: "m",
@@ -48,20 +46,7 @@ const statusIndicatorSizeMapping: Record<
  * A user avatar component that supports images, initials, and loading states.
  */
 const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  (
-    {
-      size = "m",
-      value,
-      src,
-      loading,
-      empty,
-      statusIndicator,
-      className,
-      style,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ size = "m", value, src, loading, empty, statusIndicator, className, style, ...rest }, ref) => {
     const isEmpty = empty || (!src && !value);
 
     if (value && src) {

@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, forwardRef } from "react";
 import classNames from "classnames";
-import { Flex, InteractiveDetails, InteractiveDetailsProps } from ".";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Flex, InteractiveDetails, type InteractiveDetailsProps } from ".";
 import styles from "./SharedInteractiveStyles.module.scss";
 
 interface RadioButtonProps
   extends Omit<InteractiveDetailsProps, "onClick">,
-  Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked" | "onChange"> {
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked" | "onChange"> {
   /** Whether the radio button is checked */
   isChecked?: boolean;
   /** Toggle handler */
@@ -18,14 +19,14 @@ const generateId = () => `radio-${Math.random().toString(36).substring(2, 9)}`;
 /**
  * A radio button component.
  * Allows selection of a single option from a set.
- * 
+ *
  * @example
  * // Uncontrolled usage
  * <RadioButton label="Option 1" name="group1" value="option1" />
- * 
+ *
  * @example
  * // Controlled usage
- * <RadioButton 
+ * <RadioButton
  *   label="Option 1"
  *   name="group1"
  *   value="option1"
@@ -86,6 +87,7 @@ const RadioButton: React.FC<RadioButtonProps> = forwardRef<HTMLInputElement, Rad
           disabled={disabled}
           className={styles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
           {...props}
         />
         <Flex
@@ -93,6 +95,7 @@ const RadioButton: React.FC<RadioButtonProps> = forwardRef<HTMLInputElement, Rad
           aria-checked={controlledIsChecked !== undefined ? controlledIsChecked : isChecked}
           aria-labelledby={radioId}
           aria-disabled={disabled}
+          aria-required={props.required}
           position="relative"
           horizontal="center"
           vertical="center"
@@ -117,7 +120,14 @@ const RadioButton: React.FC<RadioButtonProps> = forwardRef<HTMLInputElement, Rad
             />
           )}
         </Flex>
-        {props.label && <InteractiveDetails id={radioId} {...props} onClick={toggleItem} />}
+        {props.label && (
+          <InteractiveDetails
+            id={radioId}
+            {...props}
+            onClick={toggleItem}
+            required={props.required}
+          />
+        )}
       </Flex>
     );
   },

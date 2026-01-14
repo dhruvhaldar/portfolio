@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, forwardRef } from "react";
 import classNames from "classnames";
-import { Flex, Icon, InteractiveDetails, InteractiveDetailsProps } from ".";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Flex, Icon, InteractiveDetails, type InteractiveDetailsProps } from ".";
 import styles from "./SharedInteractiveStyles.module.scss";
 
 interface CheckboxProps
   extends Omit<InteractiveDetailsProps, "onClick">,
-  React.InputHTMLAttributes<HTMLInputElement> {
+    React.InputHTMLAttributes<HTMLInputElement> {
   /** Whether the checkbox is checked */
   isChecked?: boolean;
   /** Whether the checkbox is in an indeterminate state */
@@ -87,6 +88,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           disabled={disabled}
           className={styles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
           {...props}
         />
         <Flex
@@ -106,6 +108,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
                 ? controlledIsChecked
                 : isChecked
           }
+          aria-required={props.required}
           aria-labelledby={checkboxId}
           onClick={toggleItem}
           onKeyDown={handleKeyDown}
@@ -129,7 +132,14 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
             </Flex>
           )}
         </Flex>
-        {props.label && <InteractiveDetails id={checkboxId} {...props} onClick={toggleItem} />}
+        {props.label && (
+          <InteractiveDetails
+            id={checkboxId}
+            {...props}
+            onClick={toggleItem}
+            required={props.required}
+          />
+        )}
       </Flex>
     );
   },
