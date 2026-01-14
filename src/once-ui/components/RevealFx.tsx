@@ -45,12 +45,14 @@ const RevealFx = forwardRef<HTMLDivElement, RevealFxProps>(
     const [isRevealed, setIsRevealed] = useState(revealedByDefault);
 
     useEffect(() => {
+      if (revealedByDefault) return;
+
       const timer = setTimeout(() => {
         setIsRevealed(true);
       }, delay * 1000);
 
       return () => clearTimeout(timer);
-    }, [delay]);
+    }, [delay, revealedByDefault]);
 
     useEffect(() => {
       if (trigger !== undefined) {
