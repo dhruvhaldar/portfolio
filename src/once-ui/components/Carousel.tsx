@@ -88,10 +88,21 @@ const Carousel: React.FC<CarouselProps> = ({
     return null;
   }
 
+  const isInteractive = images.length > 1;
+
   return (
     <Flex fillWidth gap="12" direction="column" {...rest}>
       <RevealFx
         onClick={handleImageClick}
+        onKeyDown={(e) => {
+          if (isInteractive && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            handleImageClick();
+          }
+        }}
+        role={isInteractive ? "button" : undefined}
+        tabIndex={isInteractive ? 0 : undefined}
+        aria-label={isInteractive ? "Next slide" : undefined}
         fillWidth
         revealedByDefault={revealedByDefault}
         trigger={isTransitioning}
@@ -108,13 +119,13 @@ const Carousel: React.FC<CarouselProps> = ({
           aspectRatio={aspectRatio}
           src={images[activeIndex]?.src}
           style={{
-            ...(images.length > 1 && {
+            ...(isInteractive && {
               cursor: "pointer",
             }),
           }}
         />
       </RevealFx>
-      {images.length > 1 && (
+      {isInteractive && (
         <>
           {indicator === "line" ? (
             <Flex gap="4" paddingX="s" fillWidth horizontal="center">
