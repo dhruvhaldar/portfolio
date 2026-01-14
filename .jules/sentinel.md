@@ -42,3 +42,8 @@
 **Vulnerability:** The session cookie signature verification only checked the validity of the cookie payload (`val.expiry`) but did not verify the client's identity, allowing a stolen cookie to be used on any device.
 **Learning:** Signed cookies prove *who* issued the cookie, but not *who* it was issued to. Without binding to client properties (like User-Agent), sessions are portable and easily hijacked.
 **Prevention:** Include a hash of the User-Agent (or other client fingerprints) in the signed data during session creation, and verify it matches the current request's User-Agent on every check.
+
+## 2026-06-25 - [MEDIUM] Missing Security Headers in Static Serve
+**Vulnerability:** The project uses `serve out` to simulate production, but the security headers defined in `next.config.mjs` (CSP, HSTS, etc.) were not applied by `serve`, leaving the production verification environment vulnerable.
+**Learning:** Next.js config headers are only applied by the Next.js server. Static file servers (like `serve`) require their own configuration.
+**Prevention:** Explicitly configure the static server (e.g., via `package.json` "serve" property) to include necessary security headers.
