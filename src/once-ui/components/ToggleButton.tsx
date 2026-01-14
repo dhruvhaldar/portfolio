@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, ReactNode, useState, useEffect } from "react";
+import React, { forwardRef, ReactNode, useState, useEffect, memo } from "react";
 import classNames from "classnames";
 import { ElementType } from "./ElementType";
 import { Flex, Icon, Tooltip } from ".";
@@ -58,7 +58,7 @@ export type ToggleButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLBut
 /**
  * A button component that can be toggled between selected and unselected states.
  */
-const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
+const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
   (
     {
       label,
@@ -163,5 +163,9 @@ const ToggleButton = forwardRef<HTMLElement, ToggleButtonProps>(
   },
 );
 
+ToggleButtonComponent.displayName = "ToggleButton";
+
+// Bolt: Memoized to prevent unnecessary re-renders in Header navigation where only one button state changes.
+const ToggleButton = memo(ToggleButtonComponent);
 ToggleButton.displayName = "ToggleButton";
 export { ToggleButton };
