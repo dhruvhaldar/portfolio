@@ -25,3 +25,12 @@ When hiding text labels for responsiveness (e.g., using `display: none` or condi
 
 **Learning:** The `Button` component visually indicated loading with a spinner but remained interactive, allowing for accidental double-submissions. Additionally, the lack of `aria-busy` meant screen readers weren't informed of the processing state.
 **Action:** Always couple visual loading states with functional disabling (`disabled` attribute) and semantic state indicators (`aria-busy="true"`) to prevent errors and communicate status effectively.
+
+## 2025-10-27 - Clickable Divs without Keyboard Support
+
+**Learning:** Identified a `Carousel` component where the main image acted as a "Next Slide" button via `onClick`, but lacked `role="button"`, `tabIndex={0}`, and `onKeyDown` handlers. This made the primary navigation method inaccessible to keyboard users, forcing them to rely on small indicator dots.
+**Action:** When adding `onClick` to non-interactive elements (div, span, image), always ensure they are accompanied by:
+1. `role="button"` (or appropriate role)
+2. `tabIndex={0}` (to make focusable)
+3. `onKeyDown` handler (listening for Enter/Space)
+4. A descriptive `aria-label` if the element lacks visible text.
