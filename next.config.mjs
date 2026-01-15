@@ -20,6 +20,7 @@ const nextConfig = {
     optimizeCss: true,
   },
   images: {
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
   },
