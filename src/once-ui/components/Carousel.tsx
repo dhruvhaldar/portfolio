@@ -1,7 +1,7 @@
 "use client";
 
-import { Flex, RevealFx, Scroller, SmartImage } from "@/once-ui/components";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Flex, Scroller, SmartImage } from "@/once-ui/components";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 interface Image {
   src: string;
@@ -36,10 +36,7 @@ const Carousel: React.FC<CarouselProps> = ({
   ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isTransitioning, setIsTransitioning] = useState(revealedByDefault);
-  const [initialTransition, setInitialTransition] = useState(revealedByDefault);
   const nextImageRef = useRef<HTMLImageElement | null>(null);
-  const transitionTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const preloadNextImage = useCallback(
     (nextIndex: number) => {
@@ -53,19 +50,9 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const handleControlClick = useCallback(
     (nextIndex: number) => {
-      if (nextIndex !== activeIndex && !transitionTimeoutRef.current) {
+      if (nextIndex !== activeIndex) {
         preloadNextImage(nextIndex);
-
-        setIsTransitioning(false);
-
-        transitionTimeoutRef.current = setTimeout(() => {
-          setActiveIndex(nextIndex);
-
-          setTimeout(() => {
-            setIsTransitioning(true);
-            transitionTimeoutRef.current = undefined;
-          }, 300);
-        }, 800);
+        setActiveIndex(nextIndex);
       }
     },
     [activeIndex, preloadNextImage],
@@ -78,18 +65,6 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }, [images.length, activeIndex, handleControlClick]);
 
-  useEffect(() => {
-    if (!revealedByDefault && !initialTransition) {
-      setIsTransitioning(true);
-      setInitialTransition(true);
-    }
-    return () => {
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current);
-      }
-    };
-  }, [revealedByDefault, initialTransition]);
-
   if (images.length === 0) {
     return null;
   }
@@ -98,9 +73,9 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <Flex fillWidth gap="12" direction="column" {...rest}>
-      <RevealFx
+      <Flex
         onClick={handleImageClick}
-        onKeyDown={(e) => {
+        onKeyDown={(e: React.KeyboardEvent) => {
           if (isInteractive && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             handleImageClick();
@@ -110,11 +85,9 @@ const Carousel: React.FC<CarouselProps> = ({
         tabIndex={isInteractive ? 0 : undefined}
         aria-label={isInteractive ? "Next slide" : undefined}
         fillWidth
-        revealedByDefault={revealedByDefault}
-        trigger={isTransitioning}
-        translateY="16"
+        position="relative"
+        horizontal="center"
         aspectRatio={aspectRatio}
-        speed="fast"
       >
         <SmartImage
           sizes={sizes}
@@ -133,7 +106,7 @@ const Carousel: React.FC<CarouselProps> = ({
             [isInteractive],
           )}
         />
-      </RevealFx>
+      </Flex>
       {isInteractive &&
         (indicator === "line" ? (
           <Flex gap="4" paddingX="s" fillWidth horizontal="center">
