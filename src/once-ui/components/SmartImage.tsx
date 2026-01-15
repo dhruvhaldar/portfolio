@@ -38,8 +38,9 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
   };
 }
 
+// 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
 const YOUTUBE_REGEX =
-  /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
 /**
  * An enhanced image component that supports lazy loading, responsive sizing, and lightbox enlargement.

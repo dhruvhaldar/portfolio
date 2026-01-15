@@ -23,7 +23,7 @@ describe('Authentication Security', () => {
     const req = {
       method: 'POST',
       body: { password: 'test-secure-password' },
-      headers: {},
+      headers: { 'user-agent': 'test-agent' },
       socket: { remoteAddress: '127.0.0.1' },
     } as any;
     const res = {
@@ -44,7 +44,7 @@ describe('Authentication Security', () => {
     const req = {
       method: 'POST',
       body: { password: 'wrong-password' },
-      headers: {},
+      headers: { 'user-agent': 'test-agent' },
       socket: { remoteAddress: '127.0.0.1' },
     } as any;
     const res = {
@@ -62,7 +62,7 @@ describe('Authentication Security', () => {
   it('should reject forged "authenticated" cookie', async () => {
     const checkAuth = (await import('../pages/api/check-auth')).default;
     const req = {
-      headers: { cookie: 'authToken=authenticated' },
+      headers: { cookie: 'authToken=authenticated', 'user-agent': 'test-agent' },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -83,7 +83,7 @@ describe('Authentication Security', () => {
     const legacyCookie = `${value}.${signature}`;
 
     const req = {
-      headers: { cookie: `authToken=${legacyCookie}` },
+      headers: { cookie: `authToken=${legacyCookie}`, 'user-agent': 'test-agent' },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -100,12 +100,16 @@ describe('Authentication Security', () => {
     const secret = 'test-secure-password';
     const value = 'authenticated';
     const expiredTime = Date.now() - 10000; // 10 seconds ago
-    const dataToSign = `${value}.${expiredTime}`;
+    const ua = 'test-agent';
+    const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+
+    // Updated dataToSign includes uaHash
+    const dataToSign = `${value}.${expiredTime}.${uaHash}`;
     const signature = crypto.createHmac('sha256', secret).update(dataToSign).digest('hex');
-    const expiredCookie = `${dataToSign}.${signature}`;
+    const expiredCookie = `${value}.${expiredTime}.${signature}`;
 
     const req = {
-      headers: { cookie: `authToken=${expiredCookie}` },
+      headers: { cookie: `authToken=${expiredCookie}`, 'user-agent': ua },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -117,17 +121,20 @@ describe('Authentication Security', () => {
     expect(res.status).toHaveBeenCalledWith(401);
   });
 
-  it('should accept valid signed cookie', async () => {
+  it('should accept valid signed cookie with matching User-Agent', async () => {
      const checkAuth = (await import('../pages/api/check-auth')).default;
      const secret = 'test-secure-password';
      const value = 'authenticated';
      const expiry = Date.now() + 60 * 60 * 1000; // 1 hour future
-     const dataToSign = `${value}.${expiry}`;
+     const ua = 'test-agent';
+     const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+
+     const dataToSign = `${value}.${expiry}.${uaHash}`;
      const signature = crypto.createHmac('sha256', secret).update(dataToSign).digest('hex');
-     const validCookie = `${dataToSign}.${signature}`;
+     const validCookie = `${value}.${expiry}.${signature}`;
 
      const req = {
-       headers: { cookie: `authToken=${validCookie}` },
+       headers: { cookie: `authToken=${validCookie}`, 'user-agent': ua },
      } as any;
      const res = {
        status: vi.fn().mockReturnThis(),
@@ -139,16 +146,49 @@ describe('Authentication Security', () => {
      expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  it('should reject valid cookie if User-Agent does not match (Session Hijacking)', async () => {
+     const checkAuth = (await import('../pages/api/check-auth')).default;
+     const secret = 'test-secure-password';
+     const value = 'authenticated';
+     const expiry = Date.now() + 60 * 60 * 1000;
+
+     // Original User-Agent used to sign
+     const originalUa = 'original-agent';
+     const originalUaHash = crypto.createHash('sha256').update(originalUa).digest('hex');
+
+     const dataToSign = `${value}.${expiry}.${originalUaHash}`;
+     const signature = crypto.createHmac('sha256', secret).update(dataToSign).digest('hex');
+     const validCookie = `${value}.${expiry}.${signature}`;
+
+     // Request comes from a DIFFERENT User-Agent
+     const req = {
+       headers: { cookie: `authToken=${validCookie}`, 'user-agent': 'hacker-agent' },
+     } as any;
+     const res = {
+       status: vi.fn().mockReturnThis(),
+       json: vi.fn(),
+     } as any;
+
+     await checkAuth(req, res);
+
+     // Should fail because signature won't match the new User-Agent hash
+     expect(res.status).toHaveBeenCalledWith(401);
+     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Invalid cookie signature detected'));
+  });
+
   it('should log warning for invalid signature (tampering)', async () => {
      const checkAuth = (await import('../pages/api/check-auth')).default;
      const value = 'authenticated';
      const expiry = Date.now() + 60 * 60 * 1000;
-     const dataToSign = `${value}.${expiry}`;
+     const ua = 'test-agent';
+     const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+
+     const dataToSign = `${value}.${expiry}.${uaHash}`;
      const invalidSignature = 'deadbeef'; // Wrong signature
-     const tamperedCookie = `${dataToSign}.${invalidSignature}`;
+     const tamperedCookie = `${value}.${expiry}.${invalidSignature}`;
 
      const req = {
-       headers: { cookie: `authToken=${tamperedCookie}` },
+       headers: { cookie: `authToken=${tamperedCookie}`, 'user-agent': ua },
      } as any;
      const res = {
        status: vi.fn().mockReturnThis(),

@@ -37,3 +37,18 @@
 **Vulnerability:** The authentication API blindly trusted the `X-Forwarded-For` header for logging and rate limiting, allowing attackers to inject CRLF characters to forge log entries or flood logs with garbage data.
 **Learning:** Logs are often treated as trusted internal data streams. Injecting newlines into untrusted input (like headers) can corrupt logs (Log Spoofing), confusing monitoring systems and administrators.
 **Prevention:** Always sanitize untrusted input before logging. Specifically, strip CR/LF characters and truncate strings to reasonable lengths.
+
+## 2026-06-25 - [HIGH] Session Hijacking Risk via Missing User-Agent Binding
+**Vulnerability:** The session cookie signature verification only checked the validity of the cookie payload (`val.expiry`) but did not verify the client's identity, allowing a stolen cookie to be used on any device.
+**Learning:** Signed cookies prove *who* issued the cookie, but not *who* it was issued to. Without binding to client properties (like User-Agent), sessions are portable and easily hijacked.
+**Prevention:** Include a hash of the User-Agent (or other client fingerprints) in the signed data during session creation, and verify it matches the current request's User-Agent on every check.
+
+## 2026-06-25 - [MEDIUM] Missing Security Headers in Static Serve
+**Vulnerability:** The project uses `serve out` to simulate production, but the security headers defined in `next.config.mjs` (CSP, HSTS, etc.) were not applied by `serve`, leaving the production verification environment vulnerable.
+**Learning:** Next.js config headers are only applied by the Next.js server. Static file servers (like `serve`) require their own configuration.
+**Prevention:** Explicitly configure the static server (e.g., via `package.json` "serve" property) to include necessary security headers.
+
+## 2026-07-20 - [HIGH] Unanchored Regex in SmartImage Component
+**Vulnerability:** The `YOUTUBE_REGEX` in `SmartImage` component was unanchored, allowing URLs containing "youtube.com" in the path (e.g. `https://evil.com/?u=youtube.com/watch?v=...`) to be incorrectly identified as YouTube videos, potentially leading to content spoofing or unexpected iframe rendering.
+**Learning:** Regex validation must always be anchored (`^...$`) to ensure the entire string matches the expected pattern, especially when determining content type or origin.
+**Prevention:** Use `^` anchor at the start of regex patterns used for URL validation.

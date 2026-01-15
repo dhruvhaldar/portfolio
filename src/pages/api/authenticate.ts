@@ -49,10 +49,19 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const val = "authenticated";
       // Add expiration to the signed payload (1 hour from now) to prevent infinite replay
       const expiry = Date.now() + 60 * 60 * 1000;
-      const dataToSign = `${val}.${expiry}`;
+
+      // 🛡️ Sentinel: Bind session to User-Agent to prevent session hijacking
+      const ua = req.headers['user-agent'] || '';
+      const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+
+      const dataToSign = `${val}.${expiry}.${uaHash}`;
 
       const signature = crypto.createHmac('sha256', correctPassword as string).update(dataToSign).digest('hex');
-      const cookieValue = `${dataToSign}.${signature}`;
+      // We don't need to send uaHash in the cookie as we can re-compute it on verification
+      // However, we need to know the structure.
+      // Current structure: val.expiry.signature
+      // Signature is over: val.expiry.uaHash
+      const cookieValue = `${val}.${expiry}.${signature}`;
 
       res.setHeader(
         "Set-Cookie",

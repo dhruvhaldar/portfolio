@@ -87,6 +87,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           disabled={disabled}
           className={styles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
           {...props}
         />
         <Flex

@@ -37,7 +37,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
      return res.status(401).json({ authenticated: false });
   }
 
-  const dataToVerify = `${val}.${expiryStr}`;
+  // 🛡️ Sentinel: Bind session to User-Agent
+  // Re-compute the hash from current request headers
+  const ua = req.headers['user-agent'] || '';
+  const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+
+  const dataToVerify = `${val}.${expiryStr}.${uaHash}`;
   const expectedSignature = crypto.createHmac('sha256', secret).update(dataToVerify).digest('hex');
 
   // Use timingSafeEqual to prevent timing attacks
