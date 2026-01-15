@@ -85,6 +85,9 @@ const Carousel: React.FC<CarouselProps> = ({
         tabIndex={isInteractive ? 0 : undefined}
         aria-label={isInteractive ? "Next slide" : undefined}
         fillWidth
+        position="relative"
+        horizontal="center"
+        aspectRatio={aspectRatio}
       >
         <SmartImage
           sizes={sizes}
