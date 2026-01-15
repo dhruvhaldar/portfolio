@@ -47,3 +47,8 @@
 **Vulnerability:** The project uses `serve out` to simulate production, but the security headers defined in `next.config.mjs` (CSP, HSTS, etc.) were not applied by `serve`, leaving the production verification environment vulnerable.
 **Learning:** Next.js config headers are only applied by the Next.js server. Static file servers (like `serve`) require their own configuration.
 **Prevention:** Explicitly configure the static server (e.g., via `package.json` "serve" property) to include necessary security headers.
+
+## 2026-07-20 - [HIGH] Unanchored Regex in SmartImage Component
+**Vulnerability:** The `YOUTUBE_REGEX` in `SmartImage` component was unanchored, allowing URLs containing "youtube.com" in the path (e.g. `https://evil.com/?u=youtube.com/watch?v=...`) to be incorrectly identified as YouTube videos, potentially leading to content spoofing or unexpected iframe rendering.
+**Learning:** Regex validation must always be anchored (`^...$`) to ensure the entire string matches the expected pattern, especially when determining content type or origin.
+**Prevention:** Use `^` anchor at the start of regex patterns used for URL validation.
