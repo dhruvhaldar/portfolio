@@ -34,3 +34,11 @@ When hiding text labels for responsiveness (e.g., using `display: none` or condi
 2. `tabIndex={0}` (to make focusable)
 3. `onKeyDown` handler (listening for Enter/Space)
 4. A descriptive `aria-label` if the element lacks visible text.
+
+## 2026-01-15 - Hiding Duplicate Form Controls
+
+**Learning:**
+Custom form controls like `Checkbox`, `RadioButton`, and `Switch` often render a hidden native input alongside a custom styled element. If the native input is only visually hidden (e.g., using `opacity: 0`) but not removed from the accessibility tree, screen readers will announce duplicate controls (e.g., "Checkbox" then "Switch").
+
+**Action:**
+When creating custom form controls that rely on a hidden native input for functionality, always add `aria-hidden="true"` to the native input element to ensure only the accessible custom control is exposed to assistive technologies.
