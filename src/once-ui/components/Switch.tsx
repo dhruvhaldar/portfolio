@@ -91,6 +91,7 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
           onChange={onToggle}
           className={commonStyles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
           {...props}
         />
         <div

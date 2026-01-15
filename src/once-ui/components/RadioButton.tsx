@@ -86,6 +86,7 @@ const RadioButton: React.FC<RadioButtonProps> = forwardRef<HTMLInputElement, Rad
           disabled={disabled}
           className={styles.hidden}
           tabIndex={-1}
+          aria-hidden="true"
           {...props}
         />
         <Flex
