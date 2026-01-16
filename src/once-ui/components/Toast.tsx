@@ -25,6 +25,17 @@ const iconMap = {
   danger: "errorCircle",
 };
 
+const accessibilityMap = {
+  success: {
+    role: "status",
+    ariaLive: "polite",
+  },
+  danger: {
+    role: "alert",
+    ariaLive: "assertive",
+  },
+} as const;
+
 /**
  * A toast notification component.
  * Displays temporary messages or statuses.
@@ -46,6 +57,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       }
     }, [visible, onClose]);
 
+    const { role, ariaLive } = accessibilityMap[variant];
+
     return (
       <Flex
         ref={ref}
@@ -55,8 +68,8 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         paddingY="12"
         paddingX="20"
         border="neutral-medium"
-        role="alert"
-        aria-live="assertive"
+        role={role}
+        aria-live={ariaLive}
         className={classNames(className, styles.toast, styles[variant], {
           [styles.visible]: visible,
           [styles.hidden]: !visible,
