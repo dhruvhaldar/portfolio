@@ -52,10 +52,16 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
     );
   }
 
-  // 🛡️ Sentinel: Block javascript: URLs to prevent XSS.
-  // Although React 19 sanitizes them, we fail securely by not rendering the link at all.
-  if (href.trim().toLowerCase().startsWith('javascript:')) {
-    console.error("Security: Blocked javascript: URL in CustomLink");
+  // 🛡️ Sentinel: Block dangerous URLs (javascript:, data:, vbscript:, file:) to prevent XSS.
+  // We strictly allow only specific protocols or relative paths.
+  const hrefLower = href.trim().toLowerCase();
+  if (
+    hrefLower.startsWith('javascript:') ||
+    hrefLower.startsWith('data:') ||
+    hrefLower.startsWith('vbscript:') ||
+    hrefLower.startsWith('file:')
+  ) {
+    console.error(`Security: Blocked dangerous URL scheme in CustomLink: ${href}`);
     return (
       <span {...props}>
         {children}
