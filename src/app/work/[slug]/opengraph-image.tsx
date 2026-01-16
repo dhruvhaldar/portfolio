@@ -88,7 +88,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                 textWrap: "balance",
               }}
             >
-              {title}
+              {title.length > 80 ? title.slice(0, 80) + "..." : title}
             </h1>
             <p
               style={{
