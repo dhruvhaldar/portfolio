@@ -32,11 +32,13 @@ const iconMap = {
 const Toast = forwardRef<HTMLDivElement, ToastProps>(
   ({ variant, className, icon = true, onClose, action, children }, ref) => {
     const [visible, setVisible] = useState(true);
+    const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
+      if (isPaused) return;
       const timer = setTimeout(() => setVisible(false), 6000);
       return () => clearTimeout(timer);
-    }, []);
+    }, [isPaused]);
 
     useEffect(() => {
       if (!visible && onClose) {
@@ -59,6 +61,10 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
           [styles.visible]: visible,
           [styles.hidden]: !visible,
         })}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
       >
         <Flex fillWidth vertical="center" gap="8">
           {icon && <Icon size="l" onBackground={`${variant}-medium`} name={iconMap[variant]} />}
