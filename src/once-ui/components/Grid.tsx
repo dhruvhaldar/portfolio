@@ -12,7 +12,7 @@ import {
   DisplayProps,
   ConditionalProps,
 } from "../interfaces";
-import { SpacingToken, ColorScheme, ColorWeight } from "../types";
+import { generateGridClass, parseDimension } from "../utils/layout";
 
 interface ComponentProps
   extends GridProps,
@@ -109,51 +109,6 @@ const Grid = forwardRef<HTMLDivElement, ComponentProps>(
     },
     ref,
   ) => {
-    const generateDynamicClass = (type: string, value: string | "-1" | undefined) => {
-      if (!value) return undefined;
-      if (value === "surface" || value === "page" || value === "transparent") {
-        return `${value}-${type}`;
-      }
-      const [scheme, weight] = value.split("-") as [ColorScheme, ColorWeight];
-      return `${scheme}-${type}-${weight}`;
-    };
-
-    const parseDimension = (
-      value: number | SpacingToken | undefined,
-      type: "width" | "height",
-    ): string | undefined => {
-      if (value === undefined) return undefined;
-      if (typeof value === "number") return `${value}rem`;
-      if (
-        [
-          "0",
-          "1",
-          "2",
-          "4",
-          "8",
-          "12",
-          "16",
-          "20",
-          "24",
-          "32",
-          "40",
-          "48",
-          "56",
-          "64",
-          "80",
-          "104",
-          "128",
-          "160",
-        ].includes(value)
-      ) {
-        return `var(--static-space-${value})`;
-      }
-      if (["xs", "s", "m", "l", "xl"].includes(value)) {
-        return `var(--responsive-${type}-${value})`;
-      }
-      return undefined;
-    };
-
     const classes = classNames(
       inline ? "display-inline-grid" : "display-grid",
       fit && "fit",
@@ -184,9 +139,9 @@ const Grid = forwardRef<HTMLDivElement, ComponentProps>(
       right && `right-${right}`,
       bottom && `bottom-${bottom}`,
       left && `left-${left}`,
-      generateDynamicClass("background", background),
-      generateDynamicClass("solid", solid),
-      generateDynamicClass(
+      generateGridClass("background", background),
+      generateGridClass("solid", solid),
+      generateGridClass(
         "border",
         border || borderTop || borderRight || borderBottom || borderLeft,
       ),
