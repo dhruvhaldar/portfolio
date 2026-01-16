@@ -4,7 +4,8 @@ import React, { ElementType, ComponentPropsWithoutRef } from "react";
 import classNames from "classnames";
 
 import { TextProps, CommonProps, SpacingProps } from "../interfaces";
-import { ColorScheme, ColorWeight, TextVariant, SpacingToken } from "../types";
+import { ColorScheme, ColorWeight } from "../types";
+import { generateTextSpacerClass, getVariantClasses } from "../utils/layout";
 
 type TypeProps<T extends ElementType> = TextProps<T> &
   CommonProps &
@@ -55,11 +56,6 @@ const Text = <T extends ElementType = "span">({
     );
   }
 
-  const getVariantClasses = (variant: TextVariant) => {
-    const [fontType, weight, size] = variant.split("-");
-    return [`font-${fontType}`, `font-${weight}`, `font-${size}`];
-  };
-
   const sizeClass = size ? `font-${size}` : "";
   const weightClass = weight ? `font-${weight}` : "";
 
@@ -74,28 +70,24 @@ const Text = <T extends ElementType = "span">({
     colorClass = `${scheme}-on-solid-${weight}`;
   }
 
-  const generateClassName = (prefix: string, token: SpacingToken | undefined) => {
-    return token ? `${prefix}-${token}` : undefined;
-  };
-
   const combinedClasses = classNames(
     ...classes,
     colorClass,
     className,
-    generateClassName("p", padding),
-    generateClassName("pl", paddingLeft),
-    generateClassName("pr", paddingRight),
-    generateClassName("pt", paddingTop),
-    generateClassName("pb", paddingBottom),
-    generateClassName("px", paddingX),
-    generateClassName("py", paddingY),
-    generateClassName("m", margin),
-    generateClassName("ml", marginLeft),
-    generateClassName("mr", marginRight),
-    generateClassName("mt", marginTop),
-    generateClassName("mb", marginBottom),
-    generateClassName("mx", marginX),
-    generateClassName("my", marginY),
+    generateTextSpacerClass("p", padding),
+    generateTextSpacerClass("pl", paddingLeft),
+    generateTextSpacerClass("pr", paddingRight),
+    generateTextSpacerClass("pt", paddingTop),
+    generateTextSpacerClass("pb", paddingBottom),
+    generateTextSpacerClass("px", paddingX),
+    generateTextSpacerClass("py", paddingY),
+    generateTextSpacerClass("m", margin),
+    generateTextSpacerClass("ml", marginLeft),
+    generateTextSpacerClass("mr", marginRight),
+    generateTextSpacerClass("mt", marginTop),
+    generateTextSpacerClass("mb", marginBottom),
+    generateTextSpacerClass("mx", marginX),
+    generateTextSpacerClass("my", marginY),
   );
 
   return (

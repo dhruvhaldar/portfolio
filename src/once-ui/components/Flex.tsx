@@ -12,7 +12,8 @@ import {
   SpacingProps,
   StyleProps,
 } from "../interfaces";
-import { ColorScheme, ColorWeight, SpacingToken, TextVariant } from "../types";
+import { ColorScheme, ColorWeight } from "../types";
+import { generateFlexClass, getVariantClasses, parseDimension } from "../utils/layout";
 
 interface ComponentProps
   extends FlexProps,
@@ -128,11 +129,6 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
       );
     }
 
-    const getVariantClasses = (variant: TextVariant) => {
-      const [fontType, weight, size] = variant.split("-");
-      return [`font-${fontType}`, `font-${weight}`, `font-${size}`];
-    };
-
     const sizeClass = textSize ? `font-${textSize}` : "";
     const weightClass = textWeight ? `font-${textWeight}` : "";
 
@@ -146,27 +142,6 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
       const [scheme, weight] = onSolid.split("-") as [ColorScheme, ColorWeight];
       colorClass = `${scheme}-on-solid-${weight}`;
     }
-
-    const generateDynamicClass = (type: string, value: string | undefined) => {
-      if (!value) return undefined;
-
-      if (value === "transparent") {
-        return `transparent-border`;
-      }
-
-      if (["surface", "page", "overlay"].includes(value)) {
-        return `${value}-${type}`;
-      }
-
-      const parts = value.split("-");
-      if (parts.includes("alpha")) {
-        const [scheme, , weight] = parts;
-        return `${scheme}-${type}-alpha-${weight}`;
-      }
-
-      const [scheme, weight] = value.split("-") as [ColorScheme, ColorWeight];
-      return `${scheme}-${type}-${weight}`;
-    };
 
     const classes = classNames(
       inline ? "display-inline-flex" : "display-flex",
@@ -193,9 +168,9 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
       right && `right-${right}`,
       bottom && `bottom-${bottom}`,
       left && `left-${left}`,
-      generateDynamicClass("background", background),
-      generateDynamicClass("solid", solid),
-      generateDynamicClass(
+      generateFlexClass("background", background),
+      generateFlexClass("solid", solid),
+      generateFlexClass(
         "border",
         border || borderTop || borderRight || borderBottom || borderLeft,
       ),
@@ -258,42 +233,6 @@ const Flex = forwardRef<HTMLDivElement, ComponentProps>(
       className,
       ...variantClasses,
     );
-
-    const parseDimension = (
-      value: number | SpacingToken | undefined,
-      type: "width" | "height",
-    ): string | undefined => {
-      if (value === undefined) return undefined;
-      if (typeof value === "number") return `${value}rem`;
-      if (
-        [
-          "0",
-          "1",
-          "2",
-          "4",
-          "8",
-          "12",
-          "16",
-          "20",
-          "24",
-          "32",
-          "40",
-          "48",
-          "56",
-          "64",
-          "80",
-          "104",
-          "128",
-          "160",
-        ].includes(value)
-      ) {
-        return `var(--static-space-${value})`;
-      }
-      if (["xs", "s", "m", "l", "xl"].includes(value)) {
-        return `var(--responsive-${type}-${value})`;
-      }
-      return undefined;
-    };
 
     const combinedStyle: CSSProperties = {
       maxWidth: parseDimension(maxWidth, "width"),
