@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, forwardRef, ReactNode } from "react";
+import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId } from "react";
 import classNames from "classnames";
 import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";
 import inputStyles from "./Input.module.scss";
@@ -62,6 +62,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const [searchQuery, setSearchQuery] = useState("");
     const selectRef = useRef<HTMLDivElement | null>(null);
     const clearButtonRef = useRef<HTMLButtonElement>(null);
+    const generatedId = useId();
+    const listboxId = `${generatedId}-listbox`;
 
     const handleFocus = () => {
       setIsFocused(true);
@@ -188,10 +190,18 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               [inputStyles.focused]: isFocused,
               className,
             })}
+            role="combobox"
+            aria-activedescendant={
+              isDropdownOpen && highlightedIndex !== null
+                ? `${generatedId}-option-${highlightedIndex}`
+                : undefined
+            }
+            aria-controls={listboxId}
             aria-haspopup="listbox"
             aria-expanded={isDropdownOpen}
           />
         }
+        dropdownId={listboxId}
         dropdown={
           <>
             {searchable && (
@@ -236,6 +246,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                 .map((option, index) => (
                   <Option
                     key={option.value}
+                    id={`${generatedId}-option-${index}`}
                     {...option}
                     onClick={() => {
                       option.onClick?.(option.value);
