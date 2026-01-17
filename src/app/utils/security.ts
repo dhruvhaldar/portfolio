@@ -34,6 +34,7 @@ export function isValidEmail(email: string): boolean {
   // - Domain parts must be separated by single dot
   // - TLD must be at least 2 characters
   // - Prevents consecutive dots in domain
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+  // - Prevents consecutive dots in local part
+  const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }

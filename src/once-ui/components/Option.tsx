@@ -27,6 +27,8 @@ export interface OptionProps {
   tabIndex?: number;
   /** Click handler */
   onClick?: (value: string) => void;
+  /** ID for accessibility */
+  id?: string;
 }
 
 /**
