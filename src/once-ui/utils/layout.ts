@@ -1,6 +1,6 @@
 import { ColorScheme, ColorWeight, SpacingToken, TextVariant } from "../types";
 
-const STATIC_SPACING = [
+const STATIC_SPACING = new Set([
   "0",
   "1",
   "2",
@@ -19,11 +19,11 @@ const STATIC_SPACING = [
   "104",
   "128",
   "160",
-];
+]);
 
-const RESPONSIVE_SIZES = ["xs", "s", "m", "l", "xl"];
+const RESPONSIVE_SIZES = new Set(["xs", "s", "m", "l", "xl"]);
 
-const SURFACE_VALUES = ["surface", "page", "overlay"];
+const SURFACE_VALUES = new Set(["surface", "page", "overlay"]);
 
 export const parseDimension = (
   value: number | SpacingToken | undefined,
@@ -31,10 +31,10 @@ export const parseDimension = (
 ): string | undefined => {
   if (value === undefined) return undefined;
   if (typeof value === "number") return `${value}rem`;
-  if (STATIC_SPACING.includes(value as string)) {
+  if (STATIC_SPACING.has(value as string)) {
     return `var(--static-space-${value})`;
   }
-  if (RESPONSIVE_SIZES.includes(value as string)) {
+  if (RESPONSIVE_SIZES.has(value as string)) {
     return `var(--responsive-${type}-${value})`;
   }
   return undefined;
@@ -61,7 +61,7 @@ export const generateFlexClass = (
     return `transparent-border`;
   }
 
-  if (SURFACE_VALUES.includes(value)) {
+  if (SURFACE_VALUES.has(value)) {
     return `${value}-${type}`;
   }
 
@@ -71,7 +71,7 @@ export const generateFlexClass = (
     return `${scheme}-${type}-alpha-${weight}`;
   }
 
-  const [scheme, weight] = value.split("-");
+  const [scheme, weight] = parts;
   return `${scheme}-${type}-${weight}`;
 };
 
