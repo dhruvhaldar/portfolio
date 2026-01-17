@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import type React from "react";
-import { type ReactNode, forwardRef } from "react";
+import { type ReactNode, forwardRef, memo } from "react";
 import { ElementType } from "./ElementType";
 
 import { Arrow, Flex, Icon, Spinner } from ".";
@@ -59,7 +59,7 @@ export type AnchorProps = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorEle
  * A flexible button component that can render as a button or an anchor link.
  * Supports various styles, sizes, icons, and loading states.
  */
-const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
+const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
   (
     {
       variant = "primary",
@@ -145,5 +145,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
   },
 );
 
+ButtonComponent.displayName = "Button";
+
+// Bolt: Memoize Button to prevent unnecessary re-renders of this high-traffic interactive component
+const Button = memo(ButtonComponent);
 Button.displayName = "Button";
+
 export { Button };
