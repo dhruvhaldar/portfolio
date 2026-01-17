@@ -18,4 +18,16 @@ describe('Input', () => {
         render(<Input id="test-input" label="Label" error errorMessage="Error occurred" value="some value" onChange={handleChange} />)
         expect(screen.getByText('Error occurred')).toBeInTheDocument()
     })
+
+    it('has default maxLength of 255', () => {
+        render(<Input id="test-input" label="Test Label" />)
+        const input = screen.getByLabelText('Test Label') as HTMLInputElement
+        expect(input.maxLength).toBe(255)
+    })
+
+    it('allows overriding maxLength', () => {
+        render(<Input id="test-input" label="Test Label" maxLength={50} />)
+        const input = screen.getByLabelText('Test Label') as HTMLInputElement
+        expect(input.maxLength).toBe(50)
+    })
 })

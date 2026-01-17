@@ -195,6 +195,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <Flex fillWidth direction="column" position="relative">
             <textarea
               aria-label={labelAsPlaceholder ? label : undefined}
+              maxLength={4096}
               {...props}
               ref={(node) => {
                 if (typeof ref === "function") {
