@@ -68,24 +68,48 @@ export async function processImageDirectory(dir) {
 
       if (entry.isFile() && /\.(jpg|jpeg|png)$/i.test(entry.name)) {
         try {
+          const sourceStat = await fs.stat(fullPath);
+
+          // Helper to check if target is up to date
+          const isUpToDate = async (targetPath) => {
+            try {
+              const targetStat = await fs.stat(targetPath);
+              return targetStat.mtime > sourceStat.mtime;
+            } catch {
+              return false;
+            }
+          };
+
           // Generate AVIF version
           const avifPath = fullPath.replace(/\.(jpg|jpeg|png)$/i, '.avif');
-          const avifPipeline = await processImage(fullPath, { format: 'avif' });
-          await avifPipeline.toFile(avifPath);
-          console.log(`Processed ${fullPath} -> ${avifPath}`);
+          if (await isUpToDate(avifPath)) {
+            console.log(`Skipped ${avifPath} (already up to date)`);
+          } else {
+            const avifPipeline = await processImage(fullPath, { format: 'avif' });
+            await avifPipeline.toFile(avifPath);
+            console.log(`Processed ${fullPath} -> ${avifPath}`);
+          }
 
           // Generate WebP version
           const webpPath = fullPath.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-          const webpPipeline = await processImage(fullPath, { format: 'webp' });
-          await webpPipeline.toFile(webpPath);
-          console.log(`Processed ${fullPath} -> ${webpPath}`);
+          if (await isUpToDate(webpPath)) {
+            console.log(`Skipped ${webpPath} (already up to date)`);
+          } else {
+            const webpPipeline = await processImage(fullPath, { format: 'webp' });
+            await webpPipeline.toFile(webpPath);
+            console.log(`Processed ${fullPath} -> ${webpPath}`);
+          }
 
           // Generate optimized JPEG version
           if (!/\.jpe?g$/i.test(entry.name)) {
             const jpegPath = fullPath.replace(/\.(png)$/i, '.jpg');
-            const jpegPipeline = await processImage(fullPath, { format: 'jpeg' });
-            await jpegPipeline.toFile(jpegPath);
-            console.log(`Processed ${fullPath} -> ${jpegPath}`);
+            if (await isUpToDate(jpegPath)) {
+              console.log(`Skipped ${jpegPath} (already up to date)`);
+            } else {
+              const jpegPipeline = await processImage(fullPath, { format: 'jpeg' });
+              await jpegPipeline.toFile(jpegPath);
+              console.log(`Processed ${fullPath} -> ${jpegPath}`);
+            }
           }
         } catch (error) {
           console.error(`Error processing ${fullPath}:`, error);

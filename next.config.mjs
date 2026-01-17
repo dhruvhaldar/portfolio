@@ -15,6 +15,7 @@ const nextConfig = {
   output: 'export',
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
+  productionBrowserSourceMaps: false,
   poweredByHeader: false, // 🛡️ Sentinel: Disable X-Powered-By header to prevent information leakage
   experimental: {
     optimizeCss: true,
