@@ -18,7 +18,7 @@ describe('CustomLink Security', () => {
     expect(element).not.toHaveAttribute('href');
 
     // Should log a security error
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Security: Blocked javascript: URL'));
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Security: Blocked dangerous URL scheme'));
 
     consoleSpy.mockRestore();
   });

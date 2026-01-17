@@ -1,5 +1,5 @@
 import Script from 'next/script';
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Row, Badge } from "@/once-ui/components";
+import { Heading, Flex, Text, Button, Avatar, Column, Row, Badge } from "@/once-ui/components";
 import { Projects } from "@/components/work/Projects";
 import { baseURL, routes } from "@/app/resources";
 import { home, about, person } from "@/app/resources/content";
@@ -78,7 +78,7 @@ export default function Home() {
       <Column fillWidth paddingTop="xs" paddingBottom="0" horizontal="center" gap="m" className={styles.heroSpacing}>
         <Column maxWidth="m" horizontal="center" align="center">
           {home.featured.display && (
-            <RevealFx
+            <Flex
               fillWidth
               horizontal="center"
               paddingTop="m"
@@ -96,22 +96,22 @@ export default function Home() {
               >
                 <Row paddingY="2">{home.featured.title}</Row>
               </Badge>
-            </RevealFx>
+            </Flex>
           )}
 
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="24">
+          <Flex fillWidth horizontal="center" paddingBottom="24">
             <Heading wrap="balance" variant="display-strong-s">
               {home.headline}
             </Heading>
-          </RevealFx>
+          </Flex>
 
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="24">
+          <Flex fillWidth horizontal="center" paddingBottom="24">
             <Text paddingX="l" wrap="balance" onBackground="neutral-medium" variant="heading-default-l">
               {home.subline}
             </Text>
-          </RevealFx>
+          </Flex>
 
-          <RevealFx translateY="12" delay={0.4} horizontal="center" padding="16">
+          <Flex horizontal="center" padding="16">
             <Button
               id="about"
               data-border="rounded"
@@ -136,14 +136,12 @@ export default function Home() {
                 {about.title}
               </Row>
             </Button>
-          </RevealFx>
+          </Flex>
         </Column>
       </Column>
 
       {/* Featured Project */}
-      <RevealFx translateY="0" delay={0} revealedByDefault={true}>
-        <Projects range={[1, 1]} posts={allProjects} />
-      </RevealFx>
+      <Projects range={[1, 1]} posts={allProjects} />
 
       {/* Blog Section (Conditional) */}
       {routes["/blog"] && (

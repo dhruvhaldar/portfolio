@@ -25,6 +25,17 @@ const iconMap = {
   danger: "errorCircle",
 };
 
+const accessibilityMap = {
+  success: {
+    role: "status",
+    ariaLive: "polite",
+  },
+  danger: {
+    role: "alert",
+    ariaLive: "assertive",
+  },
+} as const;
+
 /**
  * A toast notification component.
  * Displays temporary messages or statuses.
@@ -32,17 +43,21 @@ const iconMap = {
 const Toast = forwardRef<HTMLDivElement, ToastProps>(
   ({ variant, className, icon = true, onClose, action, children }, ref) => {
     const [visible, setVisible] = useState(true);
+    const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
+      if (isPaused) return;
       const timer = setTimeout(() => setVisible(false), 6000);
       return () => clearTimeout(timer);
-    }, []);
+    }, [isPaused]);
 
     useEffect(() => {
       if (!visible && onClose) {
         onClose();
       }
     }, [visible, onClose]);
+
+    const { role, ariaLive } = accessibilityMap[variant];
 
     return (
       <Flex
@@ -53,12 +68,16 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         paddingY="12"
         paddingX="20"
         border="neutral-medium"
-        role="alert"
-        aria-live="assertive"
+        role={role}
+        aria-live={ariaLive}
         className={classNames(className, styles.toast, styles[variant], {
           [styles.visible]: visible,
           [styles.hidden]: !visible,
         })}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
       >
         <Flex fillWidth vertical="center" gap="8">
           {icon && <Icon size="l" onBackground={`${variant}-medium`} name={iconMap[variant]} />}

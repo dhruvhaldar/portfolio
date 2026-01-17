@@ -2,7 +2,7 @@
 
 import React, { useState, forwardRef, useEffect } from "react";
 import classNames from "classnames";
-import { Flex, Text, Button, Grid, SegmentedControl, IconButton, RevealFx, NumberInput } from ".";
+import { Flex, Text, Button, Grid, SegmentedControl, IconButton, NumberInput } from ".";
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
@@ -372,13 +372,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           )}
         </Flex>
 
-        <RevealFx
+        <Flex
           fillWidth
           horizontal="center"
           vertical="center"
           key={isTimeSelector ? "time" : "date"}
-          trigger={isTransitioning}
-          speed="fast"
         >
           {isTimeSelector ? (
             <Flex
@@ -458,7 +456,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               {renderCalendarGrid()}
             </Grid>
           )}
-        </RevealFx>
+        </Flex>
       </Flex>
     );
   },

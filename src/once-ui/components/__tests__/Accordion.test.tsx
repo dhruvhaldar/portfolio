@@ -55,4 +55,33 @@ describe('Accordion', () => {
         })
         expect(button).toHaveAttribute('aria-expanded', 'false')
     })
+
+    it('generates unique IDs for content and links aria-controls', () => {
+        render(
+            <>
+                <Accordion title="Accordion 1">Content 1</Accordion>
+                <Accordion title="Accordion 2">Content 2</Accordion>
+            </>
+        )
+
+        const headings = screen.getAllByRole('heading')
+        const button1 = headings[0].parentElement
+        const button2 = headings[1].parentElement
+
+        const controls1 = button1!.getAttribute('aria-controls')
+        const controls2 = button2!.getAttribute('aria-controls')
+
+        expect(controls1).toBeTruthy()
+        expect(controls2).toBeTruthy()
+        expect(controls1).not.toBe(controls2)
+        expect(controls1).toContain('accordion-content-')
+
+        const content1 = document.getElementById(controls1!)
+        const content2 = document.getElementById(controls2!)
+
+        expect(content1).toBeInTheDocument()
+        expect(content2).toBeInTheDocument()
+        expect(content1).toHaveTextContent('Content 1')
+        expect(content2).toHaveTextContent('Content 2')
+    })
 })

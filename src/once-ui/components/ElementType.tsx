@@ -24,10 +24,16 @@ const isExternalLink = (url: string) => /^https?:\/\//.test(url);
 const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
   ({ href, children, className, style, ...props }, ref) => {
     if (href) {
-      // 🛡️ Sentinel: Validate href to prevent XSS via javascript: URLs
-      // React 19 blocks them, but we fail securely by not rendering the link at all or sanitizing.
-      if (href.trim().toLowerCase().startsWith('javascript:')) {
-        console.error("Security: Blocked javascript: URL in ElementType");
+      // 🛡️ Sentinel: Validate href to prevent XSS via dangerous schemes
+      // We strictly allow only specific protocols or relative paths.
+      const hrefLower = href.trim().toLowerCase();
+      if (
+        hrefLower.startsWith('javascript:') ||
+        hrefLower.startsWith('data:') ||
+        hrefLower.startsWith('vbscript:') ||
+        hrefLower.startsWith('file:')
+      ) {
+        console.error(`Security: Blocked dangerous URL scheme in ElementType: ${href}`);
         return (
           <button
              ref={ref as React.Ref<HTMLButtonElement>}

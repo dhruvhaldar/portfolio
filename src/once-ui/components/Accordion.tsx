@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, { useState, forwardRef, useImperativeHandle, useId } from "react";
 import { Flex, Icon, Heading, Column } from ".";
 import styles from "./Accordion.module.scss";
 
@@ -26,6 +26,8 @@ interface AccordionProps extends Omit<React.ComponentProps<typeof Flex>, "title"
 const Accordion: React.FC<AccordionProps> = forwardRef(
   ({ title, children, open = false, ...rest }, ref) => {
     const [isOpen, setIsOpen] = useState(open);
+    const uniqueId = useId();
+    const contentId = `accordion-content-${uniqueId}`;
 
     const toggleAccordion = () => {
       setIsOpen(!isOpen);
@@ -64,7 +66,7 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
           onClick={toggleAccordion}
           onKeyDown={handleKeyDown}
           aria-expanded={isOpen}
-          aria-controls="accordion-content"
+          aria-controls={contentId}
         >
           <Heading as="h3" variant="heading-strong-s">
             {title}
@@ -80,7 +82,7 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
           />
         </Flex>
         <Flex
-          id="accordion-content"
+          id={contentId}
           fillWidth
           style={{
             display: "grid",

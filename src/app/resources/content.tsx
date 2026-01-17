@@ -1,4 +1,4 @@
-import { InlineCode, RevealFx, Row, Line } from "@/once-ui/components";
+import { InlineCode, Flex, Row, Line } from "@/once-ui/components";
 import { Text } from "@/once-ui/components/Text";
 
 const person = {
@@ -46,11 +46,11 @@ const home = {
   title: `${person.name} Portfolio (With Projects and Publications)`,
   description: `Explore Dhruv Haldar&apos;s portfolio, blending aerospace engineering with cutting-edge Computational Fluid Dynamics (CFD) expertise. 🚀 #Aerospace #CFD #Rocketry`,
   headline: (
-    <RevealFx translateY="4" fillWidth horizontal="start">
+    <Flex fillWidth horizontal="start">
       <span style={{ fontFamily: 'var(--font-family-code)' }}>
         Designing smarter systems through simulation and control
       </span>
-    </RevealFx>
+    </Flex>
   ),
   featured: {
     display: true,
