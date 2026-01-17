@@ -42,3 +42,11 @@ Custom form controls like `Checkbox`, `RadioButton`, and `Switch` often render a
 
 **Action:**
 When creating custom form controls that rely on a hidden native input for functionality, always add `aria-hidden="true"` to the native input element to ensure only the accessible custom control is exposed to assistive technologies.
+
+## 2026-02-19 - Unique IDs for Accordion Accessibility
+
+**Learning:**
+The `Accordion` component used a hardcoded `id` for its content region. This causes invalid HTML (duplicate IDs) when multiple accordions are used on a single page, and breaks `aria-controls` relationships for screen readers.
+
+**Action:**
+When building components that can be instantiated multiple times and require ID references (like `aria-controls` or `aria-labelledby`), always use `useId()` (React 18+) or a unique ID generator to ensure robust accessibility linkage.
