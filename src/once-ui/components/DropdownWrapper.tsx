@@ -48,6 +48,8 @@ export interface DropdownWrapperProps {
   isOpen?: boolean;
   /** Open state change handler */
   onOpenChange?: (isOpen: boolean) => void;
+  /** Element ID for the dropdown container */
+  dropdownId?: string;
 }
 
 /**
@@ -70,6 +72,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       floatingPlacement = "bottom-start",
       className,
       style,
+      dropdownId,
     },
     ref,
   ) => {
@@ -198,9 +201,9 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
               offset: 4,
               left: x ?? 0,
             }}
-            role="listbox"
           >
             <Dropdown
+              id={dropdownId}
               minWidth={minWidth}
               radius="l"
               selectedOption={selectedOption}
