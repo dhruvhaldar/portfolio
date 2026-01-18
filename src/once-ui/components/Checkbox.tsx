@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef, useId } from "react";
 import classNames from "classnames";
 import { Flex, Icon, InteractiveDetails, InteractiveDetailsProps } from ".";
 import styles from "./SharedInteractiveStyles.module.scss";
@@ -15,8 +15,6 @@ interface CheckboxProps
   /** Toggle handler */
   onToggle?: () => void;
 }
-
-const generateId = () => `checkbox-${Math.random().toString(36).substring(2, 9)}`;
 
 /**
  * A checkbox input component.
@@ -38,7 +36,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
     ref,
   ) => {
     const [isChecked, setIsChecked] = useState(controlledIsChecked || false);
-    const [checkboxId] = useState(generateId());
+    const checkboxId = useId();
 
     useEffect(() => {
       if (controlledIsChecked !== undefined) {
