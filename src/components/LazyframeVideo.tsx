@@ -110,7 +110,10 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
             height,
             aspectRatio: '16/9',
             objectFit: 'cover',
-            display: 'block'
+            display: 'block',
+            backgroundImage: activeThumbnailUrl ? `url(${activeThumbnailUrl})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
         ></div>
         {!isPlaying && (
