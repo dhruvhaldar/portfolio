@@ -1,8 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as cookie from "cookie";
 import crypto from "crypto";
+import { rateLimit } from "@/utils/rateLimit";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  // 🛡️ Sentinel: Rate limiting to prevent DoS (CPU exhaustion)
+  // Handle x-forwarded-for safely whether it's string or array
+  const forwarded = req.headers['x-forwarded-for'];
+  const rawIp = (typeof forwarded === 'string' ? forwarded.split(',')[0] : forwarded?.[0]) || req.socket?.remoteAddress || 'unknown';
+
+  // 🛡️ Sentinel: Sanitize IP to prevent Log Injection (CRLF) and truncate
+  const ip = rawIp.replace(/[\r\n]/g, '').substring(0, 45);
+
+  if (!rateLimit(ip, 100, 60 * 1000)) { // 100 requests per minute
+    console.warn(`[SECURITY] Rate limit exceeded for check-auth. IP: ${ip}`);
+    return res.status(429).json({ authenticated: false });
+  }
+
   const cookies = cookie.parse(req.headers.cookie || "");
   const authToken = cookies.authToken;
 
