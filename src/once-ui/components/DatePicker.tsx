@@ -256,6 +256,14 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         // Check if the current date is out of the minDate and maxDate range
         const isDisabled = (minDate && currentDate < minDate) || (maxDate && currentDate > maxDate);
 
+        // Format date for aria-label: "Tuesday, October 24, 2023"
+        const dateLabel = currentDate.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
         days.push(
           //@ts-ignore
           <Flex paddingY="2" key={`day-${currentYear}-${currentMonth}-${day}`}>
@@ -277,6 +285,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 onMouseEnter={() => onHover?.(currentDate)}
                 onMouseLeave={() => onHover?.(null)}
                 disabled={isDisabled}
+                aria-label={dateLabel}
               >
                 {day}
               </Button>
@@ -328,6 +337,14 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 variant="label-default-s"
                 onBackground="brand-weak"
                 onClick={() => handleTimeToggle(false)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleTimeToggle(false);
+                  }
+                }}
               >
                 Back to calendar
               </Text>
@@ -336,6 +353,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             <>
               {previousMonth && (
                 <IconButton
+                  tooltip="Previous month"
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronLeft"
@@ -358,6 +376,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               </Flex>
               {nextMonth && (
                 <IconButton
+                  tooltip="Next month"
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronRight"
