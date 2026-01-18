@@ -147,6 +147,7 @@ function createBlockquote({ children }: { children: ReactNode }) {
   return (
     <Flex
       as="blockquote"
+      fillWidth
       direction="column"
       background="neutral-alpha-weak"
       border="neutral-alpha-medium"
