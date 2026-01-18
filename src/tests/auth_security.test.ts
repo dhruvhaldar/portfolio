@@ -63,6 +63,7 @@ describe('Authentication Security', () => {
     const checkAuth = (await import('../pages/api/check-auth')).default;
     const req = {
       headers: { cookie: 'authToken=authenticated', 'user-agent': 'test-agent' },
+      socket: { remoteAddress: '127.0.0.1' },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -84,6 +85,7 @@ describe('Authentication Security', () => {
 
     const req = {
       headers: { cookie: `authToken=${legacyCookie}`, 'user-agent': 'test-agent' },
+      socket: { remoteAddress: '127.0.0.1' },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -110,6 +112,7 @@ describe('Authentication Security', () => {
 
     const req = {
       headers: { cookie: `authToken=${expiredCookie}`, 'user-agent': ua },
+      socket: { remoteAddress: '127.0.0.1' },
     } as any;
     const res = {
       status: vi.fn().mockReturnThis(),
@@ -135,6 +138,7 @@ describe('Authentication Security', () => {
 
      const req = {
        headers: { cookie: `authToken=${validCookie}`, 'user-agent': ua },
+       socket: { remoteAddress: '127.0.0.1' },
      } as any;
      const res = {
        status: vi.fn().mockReturnThis(),
@@ -163,6 +167,7 @@ describe('Authentication Security', () => {
      // Request comes from a DIFFERENT User-Agent
      const req = {
        headers: { cookie: `authToken=${validCookie}`, 'user-agent': 'hacker-agent' },
+       socket: { remoteAddress: '127.0.0.1' },
      } as any;
      const res = {
        status: vi.fn().mockReturnThis(),
@@ -189,6 +194,7 @@ describe('Authentication Security', () => {
 
      const req = {
        headers: { cookie: `authToken=${tamperedCookie}`, 'user-agent': ua },
+       socket: { remoteAddress: '127.0.0.1' },
      } as any;
      const res = {
        status: vi.fn().mockReturnThis(),
@@ -199,5 +205,25 @@ describe('Authentication Security', () => {
 
      expect(res.status).toHaveBeenCalledWith(401);
      expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Invalid cookie signature detected'));
+  });
+
+  it('should enforce rate limiting on check-auth', async () => {
+    const checkAuth = (await import('../pages/api/check-auth')).default;
+    const req = {
+      headers: { cookie: 'authToken=foo', 'user-agent': 'test-agent' },
+      socket: { remoteAddress: '127.0.0.1' },
+    } as any;
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    } as any;
+
+    // Simulate flooding
+    for (let i = 0; i < 110; i++) {
+        await checkAuth(req, res);
+    }
+
+    expect(res.status).toHaveBeenCalledWith(429);
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('[SECURITY] Rate limit exceeded'));
   });
 });
