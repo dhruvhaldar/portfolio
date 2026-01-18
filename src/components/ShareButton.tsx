@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, useToast } from "@/once-ui/components";
+import styles from "@/components/ShareButton.module.scss";
 
 interface ShareButtonProps {
     url: string;
@@ -46,6 +47,7 @@ export function ShareButton({ url, title, text = "Share", style }: ShareButtonPr
             onClick={handleShare}
             prefixIcon="share"
             style={style}
+            className={styles.glassy}
         >
             {text}
         </Button>
