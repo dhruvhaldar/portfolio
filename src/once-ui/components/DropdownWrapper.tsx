@@ -160,6 +160,15 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       };
     }, [handleClickOutside, handleFocusOut]);
 
+    // Clone the trigger to inject ARIA attributes directly onto the interactive element
+    // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)
+    const accessibleTrigger = React.isValidElement(trigger)
+      ? React.cloneElement(trigger as React.ReactElement<any>, {
+        "aria-haspopup": "listbox",
+        "aria-expanded": isOpen,
+      })
+      : trigger;
+
     return (
       <Flex
         fillWidth={fillWidth}
@@ -183,12 +192,8 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
             handleOpenChange(!isOpen);
           }
         }}
-        tabIndex={-1}
-        role="button"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
       >
-        {trigger}
+        {accessibleTrigger}
         {isOpen && (
           <Flex
             zIndex={1}
