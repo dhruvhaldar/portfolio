@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId, useMemo } from "react";
+import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId, useMemo, useCallback } from "react";
 import classNames from "classnames";
 import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";
 import inputStyles from "./Input.module.scss";
@@ -87,11 +87,20 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     };
 
-    const handleSelect = (value: string) => {
+    const handleSelect = useCallback((value: string) => {
       if (onSelect) onSelect(value);
       setIsDropdownOpen(false);
       setIsFilled(true);
-    };
+    }, [onSelect]);
+
+    // Bolt: Stable handler to prevent Option re-renders
+    const handleOptionClick = useCallback((optionValue: string) => {
+      const selectedOption = filteredOptions.find((option) => option.value === optionValue);
+      if (selectedOption?.onClick) {
+        selectedOption.onClick(optionValue);
+      }
+      handleSelect(optionValue);
+    }, [filteredOptions, handleSelect]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (!isFocused && event.key !== "Enter") return;
@@ -257,10 +266,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                   key={option.value}
                   id={`${generatedId}-option-${index}`}
                   {...option}
-                  onClick={() => {
-                    option.onClick?.(option.value);
-                    handleSelect(option.value);
-                  }}
+                  onClick={handleOptionClick}
                   selected={option.value === value}
                   highlighted={index === highlightedIndex}
                   tabIndex={-1}
