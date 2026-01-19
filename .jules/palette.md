@@ -50,3 +50,11 @@ The `Accordion` component used a hardcoded `id` for its content region. This cau
 
 **Action:**
 When building components that can be instantiated multiple times and require ID references (like `aria-controls` or `aria-labelledby`), always use `useId()` (React 18+) or a unique ID generator to ensure robust accessibility linkage.
+
+## 2026-02-20 - Stable IDs for Checkbox and RadioButton
+
+**Learning:**
+`Checkbox` and `RadioButton` components were using `Math.random()` to generate IDs for accessibility (`aria-labelledby`). This causes hydration mismatches in Next.js (client vs server ID generation) and potential ID collisions.
+
+**Action:**
+Replaced `Math.random()` with `React.useId()` in `Checkbox` and `RadioButton` to ensure stable, unique IDs for accessibility attributes, preventing hydration errors and ensuring robust screen reader support.
