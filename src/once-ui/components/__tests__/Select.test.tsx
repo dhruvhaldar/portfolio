@@ -91,4 +91,43 @@ describe("Select Accessibility", () => {
       expect(highlightedOption).toHaveAttribute("id", activeDescendantId);
     });
   });
+
+  it("displays label instead of value when an option is selected", () => {
+    render(
+      <Select
+        id="test-select"
+        label="Test Select"
+        options={options}
+        value="opt1"
+      />
+    );
+
+    const input = screen.getByLabelText("Test Select");
+    // We expect the label "Option 1" to be displayed, NOT "opt1"
+    expect(input).toHaveValue("Option 1");
+  });
+
+  it("opens dropdown when Space key is pressed on trigger", async () => {
+    render(
+        <Select
+          id="test-select-space"
+          label="Test Select Space"
+          options={options}
+        />
+      );
+
+      const input = screen.getByLabelText("Test Select Space");
+
+      // Ensure it's closed initially
+      expect(input).toHaveAttribute("aria-expanded", "false");
+
+      // Focus and press Space
+      await act(async () => {
+        input.focus();
+        fireEvent.keyDown(input, { key: " " }); // Space key
+      });
+
+      // Should be open
+      expect(input).toHaveAttribute("aria-expanded", "true");
+  });
 });
