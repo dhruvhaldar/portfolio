@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId } from "react";
+import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId, useMemo } from "react";
 import classNames from "classnames";
 import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";
 import inputStyles from "./Input.module.scss";
@@ -65,6 +65,17 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const generatedId = useId();
     const listboxId = `${generatedId}-listbox`;
 
+    const filteredOptions = useMemo(() => {
+      if (!searchQuery) return options;
+      return options.filter((option) =>
+        option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }, [options, searchQuery]);
+
+    useEffect(() => {
+      setHighlightedIndex(null);
+    }, [searchQuery]);
+
     const handleFocus = () => {
       setIsFocused(true);
     };
@@ -97,7 +108,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           event.preventDefault();
           setHighlightedIndex((prevIndex) => {
             const newIndex =
-              prevIndex === null || prevIndex === options.length - 1 ? 0 : prevIndex + 1;
+              prevIndex === null || prevIndex === filteredOptions.length - 1 ? 0 : prevIndex + 1;
             return newIndex;
           });
           break;
@@ -106,7 +117,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           event.preventDefault();
           setHighlightedIndex((prevIndex) => {
             const newIndex =
-              prevIndex === null || prevIndex === 0 ? options.length - 1 : prevIndex - 1;
+              prevIndex === null || prevIndex === 0 ? filteredOptions.length - 1 : prevIndex - 1;
             return newIndex;
           });
           break;
@@ -114,7 +125,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
         case "Enter":
           event.preventDefault();
           if (highlightedIndex !== null && isDropdownOpen) {
-            handleSelect(options[highlightedIndex].value);
+            if (filteredOptions[highlightedIndex]) {
+              handleSelect(filteredOptions[highlightedIndex].value);
+            }
           } else {
             setIsDropdownOpen(true);
           }
@@ -239,32 +252,25 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               </Flex>
             )}
             <Flex fillWidth padding="4" direction="column" gap="2">
-              {options
-                .filter((option) =>
-                  option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),
-                )
-                .map((option, index) => (
-                  <Option
-                    key={option.value}
-                    id={`${generatedId}-option-${index}`}
-                    {...option}
-                    onClick={() => {
-                      option.onClick?.(option.value);
-                      handleSelect(option.value);
-                    }}
-                    selected={option.value === value}
-                    highlighted={index === highlightedIndex}
-                    tabIndex={-1}
-                  />
-                ))}
-              {searchQuery &&
-                options.filter((option) =>
-                  option.label?.toString().toLowerCase().includes(searchQuery.toLowerCase()),
-                ).length === 0 && (
-                  <Flex fillWidth vertical="center" horizontal="center" paddingX="16" paddingY="32">
-                    {emptyState}
-                  </Flex>
-                )}
+              {filteredOptions.map((option, index) => (
+                <Option
+                  key={option.value}
+                  id={`${generatedId}-option-${index}`}
+                  {...option}
+                  onClick={() => {
+                    option.onClick?.(option.value);
+                    handleSelect(option.value);
+                  }}
+                  selected={option.value === value}
+                  highlighted={index === highlightedIndex}
+                  tabIndex={-1}
+                />
+              ))}
+              {filteredOptions.length === 0 && (
+                <Flex fillWidth vertical="center" horizontal="center" paddingX="16" paddingY="32">
+                  {emptyState}
+                </Flex>
+              )}
             </Flex>
           </>
         }
