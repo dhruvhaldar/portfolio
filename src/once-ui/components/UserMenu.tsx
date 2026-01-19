@@ -43,6 +43,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
       trigger={
         <Flex
           tabIndex={0}
+          role="button"
           direction="column"
           padding="4"
           radius="full"
