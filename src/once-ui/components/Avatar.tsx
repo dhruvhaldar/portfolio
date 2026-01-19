@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, memo } from "react";
 import { Skeleton, Icon, Text, StatusIndicator, Flex, SmartImage } from ".";
 import styles from "./Avatar.module.scss";
 
@@ -47,7 +47,7 @@ const statusIndicatorSizeMapping: Record<
 /**
  * A user avatar component that supports images, initials, and loading states.
  */
-const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
+const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
   (
     {
       size = "m",
@@ -153,6 +153,11 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   },
 );
 
+AvatarComponent.displayName = "Avatar";
+
+// Bolt: Memoized to prevent unnecessary re-renders in lists/headers
+const Avatar = memo(AvatarComponent);
 Avatar.displayName = "Avatar";
+
 export { Avatar };
 export type { AvatarProps };
