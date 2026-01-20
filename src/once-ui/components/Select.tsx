@@ -245,7 +245,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                     width: "calc(100% + 2px)",
                   }}
                   labelAsPlaceholder
-                  id="search"
+                  id={`${generatedId}-search`}
                   label="Search"
                   height="s"
                   radius="none"
