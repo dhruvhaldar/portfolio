@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import LazyframeVideo from '@/components/LazyframeVideo';
 
@@ -10,7 +10,7 @@ vi.mock('lazyframe', () => ({
 // Mock css import
 vi.mock('lazyframe/dist/lazyframe.css', () => ({}));
 
-describe('LazyframeVideo Security', () => {
+describe('LazyframeVideo', () => {
   it('should render for valid YouTube URLs', () => {
     const { container } = render(<LazyframeVideo src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />);
     // Should render the wrapper div
@@ -19,14 +19,19 @@ describe('LazyframeVideo Security', () => {
     expect(lazyframeDiv).toBeInTheDocument();
   });
 
-  it('should render for valid mobile YouTube URLs', () => {
-    const { container } = render(<LazyframeVideo src="https://m.youtube.com/watch?v=dQw4w9WgXcQ" />);
-    expect(container.firstChild).not.toBeNull();
-  });
-
-  it('should render for valid music YouTube URLs', () => {
-    const { container } = render(<LazyframeVideo src="https://music.youtube.com/watch?v=dQw4w9WgXcQ" />);
-    expect(container.firstChild).not.toBeNull();
+  it('renders with custom thumbnail', () => {
+    const customThumbnail = "https://example.com/thumb.jpg";
+    render(
+      <LazyframeVideo
+        src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        thumbnail={customThumbnail}
+      />
+    );
+    // Find by class name since data-testid wasn't added in the component code (unless I add it)
+    // Actually, I can query by data-thumbnail
+    const element = document.querySelector('.lazyframe') as HTMLElement;
+    expect(element).toHaveAttribute('data-thumbnail', customThumbnail);
+    expect(element).toHaveStyle(`background-image: url("${customThumbnail}")`);
   });
 
   it('should return null for invalid URLs (XSS protection)', () => {

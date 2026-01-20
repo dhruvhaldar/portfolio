@@ -52,3 +52,8 @@
 **Vulnerability:** The `YOUTUBE_REGEX` in `SmartImage` component was unanchored, allowing URLs containing "youtube.com" in the path (e.g. `https://evil.com/?u=youtube.com/watch?v=...`) to be incorrectly identified as YouTube videos, potentially leading to content spoofing or unexpected iframe rendering.
 **Learning:** Regex validation must always be anchored (`^...$`) to ensure the entire string matches the expected pattern, especially when determining content type or origin.
 **Prevention:** Use `^` anchor at the start of regex patterns used for URL validation.
+
+## 2026-08-10 - [MEDIUM] Missing CSP in Static Export
+**Vulnerability:** When using `output: 'export'`, Next.js `headers` configuration is ignored. This leaves the static site vulnerable to XSS and other attacks if the hosting provider doesn't strictly enforce CSP headers.
+**Learning:** Security headers defined in `next.config.js` or `middleware.ts` do not apply to static exports. A `<meta>` tag fallback is essential for defense-in-depth on static hosts.
+**Prevention:** Inject a `<meta http-equiv="Content-Security-Policy">` tag in the Root Layout (`layout.tsx`) to enforce CSP even when HTTP headers are missing or misconfigured by the host.

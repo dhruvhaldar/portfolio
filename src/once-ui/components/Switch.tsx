@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 import classNames from "classnames";
 
 import { Flex, InteractiveDetails, InteractiveDetailsProps } from ".";
@@ -62,6 +62,9 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
       }
     };
 
+    const generatedId = useId();
+    const labelId = props.id ? `${props.id}-label` : `${generatedId}-label`;
+
     return (
       <Flex
         fit={!reverse}
@@ -78,7 +81,8 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
         onKeyDown={handleKeyDown}
         role="switch"
         aria-checked={isChecked}
-        aria-label={ariaLabel}
+        aria-label={props.label ? undefined : ariaLabel}
+        aria-labelledby={props.label ? labelId : undefined}
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : 0}
       >
@@ -110,7 +114,8 @@ const Switch: React.FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
         {props.label && (
           <InteractiveDetails
             {...props}
-            onClick={() => { }} // Empty handler; clicks handled by parent Flex
+            id={labelId}
+            onClick={() => {}} // Empty handler; clicks handled by parent Flex
           />
         )}
       </Flex>

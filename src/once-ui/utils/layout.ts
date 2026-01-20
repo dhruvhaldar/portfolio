@@ -65,14 +65,13 @@ export const generateFlexClass = (
     return `${value}-${type}`;
   }
 
-  const parts = value.split("-");
-  if (parts.includes("alpha")) {
-    const [scheme, , weight] = parts;
-    return `${scheme}-${type}-alpha-${weight}`;
-  }
+  const hyphenIndex = value.indexOf("-");
+  if (hyphenIndex === -1) return undefined;
 
-  const [scheme, weight] = parts;
-  return `${scheme}-${type}-${weight}`;
+  const scheme = value.substring(0, hyphenIndex);
+  const rest = value.substring(hyphenIndex + 1);
+
+  return `${scheme}-${type}-${rest}`;
 };
 
 export const generateGridClass = (
@@ -80,11 +79,22 @@ export const generateGridClass = (
   value: string | "-1" | undefined,
 ): string | undefined => {
   if (!value) return undefined;
-  if (value === "surface" || value === "page" || value === "transparent") {
+
+  if (value === "transparent") {
+    return `transparent-${type}`;
+  }
+
+  if (SURFACE_VALUES.has(value)) {
     return `${value}-${type}`;
   }
-  const [scheme, weight] = value.split("-");
-  return `${scheme}-${type}-${weight}`;
+
+  const hyphenIndex = value.indexOf("-");
+  if (hyphenIndex === -1) return undefined;
+
+  const scheme = value.substring(0, hyphenIndex);
+  const rest = value.substring(hyphenIndex + 1);
+
+  return `${scheme}-${type}-${rest}`;
 };
 
 export const generateTextSpacerClass = (

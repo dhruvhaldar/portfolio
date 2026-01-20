@@ -42,6 +42,17 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
 const YOUTUBE_REGEX =
   /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
+const isYouTubeVideo = (url: string) => {
+  return YOUTUBE_REGEX.test(url);
+};
+
+const getYouTubeEmbedUrl = (url: string) => {
+  const match = url.match(YOUTUBE_REGEX);
+  return match
+    ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&modestbranding=1`
+    : "";
+};
+
 /**
  * An enhanced image component that supports lazy loading, responsive sizing, and lightbox enlargement.
  * Handles both images and video sources.
@@ -142,16 +153,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
     };
   }, [isEnlarged]);
 
-  const isYouTubeVideo = (url: string) => {
-    return YOUTUBE_REGEX.test(url);
-  };
-
-  const getYouTubeEmbedUrl = (url: string) => {
-    const match = url.match(YOUTUBE_REGEX);
-    return match
-      ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&modestbranding=1`
-      : "";
-  };
+  // Bolt: moved helper functions outside to avoid recreation on every render
 
   const isVideo = src?.endsWith(".mp4");
   const isYouTube = isYouTubeVideo(src);

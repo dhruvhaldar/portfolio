@@ -48,6 +48,8 @@ export interface DropdownWrapperProps {
   isOpen?: boolean;
   /** Open state change handler */
   onOpenChange?: (isOpen: boolean) => void;
+  /** Element ID for the dropdown container */
+  dropdownId?: string;
 }
 
 /**
@@ -70,6 +72,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       floatingPlacement = "bottom-start",
       className,
       style,
+      dropdownId,
     },
     ref,
   ) => {
@@ -157,6 +160,15 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       };
     }, [handleClickOutside, handleFocusOut]);
 
+    // Clone the trigger to inject ARIA attributes directly onto the interactive element
+    // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)
+    const accessibleTrigger = React.isValidElement(trigger)
+      ? React.cloneElement(trigger as React.ReactElement<any>, {
+        "aria-haspopup": "listbox",
+        "aria-expanded": isOpen,
+      })
+      : trigger;
+
     return (
       <Flex
         fillWidth={fillWidth}
@@ -180,12 +192,8 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
             handleOpenChange(!isOpen);
           }
         }}
-        tabIndex={-1}
-        role="button"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
       >
-        {trigger}
+        {accessibleTrigger}
         {isOpen && (
           <Flex
             zIndex={1}
@@ -198,9 +206,9 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
               offset: 4,
               left: x ?? 0,
             }}
-            role="listbox"
           >
             <Dropdown
+              id={dropdownId}
               minWidth={minWidth}
               radius="l"
               selectedOption={selectedOption}

@@ -57,11 +57,16 @@ describe('layout utils', () => {
     it('handles special values', () => {
       expect(generateGridClass('background', 'surface')).toBe('surface-background');
       expect(generateGridClass('background', 'page')).toBe('page-background');
+      expect(generateGridClass('background', 'overlay')).toBe('overlay-background');
       expect(generateGridClass('background', 'transparent')).toBe('transparent-background');
     });
 
     it('handles scheme-weight format', () => {
       expect(generateGridClass('background', 'neutral-medium')).toBe('neutral-background-medium');
+    });
+
+    it('handles complex values (e.g. alpha)', () => {
+      expect(generateGridClass('background', 'neutral-alpha-medium')).toBe('neutral-background-alpha-medium');
     });
   });
 

@@ -15,6 +15,8 @@ interface LazyframeVideoProps {
   width?: string;
   /** Height of the video container */
   height?: string;
+  /** Optional custom thumbnail URL */
+  thumbnail?: string;
 }
 
 // Video title overlay gradient
@@ -38,12 +40,14 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   title = "Video player",
   width = "100%",
   height = "auto",
+  thumbnail,
 }) => {
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
 
   const youtubeId = getYouTubeId(src);
-  const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+  const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+  const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
@@ -100,13 +104,16 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           className="lazyframe"
           data-src={src}
           data-vendor="youtube"
-          data-thumbnail={thumbnailUrl}
+          data-thumbnail={activeThumbnailUrl}
           style={{
             width,
             height,
             aspectRatio: '16/9',
             objectFit: 'cover',
-            display: 'block'
+            display: 'block',
+            backgroundImage: activeThumbnailUrl ? `url(${activeThumbnailUrl})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
         ></div>
         {!isPlaying && (
