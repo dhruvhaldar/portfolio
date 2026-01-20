@@ -65,6 +65,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const generatedId = useId();
     const listboxId = `${generatedId}-listbox`;
 
+    const displayValue = useMemo(() => {
+      const selectedOption = options.find((option) => option.value === value);
+      if (selectedOption && typeof selectedOption.label === "string") {
+        return selectedOption.label;
+      }
+      return value;
+    }, [options, value]);
+
     const filteredOptions = useMemo(() => {
       if (!searchQuery) return options;
       return options.filter((option) =>
@@ -131,6 +139,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           });
           break;
 
+        case " ":
         case "Enter":
           event.preventDefault();
           if (highlightedIndex !== null && isDropdownOpen) {
@@ -203,7 +212,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               textOverflow: "ellipsis",
               ...style,
             }}
-            value={value}
+            value={displayValue}
             onFocus={handleFocus}
             onKeyDown={handleKeyDown}
             readOnly
