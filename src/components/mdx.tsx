@@ -76,6 +76,8 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
   );
 }
 
+const IMAGE_RESPONSIVE_SIZES = { mobile: '400px', tablet: '400px', desktop: '800px' };
+
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) {
     console.error("Media requires a valid 'src' property.");
@@ -91,7 +93,7 @@ function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) 
       loading={isSpaceDebrisAvif ? 'eager' : 'lazy'}
       radius="m-4"
       aspectRatio="16/9"
-      responsive={{ mobile: '400px', tablet: '400px', desktop: '800px' }}
+      responsive={IMAGE_RESPONSIVE_SIZES}
       alt={alt}
       src={src}
       {...props}
