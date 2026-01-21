@@ -278,6 +278,10 @@ const BackgroundComponent = forwardRef<HTMLDivElement, BackgroundProps>(
             opacity={gradient.opacity}
             pointerEvents="none"
             style={{
+              width: "400%",
+              height: "400%",
+              left: "-150%",
+              top: "-150%",
               ["--gradient-position-x" as string]: `${adjustedX}%`,
               ["--gradient-position-y" as string]: `${adjustedY}%`,
               ["--gradient-width" as string]:

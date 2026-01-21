@@ -215,6 +215,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             src={src}
             alt={alt}
             priority={shouldPreload}
+            fetchPriority={shouldPreload ? "high" : undefined}
             sizes={calculatedSizes}
             unoptimized={unoptimized}
             fill
