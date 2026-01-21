@@ -57,3 +57,8 @@
 **Vulnerability:** When using `output: 'export'`, Next.js `headers` configuration is ignored. This leaves the static site vulnerable to XSS and other attacks if the hosting provider doesn't strictly enforce CSP headers.
 **Learning:** Security headers defined in `next.config.js` or `middleware.ts` do not apply to static exports. A `<meta>` tag fallback is essential for defense-in-depth on static hosts.
 **Prevention:** Inject a `<meta http-equiv="Content-Security-Policy">` tag in the Root Layout (`layout.tsx`) to enforce CSP even when HTTP headers are missing or misconfigured by the host.
+
+## 2026-01-21 - [HIGH] Vulnerable Dev Dependencies
+**Vulnerability:** `cross-spawn` (<6.0.6) via `react-devtools` and `mdast-util-to-hast` (<13.2.1) had known vulnerabilities (ReDoS and Class Injection).
+**Learning:** Dev dependencies can introduce security risks, and unused tools like `react-devtools` should be removed to reduce the attack surface. Supply chain security requires regular auditing.
+**Prevention:** Regularly run `pnpm audit`. Remove unused dev dependencies. Update vulnerable packages immediately.
