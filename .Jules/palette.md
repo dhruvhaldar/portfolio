@@ -5,3 +5,7 @@
 ## 2026-01-20 - Unique IDs in Reusable Components
 **Learning:** Reusable components like `Select` often hardcode IDs (e.g., `id="search"`) for internal elements. This creates duplicate IDs when the component is used multiple times on a page, breaking accessibility (labels point to the wrong input) and HTML validity.
 **Action:** Always use a generated unique ID (via `useId()`) as a namespace for internal element IDs (e.g., `id={`${generatedId}-search`}`) in reusable components.
+
+## 2026-10-24 - Conditional Semantics in Interactive Primitives
+**Learning:** The `Chip` component hardcoded `role="button"` and `tabIndex={0}`, creating invalid nested interactive elements when used for display-only tags with internal actions (like `TagInput`'s remove button). This forces users to tab through "dead" controls.
+**Action:** Interactive primitives must conditionally apply ARIA roles and tab indices only when an interaction handler (`onClick`) is actually present.
