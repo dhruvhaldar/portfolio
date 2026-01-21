@@ -1,0 +1,127 @@
+ INFO  Accepting connections at http://localhost:3000
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /blog/blockquote-test
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 28 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/media/caa3a2e1cccd8315-s.p.853070df.woff2
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/3e9135f1401e25e0.css
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/c7060f334d4155ca.css
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/8d1b431ebedb412f.css
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/81969146f4c820ed.css
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/aee9fec852e152b9.css
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 9 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 11 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 11 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 11 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 15 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/7f9778876801242f.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/6dab653934e56a26.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/aff845315ef531af.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/cdf59e5410f20b2b.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/turbopack-bbeea08dd718d8aa.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 20 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 21 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 6 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 7 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 10 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 14 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/47d1af4e9bd80fae.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/b3430d4847ef7326.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/c8f4442739fc80e8.js
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/fca9b024a0b7fd28.js
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 8 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 9 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/acbf654b695d2f33.js
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 21 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 21 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 15 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /_next/static/chunks/b7526d6244701a26.js
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 23 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /images/gallery/OpenFOAM.avif
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /blog
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /publications
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /work
+ HTTP  1/21/2026 5:55:03 PM ::1 GET /about
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 206 in 6 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 206 in 5 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 206 in 6 ms
+ HTTP  1/21/2026 5:55:03 PM ::1 Returned 206 in 6 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /images/my_profile.avif
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /publications/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /work/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /about/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/blockquote-test
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 206 in 3 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /images/icons/g_scholar.avif
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /images/icons/orcid.avif
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /_next/static/chunks/2fe037e916426b09.css
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/foamflask_post_1
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 10 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 10 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/__next._index.txt?_rsc=43f2i
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 206 in 10 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 206 in 12 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 7 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 7 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/blockquote-test/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/foamflask_post_1/__next._tree.txt?_rsc=rfthe
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 10 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /_next/static/chunks/3935d07af6e5bdb5.js
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/__next.blog.txt?_rsc=ucl8h
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 7 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 7 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 6 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 8 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/blockquote-test/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/blockquote-test/__next.blog.$d$slug.txt?_rsc=1sse3
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 8 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/blockquote-test/__next.blog.$d$slug.__PAGE__.txt?_rsc=1h1ho
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/foamflask_post_1/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/foamflask_post_1/__next.blog.$d$slug.txt?_rsc=1sse3
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/foamflask_post_1/__next.blog.$d$slug.__PAGE__.txt?_rsc=1h1ho
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /blog/__next.blog.__PAGE__.txt?_rsc=1pd4u
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /publications/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /publications/__next.publications.txt?_rsc=hgxbf
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /publications/__next.publications.__PAGE__.txt?_rsc=1ci3p
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 2 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /work/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /work/__next.work.txt?_rsc=17e30
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /work/__next.work.__PAGE__.txt?_rsc=1ubg2
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 6 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 3 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /_next/static/chunks/8d3aed808f131ccb.js
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 3 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /about/__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /about/__next.about.txt?_rsc=1c382
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /about/__next.about.__PAGE__.txt?_rsc=d4tmm
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /__next._head.txt?_rsc=1pjg1
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 5 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /__next.__PAGE__.txt?_rsc=fe16m
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 1 ms
+ HTTP  1/21/2026 5:55:04 PM ::1 GET /_next/static/chunks/0b6fd456a99f9736.js
+ HTTP  1/21/2026 5:55:04 PM ::1 Returned 200 in 4 ms
+
+ INFO  Gracefully shutting down. Please wait...
