@@ -55,6 +55,11 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     return null;
   }
 
+  // 🛡️ Sentinel: Reconstruct the URL to ensure it's a clean, canonical YouTube URL.
+  // This prevents query parameter injection or other URL manipulation attacks
+  // that might bypass the regex check but confuse the lazyframe library.
+  const cleanSrc = `https://www.youtube.com/watch?v=${youtubeId}`;
+
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current);
@@ -102,7 +107,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         <div
           ref={videoRef}
           className="lazyframe"
-          data-src={src}
+          data-src={cleanSrc}
           data-vendor="youtube"
           data-thumbnail={activeThumbnailUrl}
           style={{

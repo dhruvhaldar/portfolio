@@ -27,8 +27,6 @@ describe('LazyframeVideo', () => {
         thumbnail={customThumbnail}
       />
     );
-    // Find by class name since data-testid wasn't added in the component code (unless I add it)
-    // Actually, I can query by data-thumbnail
     const element = document.querySelector('.lazyframe') as HTMLElement;
     expect(element).toHaveAttribute('data-thumbnail', customThumbnail);
     expect(element).toHaveStyle(`background-image: url("${customThumbnail}")`);
@@ -49,5 +47,18 @@ describe('LazyframeVideo', () => {
     // This attempts to trick the regex by including youtube.com in the query string
     const { container } = render(<LazyframeVideo src="https://evil.com/fake?u=youtube.com/watch?v=dQw4w9WgXcQ" />);
     expect(container.firstChild).toBeNull();
+  });
+
+  it('should sanitize query parameters by reconstructing the URL', () => {
+      // 🛡️ Sentinel: Verify that extra parameters (potential injection) are stripped
+      const dirtyUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&onload=alert(1)";
+      const { container } = render(<LazyframeVideo src={dirtyUrl} />);
+
+      const lazyframeDiv = container.querySelector('.lazyframe');
+      const dataSrc = lazyframeDiv?.getAttribute('data-src');
+
+      // Expect the clean URL, not the dirty one
+      expect(dataSrc).toBe("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+      expect(dataSrc).not.toContain("onload=alert(1)");
   });
 });
