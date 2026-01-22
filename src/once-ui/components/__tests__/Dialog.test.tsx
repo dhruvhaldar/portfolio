@@ -88,4 +88,53 @@ describe('Dialog', () => {
     // Portal Root should NOT be inert
     expect((portalRoot as any).inert).toBeFalsy();
   });
+
+  it('restores focus to the triggering element when closed', async () => {
+    const portalRoot = document.createElement('div');
+    portalRoot.id = 'portal-root';
+    document.body.appendChild(portalRoot);
+
+    const triggerButton = document.createElement('button');
+    triggerButton.textContent = 'Trigger';
+    document.body.appendChild(triggerButton);
+    triggerButton.focus();
+
+    expect(document.activeElement).toBe(triggerButton);
+
+    const { rerender } = render(
+      <Dialog isOpen={false} onClose={() => {}} title="Test Dialog">
+        <button>Inside</button>
+      </Dialog>
+    );
+
+    // Open dialog
+    rerender(
+      <Dialog isOpen={true} onClose={() => {}} title="Test Dialog">
+        <button>Inside</button>
+      </Dialog>
+    );
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    });
+
+    // Focus should move inside the dialog (likely to the Close button or first input)
+    // We just verify it moved away from trigger and is inside portal
+    expect(document.activeElement).not.toBe(triggerButton);
+    expect(portalRoot.contains(document.activeElement)).toBe(true);
+
+    // Close dialog
+    rerender(
+      <Dialog isOpen={false} onClose={() => {}} title="Test Dialog">
+        <button>Inside</button>
+      </Dialog>
+    );
+
+    await act(async () => {
+      // Wait for close animation
+      await new Promise((resolve) => setTimeout(resolve, 310));
+    });
+
+    expect(document.activeElement).toBe(triggerButton);
+  });
 });

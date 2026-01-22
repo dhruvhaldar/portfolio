@@ -87,6 +87,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
     const [isVisible, setIsVisible] = useState(isOpen);
     const [isAnimating, setIsAnimating] = useState(false);
     const { stackedDialogOpen, setStackedDialogOpen } = useContext(DialogContext);
+    const lastActiveElement = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
       if (stack) {
@@ -103,6 +104,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
 
     useEffect(() => {
       if (isOpen) {
+        lastActiveElement.current = document.activeElement as HTMLElement;
         setIsVisible(true);
         setTimeout(() => {
           setIsAnimating(true);
@@ -112,6 +114,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
         setTimeout(() => {
           setIsVisible(false);
         }, 300);
+        lastActiveElement.current?.focus();
       }
     }, [isOpen]);
 
@@ -197,14 +200,16 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
     }, [isOpen, stack]);
 
     useEffect(() => {
-      if (isOpen && dialogRef.current) {
+      if (isVisible && isOpen && dialogRef.current) {
         const focusableElements = dialogRef.current.querySelectorAll<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
-        const firstElement = focusableElements[0];
-        firstElement.focus();
+        if (focusableElements.length > 0) {
+          const firstElement = focusableElements[0];
+          firstElement.focus();
+        }
       }
-    }, [isOpen]);
+    }, [isVisible, isOpen]);
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
