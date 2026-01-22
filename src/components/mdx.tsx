@@ -153,6 +153,7 @@ function createBlockquote({ children }: { children: ReactNode }) {
       border="neutral-alpha-medium"
       radius="l"
       padding="m"
+      marginX="0"
       marginTop="24"
       marginBottom="24"
       style={{
