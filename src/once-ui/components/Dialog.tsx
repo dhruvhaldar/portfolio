@@ -1,7 +1,8 @@
 "use client";
 
+import classNames from "classnames";
 import React, {
-  ReactNode,
+  type ReactNode,
   useEffect,
   useCallback,
   useRef,
@@ -10,7 +11,6 @@ import React, {
   useContext,
 } from "react";
 import ReactDOM from "react-dom";
-import classNames from "classnames";
 import { Flex, Heading, IconButton, Text } from ".";
 import styles from "./Dialog.module.scss";
 
@@ -42,7 +42,7 @@ const DialogContext = React.createContext<{
   setStackedDialogOpen: (open: boolean) => void;
 }>({
   stackedDialogOpen: false,
-  setStackedDialogOpen: () => { },
+  setStackedDialogOpen: () => {},
 });
 
 export const DialogProvider: React.FC<{
@@ -155,8 +155,13 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
       if (isOpen) {
         document.body.style.overflow = "hidden";
         // Make everything outside the dialog inert
+        const portalRoot = document.getElementById("portal-root");
         document.body.childNodes.forEach((node) => {
-          if (node instanceof HTMLElement && node !== document.getElementById("portal-root")) {
+          if (
+            node instanceof HTMLElement &&
+            node !== portalRoot &&
+            (!portalRoot || !node.contains(portalRoot))
+          ) {
             node.inert = true;
           }
         });
@@ -218,7 +223,12 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
       }
     }, [isVisible, onClose, stack, base]);
 
-    if (!isVisible) return null;
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
+    if (!isVisible || !mounted) return null;
+
+    const portalRoot = document.getElementById("portal-root") || document.body;
 
     return ReactDOM.createPortal(
       <Flex
@@ -332,7 +342,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
           </Flex>
         </Flex>
       </Flex>,
-      document.body,
+      portalRoot,
     );
   },
 );
