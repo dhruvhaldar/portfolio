@@ -30,4 +30,26 @@ describe('Input', () => {
         const input = screen.getByLabelText('Test Label') as HTMLInputElement
         expect(input.maxLength).toBe(50)
     })
+
+    it('correctly handles controlled input transitions (performance & behavior)', () => {
+        const { rerender } = render(<Input id="test" label="Label" value="" readOnly />)
+        const label = screen.getByText('Label')
+
+        // Initially empty, not floating
+        expect(label).not.toHaveClass('floating')
+
+        // Update to filled
+        rerender(<Input id="test" label="Label" value="Filled" readOnly />)
+        expect(label).toHaveClass('floating')
+
+        // Update to empty
+        rerender(<Input id="test" label="Label" value="" readOnly />)
+        expect(label).not.toHaveClass('floating')
+    })
+
+    it('correctly handles defaultValue (uncontrolled)', () => {
+        render(<Input id="test-default" label="Label" defaultValue="Default" />)
+        const label = screen.getByText('Label')
+        expect(label).toHaveClass('floating')
+    })
 })

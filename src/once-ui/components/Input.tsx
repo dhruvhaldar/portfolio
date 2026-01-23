@@ -78,9 +78,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!props.value);
+    const [internalFilled, setInternalFilled] = useState(!!props.defaultValue);
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
+
+    const isControlled = props.value !== undefined;
+    const isFilled = isControlled ? !!props.value : internalFilled;
 
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(true);
@@ -89,17 +92,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(false);
-      if (event.target.value) {
-        setIsFilled(true);
-      } else {
-        setIsFilled(false);
+      if (!isControlled) {
+        setInternalFilled(!!event.target.value);
       }
       if (onBlur) onBlur(event);
     };
-
-    useEffect(() => {
-      setIsFilled(!!props.value);
-    }, [props.value]);
 
     const validateInput = useCallback(() => {
       if (!debouncedValue) {
