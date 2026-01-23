@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, memo } from "react";
 import classNames from "classnames";
 
 import { Flex, Text, Skeleton, Tag, TagProps, Avatar, AvatarProps } from ".";
@@ -27,7 +27,7 @@ interface UserProps {
 /**
  * A user profile component that displays an avatar, name, and subline.
  */
-const User = forwardRef<HTMLDivElement, UserProps>(
+const UserComponent = forwardRef<HTMLDivElement, UserProps>(
   (
     { name, children, subline, tagProps = {}, loading = false, avatarProps = {}, className },
     ref,
@@ -80,6 +80,10 @@ const User = forwardRef<HTMLDivElement, UserProps>(
   },
 );
 
+UserComponent.displayName = "User";
+
+// Bolt: Memoized to prevent re-renders when used in lists or menus
+const User = memo(UserComponent);
 User.displayName = "User";
 
 export { User };
