@@ -1,8 +1,8 @@
 "use client"; // Add this line
 
-import React, { useEffect } from 'react';
-import lazyframe from 'lazyframe';
-import 'lazyframe/dist/lazyframe.css';
+import lazyframe from "lazyframe";
+import React, { useEffect } from "react";
+import "lazyframe/dist/lazyframe.css";
 
 import { Flex, Text } from "@/once-ui/components";
 
@@ -26,7 +26,8 @@ const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0
 const getYouTubeId = (url: string) => {
   // 🛡️ Sentinel: Strictly validate the URL starts with expected domains
   // Allow subdomains like www, m, music, etc.
-  const regex = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
+  const regex =
+    /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
   const match = url.match(regex);
   return match ? match[1] : null;
 };
@@ -46,12 +47,18 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const initializedRef = React.useRef(false);
 
   const youtubeId = getYouTubeId(src);
-  const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+  const defaultThumbnailUrl = youtubeId
+    ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+    : undefined;
   const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
+
+  // 🛡️ Sentinel: Construct canonical URL to prevent Open Redirect/XSS via malicious query params
+  // strictly using the extracted ID.
+  const canonicalUrl = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : undefined;
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
-  if (!youtubeId) {
+  if (!youtubeId || !canonicalUrl) {
     return null;
   }
 
@@ -81,7 +88,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
       border="neutral-alpha-medium"
       background="neutral-alpha-weak"
       style={{
-        backdropFilter: "blur(var(--static-space-1))"
+        backdropFilter: "blur(var(--static-space-1))",
       }}
     >
       <Flex
@@ -96,26 +103,26 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         aria-label={isPlaying ? undefined : `Play video: ${title}`}
         style={{
           isolation: "isolate",
-          cursor: isPlaying ? "default" : "pointer"
+          cursor: isPlaying ? "default" : "pointer",
         }}
       >
         <div
           ref={videoRef}
           className="lazyframe"
-          data-src={src}
+          data-src={canonicalUrl}
           data-vendor="youtube"
           data-thumbnail={activeThumbnailUrl}
           style={{
             width,
             height,
-            aspectRatio: '16/9',
-            objectFit: 'cover',
-            display: 'block',
+            aspectRatio: "16/9",
+            objectFit: "cover",
+            display: "block",
             backgroundImage: activeThumbnailUrl ? `url(${activeThumbnailUrl})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-        ></div>
+        />
         {!isPlaying && (
           <>
             {/* Title Overlay */}
@@ -129,14 +136,14 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
                   pointerEvents: "none",
                   zIndex: 2,
                   background: overlayBackground,
-                  width: "100%"
+                  width: "100%",
                 }}
               >
                 <Text
                   variant="body-default-m"
                   style={{
                     color: "white",
-                    textShadow: "0 1px 4px rgba(0,0,0,0.8)"
+                    textShadow: "0 1px 4px rgba(0,0,0,0.8)",
                   }}
                 >
                   {title}
@@ -152,23 +159,23 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
               padding="s"
               style={{
                 pointerEvents: "none",
-                zIndex: 2
+                zIndex: 2,
               }}
             >
               <img
                 src="/images/youtube_full_logo.avif"
                 alt="YouTube"
                 style={{
-                  height: '50px', // Scaled 2x
-                  width: 'auto',
-                  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                  height: "50px", // Scaled 2x
+                  width: "auto",
+                  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))",
                 }}
               />
             </Flex>
           </>
         )}
       </Flex>
-    </Flex >
+    </Flex>
   );
 };
 
