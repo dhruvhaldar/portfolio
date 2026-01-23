@@ -38,3 +38,47 @@ export function isValidEmail(email: string): boolean {
   const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
+
+// 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
+// Matches standard 11-character YouTube video IDs.
+const YOUTUBE_REGEX = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+/**
+ * Validates if a URL is a valid YouTube video URL.
+ * Enforces strict pattern matching and length limits.
+ *
+ * @param url - The URL to validate.
+ * @returns True if the URL is a valid YouTube video URL.
+ */
+export function validateYoutubeUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false;
+  // Basic length check to avoid expensive regex on massive strings
+  if (url.length > 2048) return false;
+
+  const match = url.match(YOUTUBE_REGEX);
+  if (!match) return false;
+
+  // Ensure the ID is exactly 11 characters and not just a prefix of a longer string
+  // The regex captures the first 11 valid chars. If more follow immediately, it's an invalid ID.
+  const index = match.index! + match[0].length;
+  if (index < url.length) {
+    const nextChar = url[index];
+    if (/[a-zA-Z0-9_-]/.test(nextChar)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Extracts the YouTube video ID from a valid YouTube URL.
+ *
+ * @param url - The URL to extract the ID from.
+ * @returns The YouTube video ID or null if invalid.
+ */
+export function extractYoutubeId(url: string): string | null {
+  if (!validateYoutubeUrl(url)) return null;
+  const match = url.match(YOUTUBE_REGEX);
+  return match ? match[1] : null;
+}
