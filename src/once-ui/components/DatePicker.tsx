@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, forwardRef, useEffect } from "react";
 import classNames from "classnames";
-import { Flex, Text, Button, Grid, SegmentedControl, IconButton, NumberInput } from ".";
+import type React from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { Button, Flex, Grid, IconButton, NumberInput, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
@@ -79,9 +80,9 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
     const [selectedTime, setSelectedTime] = useState<
       | {
-        hours: number;
-        minutes: number;
-      }
+          hours: number;
+          minutes: number;
+        }
       | undefined
     >(defaultTime);
     const [isPM, setIsPM] = useState(defaultTime?.hours ? defaultTime.hours >= 12 : false);
@@ -94,6 +95,18 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [currentYear, setCurrentYear] = useState<number>(
       value ? value.getFullYear() : today.getFullYear(),
     );
+
+    // Bolt: Refs to access latest state in memoized handlers
+    const selectedDateRef = useRef(selectedDate);
+    const selectedTimeRef = useRef(selectedTime);
+
+    useEffect(() => {
+      selectedDateRef.current = selectedDate;
+    }, [selectedDate]);
+
+    useEffect(() => {
+      selectedTimeRef.current = selectedTime;
+    }, [selectedTime]);
 
     useEffect(() => {
       if (typeof propCurrentMonth === "number") {
@@ -139,27 +152,57 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     ];
     const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    const handleTimeToggle = (show: boolean) => {
+    const handleTimeToggle = useCallback((show: boolean) => {
       setIsTransitioning(false);
       setTimeout(() => {
         setIsTimeSelector(show);
         setIsTransitioning(true);
       }, 400);
-    };
+    }, []);
 
-    const handleDateSelect = (date: Date) => {
-      const newDate = new Date(date);
-      if (timePicker && selectedDate && selectedTime) {
-        newDate.setHours(selectedTime.hours);
-        newDate.setMinutes(selectedTime.minutes);
-      }
-      setSelectedDate(newDate);
-      if (timePicker) {
-        handleTimeToggle(true);
-      } else {
-        onChange?.(newDate);
-      }
-    };
+    const handleDateSelect = useCallback(
+      (date: Date) => {
+        const newDate = new Date(date);
+        // Bolt: Use refs to access latest state without re-creating handler
+        if (timePicker && selectedDateRef.current && selectedTimeRef.current) {
+          newDate.setHours(selectedTimeRef.current.hours);
+          newDate.setMinutes(selectedTimeRef.current.minutes);
+        }
+        setSelectedDate(newDate);
+        if (timePicker) {
+          handleTimeToggle(true);
+        } else {
+          onChange?.(newDate);
+        }
+      },
+      [timePicker, onChange, handleTimeToggle],
+    );
+
+    // Bolt: Stable handlers for grid buttons to prevent re-renders
+    const handleDayClick = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        const dateStr = e.currentTarget.getAttribute("data-date");
+        if (dateStr && !e.currentTarget.disabled) {
+          handleDateSelect(new Date(dateStr));
+        }
+      },
+      [handleDateSelect],
+    );
+
+    const handleDayMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (!onHover) return;
+        const dateStr = e.currentTarget.getAttribute("data-date");
+        if (dateStr) {
+          onHover(new Date(dateStr));
+        }
+      },
+      [onHover],
+    );
+
+    const handleDayMouseLeave = useCallback(() => {
+      if (onHover) onHover(null);
+    }, [onHover]);
 
     const handleMonthChange = (increment: number) => {
       if (onMonthChange) {
@@ -281,11 +324,12 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 weight={isSelected ? "strong" : "default"}
                 variant={isSelected ? "primary" : "tertiary"}
                 size="m"
-                onClick={() => !isDisabled && handleDateSelect(currentDate)}
-                onMouseEnter={() => onHover?.(currentDate)}
-                onMouseLeave={() => onHover?.(null)}
+                onClick={handleDayClick}
+                onMouseEnter={onHover ? handleDayMouseEnter : undefined}
+                onMouseLeave={onHover ? handleDayMouseLeave : undefined}
                 disabled={isDisabled}
                 aria-label={dateLabel}
+                data-date={currentDate.toString()}
               >
                 {day}
               </Button>
@@ -337,6 +381,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 variant="label-default-s"
                 onBackground="brand-weak"
                 onClick={() => handleTimeToggle(false)}
+                // biome-ignore lint/a11y/useSemanticElements: existing code pattern
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -357,7 +402,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronLeft"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(-1);
@@ -380,7 +425,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronRight"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(1);
