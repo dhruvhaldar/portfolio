@@ -83,7 +83,9 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
                 key={index}
                 label={tag}
                 onRemove={() => handleRemoveTag(index)}
-                aria-label={`Remove tag ${tag}`}
+                iconButtonProps={{
+                  tooltip: `Remove ${tag}`,
+                }}
               />
             ))}
           </Flex>
