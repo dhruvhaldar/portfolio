@@ -1,8 +1,9 @@
 "use client";
 
-import React, { ReactNode, MouseEventHandler, forwardRef } from "react";
 import classNames from "classnames";
-import { Text, Icon, IconButton, IconButtonProps, Flex } from ".";
+import type React from "react";
+import { type MouseEventHandler, type ReactNode, forwardRef } from "react";
+import { Flex, Icon, IconButton, type IconButtonProps, Text } from ".";
 import styles from "./Chip.module.scss";
 
 interface ChipProps extends React.ComponentProps<typeof Flex> {
@@ -79,12 +80,12 @@ const Chip: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
         radius="full"
         paddingX="8"
         paddingY="4"
-        role="button"
-        tabIndex={0}
+        role={onClick ? "button" : undefined}
+        tabIndex={onClick ? 0 : undefined}
         onClick={onClick}
-        onKeyDown={handleKeyDown}
-        aria-pressed={selected}
-        cursor="interactive"
+        onKeyDown={onClick ? handleKeyDown : undefined}
+        aria-pressed={onClick ? selected : undefined}
+        cursor={onClick ? "interactive" : undefined}
         transition="micro-medium"
         className={classNames(styles.chip, {
           [styles.selected]: selected,
