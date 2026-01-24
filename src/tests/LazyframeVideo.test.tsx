@@ -50,4 +50,16 @@ describe('LazyframeVideo', () => {
     const { container } = render(<LazyframeVideo src="https://evil.com/fake?u=youtube.com/watch?v=dQw4w9WgXcQ" />);
     expect(container.firstChild).toBeNull();
   });
+
+  it('should use a reconstructed safe URL for data-src', () => {
+    // Input has some extra parameters that we want stripped, or just normal input
+    const inputSrc = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&feature=share";
+    // Expected: strict reconstruction
+    const expectedSrc = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+    const { container } = render(<LazyframeVideo src={inputSrc} />);
+    const lazyframeDiv = container.querySelector('.lazyframe');
+
+    expect(lazyframeDiv).toHaveAttribute('data-src', expectedSrc);
+  });
 });

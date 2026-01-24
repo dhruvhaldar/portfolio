@@ -38,3 +38,28 @@ export function isValidEmail(email: string): boolean {
   const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
+
+// 🛡️ Sentinel: Centralized YouTube URL validation regex
+// Anchored to start to prevent confusion.
+// Captures the 11-character ID.
+export const YOUTUBE_REGEX = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+/**
+ * Validates if a URL is a valid YouTube URL.
+ * @param url - The URL to validate
+ */
+export function validateYoutubeUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false;
+  return YOUTUBE_REGEX.test(url);
+}
+
+/**
+ * Extracts the YouTube video ID from a URL.
+ * Returns null if the URL is invalid or no ID is found.
+ * @param url - The URL to extract from
+ */
+export function extractYoutubeId(url: string): string | null {
+  if (!url || typeof url !== 'string') return null;
+  const match = url.match(YOUTUBE_REGEX);
+  return match ? match[1] : null;
+}

@@ -5,6 +5,7 @@ import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
 import { Flex, Text } from "@/once-ui/components";
+import { extractYoutubeId } from "@/app/utils/security";
 
 interface LazyframeVideoProps {
   /** The source URL of the video (e.g., YouTube URL) */
@@ -22,15 +23,6 @@ interface LazyframeVideoProps {
 // Video title overlay gradient
 const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)";
 
-// Helper to extract YouTube ID
-const getYouTubeId = (url: string) => {
-  // 🛡️ Sentinel: Strictly validate the URL starts with expected domains
-  // Allow subdomains like www, m, music, etc.
-  const regex = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-};
-
 /**
  * A video component that lazily loads video content (like YouTube) to improve performance.
  * Uses the 'lazyframe' library.
@@ -45,7 +37,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
 
-  const youtubeId = getYouTubeId(src);
+  const youtubeId = extractYoutubeId(src);
   const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
   const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
 
@@ -54,6 +46,10 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   if (!youtubeId) {
     return null;
   }
+
+  // 🛡️ Sentinel: Reconstruct the URL to prevent XSS via malicious 'src' payloads
+  // We use the extracted ID (which is strictly validated) to build a safe URL.
+  const safeSrc = `https://www.youtube.com/watch?v=${youtubeId}`;
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
@@ -102,7 +98,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         <div
           ref={videoRef}
           className="lazyframe"
-          data-src={src}
+          data-src={safeSrc}
           data-vendor="youtube"
           data-thumbnail={activeThumbnailUrl}
           style={{
