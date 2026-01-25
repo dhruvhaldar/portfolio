@@ -13,3 +13,11 @@ This journal documents critical performance learnings for the codebase.
 ## 2024-05-22 - [RevealFx Redundant Effect]
 **Learning:** The `RevealFx` component was scheduling a `setTimeout` to set state to `true` even when `revealedByDefault` was `true`. This caused an unnecessary effect execution and potential re-render check on critical path (LCP) elements.
 **Action:** Always check if the target state is already achieved before scheduling effects that update state, especially for "initial" states like `revealedByDefault`.
+
+## 2025-02-26 - [Review Bot Fallibility]
+**Learning:** Automated code review tools may incorrectly flag existing imports as missing or misidentify the test environment (e.g., claiming Vitest is not used when it is).
+**Action:** Always verify "missing" imports by reading the file content and verify test environment by checking `package.json` and running tests locally. Trust empirical evidence over automated claims when they conflict.
+
+## 2025-02-26 - [SmartImage Regex Optimization]
+**Learning:** `SmartImage` executes a YouTube regex check on every render. While fast, this adds up in lists or during interactions (like enlarging) that trigger re-renders.
+**Action:** Memoized the `isVideo`, `isYouTube`, and `youtubeEmbedUrl` calculations using `useMemo`. This ensures these checks only run when `src` changes, not when internal state (like `isEnlarged`) changes.

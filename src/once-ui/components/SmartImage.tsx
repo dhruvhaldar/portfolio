@@ -152,8 +152,13 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
 
   // Bolt: moved helper functions outside to avoid recreation on every render
 
-  const isVideo = src?.endsWith(".mp4");
-  const isYouTube = isYouTubeVideo(src);
+  const { isVideo, isYouTube, youtubeEmbedUrl } = useMemo(() => {
+    const isVideo = src?.endsWith(".mp4");
+    const isYouTube = isYouTubeVideo(src);
+    const youtubeEmbedUrl = isYouTube ? getYouTubeEmbedUrl(src) : "";
+    return { isVideo, isYouTube, youtubeEmbedUrl };
+  }, [src]);
+
   const [isLoaded, setIsLoaded] = useState(!!shouldPreload);
 
   return (
@@ -199,7 +204,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
           <iframe
             width="100%"
             height="100%"
-            src={getYouTubeEmbedUrl(src)}
+            src={youtubeEmbedUrl}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             style={{
