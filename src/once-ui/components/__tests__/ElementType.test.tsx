@@ -37,4 +37,30 @@ describe('ElementType Security', () => {
     expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
     expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
   });
+
+  it('should add rel="noopener noreferrer" when target="_blank" is used on internal links', () => {
+    render(
+      <ElementType href="/internal" target="_blank">
+        Internal Target Blank
+      </ElementType>
+    );
+
+    const link = screen.getByText('Internal Target Blank').closest('a');
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
+  });
+
+  it('should treat protocol-relative URLs as external', () => {
+    render(
+      <ElementType href="//example.com">
+        Protocol Relative
+      </ElementType>
+    );
+
+    // Should be treated as external (<a>) and have target blank + rel
+    const link = screen.getByText('Protocol Relative').closest('a');
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
+  });
 });

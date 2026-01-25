@@ -57,3 +57,8 @@
 **Vulnerability:** When using `output: 'export'`, Next.js `headers` configuration is ignored. This leaves the static site vulnerable to XSS and other attacks if the hosting provider doesn't strictly enforce CSP headers.
 **Learning:** Security headers defined in `next.config.js` or `middleware.ts` do not apply to static exports. A `<meta>` tag fallback is essential for defense-in-depth on static hosts.
 **Prevention:** Inject a `<meta http-equiv="Content-Security-Policy">` tag in the Root Layout (`layout.tsx`) to enforce CSP even when HTTP headers are missing or misconfigured by the host.
+
+## 2026-10-27 - [MEDIUM] Unsafe Target Blank in ElementType
+**Vulnerability:** The `ElementType` component did not automatically add `rel="noopener noreferrer"` when `target="_blank"` was used on internal or protocol-relative links (falling through to Next.js `Link`), creating a Reverse Tabnabbing risk.
+**Learning:** Next.js `Link` component does not automatically secure `target="_blank"`. Protocol-relative URLs are often overlooked in "external link" regex checks.
+**Prevention:** Always check for `target="_blank"` explicitly in link wrappers and enforce `rel="noopener noreferrer"`. Enhance external link detection to include `//`.

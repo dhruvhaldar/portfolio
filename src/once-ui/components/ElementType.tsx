@@ -14,7 +14,7 @@ interface ElementTypeProps {
   [key: string]: any;
 }
 
-const isExternalLink = (url: string) => /^https?:\/\//.test(url);
+const isExternalLink = (url: string) => /^(https?:)?\/\//.test(url);
 
 /**
  * A polymorphic component that renders as a Link, anchor, or button based on props.
@@ -64,13 +64,20 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
           </a>
         );
       }
+
+      const { target, rel, ...restProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      const isTargetBlank = target === "_blank";
+      const safeRel = isTargetBlank ? (rel ? `${rel} noopener noreferrer` : "noopener noreferrer") : rel;
+
       return (
         <Link
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={className}
           style={style}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          target={target}
+          rel={safeRel}
+          {...restProps}
         >
           {children}
         </Link>
