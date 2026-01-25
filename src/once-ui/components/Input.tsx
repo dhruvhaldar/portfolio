@@ -1,17 +1,18 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  InputHTMLAttributes,
-  useCallback,
-  ReactNode,
-} from "react";
 import classNames from "classnames";
-import { Flex, Text } from ".";
-import styles from "./Input.module.scss";
+import type React from "react";
+import {
+  type InputHTMLAttributes,
+  type ReactNode,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { Flex, Spinner, Text } from ".";
 import useDebounce from "../hooks/useDebounce";
+import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /** Element ID */
@@ -28,15 +29,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   description?: ReactNode;
   /** Border radius */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Custom class name */
   className?: string;
   /** Custom styles */
@@ -49,6 +50,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelAsPlaceholder?: boolean;
   /** Custom validation function */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Whether the input is in a loading state */
+  loading?: boolean;
 }
 
 /**
@@ -68,6 +71,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       style,
       hasPrefix,
       hasSuffix,
+      loading = false,
       labelAsPlaceholder = false,
       children,
       onFocus,
@@ -121,7 +125,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     useEffect(() => {
       validateInput();
-    }, [debouncedValue, validateInput]);
+    }, [validateInput]);
 
     const displayError = validationError || errorMessage;
 
@@ -181,6 +185,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               {...props}
               ref={ref}
               id={id}
+              aria-busy={loading}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -207,9 +212,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             {children}
           </Flex>
-          {hasSuffix && (
+          {(hasSuffix || loading) && (
             <Flex paddingRight="12" className={styles.suffix}>
-              {hasSuffix}
+              {loading ? <Spinner size={height === "s" ? "xs" : "s"} /> : hasSuffix}
             </Flex>
           )}
         </Flex>
