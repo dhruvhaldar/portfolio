@@ -3,6 +3,7 @@
 import React, { CSSProperties, useState, useRef, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 
+import { validateYoutubeUrl, extractYoutubeId } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, 'height'> {
@@ -38,18 +39,14 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
   };
 }
 
-// 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
-const YOUTUBE_REGEX =
-  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-
 const isYouTubeVideo = (url: string) => {
-  return YOUTUBE_REGEX.test(url);
+  return validateYoutubeUrl(url);
 };
 
 const getYouTubeEmbedUrl = (url: string) => {
-  const match = url.match(YOUTUBE_REGEX);
-  return match
-    ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&modestbranding=1`
+  const id = extractYoutubeId(url);
+  return id
+    ? `https://www.youtube.com/embed/${id}?controls=0&rel=0&modestbranding=1`
     : "";
 };
 
