@@ -66,7 +66,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: code triggers re-highlighting implicitly via ref content
   useEffect(() => {
     if (codeRef.current && codeInstances.length > 0) {
-      Prism.highlightElement(codeRef.current);
+      // @ts-ignore: Prism types might not include highlightElement in some versions/configs, but it exists
+      (Prism as any).highlightElement(codeRef.current);
     }
   }, [code, codeInstances.length]);
 
