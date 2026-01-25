@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, forwardRef, useEffect } from "react";
 import classNames from "classnames";
-import { Flex, Text, Button, Grid, SegmentedControl, IconButton, NumberInput } from ".";
+import type React from "react";
+import { forwardRef, useEffect, useId, useState } from "react";
+import { Button, Flex, Grid, IconButton, NumberInput, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
@@ -79,9 +80,9 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
     const [selectedTime, setSelectedTime] = useState<
       | {
-        hours: number;
-        minutes: number;
-      }
+          hours: number;
+          minutes: number;
+        }
       | undefined
     >(defaultTime);
     const [isPM, setIsPM] = useState(defaultTime?.hours ? defaultTime.hours >= 12 : false);
@@ -94,6 +95,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [currentYear, setCurrentYear] = useState<number>(
       value ? value.getFullYear() : today.getFullYear(),
     );
+    const generatedId = useId();
 
     useEffect(() => {
       if (typeof propCurrentMonth === "number") {
@@ -333,17 +335,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 {monthNames[currentMonth]} {currentYear}
               </Text>
               <Text
+                as="button"
                 className="cursor-interactive"
                 variant="label-default-s"
                 onBackground="brand-weak"
                 onClick={() => handleTimeToggle(false)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleTimeToggle(false);
-                  }
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
                 }}
               >
                 Back to calendar
@@ -357,7 +357,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronLeft"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(-1);
@@ -380,7 +380,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronRight"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(1);
@@ -428,7 +428,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               />
               <Flex fillWidth gap="16" vertical="center" data-scaling="110">
                 <NumberInput
-                  id="hours"
+                  id={`${generatedId}-hours`}
                   label="Hours"
                   labelAsPlaceholder
                   min={1}
@@ -443,7 +443,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 />
                 :
                 <NumberInput
-                  id="minutes"
+                  id={`${generatedId}-minutes`}
                   label="Minutes"
                   labelAsPlaceholder
                   min={0}
