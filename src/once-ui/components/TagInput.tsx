@@ -2,13 +2,14 @@
 
 import React, {
   useState,
-  KeyboardEventHandler,
-  ChangeEventHandler,
-  FocusEventHandler,
+  type KeyboardEventHandler,
+  type ChangeEventHandler,
+  type FocusEventHandler,
   forwardRef,
+  useCallback,
 } from "react";
 
-import { Flex, Chip, Input, InputProps } from ".";
+import { Chip, Flex, Input, type InputProps } from ".";
 
 interface TagInputProps extends Omit<InputProps, "onChange" | "value"> {
   /** Current array of tags */
@@ -16,6 +17,38 @@ interface TagInputProps extends Omit<InputProps, "onChange" | "value"> {
   /** Handler for tag changes */
   onChange: (value: string[]) => void;
 }
+
+interface TagListProps {
+  tags: string[];
+  onRemove: (index: number) => void;
+}
+
+const TagList = React.memo(({ tags, onRemove }: TagListProps) => {
+  return (
+    <Flex
+      style={{
+        margin: "calc(-1 * var(--static-space-8)) var(--static-space-8)",
+      }}
+      direction="row"
+      gap="4"
+      vertical="center"
+      wrap
+      paddingY="16"
+    >
+      {tags.map((tag, index) => (
+        <Chip
+          // biome-ignore lint/suspicious/noArrayIndexKey: Duplicate tags are allowed, so index is the only unique identifier.
+          key={index}
+          label={tag}
+          onRemove={() => onRemove(index)}
+          aria-label={`Remove tag ${tag}`}
+        />
+      ))}
+    </Flex>
+  );
+});
+
+TagList.displayName = "TagList";
 
 /**
  * An input component that converts text entries into tags.
@@ -39,10 +72,13 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
       }
     };
 
-    const handleRemoveTag = (index: number) => {
-      const newValue = value.filter((_, i) => i !== index);
-      onChange(newValue);
-    };
+    const handleRemoveTag = useCallback(
+      (index: number) => {
+        const newValue = value.filter((_, i) => i !== index);
+        onChange(newValue);
+      },
+      [value, onChange],
+    );
 
     const handleFocus: FocusEventHandler<HTMLInputElement> = () => {
       setIsFocused(true);
@@ -67,27 +103,7 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
         aria-expanded={isFocused}
         {...inputProps}
       >
-        {value.length > 0 && (
-          <Flex
-            style={{
-              margin: "calc(-1 * var(--static-space-8)) var(--static-space-8)",
-            }}
-            direction="row"
-            gap="4"
-            vertical="center"
-            wrap
-            paddingY="16"
-          >
-            {value.map((tag, index) => (
-              <Chip
-                key={index}
-                label={tag}
-                onRemove={() => handleRemoveTag(index)}
-                aria-label={`Remove tag ${tag}`}
-              />
-            ))}
-          </Flex>
-        )}
+        {value.length > 0 && <TagList tags={value} onRemove={handleRemoveTag} />}
       </Input>
     );
   },
