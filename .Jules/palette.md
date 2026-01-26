@@ -5,3 +5,7 @@
 ## 2026-01-20 - Unique IDs in Reusable Components
 **Learning:** Reusable components like `Select` often hardcode IDs (e.g., `id="search"`) for internal elements. This creates duplicate IDs when the component is used multiple times on a page, breaking accessibility (labels point to the wrong input) and HTML validity.
 **Action:** Always use a generated unique ID (via `useId()`) as a namespace for internal element IDs (e.g., `id={`${generatedId}-search`}`) in reusable components.
+
+## 2025-05-23 - Interactive Roles on Containers
+**Learning:** The `Chip` component was unconditionally applying `role="button"` and `tabIndex={0}`, creating invalid HTML (button inside button) and confusing accessibility when used as a static container for removable tags in `TagInput`.
+**Action:** Conditionally apply interactive roles (`button`, `link`, etc.) only when the component actually receives an interaction handler (like `onClick`). For composite components (like tags with remove buttons), ensure the container is static if the interaction is only on the inner button.
