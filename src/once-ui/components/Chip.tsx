@@ -2,7 +2,14 @@
 
 import classNames from "classnames";
 import type React from "react";
-import { type MouseEventHandler, type ReactNode, forwardRef } from "react";
+import {
+  type MouseEventHandler,
+  type ReactNode,
+  forwardRef,
+  memo,
+  useCallback,
+  useMemo,
+} from "react";
 import { Flex, Icon, IconButton, type IconButtonProps, Text } from ".";
 import styles from "./Chip.module.scss";
 
@@ -31,7 +38,7 @@ interface ChipProps extends React.ComponentProps<typeof Flex> {
  * A compact interactive element, often used for filters or selections.
  * Supports distinct states and removal action.
  */
-const Chip: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
+const ChipComponent: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
   (
     {
       label,
@@ -45,32 +52,44 @@ const Chip: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
     },
     ref,
   ) => {
-    const defaultIconButtonProps: IconButtonProps = {
-      icon: "close",
-      variant: "ghost",
-      size: "s",
-      tooltip: "Remove",
-      onClick: (e) => {
-        e.stopPropagation();
-        if (onRemove) onRemove();
-      },
-    };
+    // Bolt: Memoize default props to prevent object recreation on every render
+    const defaultIconButtonProps = useMemo<IconButtonProps>(
+      () => ({
+        icon: "close",
+        variant: "ghost",
+        size: "s",
+        tooltip: "Remove",
+        onClick: (e) => {
+          e.stopPropagation();
+          if (onRemove) onRemove();
+        },
+      }),
+      [onRemove],
+    );
 
-    const combinedIconButtonProps = {
-      ...defaultIconButtonProps,
-      ...iconButtonProps,
-      onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
-        defaultIconButtonProps.onClick?.(e);
-        iconButtonProps.onClick?.(e);
-      },
-    };
+    // Bolt: Memoize combined props to prevent object recreation on every render
+    const combinedIconButtonProps = useMemo(
+      () => ({
+        ...defaultIconButtonProps,
+        ...iconButtonProps,
+        onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+          defaultIconButtonProps.onClick?.(e);
+          iconButtonProps.onClick?.(e);
+        },
+      }),
+      [defaultIconButtonProps, iconButtonProps],
+    );
 
-    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        if (onClick) onClick(e as unknown as React.MouseEvent<HTMLDivElement>);
-      }
-    };
+    // Bolt: Memoize handler to prevent function recreation on every render
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = useCallback(
+      (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (onClick) onClick(e as unknown as React.MouseEvent<HTMLDivElement>);
+        }
+      },
+      [onClick],
+    );
 
     return (
       <Flex
@@ -110,6 +129,10 @@ const Chip: React.FC<ChipProps> = forwardRef<HTMLDivElement, ChipProps>(
   },
 );
 
+ChipComponent.displayName = "ChipComponent";
+
+// Bolt: Memoize Chip to prevent unnecessary re-renders when props are stable
+const Chip = memo(ChipComponent);
 Chip.displayName = "Chip";
 
 export { Chip };
