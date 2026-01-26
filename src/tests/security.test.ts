@@ -84,6 +84,17 @@ describe("isSafeUrl", () => {
     expect(isSafeUrl("file:///etc/passwd")).toBe(false);
   });
 
+  it("should return false for dangerous protocols via regex check (defense in depth)", () => {
+    expect(isSafeUrl("javascript:void(0)")).toBe(false);
+    expect(isSafeUrl("vbscript:msgbox(1)")).toBe(false);
+    expect(
+      isSafeUrl(
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+      ),
+    ).toBe(false);
+    expect(isSafeUrl("file://C:/Windows/System32/drivers/etc/hosts")).toBe(false);
+  });
+
   it("should return false for obfuscated dangerous protocols", () => {
     // URL parser handles these (normalizes them), so they should fail validation because protocol matches javascript:
     expect(isSafeUrl("java\nscript:alert(1)")).toBe(false);
