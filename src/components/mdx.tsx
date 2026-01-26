@@ -27,6 +27,7 @@ import {
   LazyframeVideo,
 } from "@/components";
 
+import { isSafeUrl } from "@/app/utils/security";
 import { TextProps } from "@/once-ui/interfaces";
 import { SmartImageProps } from "@/once-ui/components/SmartImage";
 
@@ -52,15 +53,8 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
     );
   }
 
-  // 🛡️ Sentinel: Block dangerous URLs (javascript:, data:, vbscript:, file:) to prevent XSS.
-  // We strictly allow only specific protocols or relative paths.
-  const hrefLower = href.trim().toLowerCase();
-  if (
-    hrefLower.startsWith('javascript:') ||
-    hrefLower.startsWith('data:') ||
-    hrefLower.startsWith('vbscript:') ||
-    hrefLower.startsWith('file:')
-  ) {
+  // 🛡️ Sentinel: Block dangerous URLs using strict allowlist to prevent XSS.
+  if (!isSafeUrl(href)) {
     console.error(`Security: Blocked dangerous URL scheme in CustomLink: ${href}`);
     return (
       <span {...props}>
