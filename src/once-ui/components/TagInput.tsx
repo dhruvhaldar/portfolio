@@ -41,7 +41,9 @@ const TagList = React.memo(({ tags, onRemove }: TagListProps) => {
           key={index}
           label={tag}
           onRemove={() => onRemove(index)}
-          aria-label={`Remove tag ${tag}`}
+          iconButtonProps={{
+            tooltip: `Remove tag ${tag}`,
+          }}
         />
       ))}
     </Flex>
