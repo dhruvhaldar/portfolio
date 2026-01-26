@@ -43,6 +43,12 @@ export function isValidEmail(email: string): boolean {
 const YOUTUBE_REGEX =
   /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
+// 🛡️ Sentinel: Limit URL length to prevent ReDoS and excessive processing
+const MAX_URL_LENGTH = 2048;
+
+// 🛡️ Sentinel: Regex to block dangerous schemes even if URL parsing fails or behaves unexpectedly
+const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
+
 /**
  * Validates if a URL is a valid YouTube URL.
  *
@@ -50,6 +56,7 @@ const YOUTUBE_REGEX =
  * @returns True if the URL is a valid YouTube URL, false otherwise.
  */
 export function validateYoutubeUrl(url: string): boolean {
+  if (!url || url.length > MAX_URL_LENGTH) return false;
   return YOUTUBE_REGEX.test(url);
 }
 
@@ -60,6 +67,7 @@ export function validateYoutubeUrl(url: string): boolean {
  * @returns The YouTube video ID if found, null otherwise.
  */
 export function extractYoutubeId(url: string): string | null {
+  if (!url || url.length > MAX_URL_LENGTH) return null;
   const match = url.match(YOUTUBE_REGEX);
   return match ? match[1] : null;
 }
@@ -74,6 +82,11 @@ export function extractYoutubeId(url: string): string | null {
 export function isSafeUrl(url: string): boolean {
   if (!url) return false;
   const href = url.trim();
+
+  // 🛡️ Sentinel: Explicitly reject dangerous schemes as Defense-in-Depth
+  if (DANGEROUS_SCHEMES_REGEX.test(href)) {
+    return false;
+  }
 
   try {
     const parsed = new URL(href);

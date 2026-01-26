@@ -62,3 +62,8 @@
 **Vulnerability:** The `LazyframeVideo` component validated the user-provided `src` regex but passed the *original* string to the `lazyframe` library's `data-src` attribute. This could allow maliciously crafted URLs (that trick the regex or exploit library parsing quirks) to be rendered.
 **Learning:** Regex validation is a filter, not a sanitizer. If you extract safe data (like a video ID) from a complex input, use that extracted data to *reconstruct* the URL rather than passing the original input downstream.
 **Prevention:** Always reconstruct URLs from trusted parts (e.g. `https://youtube.com/watch?v=${extractedId}`) instead of trusting the original input string.
+
+## 2026-10-21 - [ENHANCEMENT] Defense-in-Depth for URL Validation
+**Vulnerability:** While `new URL()` is robust, relying solely on it for security validation can be risky if its parsing behavior differs from browser execution (e.g., with control characters or obfuscated schemes) or if it fails open.
+**Learning:** Security controls should use multiple layers (Defense in Depth). Explicitly blocking known dangerous patterns (blocklist) *before* trusted parsing (allowlist) covers gaps where the parser might fail or behave unexpectedly.
+**Prevention:** Implement both explicit regex checks for dangerous schemes (`javascript:`, `vbscript:`, `data:`, `file:`) AND strict allowlisting of safe protocols (`http:`, `https:`). Also, enforce length limits on input to prevent ReDoS.
