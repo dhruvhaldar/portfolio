@@ -63,3 +63,23 @@ export function extractYoutubeId(url: string): string | null {
   const match = url.match(YOUTUBE_REGEX);
   return match ? match[1] : null;
 }
+
+/**
+ * Validates if a URL is safe to be used in an href attribute.
+ * Uses an allowlist approach for protocols and robustly handles URL parsing.
+ *
+ * @param url - The URL to validate.
+ * @returns True if the URL is safe, false otherwise.
+ */
+export function isSafeUrl(url: string): boolean {
+  if (!url) return false;
+  const href = url.trim();
+
+  try {
+    const parsed = new URL(href);
+    return ["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol);
+  } catch (e) {
+    // Not an absolute URL, so it's a relative URL (safe)
+    return true;
+  }
+}
