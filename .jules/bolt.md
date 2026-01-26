@@ -21,3 +21,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [SmartImage Regex Optimization]
 **Learning:** `SmartImage` executes a YouTube regex check on every render. While fast, this adds up in lists or during interactions (like enlarging) that trigger re-renders.
 **Action:** Memoized the `isVideo`, `isYouTube`, and `youtubeEmbedUrl` calculations using `useMemo`. This ensures these checks only run when `src` changes, not when internal state (like `isEnlarged`) changes.
+
+## 2025-02-26 - [User Component Memoization]
+**Learning:** The `User` component was not memoized, but it constructs new object props (`restAvatarProps`) for its child `Avatar` component (which *is* memoized). This caused `Avatar` to re-render unnecessarily whenever `User` re-rendered, defeating the purpose of `Avatar`'s memoization.
+**Action:** Memoize container components like `User` that construct props for memoized children, ensuring that stable props from the parent result in stable props for the child.
