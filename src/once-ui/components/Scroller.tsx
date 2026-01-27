@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
 import { Flex, IconButton } from ".";
 import styles from "./Scroller.module.scss";
@@ -105,27 +105,31 @@ const Scroller: React.FC<ScrollerProps> = ({
     }
   };
 
-  const wrappedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement<ScrollableChildProps>(child)) {
-      const { onClick: childOnClick, onKeyDown: childOnKeyDown, ...otherProps } = child.props;
+  // Bolt: Memoize wrappedChildren to prevent unnecessary re-renders of children
+  // when Scroller's internal state (e.g., button visibility) changes.
+  const wrappedChildren = useMemo(() => {
+    return React.Children.map(children, (child, index) => {
+      if (React.isValidElement<ScrollableChildProps>(child)) {
+        const { onClick: childOnClick, onKeyDown: childOnKeyDown, ...otherProps } = child.props;
 
-      return React.cloneElement(child, {
-        ...otherProps,
-        onClick: (e: React.MouseEvent) => {
-          childOnClick?.(e);
-          onItemClick?.(index);
-        },
-        onKeyDown: (e: React.KeyboardEvent) => {
-          childOnKeyDown?.(e);
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
+        return React.cloneElement(child, {
+          ...otherProps,
+          onClick: (e: React.MouseEvent) => {
+            childOnClick?.(e);
             onItemClick?.(index);
-          }
-        },
-      });
-    }
-    return child;
-  });
+          },
+          onKeyDown: (e: React.KeyboardEvent) => {
+            childOnKeyDown?.(e);
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onItemClick?.(index);
+            }
+          },
+        });
+      }
+      return child;
+    });
+  }, [children, onItemClick]);
 
   return (
     <Flex
