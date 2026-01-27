@@ -71,6 +71,9 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
           onChange([...value, inputValue.trim()]);
           setInputValue("");
         }
+      } else if (e.key === "Backspace" && inputValue === "" && value.length > 0) {
+        e.preventDefault();
+        onChange(value.slice(0, -1));
       }
     };
 
