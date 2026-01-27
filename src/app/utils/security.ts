@@ -39,6 +39,9 @@ export function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
+const SAFE_URL_MAX_LENGTH = 2048;
+const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
+
 // 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
 const YOUTUBE_REGEX =
   /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -73,10 +76,21 @@ export function extractYoutubeId(url: string): string | null {
  */
 export function isSafeUrl(url: string): boolean {
   if (!url) return false;
+  if (url.length > SAFE_URL_MAX_LENGTH) return false;
+
   const href = url.trim();
 
+  // 🛡️ Sentinel: Sanitize to prevent filter bypass (e.g. java\0script:)
+  // Strip control characters (0x00-0x1F, 0x7F)
+  const sanitized = href.replace(/[\x00-\x1F\x7F]/g, "").trim();
+
+  // 🛡️ Sentinel: Block dangerous schemes even if URL parsing fails or handles them weirdly
+  if (DANGEROUS_SCHEMES_REGEX.test(sanitized)) {
+    return false;
+  }
+
   try {
-    const parsed = new URL(href);
+    const parsed = new URL(sanitized);
     return ["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol);
   } catch (e) {
     // Not an absolute URL, so it's a relative URL (safe)
