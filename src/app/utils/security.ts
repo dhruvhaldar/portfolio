@@ -71,9 +71,22 @@ export function extractYoutubeId(url: string): string | null {
  * @param url - The URL to validate.
  * @returns True if the URL is safe, false otherwise.
  */
+// 🛡️ Sentinel: Block dangerous schemes explicitly to prevent XSS via obfuscation
+// Matches javascript:, vbscript:, data:, file: (case insensitive)
+// Allows optional whitespace before colon to catch "javascript : alert(1)"
+const DANGEROUS_SCHEMES_REGEX = /^(?:javascript|vbscript|data|file)\s*:/i;
+
 export function isSafeUrl(url: string): boolean {
   if (!url) return false;
   const href = url.trim();
+
+  // 🛡️ Sentinel: Sanitize control characters to prevent bypasses like "java\nscript:"
+  // These characters are ignored by browsers but can break simple string matching
+  const normalized = href.replace(/[\x00-\x1F\x7F]+/g, "");
+
+  if (DANGEROUS_SCHEMES_REGEX.test(normalized)) {
+    return false;
+  }
 
   try {
     const parsed = new URL(href);
