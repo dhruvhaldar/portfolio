@@ -9,3 +9,7 @@
 ## 2025-05-23 - Interactive Roles on Containers
 **Learning:** The `Chip` component was unconditionally applying `role="button"` and `tabIndex={0}`, creating invalid HTML (button inside button) and confusing accessibility when used as a static container for removable tags in `TagInput`.
 **Action:** Conditionally apply interactive roles (`button`, `link`, etc.) only when the component actually receives an interaction handler (like `onClick`). For composite components (like tags with remove buttons), ensure the container is static if the interaction is only on the inner button.
+
+## 2025-10-24 - Composite Input Keyboard Support
+**Learning:** Multi-value inputs (like `TagInput`) often feel broken to users if they rely solely on mouse interaction for deletion. Users expect `Backspace` on an empty input to act on the previous item.
+**Action:** Ensure all composite inputs support `Backspace` deletion of the last item when the input buffer is empty, to match standard text editing expectations.

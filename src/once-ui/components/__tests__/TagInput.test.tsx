@@ -42,4 +42,35 @@ describe("TagInput", () => {
     expect(screen.queryByText("tag1")).not.toBeInTheDocument();
     expect(screen.getByText("tag2")).toBeInTheDocument();
   });
+
+  it("removes the last tag on Backspace when input is empty", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+
+    // Ensure initial state
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+
+    // Press Backspace on empty input
+    fireEvent.keyDown(input, { key: "Backspace" });
+
+    // Expect last tag to be removed
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.queryByText("tag2")).not.toBeInTheDocument();
+  });
+
+  it("does not remove tag on Backspace when input is NOT empty", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+
+    // Type something
+    fireEvent.change(input, { target: { value: "typing" } });
+
+    // Press Backspace
+    fireEvent.keyDown(input, { key: "Backspace" });
+
+    // Expect tags to remain
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
 });
