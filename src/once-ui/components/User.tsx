@@ -47,7 +47,7 @@ const UserComponent = forwardRef<HTMLDivElement, UserProps>(
           {...restAvatarProps}
         />
         {children}
-        {name && (
+        {(name || loading) && (
           <Flex direction="column" paddingLeft="4" paddingRight="12">
             {loading ? (
               <Flex minWidth={6} paddingY="4">

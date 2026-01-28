@@ -9,3 +9,7 @@
 ## 2025-05-23 - Interactive Roles on Containers
 **Learning:** The `Chip` component was unconditionally applying `role="button"` and `tabIndex={0}`, creating invalid HTML (button inside button) and confusing accessibility when used as a static container for removable tags in `TagInput`.
 **Action:** Conditionally apply interactive roles (`button`, `link`, etc.) only when the component actually receives an interaction handler (like `onClick`). For composite components (like tags with remove buttons), ensure the container is static if the interaction is only on the inner button.
+
+## 2026-05-15 - Loading States vs Data Props
+**Learning:** The `User` component was only rendering skeletons if the `name` prop was present. This created a Catch-22 where loading skeletons (needed before data arrives) wouldn't show because the data (name) wasn't there yet.
+**Action:** When implementing loading states, ensure skeletons or placeholders are rendered even if the data props (like `name`) are missing, as they are often undefined during the initial fetch.

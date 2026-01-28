@@ -35,4 +35,10 @@ describe("User", () => {
     render(<User name="John Doe" tagProps={{ label: "Admin", variant: "brand" }} />);
     expect(screen.getByText("Admin")).toBeInTheDocument();
   });
+
+  it("renders loading skeletons without name provided", () => {
+    render(<User loading />);
+    expect(screen.getByLabelText("Loading name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Loading subline")).toBeInTheDocument();
+  });
 });
