@@ -6,6 +6,7 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
   forwardRef,
+  memo,
   useCallback,
   useEffect,
   useState,
@@ -57,7 +58,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 /**
  * A form input component with built-in labeling, validation, and styling.
  */
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const InputComponent = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       id,
@@ -86,20 +87,26 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
-    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true);
-      if (onFocus) onFocus(event);
-    };
+    const handleFocus = useCallback(
+      (event: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
+        if (onFocus) onFocus(event);
+      },
+      [onFocus],
+    );
 
-    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false);
-      if (event.target.value) {
-        setIsFilled(true);
-      } else {
-        setIsFilled(false);
-      }
-      if (onBlur) onBlur(event);
-    };
+    const handleBlur = useCallback(
+      (event: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(false);
+        if (event.target.value) {
+          setIsFilled(true);
+        } else {
+          setIsFilled(false);
+        }
+        if (onBlur) onBlur(event);
+      },
+      [onBlur],
+    );
 
     useEffect(() => {
       setIsFilled(!!props.value);
@@ -242,6 +249,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
+InputComponent.displayName = "Input";
+
+// Bolt: Memoize Input to prevent unnecessary re-renders when props are stable
+const Input = memo(InputComponent);
 Input.displayName = "Input";
 
 export { Input };

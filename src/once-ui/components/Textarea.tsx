@@ -7,6 +7,7 @@ import React, {
   TextareaHTMLAttributes,
   useCallback,
   ReactNode,
+  memo,
 } from "react";
 import classNames from "classnames";
 import { Flex, Text } from ".";
@@ -55,7 +56,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
  * A multi-line text input component.
  * Supports auto-growing height and validation.
  */
-const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       id,
@@ -87,30 +88,39 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
-    const adjustHeight = () => {
+    const adjustHeight = useCallback(() => {
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set to scroll height
       }
-    };
+    }, []);
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (lines === "auto") {
-        adjustHeight();
-      }
-      if (onChange) onChange(event);
-    };
+    const handleChange = useCallback(
+      (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (lines === "auto") {
+          adjustHeight();
+        }
+        if (onChange) onChange(event);
+      },
+      [lines, adjustHeight, onChange],
+    );
 
-    const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      setIsFocused(true);
-      if (onFocus) onFocus(event);
-    };
+    const handleFocus = useCallback(
+      (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        setIsFocused(true);
+        if (onFocus) onFocus(event);
+      },
+      [onFocus],
+    );
 
-    const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      setIsFocused(false);
-      setIsFilled(!!event.target.value);
-      if (onBlur) onBlur(event);
-    };
+    const handleBlur = useCallback(
+      (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        setIsFocused(false);
+        setIsFilled(!!event.target.value);
+        if (onBlur) onBlur(event);
+      },
+      [onBlur],
+    );
 
     const validateInput = useCallback(() => {
       if (!debouncedValue) {
@@ -138,7 +148,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       if (lines === "auto") {
         adjustHeight();
       }
-    }, [props.value, lines]);
+    }, [props.value, lines, adjustHeight]);
 
     const displayError = validationError || errorMessage;
 
@@ -161,6 +171,16 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         [styles.hasChildren]: children,
       },
     );
+
+    const handleRef = useCallback((node: HTMLTextAreaElement | null) => {
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+      //@ts-ignore
+      textareaRef.current = node;
+    }, [ref]);
 
     return (
       <Flex
@@ -197,15 +217,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               aria-label={labelAsPlaceholder ? label : undefined}
               maxLength={4096}
               {...props}
-              ref={(node) => {
-                if (typeof ref === "function") {
-                  ref(node);
-                } else if (ref) {
-                  ref.current = node;
-                }
-                //@ts-ignore
-                textareaRef.current = node;
-              }}
+              ref={handleRef}
               id={id}
               rows={typeof lines === "number" ? lines : 1}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
@@ -270,6 +282,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   },
 );
 
+TextareaComponent.displayName = "Textarea";
+
+// Bolt: Memoize Textarea to prevent unnecessary re-renders when props are stable
+const Textarea = memo(TextareaComponent);
 Textarea.displayName = "Textarea";
 
 export { Textarea };
