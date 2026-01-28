@@ -89,6 +89,9 @@ describe("isSafeUrl", () => {
     expect(isSafeUrl("java\nscript:alert(1)")).toBe(false);
     expect(isSafeUrl("JAVASCRIPT:alert(1)")).toBe(false);
     expect(isSafeUrl("  javascript:alert(1)")).toBe(false);
+    // Null byte injection often breaks URL parsers (causing them to throw), which might trigger fallback logic.
+    // We must ensure this is caught.
+    expect(isSafeUrl("java\0script:alert(1)")).toBe(false);
   });
 
   it("should handle empty inputs", () => {
