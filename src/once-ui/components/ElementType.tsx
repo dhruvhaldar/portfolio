@@ -1,5 +1,6 @@
 import Link from "next/link";
-import React, { ReactNode, forwardRef } from "react";
+import type React from "react";
+import { type ReactNode, forwardRef } from "react";
 
 import { isSafeUrl } from "@/app/utils/security";
 
@@ -16,7 +17,8 @@ interface ElementTypeProps {
   [key: string]: any;
 }
 
-const isExternalLink = (url: string) => /^https?:\/\//.test(url);
+// 🛡️ Sentinel: Fix Reverse Tabnabbing by catching protocol-relative URLs
+const isExternalLink = (url: string) => /^(https?:)?\/\//.test(url);
 
 /**
  * A polymorphic component that renders as a Link, anchor, or button based on props.
@@ -32,13 +34,13 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
         console.error(`Security: Blocked dangerous URL scheme in ElementType: ${href}`);
         return (
           <button
-             ref={ref as React.Ref<HTMLButtonElement>}
-             className={className}
-             style={style}
-             disabled
-             {...props}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            className={className}
+            style={style}
+            disabled
+            {...props}
           >
-             {children}
+            {children}
           </button>
         );
       }
