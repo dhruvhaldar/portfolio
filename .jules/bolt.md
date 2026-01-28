@@ -25,3 +25,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [User Component Memoization]
 **Learning:** The `User` component was not memoized, but it constructs new object props (`restAvatarProps`) for its child `Avatar` component (which *is* memoized). This caused `Avatar` to re-render unnecessarily whenever `User` re-rendered, defeating the purpose of `Avatar`'s memoization.
 **Action:** Memoize container components like `User` that construct props for memoized children, ensuring that stable props from the parent result in stable props for the child.
+
+## 2025-02-26 - [Scroller Children Memoization]
+**Learning:** The `Scroller` component manages its own state (scroll buttons visibility) but uses `React.Children.map` + `React.cloneElement` to attach handlers to its children. Without memoization, every internal state update of `Scroller` re-creates these handlers, forcing all children to re-render.
+**Action:** Memoize the result of `React.Children.map` in wrapper components if they have internal state that changes independently of the children. This preserves referential identity of props passed to children.

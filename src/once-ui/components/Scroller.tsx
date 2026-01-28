@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Flex, IconButton } from ".";
-import styles from "./Scroller.module.scss";
 import { Fade } from "./Fade";
+import styles from "./Scroller.module.scss";
 
 interface ScrollerProps extends React.ComponentProps<typeof Flex> {
   /** Content children */
@@ -105,27 +105,30 @@ const Scroller: React.FC<ScrollerProps> = ({
     }
   };
 
-  const wrappedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement<ScrollableChildProps>(child)) {
-      const { onClick: childOnClick, onKeyDown: childOnKeyDown, ...otherProps } = child.props;
+  const wrappedChildren = useMemo(() => {
+    // Bolt: Memoize children mapping to prevent unnecessary re-renders when Scroller state updates (e.g., button visibility changes)
+    return React.Children.map(children, (child, index) => {
+      if (React.isValidElement<ScrollableChildProps>(child)) {
+        const { onClick: childOnClick, onKeyDown: childOnKeyDown, ...otherProps } = child.props;
 
-      return React.cloneElement(child, {
-        ...otherProps,
-        onClick: (e: React.MouseEvent) => {
-          childOnClick?.(e);
-          onItemClick?.(index);
-        },
-        onKeyDown: (e: React.KeyboardEvent) => {
-          childOnKeyDown?.(e);
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
+        return React.cloneElement(child, {
+          ...otherProps,
+          onClick: (e: React.MouseEvent) => {
+            childOnClick?.(e);
             onItemClick?.(index);
-          }
-        },
-      });
-    }
-    return child;
-  });
+          },
+          onKeyDown: (e: React.KeyboardEvent) => {
+            childOnKeyDown?.(e);
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onItemClick?.(index);
+            }
+          },
+        });
+      }
+      return child;
+    });
+  }, [children, onItemClick]);
 
   return (
     <Flex
