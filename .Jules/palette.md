@@ -13,3 +13,7 @@
 ## 2025-10-24 - Composite Input Keyboard Support
 **Learning:** Multi-value inputs (like `TagInput`) often feel broken to users if they rely solely on mouse interaction for deletion. Users expect `Backspace` on an empty input to act on the previous item.
 **Action:** Ensure all composite inputs support `Backspace` deletion of the last item when the input buffer is empty, to match standard text editing expectations.
+
+## 2025-10-25 - Visual Feedback for NumberInput Limits
+**Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
+**Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
