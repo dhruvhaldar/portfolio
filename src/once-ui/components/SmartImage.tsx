@@ -211,7 +211,6 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             // 🛡️ Sentinel: Sandbox to restrict iframe capabilities (allow scripts/same-origin for YouTube)
             sandbox="allow-scripts allow-same-origin allow-presentation"
             // 🛡️ Sentinel: Title for accessibility
-            title={alt || "YouTube video player"}
             style={{
               objectFit: objectFit,
             }}
