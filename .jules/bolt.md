@@ -29,3 +29,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [Scroller Children Memoization]
 **Learning:** The `Scroller` component manages its own state (scroll buttons visibility) but uses `React.Children.map` + `React.cloneElement` to attach handlers to its children. Without memoization, every internal state update of `Scroller` re-creates these handlers, forcing all children to re-render.
 **Action:** Memoize the result of `React.Children.map` in wrapper components if they have internal state that changes independently of the children. This preserves referential identity of props passed to children.
+
+## 2025-02-26 - [Dialog Redundant Handlers]
+**Learning:** The `Dialog` component had duplicate logic for focus trapping: one in a document-level `keydown` listener and another in the container's `onKeyDown` prop. This caused redundant DOM queries on every Tab press.
+**Action:** When implementing global shortcuts (like Esc or Focus Trap), rely on a single document-level listener (managed via `useEffect`) rather than adding redundant handlers to container elements. Ensure the document listener's lifecycle matches the component's interactive state.

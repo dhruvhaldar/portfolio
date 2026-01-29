@@ -117,6 +117,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
+        // Bolt: Handles focus trapping (Tab) and closing (Escape)
         if (event.key === "Escape" && !base) {
           onClose();
         }
@@ -274,28 +275,6 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
             background="neutral-weak"
             direction="column"
             tabIndex={-1}
-            onKeyDown={(e) => {
-              if (e.key === "Tab") {
-                const focusableElements = Array.from(
-                  dialogRef.current?.querySelectorAll(
-                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-                  ) || [],
-                );
-
-                if (focusableElements.length === 0) return;
-
-                const firstElement = focusableElements[0] as HTMLElement;
-                const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-                if (e.shiftKey && document.activeElement === firstElement) {
-                  e.preventDefault();
-                  lastElement.focus();
-                } else if (!e.shiftKey && document.activeElement === lastElement) {
-                  e.preventDefault();
-                  firstElement.focus();
-                }
-              }
-            }}
             {...rest}
           >
             <Flex
