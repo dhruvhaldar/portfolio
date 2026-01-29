@@ -208,6 +208,10 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             src={youtubeEmbedUrl}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            // 🛡️ Sentinel: Sandbox to restrict iframe capabilities (allow scripts/same-origin for YouTube)
+            sandbox="allow-scripts allow-same-origin allow-presentation"
+            // 🛡️ Sentinel: Title for accessibility
+            title={alt || "YouTube video player"}
             style={{
               objectFit: objectFit,
             }}

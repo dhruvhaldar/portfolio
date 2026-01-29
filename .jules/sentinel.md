@@ -62,3 +62,8 @@
 **Vulnerability:** The `LazyframeVideo` component validated the user-provided `src` regex but passed the *original* string to the `lazyframe` library's `data-src` attribute. This could allow maliciously crafted URLs (that trick the regex or exploit library parsing quirks) to be rendered.
 **Learning:** Regex validation is a filter, not a sanitizer. If you extract safe data (like a video ID) from a complex input, use that extracted data to *reconstruct* the URL rather than passing the original input downstream.
 **Prevention:** Always reconstruct URLs from trusted parts (e.g. `https://youtube.com/watch?v=${extractedId}`) instead of trusting the original input string.
+
+## 2026-10-14 - [ENHANCEMENT] Missing Sandbox on YouTube Iframe
+**Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
+**Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
+**Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
