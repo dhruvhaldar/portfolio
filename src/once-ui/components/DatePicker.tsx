@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import type React from "react";
-import { forwardRef, useEffect, useId, useState } from "react";
+import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Button, Flex, Grid, IconButton, NumberInput, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
@@ -48,6 +48,88 @@ export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>,
   /** Hover handler */
   onHover?: (date: Date | null) => void;
 }
+
+interface CalendarDayProps {
+  day: number;
+  month: number;
+  year: number;
+  isSelected: boolean;
+  isInRange: boolean;
+  isFirstInRange: boolean;
+  isLastInRange: boolean;
+  isDisabled: boolean;
+  onSelect: (date: Date) => void;
+  onHover: (date: Date | null) => void;
+}
+
+// Bolt: Optimized CalendarDay component to prevent unnecessary re-renders
+const CalendarDay = memo(
+  ({
+    day,
+    month,
+    year,
+    isSelected,
+    isInRange,
+    isFirstInRange,
+    isLastInRange,
+    isDisabled,
+    onSelect,
+    onHover,
+  }: CalendarDayProps) => {
+    const handleSelect = useCallback(() => {
+      if (!isDisabled) {
+        onSelect(new Date(year, month, day));
+      }
+    }, [year, month, day, isDisabled, onSelect]);
+
+    const handleMouseEnter = useCallback(() => {
+      onHover(new Date(year, month, day));
+    }, [year, month, day, onHover]);
+
+    const handleMouseLeave = useCallback(() => {
+      onHover(null);
+    }, [onHover]);
+
+    const dateLabel = useMemo(() => {
+      return new Date(year, month, day).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }, [year, month, day]);
+
+    return (
+      <Flex paddingY="2">
+        <Flex
+          width="40"
+          height="40"
+          background={isInRange ? "neutral-alpha-weak" : undefined}
+          borderTop={isInRange ? "neutral-alpha-weak" : "transparent"}
+          borderBottom={isInRange ? "neutral-alpha-weak" : "transparent"}
+          leftRadius={isFirstInRange ? "m" : undefined}
+          rightRadius={isLastInRange ? "m" : undefined}
+        >
+          <Button
+            fillWidth
+            weight={isSelected ? "strong" : "default"}
+            variant={isSelected ? "primary" : "tertiary"}
+            size="m"
+            onClick={handleSelect}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            disabled={isDisabled}
+            aria-label={dateLabel}
+          >
+            {day}
+          </Button>
+        </Flex>
+      </Flex>
+    );
+  },
+);
+
+CalendarDay.displayName = "CalendarDay";
 
 /**
  * A calendar component for selecting dates and times.
@@ -97,6 +179,12 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     );
     const generatedId = useId();
 
+    // Bolt: specific ref for stable hover handler
+    const onHoverRef = useRef(onHover);
+    useEffect(() => {
+      onHoverRef.current = onHover;
+    });
+
     useEffect(() => {
       if (typeof propCurrentMonth === "number") {
         setCurrentMonth(propCurrentMonth);
@@ -141,27 +229,35 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     ];
     const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    const handleTimeToggle = (show: boolean) => {
+    const handleTimeToggle = useCallback((show: boolean) => {
       setIsTransitioning(false);
       setTimeout(() => {
         setIsTimeSelector(show);
         setIsTransitioning(true);
       }, 400);
-    };
+    }, []);
 
-    const handleDateSelect = (date: Date) => {
-      const newDate = new Date(date);
-      if (timePicker && selectedDate && selectedTime) {
-        newDate.setHours(selectedTime.hours);
-        newDate.setMinutes(selectedTime.minutes);
-      }
-      setSelectedDate(newDate);
-      if (timePicker) {
-        handleTimeToggle(true);
-      } else {
-        onChange?.(newDate);
-      }
-    };
+    const handleDateSelect = useCallback(
+      (date: Date) => {
+        const newDate = new Date(date);
+        if (timePicker && selectedDate && selectedTime) {
+          newDate.setHours(selectedTime.hours);
+          newDate.setMinutes(selectedTime.minutes);
+        }
+        setSelectedDate(newDate);
+        if (timePicker) {
+          handleTimeToggle(true);
+        } else {
+          onChange?.(newDate);
+        }
+      },
+      [timePicker, selectedDate, selectedTime, handleTimeToggle, onChange],
+    );
+
+    // Bolt: Stable hover handler to prevent re-renders when parent passes new onHover function
+    const handleHover = useCallback((date: Date | null) => {
+      onHoverRef.current?.(date);
+    }, []);
 
     const handleMonthChange = (increment: number) => {
       if (onMonthChange) {
@@ -258,41 +354,20 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         // Check if the current date is out of the minDate and maxDate range
         const isDisabled = (minDate && currentDate < minDate) || (maxDate && currentDate > maxDate);
 
-        // Format date for aria-label: "Tuesday, October 24, 2023"
-        const dateLabel = currentDate.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-
         days.push(
-          //@ts-ignore
-          <Flex paddingY="2" key={`day-${currentYear}-${currentMonth}-${day}`}>
-            <Flex
-              width="40"
-              height="40"
-              background={isInRange(currentDate) ? "neutral-alpha-weak" : undefined}
-              borderTop={isInRange(currentDate) ? "neutral-alpha-weak" : "transparent"}
-              borderBottom={isInRange(currentDate) ? "neutral-alpha-weak" : "transparent"}
-              leftRadius={isFirstInRange ? "m" : undefined}
-              rightRadius={isLastInRange ? "m" : undefined}
-            >
-              <Button
-                fillWidth
-                weight={isSelected ? "strong" : "default"}
-                variant={isSelected ? "primary" : "tertiary"}
-                size="m"
-                onClick={() => !isDisabled && handleDateSelect(currentDate)}
-                onMouseEnter={() => onHover?.(currentDate)}
-                onMouseLeave={() => onHover?.(null)}
-                disabled={isDisabled}
-                aria-label={dateLabel}
-              >
-                {day}
-              </Button>
-            </Flex>
-          </Flex>,
+          <CalendarDay
+            key={`day-${currentYear}-${currentMonth}-${day}`}
+            day={day}
+            month={currentMonth}
+            year={currentYear}
+            isSelected={!!isSelected}
+            isInRange={!!isInRange(currentDate)}
+            isFirstInRange={!!isFirstInRange}
+            isLastInRange={!!isLastInRange}
+            isDisabled={!!isDisabled}
+            onSelect={handleDateSelect}
+            onHover={handleHover}
+          />,
         );
       }
 
