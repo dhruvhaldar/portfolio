@@ -48,4 +48,37 @@ describe('SmartImage Security', () => {
         // Accessibility: Title attribute
         expect(iframe?.getAttribute('title')).toBe('Cool Video');
     });
+
+    it('should reject dangerous javascript: URLs in src', () => {
+        const dangerousUrl = 'javascript:alert(1)';
+        const { container } = render(<SmartImage src={dangerousUrl} alt="test" />);
+
+        // Should return null (render nothing)
+        expect(container.firstChild).toBeNull();
+    });
+
+    it('should reject dangerous javascript: URLs with obfuscation', () => {
+        const dangerousUrl = 'java\tscript:alert(1)';
+        const { container } = render(<SmartImage src={dangerousUrl} alt="test" />);
+
+        expect(container.firstChild).toBeNull();
+    });
+
+    it('should accept valid data: URLs for images', () => {
+        const safeDataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+        const { container } = render(<SmartImage src={safeDataUrl} alt="test" />);
+
+        // Should render img tag
+        const img = container.querySelector('img');
+        expect(img).not.toBeNull();
+        expect(img?.getAttribute('src')).toBe(safeDataUrl);
+    });
+
+    it('should accept valid blob: URLs for images', () => {
+        const safeBlobUrl = 'blob:http://localhost:3000/1234-5678';
+        const { container } = render(<SmartImage src={safeBlobUrl} alt="test" />);
+
+        const img = container.querySelector('img');
+        expect(img).not.toBeNull();
+    });
 });

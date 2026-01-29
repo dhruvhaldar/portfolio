@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-28 - [HIGH] Unvalidated Image Source in SmartImage
+**Vulnerability:** The `SmartImage` component accepted any `src` string, potentially allowing `javascript:` URLs to be passed. While browsers generally block script execution in `<img>` tags, this bypasses the principle of strict input validation and could be exploited in older browsers or if the `src` is used in other contexts.
+**Learning:** Security validation must be context-aware. `isSafeUrl` was too strict for images (blocking `data:`/`blob:`), leading developers to bypass validation entirely.
+**Prevention:** Implement context-specific validators (`isSafeImageSrc`) that allow necessary schemes (`data:`, `blob:`) but strictly block dangerous ones (`javascript:`, `vbscript:`, `file:`).

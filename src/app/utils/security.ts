@@ -41,6 +41,7 @@ export function isValidEmail(email: string): boolean {
 
 const SAFE_URL_MAX_LENGTH = 2048;
 const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
+const DANGEROUS_SRC_SCHEMES_REGEX = /^\s*(javascript|vbscript|file):/i;
 
 // 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
 const YOUTUBE_REGEX =
@@ -94,6 +95,35 @@ export function isSafeUrl(url: string): boolean {
     return ["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol);
   } catch (e) {
     // Not an absolute URL, so it's a relative URL (safe)
+    return true;
+  }
+}
+
+/**
+ * Validates if a URL is safe to be used in an image src attribute.
+ * Allows data: and blob: schemes which are safe for images but risky for links.
+ *
+ * @param url - The URL to validate.
+ * @returns True if the URL is safe, false otherwise.
+ */
+export function isSafeImageSrc(url: string): boolean {
+  if (!url) return false;
+  if (url.length > SAFE_URL_MAX_LENGTH) return false;
+
+  const href = url.trim();
+
+  // 🛡️ Sentinel: Sanitize to prevent filter bypass
+  const sanitized = href.replace(/[\x00-\x1F\x7F]/g, "").trim();
+
+  if (DANGEROUS_SRC_SCHEMES_REGEX.test(sanitized)) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(sanitized);
+    return ["http:", "https:", "blob:", "data:"].includes(parsed.protocol);
+  } catch (e) {
+    // Relative URL
     return true;
   }
 }

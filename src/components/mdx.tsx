@@ -27,7 +27,7 @@ import {
   LazyframeVideo,
 } from "@/components";
 
-import { isSafeUrl } from "@/app/utils/security";
+import { isSafeImageSrc, isSafeUrl } from "@/app/utils/security";
 import { TextProps } from "@/once-ui/interfaces";
 import { SmartImageProps } from "@/once-ui/components/SmartImage";
 
@@ -73,6 +73,12 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) {
     console.error("Media requires a valid 'src' property.");
+    return null;
+  }
+
+  // 🛡️ Sentinel: Validate src to prevent XSS (e.g. javascript:)
+  if (!isSafeImageSrc(src)) {
+    console.error(`Security: Blocked dangerous image src in MDX: ${src}`);
     return null;
   }
 

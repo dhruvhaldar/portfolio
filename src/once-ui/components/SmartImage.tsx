@@ -4,7 +4,7 @@ import Image from "next/image";
 import type React from "react";
 import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
-import { extractYoutubeId, validateYoutubeUrl } from "@/app/utils/security";
+import { extractYoutubeId, isSafeImageSrc, validateYoutubeUrl } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
@@ -159,6 +159,12 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   }, [src]);
 
   const [isLoaded, setIsLoaded] = useState(!!shouldPreload);
+
+  // 🛡️ Sentinel: Validate src to prevent XSS (e.g. javascript:)
+  if (!isSafeImageSrc(src)) {
+    console.warn(`Security: Blocked dangerous image src in SmartImage: ${src}`);
+    return null;
+  }
 
   return (
     <>
