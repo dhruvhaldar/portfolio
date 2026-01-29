@@ -34,4 +34,18 @@ describe('SmartImage Security', () => {
         expect(iframe).not.toBeNull();
         expect(iframe?.getAttribute('src')).toContain('embed/12345678901');
     });
+
+    it('should have security and accessibility attributes on the YouTube iframe', () => {
+        const validUrl = 'https://www.youtube.com/watch?v=12345678901';
+        const { container } = render(<SmartImage src={validUrl} alt="Cool Video" />);
+
+        const iframe = container.querySelector('iframe');
+        expect(iframe).not.toBeNull();
+
+        // Security: Sandbox attribute
+        expect(iframe?.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-presentation');
+
+        // Accessibility: Title attribute
+        expect(iframe?.getAttribute('title')).toBe('Cool Video');
+    });
 });
