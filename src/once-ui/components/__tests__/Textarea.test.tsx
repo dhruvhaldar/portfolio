@@ -30,4 +30,17 @@ describe("Textarea", () => {
     expect(textarea).toHaveAttribute("rows", "5");
     expect(textarea).toHaveAttribute("placeholder", "Type here");
   });
+
+  it("displays character count when showCount is true", () => {
+    render(
+      <Textarea
+        id="test-textarea"
+        label="Label"
+        showCount
+        maxLength={100}
+        defaultValue="Hello"
+      />,
+    );
+    expect(screen.getByText("5 / 100")).toBeInTheDocument();
+  });
 });

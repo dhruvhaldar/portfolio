@@ -50,6 +50,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   resize?: "horizontal" | "vertical" | "both" | "none";
   /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Whether to show character count */
+  showCount?: boolean;
 }
 
 /**
@@ -72,6 +74,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       labelAsPlaceholder = false,
       resize = "vertical",
       validate,
+      showCount = false,
       children,
       onFocus,
       onBlur,
@@ -88,6 +91,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
+    const [internalLength, setInternalLength] = useState(
+      typeof props.defaultValue === "string" ? props.defaultValue.length : 0,
+    );
+
+    const length = typeof props.value === "string" ? props.value.length : internalLength;
+
     const adjustHeight = useCallback(() => {
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
@@ -100,6 +109,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         if (lines === "auto") {
           adjustHeight();
         }
+        setInternalLength(event.target.value.length);
         if (onChange) onChange(event);
       },
       [lines, adjustHeight, onChange],
@@ -265,16 +275,29 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
             </Text>
           </Flex>
         )}
-        {description && (
-          <Flex paddingX="16">
-            <Text
-              as="span"
-              id={`${id}-description`}
-              variant="body-default-s"
-              onBackground="neutral-weak"
-            >
-              {description}
-            </Text>
+        {(description || showCount) && (
+          <Flex paddingX="16" fillWidth horizontal="space-between" gap="16">
+            {description && (
+              <Text
+                as="span"
+                id={`${id}-description`}
+                variant="body-default-s"
+                onBackground="neutral-weak"
+              >
+                {description}
+              </Text>
+            )}
+            {showCount && (
+              <Text
+                as="span"
+                variant="body-default-s"
+                onBackground="neutral-weak"
+                align="right"
+                style={{ marginLeft: "auto" }}
+              >
+                {length} / {props.maxLength || 4096}
+              </Text>
+            )}
           </Flex>
         )}
       </Flex>
