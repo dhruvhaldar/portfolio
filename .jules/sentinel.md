@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-24 - [ENHANCEMENT] Enforce noopener on Internal New Tab Links
+**Vulnerability:** Internal links opening in a new tab (`target="_blank"`) did not automatically receive `rel="noopener noreferrer"`. This could expose the previous page's `window.opener` to the new tab, allowing for potential performance degradation (same process) and reverse tabnabbing if the internal page redirects to an external site.
+**Learning:** Even internal links should use `noopener` when opening in a new tab to ensure process isolation and prevent potential reference leaks.
+**Prevention:** Updated `ElementType` component to automatically add `rel="noopener noreferrer"` to any link with `target="_blank"`, regardless of whether it is internal or external.

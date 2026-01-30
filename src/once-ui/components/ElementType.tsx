@@ -62,6 +62,11 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
           </a>
         );
       }
+      // 🛡️ Sentinel: Enforce noopener noreferrer for all target="_blank" links (internal included)
+      // to prevent reverse tabnabbing and improve performance.
+      const target = (props as any).target;
+      const rel = (props as any).rel || (target === "_blank" ? "noopener noreferrer" : undefined);
+
       return (
         <Link
           href={href}
@@ -69,6 +74,7 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
           className={className}
           style={style}
           {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          rel={rel}
         >
           {children}
         </Link>

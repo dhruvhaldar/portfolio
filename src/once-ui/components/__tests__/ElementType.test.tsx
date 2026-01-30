@@ -30,4 +30,14 @@ describe("ElementType Security", () => {
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
     expect(link).toHaveAttribute("rel", expect.stringContaining("noreferrer"));
   });
+
+  it('should add rel="noopener noreferrer" to internal links with target="_blank"', () => {
+    render(<ElementType href="/internal" target="_blank">Internal New Tab</ElementType>);
+
+    const link = screen.getByText("Internal New Tab").closest("a");
+    expect(link).toHaveAttribute("target", "_blank");
+    // This expects the component to treat internal links with target="_blank" securely
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noreferrer"));
+  });
 });
