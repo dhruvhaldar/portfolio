@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-27 - [MEDIUM] Lax Regex Validation for YouTube URLs
+**Vulnerability:** The anchored YouTube regex allowed arbitrary characters (including HTML injection) after the video ID if not explicitly restricted.
+**Learning:** Anchoring to `$` is not enough if you allow wildcards like `.*`. You must use exclusion sets (e.g. `[^<>]`) to prevent injection in permissible trailing content.
+**Prevention:** Use `[^<>]` instead of `.` when matching query parameters in security-sensitive regexes.

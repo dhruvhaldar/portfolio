@@ -23,6 +23,7 @@ describe('YouTube URL Security', () => {
     'https://evil.com/?u=youtube.com/watch?v=dQw4w9WgXcQ', // URL parameter confusion
     'https://evil.com/youtube.com/watch?v=dQw4w9WgXcQ', // Path confusion
     'https://www.youtube.com.evil.com/watch?v=dQw4w9WgXcQ', // Subdomain confusion
+    'https://www.youtube.com/watch?v=dQw4w9WgXcQ<script>alert(1)</script>', // HTML injection
   ];
 
   describe('validateYoutubeUrl', () => {

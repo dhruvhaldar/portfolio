@@ -43,8 +43,9 @@ const SAFE_URL_MAX_LENGTH = 2048;
 const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
 
 // 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
+// Also ensures no dangerous characters (like < >) follow the ID in query parameters
 const YOUTUBE_REGEX =
-  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:[?&#][^<>]*)?$/;
 
 /**
  * Validates if a URL is a valid YouTube URL.
