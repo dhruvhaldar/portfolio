@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { Textarea } from "../Textarea";
@@ -29,5 +29,23 @@ describe("Textarea", () => {
     const textarea = screen.getByLabelText("Test Label");
     expect(textarea).toHaveAttribute("rows", "5");
     expect(textarea).toHaveAttribute("placeholder", "Type here");
+  });
+
+  it("displays character count when showCount is true", () => {
+    render(
+      <Textarea
+        id="test-textarea"
+        label="Test Label"
+        showCount
+        maxLength={100}
+        defaultValue="Initial"
+      />,
+    );
+    expect(screen.getByText("7 / 100")).toBeInTheDocument();
+
+    const textarea = screen.getByLabelText("Test Label");
+    fireEvent.change(textarea, { target: { value: "Updated Value" } });
+
+    expect(screen.getByText("13 / 100")).toBeInTheDocument();
   });
 });
