@@ -151,6 +151,9 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     }, [handleOpenChange]);
 
     useEffect(() => {
+      // Bolt: Only attach global listeners when dropdown is open to reduce overhead
+      if (!isOpen) return;
+
       const wrapperEl = wrapperRef.current;
       document.addEventListener("mousedown", handleClickOutside);
       wrapperEl?.addEventListener("focusout", handleFocusOut);
@@ -158,7 +161,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
         document.removeEventListener("mousedown", handleClickOutside);
         wrapperEl?.removeEventListener("focusout", handleFocusOut);
       };
-    }, [handleClickOutside, handleFocusOut]);
+    }, [isOpen, handleClickOutside, handleFocusOut]);
 
     // Clone the trigger to inject ARIA attributes directly onto the interactive element
     // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)

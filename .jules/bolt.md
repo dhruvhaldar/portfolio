@@ -29,3 +29,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [Scroller Children Memoization]
 **Learning:** The `Scroller` component manages its own state (scroll buttons visibility) but uses `React.Children.map` + `React.cloneElement` to attach handlers to its children. Without memoization, every internal state update of `Scroller` re-creates these handlers, forcing all children to re-render.
 **Action:** Memoize the result of `React.Children.map` in wrapper components if they have internal state that changes independently of the children. This preserves referential identity of props passed to children.
+
+## 2025-02-26 - [Dropdown Global Listeners]
+**Learning:** `DropdownWrapper` was attaching global `mousedown` and `focusout` listeners in `useEffect` regardless of whether the dropdown was open or closed. For pages with many dropdowns (e.g., data grids), this resulted in O(N) global listeners active at all times.
+**Action:** Conditionally attach global event listeners in `useEffect` only when the component is in the active state (e.g., `isOpen`). This reduces the complexity to O(K) where K is the number of open components (typically 0 or 1).
