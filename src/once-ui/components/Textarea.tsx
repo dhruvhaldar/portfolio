@@ -50,6 +50,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   resize?: "horizontal" | "vertical" | "both" | "none";
   /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Show character count */
+  showCount?: boolean;
 }
 
 /**
@@ -77,6 +79,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       onBlur,
       onChange,
       style,
+      showCount = false,
       ...props
     },
     ref,
@@ -85,6 +88,9 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const [isFilled, setIsFilled] = useState(!!props.value);
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const [height, setHeight] = useState<number | undefined>(undefined);
+    const [length, setLength] = useState(
+      String(props.value || props.defaultValue || "").length,
+    );
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
@@ -100,9 +106,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         if (lines === "auto") {
           adjustHeight();
         }
+        if (showCount) {
+          setLength(event.target.value.length);
+        }
         if (onChange) onChange(event);
       },
-      [lines, adjustHeight, onChange],
+      [lines, adjustHeight, onChange, showCount],
     );
 
     const handleFocus = useCallback(
@@ -150,11 +159,18 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       }
     }, [props.value, lines, adjustHeight]);
 
+    useEffect(() => {
+      if (showCount && props.value !== undefined) {
+        setLength(String(props.value).length);
+      }
+    }, [props.value, showCount]);
+
     const displayError = validationError || errorMessage;
 
     const describedBy: string[] = [];
     if (displayError) describedBy.push(`${id}-error`);
     if (description) describedBy.push(`${id}-description`);
+    if (showCount) describedBy.push(`${id}-count`);
 
     const textareaClassNames = classNames(
       styles.input,
@@ -274,6 +290,18 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
               onBackground="neutral-weak"
             >
               {description}
+            </Text>
+          </Flex>
+        )}
+        {showCount && (
+          <Flex paddingX="16" horizontal="end">
+            <Text
+              as="span"
+              id={`${id}-count`}
+              variant="body-default-s"
+              onBackground="neutral-weak"
+            >
+              {length} / {props.maxLength || 4096}
             </Text>
           </Flex>
         )}
