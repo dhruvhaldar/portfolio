@@ -18,6 +18,6 @@
 **Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
 **Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
 
-## 2026-02-15 - Event Handler Composition
+## 2026-01-31 - Event Handler Composition
 **Learning:** Spreading `...props` after internal event handlers (like `onKeyDown`) in reusable components silently overrides internal logic (like tag creation), leading to "it works until I add a custom listener" bugs.
 **Action:** Always compose event handlers by calling the external handler within the internal one, and respect `event.defaultPrevented` to allow external control.
