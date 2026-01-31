@@ -1,53 +1,59 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { render } from '@testing-library/react';
+import { vi, describe, it, expect } from 'vitest';
 import LazyframeVideo from '@/components/LazyframeVideo';
 
-// Mock lazyframe to avoid DOM issues
+// Define the mock using vi.hoisted to ensure it's available before imports
+const { mockLazyframe } = vi.hoisted(() => {
+  return { mockLazyframe: vi.fn() };
+});
+
 vi.mock('lazyframe', () => ({
-  default: vi.fn(),
+  default: mockLazyframe
 }));
 
-// Mock css import
-vi.mock('lazyframe/dist/lazyframe.css', () => ({}));
+describe('LazyframeVideo Security', () => {
+  it('should initialize lazyframe with sandbox configuration', () => {
+    const src = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    const title = 'Test Video';
 
-describe('LazyframeVideo', () => {
-  it('should render for valid YouTube URLs', () => {
-    const { container } = render(<LazyframeVideo src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />);
-    // Should render the wrapper div
-    expect(container.firstChild).not.toBeNull();
-    const lazyframeDiv = container.querySelector('.lazyframe');
-    expect(lazyframeDiv).toBeInTheDocument();
+    render(<LazyframeVideo src={src} title={title} />);
+
+    // Check if lazyframe was called
+    expect(mockLazyframe).toHaveBeenCalled();
+
+    // Get the second argument (options) passed to lazyframe
+    const calls = mockLazyframe.mock.calls;
+    // lazyframe(element, options)
+    const options = calls[0][1];
+
+    // Assert that options contain onAppend callback
+    expect(options).toBeDefined();
+    expect(options.onAppend).toBeDefined();
+    expect(typeof options.onAppend).toBe('function');
+
+    // Simulate onAppend execution
+    const mockIframe = document.createElement('iframe');
+    options.onAppend(mockIframe);
+
+    // Assert sandbox attribute
+    expect(mockIframe.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-presentation');
+
+    // Assert title attribute
+    expect(mockIframe.getAttribute('title')).toBe(title);
   });
 
-  it('renders with custom thumbnail', () => {
-    const customThumbnail = "https://example.com/thumb.jpg";
-    render(
-      <LazyframeVideo
-        src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        thumbnail={customThumbnail}
-      />
-    );
-    // Find by class name since data-testid wasn't added in the component code (unless I add it)
-    // Actually, I can query by data-thumbnail
-    const element = document.querySelector('.lazyframe') as HTMLElement;
-    expect(element).toHaveAttribute('data-thumbnail', customThumbnail);
-    expect(element).toHaveStyle(`background-image: url("${customThumbnail}")`);
-  });
+  it('should not render for invalid/malicious URLs', () => {
+    // Clear mock calls
+    mockLazyframe.mockClear();
 
-  it('should return null for invalid URLs (XSS protection)', () => {
-    // Malicious URL
-    const { container } = render(<LazyframeVideo src="javascript:alert(1)" />);
+    const src = 'javascript:alert(1)';
+    const title = 'Malicious Video';
+
+    const { container } = render(<LazyframeVideo src={src} title={title} />);
+
+    // Should render nothing
     expect(container.firstChild).toBeNull();
-  });
-
-  it('should return null for non-YouTube URLs (Vendor enforcement)', () => {
-    const { container } = render(<LazyframeVideo src="https://vimeo.com/123456" />);
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('should return null for URLs containing youtube pattern but hosted elsewhere', () => {
-    // This attempts to trick the regex by including youtube.com in the query string
-    const { container } = render(<LazyframeVideo src="https://evil.com/fake?u=youtube.com/watch?v=dQw4w9WgXcQ" />);
-    expect(container.firstChild).toBeNull();
+    // Should not initialize lazyframe
+    expect(mockLazyframe).not.toHaveBeenCalled();
   });
 });

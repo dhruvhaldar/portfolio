@@ -202,7 +202,6 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
         )}
         {!isLoading && isYouTube && (
           <iframe
-            title={alt || "YouTube video player"}
             width="100%"
             height="100%"
             src={youtubeEmbedUrl}
