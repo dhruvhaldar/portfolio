@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { TagInput } from "../TagInput";
 
-const TagInputWrapper = () => {
-  const [tags, setTags] = useState<string[]>(["tag1", "tag2"]);
-  return <TagInput label="Tags" id="tags" value={tags} onChange={setTags} />;
+const TagInputWrapper = (props: Partial<React.ComponentProps<typeof TagInput>>) => {
+  const [tags, setTags] = useState<string[]>(props.value || ["tag1", "tag2"]);
+  return <TagInput label="Tags" id="tags" {...props} value={tags} onChange={setTags} />;
 };
 
 describe("TagInput", () => {
@@ -72,5 +72,30 @@ describe("TagInput", () => {
     // Expect tags to remain
     expect(screen.getByText("tag1")).toBeInTheDocument();
     expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+
+  it("enforces maxTags limit", () => {
+    render(<TagInputWrapper maxTags={2} />);
+    const input = screen.getByRole("textbox");
+
+    // Attempt to add 3rd tag (already has 2: tag1, tag2)
+    fireEvent.change(input, { target: { value: "tag3" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    expect(screen.queryByText("tag3")).not.toBeInTheDocument();
+  });
+
+  it("enforces maxTagLength limit", () => {
+    render(<TagInputWrapper maxTagLength={5} />);
+    const input = screen.getByRole("textbox");
+
+    // Type valid length
+    fireEvent.change(input, { target: { value: "12345" } });
+    expect(input).toHaveValue("12345");
+
+    // Type invalid length
+    fireEvent.change(input, { target: { value: "123456" } });
+    // Should revert/stay at 12345 because state didn't update
+    expect(input).toHaveValue("12345");
   });
 });

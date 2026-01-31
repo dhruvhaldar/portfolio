@@ -16,6 +16,10 @@ interface TagInputProps extends Omit<InputProps, "onChange" | "value"> {
   value: string[];
   /** Handler for tag changes */
   onChange: (value: string[]) => void;
+  /** Maximum number of tags allowed */
+  maxTags?: number;
+  /** Maximum characters per tag */
+  maxTagLength?: number;
 }
 
 interface TagListProps {
@@ -56,20 +60,45 @@ TagList.displayName = "TagList";
  * An input component that converts text entries into tags.
  */
 const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
-  ({ value, onChange, label, placeholder, ...inputProps }, ref) => {
+  (
+    {
+      value,
+      onChange,
+      label,
+      placeholder,
+      maxTags = 50,
+      maxTagLength = 64,
+      ...inputProps
+    },
+    ref,
+  ) => {
     const [inputValue, setInputValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
     const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-      setInputValue(e.target.value);
+      // 🛡️ Sentinel: Enforce maxTagLength to prevent excessively long tags
+      if (e.target.value.length <= maxTagLength) {
+        setInputValue(e.target.value);
+      }
     };
 
     const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+      // Support external onKeyDown handler
+      if (inputProps.onKeyDown) {
+        inputProps.onKeyDown(e);
+      }
+
+      if (e.defaultPrevented) return;
+
       if (e.key === "Enter" || e.key === ",") {
         e.preventDefault();
-        if (inputValue.trim()) {
-          onChange([...value, inputValue.trim()]);
-          setInputValue("");
+        const trimmedValue = inputValue.trim();
+        if (trimmedValue) {
+          // 🛡️ Sentinel: Enforce maxTags limit to prevent Resource Exhaustion (DoS)
+          if (value.length < maxTags) {
+            onChange([...value, trimmedValue]);
+            setInputValue("");
+          }
         }
       } else if (e.key === "Backspace" && inputValue === "" && value.length > 0) {
         e.preventDefault();
@@ -97,6 +126,7 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
 
     return (
       <Input
+        {...inputProps}
         ref={ref}
         label={label}
         placeholder={placeholder}
@@ -108,7 +138,6 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
         onBlur={handleBlur}
         aria-haspopup="listbox"
         aria-expanded={isFocused}
-        {...inputProps}
       >
         {value.length > 0 && <TagList tags={value} onRemove={handleRemoveTag} />}
       </Input>
