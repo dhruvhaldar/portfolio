@@ -54,10 +54,19 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
-      lazyframe(videoRef.current);
+      lazyframe(videoRef.current, {
+        onAppend: (iframe: HTMLIFrameElement) => {
+          // 🛡️ Sentinel: Sandbox to restrict iframe capabilities (allow scripts/same-origin for YouTube)
+          iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
+          // 🛡️ Sentinel: Title for accessibility
+          if (title) {
+            iframe.setAttribute("title", title);
+          }
+        },
+      });
       initializedRef.current = true;
     }
-  }, []);
+  }, [title]);
 
   const handlePlay = () => {
     setIsPlaying(true);

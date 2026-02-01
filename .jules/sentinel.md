@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-25 - [ENHANCEMENT] Missing Sandbox on LazyframeVideo
+**Vulnerability:** The `LazyframeVideo` component used the `lazyframe` library to generate iframes but did not restrict the iframe capabilities using the `sandbox` attribute.
+**Learning:** External libraries that generate DOM elements often default to permissive settings. Hooks like `onAppend` can be used to inject security attributes.
+**Prevention:** Use `onAppend` callback in `lazyframe` to enforce `sandbox="allow-scripts allow-same-origin allow-presentation"` and add accessibility `title`.
