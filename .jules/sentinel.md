@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-27 - [HIGH] XSS Vulnerability in SmartImage src
+**Vulnerability:** The `SmartImage` component blindly accepted any `src` prop, including `javascript:` schemes, which could lead to XSS if the src is user-controlled.
+**Learning:** Image components often assume `src` is just a URL, but modern browsers support schemes that can execute code.
+**Prevention:** Implement strict scheme validation (`isSafeImageSrc`) allowing only `http`, `https`, `data`, `blob`. Specifically, allow large `data:` URIs by bypassing length checks for that scheme.

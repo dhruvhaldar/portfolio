@@ -4,7 +4,7 @@ import Image from "next/image";
 import type React from "react";
 import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
-import { extractYoutubeId, validateYoutubeUrl } from "@/app/utils/security";
+import { extractYoutubeId, validateYoutubeUrl, isSafeImageSrc } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
@@ -69,6 +69,15 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   sizes,
   ...rest
 }) => {
+  // 🛡️ Sentinel: Validate src strictly to prevent XSS via dangerous schemes (e.g. javascript:)
+  // We do this before any other processing
+  const isSafe = useMemo(() => isSafeImageSrc(src), [src]);
+
+  if (!isSafe) {
+    console.error(`Security: Blocked dangerous image src in SmartImage: ${src}`);
+    return null;
+  }
+
   // Use preload if provided, otherwise fall back to priority for backward compatibility
   const shouldPreload = preload !== undefined ? preload : priority;
 
