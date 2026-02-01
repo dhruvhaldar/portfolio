@@ -190,32 +190,6 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     };
 
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          selectRef.current &&
-          !selectRef.current.contains(event.target as Node) &&
-          !clearButtonRef.current?.contains(event.target as Node)
-        ) {
-          setIsDropdownOpen(false);
-        }
-      };
-
-      const handleFocusOut = (event: FocusEvent) => {
-        if (event.target instanceof HTMLInputElement) {
-          handleBlur(event as unknown as React.FocusEvent<HTMLInputElement>);
-        }
-      };
-
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("focusout", handleFocusOut);
-
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-        document.removeEventListener("focusout", handleFocusOut);
-      };
-    }, []);
-
     return (
       <DropdownWrapper
         fillWidth
@@ -237,6 +211,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
             }}
             value={displayValue}
             onFocus={handleFocus}
+            onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             readOnly
             className={classNames("cursor-interactive", "fill-width", {

@@ -152,13 +152,15 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
 
     useEffect(() => {
       const wrapperEl = wrapperRef.current;
-      document.addEventListener("mousedown", handleClickOutside);
-      wrapperEl?.addEventListener("focusout", handleFocusOut);
+      if (isOpen) {
+        document.addEventListener("mousedown", handleClickOutside);
+        wrapperEl?.addEventListener("focusout", handleFocusOut);
+      }
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         wrapperEl?.removeEventListener("focusout", handleFocusOut);
       };
-    }, [handleClickOutside, handleFocusOut]);
+    }, [isOpen, handleClickOutside, handleFocusOut]);
 
     // Clone the trigger to inject ARIA attributes directly onto the interactive element
     // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)
