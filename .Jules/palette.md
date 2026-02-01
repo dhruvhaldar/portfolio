@@ -17,3 +17,7 @@
 ## 2025-10-25 - Visual Feedback for NumberInput Limits
 **Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
 **Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
+
+## 2025-05-24 - Avatar Alt Text Gap
+**Learning:** The `Avatar` component was hardcoding `alt="Avatar"`, preventing accessible descriptions for user images. This forces screen readers to announce "Avatar" repeatedly instead of the user's name.
+**Action:** Ensure all components wrapping images (like `Avatar`) expose an `alt` prop to the consumer, defaulting to a generic label only if absolutely necessary.

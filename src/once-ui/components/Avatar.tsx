@@ -11,6 +11,8 @@ interface AvatarProps extends React.ComponentProps<typeof Flex> {
   value?: string;
   /** Source URL for the avatar image */
   src?: string;
+  /** Alt text for the avatar image */
+  alt?: string;
   /** Whether the avatar is loading */
   loading?: boolean;
   /** Whether the avatar is empty */
@@ -53,6 +55,7 @@ const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
       size = "m",
       value,
       src,
+      alt,
       loading,
       empty,
       statusIndicator,
@@ -102,7 +105,7 @@ const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
             radius="full"
             src={src}
             fill
-            alt="Avatar"
+            alt={alt || "Avatar"}
             sizes={`${sizeMapping[size]}px`}
             className={styles.image}
           />
@@ -116,7 +119,7 @@ const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
             onBackground="neutral-weak"
             variant={`body-default-${size}`}
             className={styles.value}
-            aria-label={`Avatar with initials ${value}`}
+            aria-label={alt ? `Avatar for ${alt}` : `Avatar with initials ${value}`}
           >
             {value}
           </Text>
