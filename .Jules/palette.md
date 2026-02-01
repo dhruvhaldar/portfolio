@@ -17,3 +17,7 @@
 ## 2025-10-25 - Visual Feedback for NumberInput Limits
 **Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
 **Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
+
+## 2025-05-18 - Skeleton Visibility Mismatch
+**Learning:** The `SmartImage` component only displayed a skeleton when explicitly told to load via `isLoading` prop, but showed empty space while the image itself was downloading (`onLoad` not yet fired). This created a layout shift or blank space for users.
+**Action:** Ensure Skeleton components are conditionally rendered based on both external data loading state AND internal asset loading state (e.g., `!isLoaded`), positioning them absolutely if necessary to avoid layout shifts when content loads.

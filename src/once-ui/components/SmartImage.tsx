@@ -184,7 +184,17 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
         aria-label={enlarge ? (isEnlarged ? "Close image" : "Enlarge image") : undefined}
         {...rest}
       >
-        {isLoading && <Skeleton shape="block" />}
+        {(isLoading || (!isLoaded && !isVideo && !isYouTube)) && (
+          <Skeleton
+            shape="block"
+            aria-busy="true"
+            aria-label={alt ? `Loading: ${alt}` : "Loading image"}
+            style={{
+              position: "absolute",
+              inset: 0,
+            }}
+          />
+        )}
         {!isLoading && isVideo && (
           <video
             src={src}
@@ -202,7 +212,6 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
         )}
         {!isLoading && isYouTube && (
           <iframe
-            title={alt || "YouTube video player"}
             width="100%"
             height="100%"
             src={youtubeEmbedUrl}
