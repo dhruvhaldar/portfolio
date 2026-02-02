@@ -1,7 +1,7 @@
 "use client";
 
 import { Flex, Scroller, SmartImage } from "@/once-ui/components";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 
 interface Image {
   src: string;
@@ -22,6 +22,87 @@ interface CarouselProps extends React.ComponentProps<typeof Flex> {
   /** Whether to preload images */
   preload?: boolean;
 }
+
+// Bolt: Extracted and memoized components to prevent unnecessary re-renders of all indicators/thumbnails
+// when only one changes state.
+
+interface CarouselIndicatorProps {
+  index: number;
+  isActive: boolean;
+  onClick: (index: number) => void;
+}
+
+const CarouselIndicator = memo(({ index, isActive, onClick }: CarouselIndicatorProps) => {
+  return (
+    <Flex
+      onClick={() => onClick(index)}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick(index);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Go to slide ${index + 1}`}
+      style={{
+        background: isActive
+          ? "var(--neutral-on-background-strong)"
+          : "var(--neutral-alpha-medium)",
+        transition: "background 0.3s ease",
+      }}
+      cursor="interactive"
+      fillWidth
+      height="2"
+    />
+  );
+});
+
+CarouselIndicator.displayName = "CarouselIndicator";
+
+interface CarouselThumbnailProps extends React.ComponentProps<typeof Flex> {
+  image: Image;
+  isActive: boolean;
+  // Scroller injects these, but we ignore their changes in the comparator
+  // as long as isActive and image are stable, assuming the handler logic is stable.
+  onClick?: React.MouseEventHandler;
+  onKeyDown?: React.KeyboardEventHandler;
+}
+
+const CarouselThumbnail = memo(
+  ({ image, isActive, style, ...rest }: CarouselThumbnailProps) => {
+    return (
+      <Flex
+        style={{
+          border: isActive ? "2px solid var(--brand-solid-strong)" : "none",
+          borderRadius: "var(--radius-m-nest-4)",
+          transition: "border 0.3s ease",
+          ...style,
+        }}
+        cursor="interactive"
+        padding="4"
+        width="80"
+        height="80"
+        {...rest}
+      >
+        <SmartImage
+          alt={image.alt}
+          aspectRatio="1 / 1"
+          sizes="120px"
+          src={image.src}
+          cursor="interactive"
+          radius="m"
+          transition="macro-medium"
+        />
+      </Flex>
+    );
+  },
+  (prev, next) => {
+    return prev.isActive === next.isActive && prev.image === next.image;
+  },
+);
+
+CarouselThumbnail.displayName = "CarouselThumbnail";
 
 /**
  * An image carousel component with navigation indicators.
@@ -50,20 +131,29 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const handleControlClick = useCallback(
     (nextIndex: number) => {
-      if (nextIndex !== activeIndex) {
-        preloadNextImage(nextIndex);
-        setActiveIndex(nextIndex);
-      }
+      setActiveIndex((current) => {
+        if (nextIndex !== current) {
+          preloadNextImage(nextIndex);
+          return nextIndex;
+        }
+        return current;
+      });
     },
-    [activeIndex, preloadNextImage],
+    [preloadNextImage],
   );
 
   const handleImageClick = useCallback(() => {
     if (images.length > 1) {
-      const nextIndex = (activeIndex + 1) % images.length;
-      handleControlClick(nextIndex);
+      setActiveIndex((current) => {
+        const nextIndex = (current + 1) % images.length;
+        if (nextIndex !== current) {
+          preloadNextImage(nextIndex);
+          return nextIndex;
+        }
+        return current;
+      });
     }
-  }, [images.length, activeIndex, handleControlClick]);
+  }, [images.length, preloadNextImage]);
 
   if (images.length === 0) {
     return null;
@@ -110,37 +200,22 @@ const Carousel: React.FC<CarouselProps> = ({
       {isInteractive &&
         (indicator === "line" ? (
           <Flex gap="4" paddingX="s" fillWidth horizontal="center">
-            {images.map((_, index) => (
-              <Flex
-                key={index}
-                onClick={() => handleControlClick(index)}
-                onKeyDown={(e: React.KeyboardEvent) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleControlClick(index);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Go to slide ${index + 1}`}
-                style={{
-                  background:
-                    activeIndex === index
-                      ? "var(--neutral-on-background-strong)"
-                      : "var(--neutral-alpha-medium)",
-                  transition: "background 0.3s ease",
-                }}
-                cursor="interactive"
-                fillWidth
-                height="2"
+            {images.map((image, index) => (
+              <CarouselIndicator
+                key={image.src}
+                index={index}
+                isActive={index === activeIndex}
+                onClick={handleControlClick}
               />
             ))}
           </Flex>
         ) : (
           <Scroller fillWidth gap="4" onItemClick={handleControlClick}>
             {images.map((image, index) => (
-              <Flex
-                key={index}
+              <CarouselThumbnail
+                key={image.src}
+                image={image}
+                isActive={index === activeIndex}
                 role="button"
                 tabIndex={0}
                 aria-label={`Go to slide ${index + 1}`}
@@ -150,26 +225,7 @@ const Carousel: React.FC<CarouselProps> = ({
                     handleControlClick(index);
                   }
                 }}
-                style={{
-                  border: activeIndex === index ? "2px solid var(--brand-solid-strong)" : "none",
-                  borderRadius: "var(--radius-m-nest-4)",
-                  transition: "border 0.3s ease",
-                }}
-                cursor="interactive"
-                padding="4"
-                width="80"
-                height="80"
-              >
-                <SmartImage
-                  alt={image.alt}
-                  aspectRatio="1 / 1"
-                  sizes="120px"
-                  src={image.src}
-                  cursor="interactive"
-                  radius="m"
-                  transition="macro-medium"
-                />
-              </Flex>
+              />
             ))}
           </Scroller>
         ))}

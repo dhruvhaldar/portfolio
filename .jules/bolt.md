@@ -29,3 +29,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [Scroller Children Memoization]
 **Learning:** The `Scroller` component manages its own state (scroll buttons visibility) but uses `React.Children.map` + `React.cloneElement` to attach handlers to its children. Without memoization, every internal state update of `Scroller` re-creates these handlers, forcing all children to re-render.
 **Action:** Memoize the result of `React.Children.map` in wrapper components if they have internal state that changes independently of the children. This preserves referential identity of props passed to children.
+
+## 2025-02-26 - [Unstable Injected Handlers in Cloned Children]
+**Learning:** Components like `Scroller` that inject handlers (e.g., `onClick`) via `cloneElement` often pass new function instances on every render. To effectively memoize the child components (e.g., `CarouselThumbnail`), `React.memo` requires a custom comparison function to ignore these unstable injected handlers.
+**Action:** When memoizing a component intended to be a child of an interactive wrapper (like `Scroller`), implement `arePropsEqual` to explicitly check only relevant data props (like `image`, `isActive`) and ignore unstable callbacks if they don't affect rendering output.
