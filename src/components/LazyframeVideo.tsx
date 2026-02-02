@@ -53,11 +53,36 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   }
 
   useEffect(() => {
+    // 🛡️ Sentinel: Observe for iframe injection and apply security attributes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeName === 'IFRAME') {
+              const iframe = node as HTMLIFrameElement;
+              // Apply sandbox to restrict capabilities
+              iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
+              // Ensure accessibility
+              if (!iframe.getAttribute('title')) {
+                iframe.setAttribute('title', title);
+              }
+            }
+          });
+        }
+      });
+    });
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current, { childList: true, subtree: true });
+    }
+
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current);
       initializedRef.current = true;
     }
-  }, []);
+
+    return () => observer.disconnect();
+  }, [title]);
 
   const handlePlay = () => {
     setIsPlaying(true);
