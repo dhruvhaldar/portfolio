@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSafeUrl, isValidEmail } from "../app/utils/security";
+import { isSafeUrl, isSafeImageSrc, isValidEmail } from "../app/utils/security";
 
 describe("isValidEmail", () => {
   it("should return true for valid emails", () => {
@@ -98,5 +98,34 @@ describe("isSafeUrl", () => {
     expect(isSafeUrl("")).toBe(false);
     // biome-ignore lint/suspicious/noExplicitAny: Testing runtime type safety
     expect(isSafeUrl(null as any)).toBe(false);
+  });
+});
+
+describe("isSafeImageSrc", () => {
+  it("should return true for valid HTTP/HTTPS URLs", () => {
+    expect(isSafeImageSrc("https://example.com/image.png")).toBe(true);
+    expect(isSafeImageSrc("http://example.com/image.jpg")).toBe(true);
+  });
+
+  it("should return true for valid data/blob URLs", () => {
+    expect(isSafeImageSrc("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=")).toBe(true);
+    expect(isSafeImageSrc("blob:https://example.com/c60c388b-1b91-4c7b-9b48-3c3b00674252")).toBe(true);
+  });
+
+  it("should return true for relative URLs", () => {
+    expect(isSafeImageSrc("/images/logo.png")).toBe(true);
+    expect(isSafeImageSrc("images/logo.png")).toBe(true);
+  });
+
+  it("should return false for dangerous protocols", () => {
+    expect(isSafeImageSrc("javascript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("vbscript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("file:///etc/passwd")).toBe(false);
+  });
+
+  it("should return false for obfuscated dangerous protocols", () => {
+    expect(isSafeImageSrc("java\nscript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("java\0script:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("JAVASCRIPT:alert(1)")).toBe(false);
   });
 });

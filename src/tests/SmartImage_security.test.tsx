@@ -48,4 +48,17 @@ describe('SmartImage Security', () => {
         // Accessibility: Title attribute
         expect(iframe?.getAttribute('title')).toBe('Cool Video');
     });
+
+    it('should prevent rendering for dangerous javascript src', () => {
+        const maliciousUrl = 'javascript:alert(1)';
+        const { container } = render(<SmartImage src={maliciousUrl} alt="malicious" />);
+
+        // The component should return null, so container should be empty (or at least contain no image/video/iframe)
+        const media = container.querySelector('img, video, iframe');
+        expect(media).toBeNull();
+
+        // In React Testing Library, if component returns null, container is empty div or similar.
+        // We can check if child nodes are empty or if nothing significant is rendered.
+        expect(container.textContent).toBe("");
+    });
 });
