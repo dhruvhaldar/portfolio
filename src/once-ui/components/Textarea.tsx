@@ -50,6 +50,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   resize?: "horizontal" | "vertical" | "both" | "none";
   /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Show character count */
+  showCount?: boolean;
 }
 
 /**
@@ -72,6 +74,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       labelAsPlaceholder = false,
       resize = "vertical",
       validate,
+      showCount = false,
       children,
       onFocus,
       onBlur,
@@ -83,6 +86,13 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) => {
     const [isFocused, setIsFocused] = useState(false);
     const [isFilled, setIsFilled] = useState(!!props.value);
+    const [internalLength, setInternalLength] = useState(
+      props.value
+        ? props.value.toString().length
+        : props.defaultValue
+          ? props.defaultValue.toString().length
+          : 0,
+    );
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const [height, setHeight] = useState<number | undefined>(undefined);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -100,6 +110,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         if (lines === "auto") {
           adjustHeight();
         }
+        setInternalLength(event.target.value.length);
         if (onChange) onChange(event);
       },
       [lines, adjustHeight, onChange],
@@ -143,6 +154,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     useEffect(() => {
       validateInput();
     }, [debouncedValue, validateInput]);
+
+    useEffect(() => {
+      if (props.value !== undefined) {
+        setInternalLength(props.value.toString().length);
+      }
+    }, [props.value]);
 
     useEffect(() => {
       if (lines === "auto") {
@@ -274,6 +291,13 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
               onBackground="neutral-weak"
             >
               {description}
+            </Text>
+          </Flex>
+        )}
+        {showCount && (
+          <Flex paddingX="16" fillWidth horizontal="end">
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              {internalLength} / {props.maxLength || 4096}
             </Text>
           </Flex>
         )}
