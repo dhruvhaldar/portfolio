@@ -56,7 +56,33 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current);
       initializedRef.current = true;
+
+      // 🛡️ Sentinel: Enforce sandbox and title on injected iframe
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === "childList") {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeName === "IFRAME") {
+                const iframe = node as HTMLIFrameElement;
+                iframe.setAttribute(
+                  "sandbox",
+                  "allow-scripts allow-same-origin allow-presentation",
+                );
+                if (!iframe.getAttribute("title")) {
+                  iframe.setAttribute("title", title || "Video player");
+                }
+                observer.disconnect();
+              }
+            });
+          }
+        });
+      });
+
+      observer.observe(videoRef.current, { childList: true, subtree: true });
+
+      return () => observer.disconnect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlay = () => {
