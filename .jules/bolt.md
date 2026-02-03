@@ -33,3 +33,7 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [Unstable Injected Handlers in Cloned Children]
 **Learning:** Components like `Scroller` that inject handlers (e.g., `onClick`) via `cloneElement` often pass new function instances on every render. To effectively memoize the child components (e.g., `CarouselThumbnail`), `React.memo` requires a custom comparison function to ignore these unstable injected handlers.
 **Action:** When memoizing a component intended to be a child of an interactive wrapper (like `Scroller`), implement `arePropsEqual` to explicitly check only relevant data props (like `image`, `isActive`) and ignore unstable callbacks if they don't affect rendering output.
+
+## 2025-02-26 - [Input/Textarea Double Render]
+**Learning:** `Input` and `Textarea` components were using `useEffect` and `useState` to synchronize `isFilled` and `internalLength` state with `props.value`. This caused a double render on every keystroke for controlled inputs.
+**Action:** Use derived state calculation during render for properties that depend on props (like `isFilled` depending on `value`), and only use local state for uncontrolled behavior.
