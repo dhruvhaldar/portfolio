@@ -17,3 +17,7 @@
 ## 2025-10-25 - Visual Feedback for NumberInput Limits
 **Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
 **Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
+
+## 2026-05-25 - Character Count in Text Inputs
+**Learning:** Text inputs with length limits (`maxLength`) often lack visibility of the limit to the user until they hit it. This is a common frustration.
+**Action:** When enforcing `maxLength` on `Textarea` or `Input`, always provide an optional character counter (e.g., "15/100") to give users proactive feedback on their constraints.

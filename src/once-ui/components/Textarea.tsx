@@ -48,6 +48,8 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   labelAsPlaceholder?: boolean;
   /** Resize behavior */
   resize?: "horizontal" | "vertical" | "both" | "none";
+  /** Show character count */
+  showCount?: boolean;
   /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
 }
@@ -71,6 +73,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       hasSuffix,
       labelAsPlaceholder = false,
       resize = "vertical",
+      showCount = false,
       validate,
       children,
       onFocus,
@@ -88,6 +91,9 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
+    const { maxLength = 4096 } = props;
+    const [length, setLength] = useState(() => String(props.value || props.defaultValue || "").length);
+
     const adjustHeight = useCallback(() => {
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
@@ -97,6 +103,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const handleChange = useCallback(
       (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setLength(event.target.value.length);
         if (lines === "auto") {
           adjustHeight();
         }
@@ -150,11 +157,18 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       }
     }, [props.value, lines, adjustHeight]);
 
+    useEffect(() => {
+      if (props.value !== undefined) {
+        setLength(String(props.value).length);
+      }
+    }, [props.value]);
+
     const displayError = validationError || errorMessage;
 
     const describedBy: string[] = [];
     if (displayError) describedBy.push(`${id}-error`);
     if (description) describedBy.push(`${id}-description`);
+    if (showCount) describedBy.push(`${id}-count`);
 
     const textareaClassNames = classNames(
       styles.input,
@@ -215,7 +229,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <Flex fillWidth direction="column" position="relative">
             <textarea
               aria-label={labelAsPlaceholder ? label : undefined}
-              maxLength={4096}
+              maxLength={maxLength}
               {...props}
               ref={handleRef}
               id={id}
@@ -258,23 +272,37 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
             </Flex>
           )}
         </Flex>
-        {displayError && errorMessage !== false && (
-          <Flex paddingX="16">
-            <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
-              {displayError}
-            </Text>
-          </Flex>
-        )}
-        {description && (
-          <Flex paddingX="16">
-            <Text
-              as="span"
-              id={`${id}-description`}
-              variant="body-default-s"
-              onBackground="neutral-weak"
-            >
-              {description}
-            </Text>
+
+        {(displayError || description || showCount) && (
+          <Flex paddingX="16" fillWidth horizontal="space-between" gap="16">
+             <Flex direction="column" fillWidth gap="4">
+               {displayError && errorMessage !== false && (
+                  <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
+                    {displayError}
+                  </Text>
+               )}
+               {description && (
+                  <Text
+                    as="span"
+                    id={`${id}-description`}
+                    variant="body-default-s"
+                    onBackground="neutral-weak"
+                  >
+                    {description}
+                  </Text>
+               )}
+             </Flex>
+             {showCount && (
+                <Text
+                    as="span"
+                    id={`${id}-count`}
+                    variant="body-default-s"
+                    onBackground="neutral-weak"
+                    style={{ whiteSpace: "nowrap" }}
+                >
+                    {length} / {maxLength}
+                </Text>
+             )}
           </Flex>
         )}
       </Flex>
