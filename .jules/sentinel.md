@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-10-15 - [HIGH] Unrestricted Iframe Injection in LazyframeVideo
+**Vulnerability:** The `LazyframeVideo` component used the `lazyframe` library which injects an iframe without any `sandbox` restrictions, potentially allowing malicious content (if the URL validation was bypassed or if the library itself was compromised) to execute arbitrary scripts or access same-origin data.
+**Learning:** Third-party libraries that manipulate the DOM (especially those injecting iframes/scripts) often do not apply strict security defaults. We cannot assume they are secure by default.
+**Prevention:** Use `MutationObserver` to watch for DOM changes initiated by third-party libraries and forcibly apply security attributes (like `sandbox="allow-scripts allow-same-origin"`) to any injected elements.

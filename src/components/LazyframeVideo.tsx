@@ -54,9 +54,36 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
+      // 🛡️ Sentinel: Enforce strict sandbox on the iframe injected by lazyframe
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.type === "childList") {
+            for (const node of mutation.addedNodes) {
+              if (node instanceof HTMLIFrameElement) {
+                // Strict sandbox: allow scripts (needed for player) and same origin
+                // but block forms, popups, etc.
+                node.setAttribute(
+                  "sandbox",
+                  "allow-scripts allow-same-origin allow-presentation",
+                );
+                // Ensure accessibility
+                if (!node.hasAttribute("title")) {
+                  node.setAttribute("title", title);
+                }
+              }
+            }
+          }
+        }
+      });
+
+      observer.observe(videoRef.current, { childList: true });
+
       lazyframe(videoRef.current);
       initializedRef.current = true;
+
+      return () => observer.disconnect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlay = () => {
