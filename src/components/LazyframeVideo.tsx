@@ -54,7 +54,17 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
-      lazyframe(videoRef.current);
+      lazyframe(videoRef.current, {
+        onAppend: (iframe: HTMLIFrameElement) => {
+          // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
+          iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
+
+          // 🛡️ Sentinel: Ensure title attribute exists for accessibility and security context
+          if (!iframe.getAttribute("title")) {
+            iframe.setAttribute("title", title);
+          }
+        },
+      });
       initializedRef.current = true;
     }
   }, []);
