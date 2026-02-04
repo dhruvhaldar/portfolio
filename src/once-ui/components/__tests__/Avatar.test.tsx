@@ -38,4 +38,15 @@ describe("Avatar", () => {
     render(<Avatar value="JD" statusIndicator={{ color: "green" }} />);
     expect(screen.getByLabelText("Status: green")).toBeInTheDocument();
   });
+
+  it("renders with alt text when provided with src", () => {
+    render(<Avatar src="/avatar.jpg" alt="John Doe" />);
+    expect(screen.getByAltText("John Doe")).toBeInTheDocument();
+  });
+
+  it("renders with custom aria-label when provided with value and alt", () => {
+    render(<Avatar value="JD" alt="John Doe" />);
+    expect(screen.getByText("JD")).toBeInTheDocument();
+    expect(screen.getByLabelText("Avatar for John Doe")).toBeInTheDocument();
+  });
 });
