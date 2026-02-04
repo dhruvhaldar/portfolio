@@ -97,3 +97,33 @@ export function isSafeUrl(url: string): boolean {
     return true;
   }
 }
+
+/**
+ * Validates if an image source URL is safe.
+ * Allows data: and blob: schemes which are often used for images.
+ *
+ * @param src - The image source URL.
+ * @returns True if the URL is safe, false otherwise.
+ */
+export function isSafeImageSrc(src: string): boolean {
+  if (!src) return false;
+
+  const href = src.trim();
+
+  // 🛡️ Sentinel: Sanitize to prevent filter bypass (e.g. java\0script:)
+  // Strip control characters (0x00-0x1F, 0x7F)
+  const sanitized = href.replace(/[\x00-\x1F\x7F]/g, "").trim();
+
+  // 🛡️ Sentinel: Explicitly block dangerous schemes
+  if (/^\s*(javascript|vbscript):/i.test(sanitized)) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(sanitized);
+    return ["http:", "https:", "data:", "blob:"].includes(parsed.protocol);
+  } catch (e) {
+    // Not an absolute URL, so it's a relative URL (safe)
+    return true;
+  }
+}
