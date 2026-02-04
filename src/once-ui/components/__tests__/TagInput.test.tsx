@@ -8,6 +8,11 @@ const TagInputWrapper = () => {
   return <TagInput label="Tags" id="tags" value={tags} onChange={setTags} />;
 };
 
+const TagInputWithHandler = ({ onKeyDown }: { onKeyDown?: React.KeyboardEventHandler<HTMLInputElement> }) => {
+  const [tags, setTags] = useState<string[]>([]);
+  return <TagInput label="Tags" id="tags" value={tags} onChange={setTags} onKeyDown={onKeyDown} />;
+};
+
 describe("TagInput", () => {
   it("renders initial tags", () => {
     render(<TagInputWrapper />);
@@ -72,5 +77,35 @@ describe("TagInput", () => {
     // Expect tags to remain
     expect(screen.getByText("tag1")).toBeInTheDocument();
     expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+
+  it("should execute both internal logic and external onKeyDown handler", () => {
+    const handleKeyDown = vi.fn();
+    render(<TagInputWithHandler onKeyDown={handleKeyDown} />);
+
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "newTag" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    // Verify external handler was called
+    expect(handleKeyDown).toHaveBeenCalled();
+
+    // Verify internal logic (tag addition) worked
+    expect(screen.getByText("newTag")).toBeInTheDocument();
+  });
+
+  it("should not add tag if external handler prevents default", () => {
+    const preventDefaultHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+      e.preventDefault();
+    };
+
+    render(<TagInputWithHandler onKeyDown={preventDefaultHandler} />);
+
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "blockedTag" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    // Tag should NOT be added
+    expect(screen.queryByText("blockedTag")).not.toBeInTheDocument();
   });
 });

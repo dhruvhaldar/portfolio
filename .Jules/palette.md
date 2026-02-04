@@ -18,6 +18,9 @@
 **Learning:** `NumberInput` controls (increment/decrement) lacked visual disabled states when reaching `min` or `max` limits, confusing users who clicked with no effect.
 **Action:** Always disable control buttons (using `disabled` prop) when the corresponding limit is reached to provide immediate visual feedback.
 
+## 2026-01-31 - Event Handler Composition
+**Learning:** Spreading `...props` after internal event handlers (like `onKeyDown`) in reusable components silently overrides internal logic (like tag creation), leading to "it works until I add a custom listener" bugs.
+**Action:** Always compose event handlers by calling the external handler within the internal one, and respect `event.defaultPrevented` to allow external control.
 ## 2025-05-24 - Avatar Alt Text Gap
 **Learning:** The `Avatar` component was hardcoding `alt="Avatar"`, preventing accessible descriptions for user images. This forces screen readers to announce "Avatar" repeatedly instead of the user's name.
 **Action:** Ensure all components wrapping images (like `Avatar`) expose an `alt` prop to the consumer, defaulting to a generic label only if absolutely necessary.

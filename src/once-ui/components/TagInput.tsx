@@ -56,7 +56,7 @@ TagList.displayName = "TagList";
  * An input component that converts text entries into tags.
  */
 const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
-  ({ value, onChange, label, placeholder, ...inputProps }, ref) => {
+  ({ value, onChange, label, placeholder, onKeyDown, ...inputProps }, ref) => {
     const [inputValue, setInputValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
@@ -65,6 +65,12 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
     };
 
     const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+      if (onKeyDown) {
+        onKeyDown(e);
+      }
+
+      if (e.defaultPrevented) return;
+
       if (e.key === "Enter" || e.key === ",") {
         e.preventDefault();
         if (inputValue.trim()) {
