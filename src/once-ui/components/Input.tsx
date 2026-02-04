@@ -83,7 +83,12 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!props.value);
+
+    // Bolt: Optimize re-renders by deriving isFilled from props when controlled
+    const isControlled = typeof props.value !== "undefined";
+    const [isFilledState, setIsFilledState] = useState(!!props.value || !!props.defaultValue);
+    const isFilled = isControlled ? !!props.value : isFilledState;
+
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
@@ -98,19 +103,19 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     const handleBlur = useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(false);
-        if (event.target.value) {
-          setIsFilled(true);
-        } else {
-          setIsFilled(false);
+        if (!isControlled) {
+          if (event.target.value) {
+            setIsFilledState(true);
+          } else {
+            setIsFilledState(false);
+          }
         }
         if (onBlur) onBlur(event);
       },
-      [onBlur],
+      [onBlur, isControlled],
     );
 
-    useEffect(() => {
-      setIsFilled(!!props.value);
-    }, [props.value]);
+    // Bolt: Removed useEffect for isFilled sync to prevent double renders
 
     const validateInput = useCallback(() => {
       if (!debouncedValue) {

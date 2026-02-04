@@ -85,14 +85,27 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!props.value);
-    const [internalLength, setInternalLength] = useState(
+
+    // Bolt: Optimize re-renders by deriving state from props when controlled
+    const isControlled = typeof props.value !== "undefined";
+
+    // isFilled logic
+    const [isFilledState, setIsFilledState] = useState(!!props.value || !!props.defaultValue);
+    const isFilled = isControlled ? !!props.value : isFilledState;
+
+    // internalLength logic
+    const [internalLengthState, setInternalLengthState] = useState(
       props.value
         ? props.value.toString().length
         : props.defaultValue
           ? props.defaultValue.toString().length
-          : 0,
+          : 0
     );
+    // Safe length access for controlled component
+    const internalLength = isControlled
+      ? (props.value ? props.value.toString().length : 0)
+      : internalLengthState;
+
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const [height, setHeight] = useState<number | undefined>(undefined);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -110,10 +123,14 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         if (lines === "auto") {
           adjustHeight();
         }
-        setInternalLength(event.target.value.length);
+
+        if (!isControlled) {
+          setInternalLengthState(event.target.value.length);
+        }
+
         if (onChange) onChange(event);
       },
-      [lines, adjustHeight, onChange],
+      [lines, adjustHeight, onChange, isControlled],
     );
 
     const handleFocus = useCallback(
@@ -127,10 +144,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const handleBlur = useCallback(
       (event: React.FocusEvent<HTMLTextAreaElement>) => {
         setIsFocused(false);
-        setIsFilled(!!event.target.value);
+        if (!isControlled) {
+          setIsFilledState(!!event.target.value);
+        }
         if (onBlur) onBlur(event);
       },
-      [onBlur],
+      [onBlur, isControlled],
     );
 
     const validateInput = useCallback(() => {
@@ -155,11 +174,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       validateInput();
     }, [debouncedValue, validateInput]);
 
-    useEffect(() => {
-      if (props.value !== undefined) {
-        setInternalLength(props.value.toString().length);
-      }
-    }, [props.value]);
+    // Bolt: Removed useEffect for isFilled/internalLength sync to prevent double renders
 
     useEffect(() => {
       if (lines === "auto") {
