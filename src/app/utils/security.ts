@@ -49,8 +49,9 @@ const ALLOWED_URL_PROTOCOLS = new Set(["http", "https", "mailto", "tel"]);
 const ALLOWED_IMAGE_PROTOCOLS = new Set(["http", "https", "data", "blob"]);
 
 // 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
+// Also supports youtube-nocookie.com for privacy-enhanced embeds
 const YOUTUBE_REGEX =
-  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:(?:youtube\.com|youtube-nocookie\.com)\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
 /**
  * Validates if a URL is a valid YouTube URL.

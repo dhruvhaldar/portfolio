@@ -46,7 +46,8 @@ const isYouTubeVideo = (url: string) => {
 
 const getYouTubeEmbedUrl = (url: string) => {
   const id = extractYoutubeId(url);
-  return id ? `https://www.youtube.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
+  // 🛡️ Sentinel: Use youtube-nocookie.com for better privacy
+  return id ? `https://www.youtube-nocookie.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
 };
 
 /**
