@@ -31,3 +31,7 @@
 ## 2025-05-25 - ARIA Role Nesting in Dropdowns
 **Learning:** The `DateInput` component nested a `DatePicker` (grid) inside a `Dropdown` (listbox), causing invalid ARIA nesting (`grid` inside `listbox`). This confuses screen readers which expect `option` children for a `listbox`.
 **Action:** When creating generic wrapper components (like `DropdownWrapper`), allow the consumer to specify the ARIA role (e.g., `dialog` for popups containing complex content) to match the actual content structure, rather than enforcing a single default role.
+
+## 2026-02-01 - Disabled State Accessibility in Custom Controls
+**Learning:** The `Checkbox` component implemented a custom interactive element but failed to manage `tabIndex` and `aria-disabled` for the disabled state, leaving it focusable but non-functional.
+**Action:** When building custom interactive controls, explicitly manage `tabIndex` (set to -1 if disabled) and `aria-disabled` to ensure keyboard and screen reader users perceive the disabled state correctly.
