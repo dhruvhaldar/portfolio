@@ -3,6 +3,7 @@
 import classNames from "classnames";
 import type React from "react";
 import { forwardRef, useEffect, useId, useState, useCallback, useRef, useMemo, memo } from "react";
+import { SpacingToken } from "../types";
 import { Button, Flex, Grid, IconButton, NumberInput, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
@@ -111,7 +112,7 @@ const CalendarDay = memo(({
 });
 CalendarDay.displayName = "CalendarDay";
 
-const CalendarFillerDay = memo(({ day, marginTop }: { day: number, marginTop?: string }) => (
+const CalendarFillerDay = memo(({ day, marginTop }: { day: number, marginTop?: SpacingToken }) => (
     <Flex
         marginTop={marginTop}
         paddingY="2"
@@ -317,7 +318,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       const numberOfWeeks = Math.ceil(totalDaysShown / 7);
       const totalGridSpots = numberOfWeeks * 7;
 
-      const days = [];
+      const days: React.ReactElement[] = [];
 
       // Previous month's days
       for (let i = 0; i < firstDay; i++) {
