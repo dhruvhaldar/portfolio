@@ -94,7 +94,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
           }}
           role="checkbox"
           position="relative"
-          tabIndex={0}
+          tabIndex={disabled ? -1 : 0}
           horizontal="center"
           vertical="center"
           radius="xs"
@@ -106,6 +106,7 @@ const Checkbox: React.FC<CheckboxProps> = forwardRef<HTMLInputElement, CheckboxP
                 : isChecked
           }
           aria-labelledby={checkboxId}
+          aria-disabled={disabled}
           onClick={toggleItem}
           onKeyDown={handleKeyDown}
           className={classNames(styles.element, {
