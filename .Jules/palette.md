@@ -27,3 +27,7 @@
 ## 2025-05-18 - Skeleton Visibility Mismatch
 **Learning:** The `SmartImage` component only displayed a skeleton when explicitly told to load via `isLoading` prop, but showed empty space while the image itself was downloading (`onLoad` not yet fired). This created a layout shift or blank space for users.
 **Action:** Ensure Skeleton components are conditionally rendered based on both external data loading state AND internal asset loading state (e.g., `!isLoaded`), positioning them absolutely if necessary to avoid layout shifts when content loads.
+
+## 2025-05-25 - ARIA Role Nesting in Dropdowns
+**Learning:** The `DateInput` component nested a `DatePicker` (grid) inside a `Dropdown` (listbox), causing invalid ARIA nesting (`grid` inside `listbox`). This confuses screen readers which expect `option` children for a `listbox`.
+**Action:** When creating generic wrapper components (like `DropdownWrapper`), allow the consumer to specify the ARIA role (e.g., `dialog` for popups containing complex content) to match the actual content structure, rather than enforcing a single default role.
