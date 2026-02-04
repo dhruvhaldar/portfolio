@@ -67,3 +67,8 @@
 **Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
 **Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
 **Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-11-23 - [HIGH] Missing Sandbox on Dynamic Iframe Injection
+**Vulnerability:** The `LazyframeVideo` component used an external library (`lazyframe`) which injected iframes without `sandbox` attributes, bypassing the static JSX security controls.
+**Learning:** Security controls applied in JSX do not apply to DOM elements created/injected by third-party libraries at runtime. `MutationObserver` is a powerful pattern to "police" the DOM and enforce security policies on dynamic content.
+**Prevention:** Use `MutationObserver` to intercept dynamically added critical elements (like iframes) and programmatically enforce security attributes (sandbox, title) immediately upon insertion.
