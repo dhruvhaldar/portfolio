@@ -41,6 +41,12 @@ export function isValidEmail(email: string): boolean {
 
 const SAFE_URL_MAX_LENGTH = 2048;
 const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
+// Bolt Optimization: Pre-compile regex and allowed protocols
+// Regex to extract protocol scheme. Matches start of string (ignoring whitespace),
+// followed by a letter, then alphanumerics/plus/minus/dot, and a colon.
+const PROTOCOL_SCHEME_REGEX = /^\s*([a-zA-Z][a-zA-Z0-9+.-]*):/;
+const ALLOWED_URL_PROTOCOLS = new Set(["http", "https", "mailto", "tel"]);
+const ALLOWED_IMAGE_PROTOCOLS = new Set(["http", "https", "data", "blob"]);
 
 // 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
 const YOUTUBE_REGEX =
@@ -89,13 +95,28 @@ export function isSafeUrl(url: string): boolean {
     return false;
   }
 
-  try {
-    const parsed = new URL(sanitized);
-    return ["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol);
-  } catch (e) {
-    // Not an absolute URL, so it's a relative URL (safe)
+  // Bolt Optimization: Check for protocol scheme to avoid expensive try-catch with new URL()
+  // for relative URLs.
+  const protocolMatch = sanitized.match(PROTOCOL_SCHEME_REGEX);
+
+  // If no protocol scheme is found, treat it as a relative URL (safe)
+  if (!protocolMatch) {
     return true;
   }
+
+  const protocol = protocolMatch[1].toLowerCase();
+
+  if (ALLOWED_URL_PROTOCOLS.has(protocol)) {
+    try {
+      new URL(sanitized);
+      return true;
+    } catch (e) {
+      // Malformed absolute URL
+      return false;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -119,11 +140,26 @@ export function isSafeImageSrc(src: string): boolean {
     return false;
   }
 
-  try {
-    const parsed = new URL(sanitized);
-    return ["http:", "https:", "data:", "blob:"].includes(parsed.protocol);
-  } catch (e) {
-    // Not an absolute URL, so it's a relative URL (safe)
+  // Bolt Optimization: Check for protocol scheme to avoid expensive try-catch with new URL()
+  // for relative URLs.
+  const protocolMatch = sanitized.match(PROTOCOL_SCHEME_REGEX);
+
+  // If no protocol scheme is found, treat it as a relative URL (safe)
+  if (!protocolMatch) {
     return true;
   }
+
+  const protocol = protocolMatch[1].toLowerCase();
+
+  if (ALLOWED_IMAGE_PROTOCOLS.has(protocol)) {
+    try {
+      new URL(sanitized);
+      return true;
+    } catch (e) {
+      // Malformed absolute URL
+      return false;
+    }
+  }
+
+  return false;
 }
