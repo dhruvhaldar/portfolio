@@ -50,6 +50,8 @@ export interface DropdownWrapperProps {
   onOpenChange?: (isOpen: boolean) => void;
   /** Element ID for the dropdown container */
   dropdownId?: string;
+  /** Aria role for the dropdown */
+  dropdownRole?: string;
 }
 
 /**
@@ -73,6 +75,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       className,
       style,
       dropdownId,
+      dropdownRole = "listbox",
     },
     ref,
   ) => {
@@ -166,7 +169,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)
     const accessibleTrigger = React.isValidElement(trigger)
       ? React.cloneElement(trigger as React.ReactElement<any>, {
-        "aria-haspopup": "listbox",
+        "aria-haspopup": dropdownRole,
         "aria-expanded": isOpen,
       })
       : trigger;
@@ -215,6 +218,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
               radius="l"
               selectedOption={selectedOption}
               onSelect={onSelect}
+              role={dropdownRole}
             >
               {dropdown}
             </Dropdown>
