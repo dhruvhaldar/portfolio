@@ -72,3 +72,8 @@
 **Vulnerability:** The `LazyframeVideo` component used an external library (`lazyframe`) which injected iframes without `sandbox` attributes, bypassing the static JSX security controls.
 **Learning:** Security controls applied in JSX do not apply to DOM elements created/injected by third-party libraries at runtime. `MutationObserver` is a powerful pattern to "police" the DOM and enforce security policies on dynamic content.
 **Prevention:** Use `MutationObserver` to intercept dynamically added critical elements (like iframes) and programmatically enforce security attributes (sandbox, title) immediately upon insertion.
+
+## 2026-11-23 - [ENHANCEMENT] Privacy-Enhanced YouTube Embeds
+**Vulnerability:** Standard YouTube embeds set cookies and track users even before they play the video, potentially violating privacy expectations (e.g., GDPR).
+**Learning:** Security is not just about exploits; it's also about privacy and data leakage. Minimizing third-party tracking is a defense-in-depth measure.
+**Prevention:** Use `youtube-nocookie.com` for all YouTube embeds. Updated `YOUTUBE_REGEX` to validate this domain and `SmartImage` to force its use.
