@@ -4,7 +4,7 @@ import Image from "next/image";
 import type React from "react";
 import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
-import { extractYoutubeId, validateYoutubeUrl } from "@/app/utils/security";
+import { extractYoutubeId, isSafeImageSrc, validateYoutubeUrl } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
@@ -151,14 +151,27 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
 
   // Bolt: moved helper functions outside to avoid recreation on every render
 
-  const { isVideo, isYouTube, youtubeEmbedUrl } = useMemo(() => {
+  const { isVideo, isYouTube, youtubeEmbedUrl, isSafe } = useMemo(() => {
+    if (!src) {
+      return { isVideo: false, isYouTube: false, youtubeEmbedUrl: "", isSafe: true };
+    }
+    const isSafe = isSafeImageSrc(src);
     const isVideo = src?.endsWith(".mp4");
     const isYouTube = isYouTubeVideo(src);
     const youtubeEmbedUrl = isYouTube ? getYouTubeEmbedUrl(src) : "";
-    return { isVideo, isYouTube, youtubeEmbedUrl };
+    return { isVideo, isYouTube, youtubeEmbedUrl, isSafe };
   }, [src]);
 
   const [isLoaded, setIsLoaded] = useState(!!shouldPreload);
+
+  if (!src) {
+    return null;
+  }
+
+  if (!isSafe) {
+    console.error(`Security: Blocked dangerous image source: ${src}`);
+    return null;
+  }
 
   return (
     <>
