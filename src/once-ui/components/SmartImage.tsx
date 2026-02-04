@@ -1,11 +1,13 @@
 "use client";
 
-import React, { CSSProperties, useState, useRef, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
+import type React from "react";
+import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
+import { extractYoutubeId, isSafeImageSrc, validateYoutubeUrl } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
-export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, 'height'> {
+export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
   /** Aspect ratio of the image */
   aspectRatio?: string;
   /** Height of the image */
@@ -38,19 +40,13 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
   };
 }
 
-// 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
-const YOUTUBE_REGEX =
-  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-
 const isYouTubeVideo = (url: string) => {
-  return YOUTUBE_REGEX.test(url);
+  return validateYoutubeUrl(url);
 };
 
 const getYouTubeEmbedUrl = (url: string) => {
-  const match = url.match(YOUTUBE_REGEX);
-  return match
-    ? `https://www.youtube.com/embed/${match[1]}?controls=0&rel=0&modestbranding=1`
-    : "";
+  const id = extractYoutubeId(url);
+  return id ? `https://www.youtube.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
 };
 
 /**
@@ -79,15 +75,15 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   const calculatedSizes = useMemo(() => {
     if (sizes) return sizes;
     return responsive
-      ? `(max-width: 640px) ${responsive.mobile || '100vw'}, (max-width: 1024px) ${responsive.tablet || '50vw'}, ${responsive.desktop || '33vw'}`
+      ? `(max-width: 640px) ${responsive.mobile || "100vw"}, (max-width: 1024px) ${responsive.tablet || "50vw"}, ${responsive.desktop || "33vw"}`
       : "(max-width: 1200px) 100vw, 33vw";
   }, [sizes, responsive]);
 
   const calculateHeight = useMemo(() => {
-    if (height) return typeof height === 'number' ? `${height}rem` : height;
+    if (height) return typeof height === "number" ? `${height}rem` : height;
     if (responsive?.mobile) return responsive.mobile;
-    if (aspectRatio) return 'auto';
-    return '100%';
+    if (aspectRatio) return "auto";
+    return "100%";
   }, [height, responsive, aspectRatio]);
 
   const [isEnlarged, setIsEnlarged] = useState(false);
@@ -100,7 +96,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (enlarge && (event.key === 'Enter' || event.key === ' ')) {
+    if (enlarge && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault();
       setIsEnlarged(!isEnlarged);
     }
@@ -155,9 +151,27 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
 
   // Bolt: moved helper functions outside to avoid recreation on every render
 
-  const isVideo = src?.endsWith(".mp4");
-  const isYouTube = isYouTubeVideo(src);
+  const { isVideo, isYouTube, youtubeEmbedUrl, isSafe } = useMemo(() => {
+    if (!src) {
+      return { isVideo: false, isYouTube: false, youtubeEmbedUrl: "", isSafe: true };
+    }
+    const isSafe = isSafeImageSrc(src);
+    const isVideo = src?.endsWith(".mp4");
+    const isYouTube = isYouTubeVideo(src);
+    const youtubeEmbedUrl = isYouTube ? getYouTubeEmbedUrl(src) : "";
+    return { isVideo, isYouTube, youtubeEmbedUrl, isSafe };
+  }, [src]);
+
   const [isLoaded, setIsLoaded] = useState(!!shouldPreload);
+
+  if (!src) {
+    return null;
+  }
+
+  if (!isSafe) {
+    console.error(`Security: Blocked dangerous image source: ${src}`);
+    return null;
+  }
 
   return (
     <>
@@ -183,7 +197,17 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
         aria-label={enlarge ? (isEnlarged ? "Close image" : "Enlarge image") : undefined}
         {...rest}
       >
-        {isLoading && <Skeleton shape="block" />}
+        {(isLoading || (!isLoaded && !isVideo && !isYouTube)) && (
+          <Skeleton
+            shape="block"
+            aria-busy="true"
+            aria-label={alt ? `Loading: ${alt}` : "Loading image"}
+            style={{
+              position: "absolute",
+              inset: 0,
+            }}
+          />
+        )}
         {!isLoading && isVideo && (
           <video
             src={src}
@@ -191,6 +215,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             loop
             muted
             playsInline
+            aria-label={alt || "Video player"}
             style={{
               width: "100%",
               height: "100%",
@@ -202,9 +227,12 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
           <iframe
             width="100%"
             height="100%"
-            src={getYouTubeEmbedUrl(src)}
+            src={youtubeEmbedUrl}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            // 🛡️ Sentinel: Sandbox to restrict iframe capabilities (allow scripts/same-origin for YouTube)
+            sandbox="allow-scripts allow-same-origin allow-presentation"
+            title={alt || "YouTube video player"}
             style={{
               objectFit: objectFit,
             }}
@@ -215,6 +243,7 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             src={src}
             alt={alt}
             priority={shouldPreload}
+            fetchPriority={shouldPreload ? "high" : undefined}
             sizes={calculatedSizes}
             unoptimized={unoptimized}
             fill

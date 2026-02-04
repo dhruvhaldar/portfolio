@@ -1,0 +1,111 @@
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import React, { useState } from "react";
+import { describe, expect, it, vi } from "vitest";
+import { TagInput } from "../TagInput";
+
+const TagInputWrapper = () => {
+  const [tags, setTags] = useState<string[]>(["tag1", "tag2"]);
+  return <TagInput label="Tags" id="tags" value={tags} onChange={setTags} />;
+};
+
+const TagInputWithHandler = ({ onKeyDown }: { onKeyDown?: React.KeyboardEventHandler<HTMLInputElement> }) => {
+  const [tags, setTags] = useState<string[]>([]);
+  return <TagInput label="Tags" id="tags" value={tags} onChange={setTags} onKeyDown={onKeyDown} />;
+};
+
+describe("TagInput", () => {
+  it("renders initial tags", () => {
+    render(<TagInputWrapper />);
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+
+  it("adds a new tag on Enter", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "newTag" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(screen.getByText("newTag")).toBeInTheDocument();
+  });
+
+  it("adds a new tag on comma", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "commaTag" } });
+    fireEvent.keyDown(input, { key: "," });
+    expect(screen.getByText("commaTag")).toBeInTheDocument();
+  });
+
+  it("removes a tag", () => {
+    render(<TagInputWrapper />);
+
+    // Chip container has the label
+    const removeButton = screen.getByRole("button", { name: "Remove tag tag1" });
+
+    fireEvent.click(removeButton);
+
+    expect(screen.queryByText("tag1")).not.toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+
+  it("removes the last tag on Backspace when input is empty", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+
+    // Ensure initial state
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+
+    // Press Backspace on empty input
+    fireEvent.keyDown(input, { key: "Backspace" });
+
+    // Expect last tag to be removed
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.queryByText("tag2")).not.toBeInTheDocument();
+  });
+
+  it("does not remove tag on Backspace when input is NOT empty", () => {
+    render(<TagInputWrapper />);
+    const input = screen.getByRole("textbox");
+
+    // Type something
+    fireEvent.change(input, { target: { value: "typing" } });
+
+    // Press Backspace
+    fireEvent.keyDown(input, { key: "Backspace" });
+
+    // Expect tags to remain
+    expect(screen.getByText("tag1")).toBeInTheDocument();
+    expect(screen.getByText("tag2")).toBeInTheDocument();
+  });
+
+  it("should execute both internal logic and external onKeyDown handler", () => {
+    const handleKeyDown = vi.fn();
+    render(<TagInputWithHandler onKeyDown={handleKeyDown} />);
+
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "newTag" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    // Verify external handler was called
+    expect(handleKeyDown).toHaveBeenCalled();
+
+    // Verify internal logic (tag addition) worked
+    expect(screen.getByText("newTag")).toBeInTheDocument();
+  });
+
+  it("should not add tag if external handler prevents default", () => {
+    const preventDefaultHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+      e.preventDefault();
+    };
+
+    render(<TagInputWithHandler onKeyDown={preventDefaultHandler} />);
+
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "blockedTag" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    // Tag should NOT be added
+    expect(screen.queryByText("blockedTag")).not.toBeInTheDocument();
+  });
+});

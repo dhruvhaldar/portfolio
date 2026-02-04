@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, forwardRef, useEffect } from "react";
 import classNames from "classnames";
-import { Flex, Text, Button, Grid, SegmentedControl, IconButton, NumberInput } from ".";
+import type React from "react";
+import { forwardRef, useEffect, useId, useState, useCallback, useRef, useMemo, memo } from "react";
+import { SpacingToken } from "../types";
+import { Button, Flex, Grid, IconButton, NumberInput, SegmentedControl, Text } from ".";
 import styles from "./DatePicker.module.scss";
 
 export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>, "onChange"> {
@@ -48,6 +50,82 @@ export interface DatePickerProps extends Omit<React.ComponentProps<typeof Flex>,
   onHover?: (date: Date | null) => void;
 }
 
+interface CalendarDayProps {
+  day: number;
+  month: number;
+  year: number;
+  isSelected: boolean;
+  isInRange: boolean;
+  isFirstInRange: boolean;
+  isLastInRange: boolean;
+  isDisabled: boolean;
+  onClick: (date: Date) => void;
+  onHover: (date: Date | null) => void;
+}
+
+const CalendarDay = memo(({
+  day, month, year, isSelected, isInRange, isFirstInRange, isLastInRange, isDisabled, onClick, onHover
+}: CalendarDayProps) => {
+    const date = useMemo(() => new Date(year, month, day), [year, month, day]);
+
+    const dateLabel = useMemo(() => date.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }), [date]);
+
+    const handleClick = useCallback(() => {
+        if (!isDisabled) onClick(date);
+    }, [isDisabled, onClick, date]);
+
+    const handleMouseEnter = useCallback(() => onHover(date), [onHover, date]);
+    const handleMouseLeave = useCallback(() => onHover(null), [onHover]);
+
+    return (
+        <Flex paddingY="2">
+            <Flex
+              width="40"
+              height="40"
+              background={isInRange ? "neutral-alpha-weak" : undefined}
+              borderTop={isInRange ? "neutral-alpha-weak" : "transparent"}
+              borderBottom={isInRange ? "neutral-alpha-weak" : "transparent"}
+              leftRadius={isFirstInRange ? "m" : undefined}
+              rightRadius={isLastInRange ? "m" : undefined}
+            >
+              <Button
+                fillWidth
+                weight={isSelected ? "strong" : "default"}
+                variant={isSelected ? "primary" : "tertiary"}
+                size="m"
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                disabled={isDisabled}
+                aria-label={dateLabel}
+              >
+                {day}
+              </Button>
+            </Flex>
+          </Flex>
+    );
+});
+CalendarDay.displayName = "CalendarDay";
+
+const CalendarFillerDay = memo(({ day, marginTop }: { day: number, marginTop?: SpacingToken }) => (
+    <Flex
+        marginTop={marginTop}
+        paddingY="2"
+        width="40"
+        height="40"
+    >
+        <Button fillWidth weight="default" variant="tertiary" size="m" disabled>
+            {day}
+        </Button>
+    </Flex>
+));
+CalendarFillerDay.displayName = "CalendarFillerDay";
+
 /**
  * A calendar component for selecting dates and times.
  */
@@ -79,9 +157,9 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
     const [selectedTime, setSelectedTime] = useState<
       | {
-        hours: number;
-        minutes: number;
-      }
+          hours: number;
+          minutes: number;
+        }
       | undefined
     >(defaultTime);
     const [isPM, setIsPM] = useState(defaultTime?.hours ? defaultTime.hours >= 12 : false);
@@ -94,6 +172,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const [currentYear, setCurrentYear] = useState<number>(
       value ? value.getFullYear() : today.getFullYear(),
     );
+    const generatedId = useId();
 
     useEffect(() => {
       if (typeof propCurrentMonth === "number") {
@@ -139,27 +218,48 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     ];
     const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    const handleTimeToggle = (show: boolean) => {
+    const handleTimeToggle = useCallback((show: boolean) => {
       setIsTransitioning(false);
       setTimeout(() => {
         setIsTimeSelector(show);
         setIsTransitioning(true);
       }, 400);
-    };
+    }, []);
 
-    const handleDateSelect = (date: Date) => {
+    // Stable Handlers Logic
+    const handlersStateRef = useRef({
+        selectedDate, selectedTime, timePicker, onChange, onHover,
+        handleTimeToggle
+    });
+
+    useEffect(() => {
+        handlersStateRef.current = {
+            selectedDate, selectedTime, timePicker, onChange, onHover,
+            handleTimeToggle
+        };
+    });
+
+    const handleDateSelect = useCallback((date: Date) => {
+      const { selectedDate, selectedTime, timePicker, onChange, handleTimeToggle } = handlersStateRef.current;
+
       const newDate = new Date(date);
       if (timePicker && selectedDate && selectedTime) {
         newDate.setHours(selectedTime.hours);
         newDate.setMinutes(selectedTime.minutes);
       }
+
       setSelectedDate(newDate);
+
       if (timePicker) {
         handleTimeToggle(true);
       } else {
         onChange?.(newDate);
       }
-    };
+    }, []);
+
+    const handleHoverStable = useCallback((date: Date | null) => {
+        handlersStateRef.current.onHover?.(date);
+    }, []);
 
     const handleMonthChange = (increment: number) => {
       if (onMonthChange) {
@@ -218,23 +318,13 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       const numberOfWeeks = Math.ceil(totalDaysShown / 7);
       const totalGridSpots = numberOfWeeks * 7;
 
-      const days = [];
+      const days: React.ReactElement[] = [];
 
       // Previous month's days
       for (let i = 0; i < firstDay; i++) {
         const prevMonthDay = daysInPrevMonth - firstDay + i + 1;
         days.push(
-          //@ts-ignore
-          <Flex
-            paddingY="2"
-            width="40"
-            height="40"
-            key={`prev-${currentYear}-${currentMonth}-${i}`}
-          >
-            <Button fillWidth weight="default" variant="tertiary" size="m" disabled>
-              {prevMonthDay}
-            </Button>
-          </Flex>,
+            <CalendarFillerDay key={`prev-${currentYear}-${currentMonth}-${i}`} day={prevMonthDay} />
         );
       }
 
@@ -256,41 +346,23 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         // Check if the current date is out of the minDate and maxDate range
         const isDisabled = (minDate && currentDate < minDate) || (maxDate && currentDate > maxDate);
 
-        // Format date for aria-label: "Tuesday, October 24, 2023"
-        const dateLabel = currentDate.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        // Helper for range check to pass boolean
+        const inRange = isInRange(currentDate);
 
         days.push(
-          //@ts-ignore
-          <Flex paddingY="2" key={`day-${currentYear}-${currentMonth}-${day}`}>
-            <Flex
-              width="40"
-              height="40"
-              background={isInRange(currentDate) ? "neutral-alpha-weak" : undefined}
-              borderTop={isInRange(currentDate) ? "neutral-alpha-weak" : "transparent"}
-              borderBottom={isInRange(currentDate) ? "neutral-alpha-weak" : "transparent"}
-              leftRadius={isFirstInRange ? "m" : undefined}
-              rightRadius={isLastInRange ? "m" : undefined}
-            >
-              <Button
-                fillWidth
-                weight={isSelected ? "strong" : "default"}
-                variant={isSelected ? "primary" : "tertiary"}
-                size="m"
-                onClick={() => !isDisabled && handleDateSelect(currentDate)}
-                onMouseEnter={() => onHover?.(currentDate)}
-                onMouseLeave={() => onHover?.(null)}
-                disabled={isDisabled}
-                aria-label={dateLabel}
-              >
-                {day}
-              </Button>
-            </Flex>
-          </Flex>,
+            <CalendarDay
+                key={`day-${currentYear}-${currentMonth}-${day}`}
+                day={day}
+                month={currentMonth}
+                year={currentYear}
+                isSelected={!!isSelected}
+                isInRange={!!inRange}
+                isFirstInRange={!!isFirstInRange}
+                isLastInRange={!!isLastInRange}
+                isDisabled={!!isDisabled}
+                onClick={handleDateSelect}
+                onHover={handleHoverStable}
+            />
         );
       }
 
@@ -298,17 +370,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
 
       for (let i = 1; i <= remainingDays; i++) {
         days.push(
-          //@ts-ignore
-          <Flex
-            marginTop="2"
-            width="40"
-            height="40"
-            key={`next-${currentYear}-${currentMonth}-${i}`}
-          >
-            <Button fillWidth weight="default" variant="tertiary" size="m" disabled>
-              {i}
-            </Button>
-          </Flex>,
+            <CalendarFillerDay
+                key={`next-${currentYear}-${currentMonth}-${i}`}
+                day={i}
+                marginTop="2"
+            />
         );
       }
 
@@ -333,17 +399,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 {monthNames[currentMonth]} {currentYear}
               </Text>
               <Text
+                as="button"
                 className="cursor-interactive"
                 variant="label-default-s"
                 onBackground="brand-weak"
                 onClick={() => handleTimeToggle(false)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleTimeToggle(false);
-                  }
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
                 }}
               >
                 Back to calendar
@@ -357,7 +421,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronLeft"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(-1);
@@ -380,7 +444,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                   variant="tertiary"
                   size={size === "l" ? "l" : "m"}
                   icon="chevronRight"
-                  onClick={(event: any) => {
+                  onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     event.stopPropagation();
                     handleMonthChange(1);
@@ -428,7 +492,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               />
               <Flex fillWidth gap="16" vertical="center" data-scaling="110">
                 <NumberInput
-                  id="hours"
+                  id={`${generatedId}-hours`}
                   label="Hours"
                   labelAsPlaceholder
                   min={1}
@@ -443,7 +507,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 />
                 :
                 <NumberInput
-                  id="minutes"
+                  id={`${generatedId}-minutes`}
                   label="Minutes"
                   labelAsPlaceholder
                   min={0}

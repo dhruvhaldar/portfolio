@@ -1,17 +1,19 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  InputHTMLAttributes,
-  useCallback,
-  ReactNode,
-} from "react";
 import classNames from "classnames";
-import { Flex, Text } from ".";
-import styles from "./Input.module.scss";
+import type React from "react";
+import {
+  type InputHTMLAttributes,
+  type ReactNode,
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { Flex, Spinner, Text } from ".";
 import useDebounce from "../hooks/useDebounce";
+import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /** Element ID */
@@ -28,15 +30,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   description?: ReactNode;
   /** Border radius */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Custom class name */
   className?: string;
   /** Custom styles */
@@ -49,12 +51,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelAsPlaceholder?: boolean;
   /** Custom validation function */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Whether the input is in a loading state */
+  loading?: boolean;
 }
 
 /**
  * A form input component with built-in labeling, validation, and styling.
  */
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const InputComponent = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       id,
@@ -68,6 +72,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       style,
       hasPrefix,
       hasSuffix,
+      loading = false,
       labelAsPlaceholder = false,
       children,
       onFocus,
@@ -78,28 +83,39 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!props.value);
+
+    // Bolt: Optimize re-renders by deriving isFilled from props when controlled
+    const isControlled = typeof props.value !== "undefined";
+    const [isFilledState, setIsFilledState] = useState(!!props.value || !!props.defaultValue);
+    const isFilled = isControlled ? !!props.value : isFilledState;
+
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
-    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true);
-      if (onFocus) onFocus(event);
-    };
+    const handleFocus = useCallback(
+      (event: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
+        if (onFocus) onFocus(event);
+      },
+      [onFocus],
+    );
 
-    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false);
-      if (event.target.value) {
-        setIsFilled(true);
-      } else {
-        setIsFilled(false);
-      }
-      if (onBlur) onBlur(event);
-    };
+    const handleBlur = useCallback(
+      (event: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(false);
+        if (!isControlled) {
+          if (event.target.value) {
+            setIsFilledState(true);
+          } else {
+            setIsFilledState(false);
+          }
+        }
+        if (onBlur) onBlur(event);
+      },
+      [onBlur, isControlled],
+    );
 
-    useEffect(() => {
-      setIsFilled(!!props.value);
-    }, [props.value]);
+    // Bolt: Removed useEffect for isFilled sync to prevent double renders
 
     const validateInput = useCallback(() => {
       if (!debouncedValue) {
@@ -121,7 +137,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     useEffect(() => {
       validateInput();
-    }, [debouncedValue, validateInput]);
+    }, [validateInput]);
 
     const displayError = validationError || errorMessage;
 
@@ -181,6 +197,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               {...props}
               ref={ref}
               id={id}
+              aria-busy={loading}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -207,9 +224,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             {children}
           </Flex>
-          {hasSuffix && (
+          {(hasSuffix || loading) && (
             <Flex paddingRight="12" className={styles.suffix}>
-              {hasSuffix}
+              {loading ? <Spinner size={height === "s" ? "xs" : "s"} /> : hasSuffix}
             </Flex>
           )}
         </Flex>
@@ -237,6 +254,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
+InputComponent.displayName = "Input";
+
+// Bolt: Memoize Input to prevent unnecessary re-renders when props are stable
+const Input = memo(InputComponent);
 Input.displayName = "Input";
 
 export { Input };

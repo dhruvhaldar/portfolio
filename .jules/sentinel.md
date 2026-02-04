@@ -57,3 +57,18 @@
 **Vulnerability:** When using `output: 'export'`, Next.js `headers` configuration is ignored. This leaves the static site vulnerable to XSS and other attacks if the hosting provider doesn't strictly enforce CSP headers.
 **Learning:** Security headers defined in `next.config.js` or `middleware.ts` do not apply to static exports. A `<meta>` tag fallback is essential for defense-in-depth on static hosts.
 **Prevention:** Inject a `<meta http-equiv="Content-Security-Policy">` tag in the Root Layout (`layout.tsx`) to enforce CSP even when HTTP headers are missing or misconfigured by the host.
+
+## 2026-09-21 - [HIGH] Unsanitized Input passed to LazyframeVideo
+**Vulnerability:** The `LazyframeVideo` component validated the user-provided `src` regex but passed the *original* string to the `lazyframe` library's `data-src` attribute. This could allow maliciously crafted URLs (that trick the regex or exploit library parsing quirks) to be rendered.
+**Learning:** Regex validation is a filter, not a sanitizer. If you extract safe data (like a video ID) from a complex input, use that extracted data to *reconstruct* the URL rather than passing the original input downstream.
+**Prevention:** Always reconstruct URLs from trusted parts (e.g. `https://youtube.com/watch?v=${extractedId}`) instead of trusting the original input string.
+
+## 2026-10-14 - [ENHANCEMENT] Missing Sandbox on YouTube Iframe
+**Vulnerability:** The YouTube iframe in `SmartImage` lacked the `sandbox` attribute, potentially allowing full access to browser APIs if the iframe content were ever compromised or malicious.
+**Learning:** Even trusted third-party iframes should be sandboxed to strictly define their capabilities (Principle of Least Privilege).
+**Prevention:** Always apply `sandbox` with minimal permissions (`allow-scripts`, `allow-same-origin`, etc.) to all iframes.
+
+## 2026-11-23 - [HIGH] Missing Sandbox on Dynamic Iframe Injection
+**Vulnerability:** The `LazyframeVideo` component used an external library (`lazyframe`) which injected iframes without `sandbox` attributes, bypassing the static JSX security controls.
+**Learning:** Security controls applied in JSX do not apply to DOM elements created/injected by third-party libraries at runtime. `MutationObserver` is a powerful pattern to "police" the DOM and enforce security policies on dynamic content.
+**Prevention:** Use `MutationObserver` to intercept dynamically added critical elements (like iframes) and programmatically enforce security attributes (sandbox, title) immediately upon insertion.

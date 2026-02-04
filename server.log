@@ -18,7 +18,9 @@ https://nextjs.org/telemetry
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
  ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
  ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
- ✓ Ready in 831ms
- ○ Compiling /blog ...
+ ✓ Ready in 1183ms
+ ○ Compiling /verify-carousel ...
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
- GET /blog 200 in 14.6s (compile: 11.9s, render: 2.7s)
+ GET /verify-carousel 200 in 19.0s (compile: 16.4s, render: 2.6s)
+ ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+ ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export

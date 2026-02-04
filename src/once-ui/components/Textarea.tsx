@@ -7,6 +7,7 @@ import React, {
   TextareaHTMLAttributes,
   useCallback,
   ReactNode,
+  memo,
 } from "react";
 import classNames from "classnames";
 import { Flex, Text } from ".";
@@ -49,13 +50,15 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   resize?: "horizontal" | "vertical" | "both" | "none";
   /** Custom validation function that returns error message (ReactNode) or null if valid. Validation is debounced by 1s. */
   validate?: (value: ReactNode) => ReactNode | null;
+  /** Show character count */
+  showCount?: boolean;
 }
 
 /**
  * A multi-line text input component.
  * Supports auto-growing height and validation.
  */
-const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       id,
@@ -71,6 +74,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       labelAsPlaceholder = false,
       resize = "vertical",
       validate,
+      showCount = false,
       children,
       onFocus,
       onBlur,
@@ -81,36 +85,72 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFilled, setIsFilled] = useState(!!props.value);
+
+    // Bolt: Optimize re-renders by deriving state from props when controlled
+    const isControlled = typeof props.value !== "undefined";
+
+    // isFilled logic
+    const [isFilledState, setIsFilledState] = useState(!!props.value || !!props.defaultValue);
+    const isFilled = isControlled ? !!props.value : isFilledState;
+
+    // internalLength logic
+    const [internalLengthState, setInternalLengthState] = useState(
+      props.value
+        ? props.value.toString().length
+        : props.defaultValue
+          ? props.defaultValue.toString().length
+          : 0
+    );
+    // Safe length access for controlled component
+    const internalLength = isControlled
+      ? (props.value ? props.value.toString().length : 0)
+      : internalLengthState;
+
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const [height, setHeight] = useState<number | undefined>(undefined);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
-    const adjustHeight = () => {
+    const adjustHeight = useCallback(() => {
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set to scroll height
       }
-    };
+    }, []);
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (lines === "auto") {
-        adjustHeight();
-      }
-      if (onChange) onChange(event);
-    };
+    const handleChange = useCallback(
+      (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (lines === "auto") {
+          adjustHeight();
+        }
 
-    const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      setIsFocused(true);
-      if (onFocus) onFocus(event);
-    };
+        if (!isControlled) {
+          setInternalLengthState(event.target.value.length);
+        }
 
-    const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      setIsFocused(false);
-      setIsFilled(!!event.target.value);
-      if (onBlur) onBlur(event);
-    };
+        if (onChange) onChange(event);
+      },
+      [lines, adjustHeight, onChange, isControlled],
+    );
+
+    const handleFocus = useCallback(
+      (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        setIsFocused(true);
+        if (onFocus) onFocus(event);
+      },
+      [onFocus],
+    );
+
+    const handleBlur = useCallback(
+      (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        setIsFocused(false);
+        if (!isControlled) {
+          setIsFilledState(!!event.target.value);
+        }
+        if (onBlur) onBlur(event);
+      },
+      [onBlur, isControlled],
+    );
 
     const validateInput = useCallback(() => {
       if (!debouncedValue) {
@@ -134,11 +174,13 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       validateInput();
     }, [debouncedValue, validateInput]);
 
+    // Bolt: Removed useEffect for isFilled/internalLength sync to prevent double renders
+
     useEffect(() => {
       if (lines === "auto") {
         adjustHeight();
       }
-    }, [props.value, lines]);
+    }, [props.value, lines, adjustHeight]);
 
     const displayError = validationError || errorMessage;
 
@@ -161,6 +203,16 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         [styles.hasChildren]: children,
       },
     );
+
+    const handleRef = useCallback((node: HTMLTextAreaElement | null) => {
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+      //@ts-ignore
+      textareaRef.current = node;
+    }, [ref]);
 
     return (
       <Flex
@@ -197,15 +249,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               aria-label={labelAsPlaceholder ? label : undefined}
               maxLength={4096}
               {...props}
-              ref={(node) => {
-                if (typeof ref === "function") {
-                  ref(node);
-                } else if (ref) {
-                  ref.current = node;
-                }
-                //@ts-ignore
-                textareaRef.current = node;
-              }}
+              ref={handleRef}
               id={id}
               rows={typeof lines === "number" ? lines : 1}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
@@ -265,11 +309,22 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             </Text>
           </Flex>
         )}
+        {showCount && (
+          <Flex paddingX="16" fillWidth horizontal="end">
+            <Text variant="body-default-s" onBackground="neutral-weak">
+              {internalLength} / {props.maxLength || 4096}
+            </Text>
+          </Flex>
+        )}
       </Flex>
     );
   },
 );
 
+TextareaComponent.displayName = "Textarea";
+
+// Bolt: Memoize Textarea to prevent unnecessary re-renders when props are stable
+const Textarea = memo(TextareaComponent);
 Textarea.displayName = "Textarea";
 
 export { Textarea };

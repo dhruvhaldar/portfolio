@@ -1,9 +1,10 @@
 "use client";
 
-import React, { forwardRef } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, memo, useMemo } from "react";
 
-import { Flex, Text, Skeleton, Tag, TagProps, Avatar, AvatarProps } from ".";
+import { Avatar, type AvatarProps, Flex, Skeleton, Tag, type TagProps, Text } from ".";
 
 interface UserProps {
   /** User name */
@@ -24,15 +25,25 @@ interface UserProps {
   className?: string;
 }
 
+const DEFAULT_TAG_PROPS: TagProps = {};
+const DEFAULT_AVATAR_PROPS: AvatarProps = {};
+
 /**
  * A user profile component that displays an avatar, name, and subline.
  */
-const User = forwardRef<HTMLDivElement, UserProps>(
+const UserComponent = forwardRef<HTMLDivElement, UserProps>(
   (
-    { name, children, subline, tagProps = {}, loading = false, avatarProps = {}, className },
+    { name, children, subline, tagProps = DEFAULT_TAG_PROPS, loading = false, avatarProps = DEFAULT_AVATAR_PROPS, className },
     ref,
   ) => {
-    const { src, value, empty, ...restAvatarProps } = avatarProps;
+    const { src, value, empty } = avatarProps;
+
+    // Bolt: Memoize restAvatarProps to prevent unnecessary re-renders of the memoized Avatar component
+    const restAvatarProps = useMemo(() => {
+      const { src, value, empty, ...rest } = avatarProps;
+      return rest;
+    }, [avatarProps]);
+
     const isEmpty = empty || (!src && !value);
 
     return (
@@ -80,6 +91,10 @@ const User = forwardRef<HTMLDivElement, UserProps>(
   },
 );
 
+UserComponent.displayName = "User";
+
+// Bolt: Memoize User to prevent unnecessary re-renders in lists/headers
+const User = memo(UserComponent);
 User.displayName = "User";
 
 export { User };

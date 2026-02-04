@@ -1,18 +1,30 @@
 "use client";
 
-import React, { useState, useRef, useEffect, forwardRef, ReactNode, useId, useMemo, useCallback } from "react";
+import type { Placement } from "@floating-ui/react-dom";
 import classNames from "classnames";
-import { DropdownWrapper, Flex, Icon, IconButton, Input, InputProps, Option } from ".";
+import type React from "react";
+import {
+  type ReactNode,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { DropdownWrapper, Flex, Icon, IconButton, Input, type InputProps, Option } from ".";
+import type { DropdownWrapperProps } from "./DropdownWrapper";
 import inputStyles from "./Input.module.scss";
 import type { OptionProps } from "./Option";
-import type { DropdownWrapperProps } from "./DropdownWrapper";
-import { Placement } from "@floating-ui/react-dom";
 
-type SelectOptionType = Omit<OptionProps, "selected">;
+type SelectOptionType = Omit<OptionProps, "selected"> & {
+  displayLabel?: string;
+};
 
 interface SelectProps
   extends Omit<InputProps, "onSelect" | "value">,
-  Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+    Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
   /** List of selectable options */
   options: SelectOptionType[];
   /** Current selected value */
@@ -67,8 +79,13 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     const displayValue = useMemo(() => {
       const selectedOption = options.find((option) => option.value === value);
-      if (selectedOption && typeof selectedOption.label === "string") {
-        return selectedOption.label;
+      if (selectedOption) {
+        if (selectedOption.displayLabel) {
+          return selectedOption.displayLabel;
+        }
+        if (typeof selectedOption.label === "string") {
+          return selectedOption.label;
+        }
       }
       return value;
     }, [options, value]);
@@ -95,20 +112,26 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     };
 
-    const handleSelect = useCallback((value: string) => {
-      if (onSelect) onSelect(value);
-      setIsDropdownOpen(false);
-      setIsFilled(true);
-    }, [onSelect]);
+    const handleSelect = useCallback(
+      (value: string) => {
+        if (onSelect) onSelect(value);
+        setIsDropdownOpen(false);
+        setIsFilled(true);
+      },
+      [onSelect],
+    );
 
     // Bolt: Stable handler to prevent Option re-renders
-    const handleOptionClick = useCallback((optionValue: string) => {
-      const selectedOption = filteredOptions.find((option) => option.value === optionValue);
-      if (selectedOption?.onClick) {
-        selectedOption.onClick(optionValue);
-      }
-      handleSelect(optionValue);
-    }, [filteredOptions, handleSelect]);
+    const handleOptionClick = useCallback(
+      (optionValue: string) => {
+        const selectedOption = filteredOptions.find((option) => option.value === optionValue);
+        if (selectedOption?.onClick) {
+          selectedOption.onClick(optionValue);
+        }
+        handleSelect(optionValue);
+      },
+      [filteredOptions, handleSelect],
+    );
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (!isFocused && event.key !== "Enter") return;
@@ -167,32 +190,6 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     };
 
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          selectRef.current &&
-          !selectRef.current.contains(event.target as Node) &&
-          !clearButtonRef.current?.contains(event.target as Node)
-        ) {
-          setIsDropdownOpen(false);
-        }
-      };
-
-      const handleFocusOut = (event: FocusEvent) => {
-        if (event.target instanceof HTMLInputElement) {
-          handleBlur(event as unknown as React.FocusEvent<HTMLInputElement>);
-        }
-      };
-
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("focusout", handleFocusOut);
-
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-        document.removeEventListener("focusout", handleFocusOut);
-      };
-    }, []);
-
     return (
       <DropdownWrapper
         fillWidth
@@ -214,6 +211,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
             }}
             value={displayValue}
             onFocus={handleFocus}
+          onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             readOnly
             className={classNames("cursor-interactive", "fill-width", {

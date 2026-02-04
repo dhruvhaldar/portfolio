@@ -1,10 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useRef, ReactNode } from "react";
+import React, { useState, useEffect, useRef, type ReactNode } from "react";
 import "./CodeHighlight.css";
-import styles from "./CodeBlock.module.scss";
-import { Flex, Button, IconButton, DropdownWrapper, Option, Spotlight, useToast } from "@/once-ui/components";
+import {
+  Button,
+  DropdownWrapper,
+  Flex,
+  IconButton,
+  Option,
+  Spotlight,
+  useToast,
+} from "@/once-ui/components";
 import Prism from "prismjs";
+import styles from "./CodeBlock.module.scss";
 import "prismjs/plugins/line-highlight/prism-line-highlight";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-css";
@@ -55,9 +63,11 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   const [copyIcon, setCopyIcon] = useState<string>("clipboard");
   const { addToast } = useToast();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: code triggers re-highlighting implicitly via ref content
   useEffect(() => {
     if (codeRef.current && codeInstances.length > 0) {
-      Prism.highlightAll();
+      // @ts-ignore: Prism types might not include highlightElement in some versions/configs, but it exists
+      (Prism as any).highlightElement(codeRef.current);
     }
   }, [code, codeInstances.length]);
 
@@ -131,6 +141,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
                     <Flex direction="column" gap="2" padding="4" minWidth={6} data-surface="filled">
                       {codeInstances.map((instance, index) => (
                         <Option
+                          // biome-ignore lint/suspicious/noArrayIndexKey: static list of instances
                           key={index}
                           value={instance.label}
                           label={instance.label}
@@ -176,7 +187,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
             vertical="center"
           >
             {Array.isArray(codePreview)
-              ? codePreview.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
+              ? codePreview.map((item, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: static preview items
+                  <React.Fragment key={index}>{item}</React.Fragment>
+                ))
               : codePreview}
           </Flex>
         )}

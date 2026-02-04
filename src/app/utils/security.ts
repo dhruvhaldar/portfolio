@@ -38,3 +38,92 @@ export function isValidEmail(email: string): boolean {
   const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
+
+const SAFE_URL_MAX_LENGTH = 2048;
+const DANGEROUS_SCHEMES_REGEX = /^\s*(javascript|vbscript|data|file):/i;
+
+// 🛡️ Sentinel: Anchored regex to prevent confusion attacks (e.g. matching inside query params)
+const YOUTUBE_REGEX =
+  /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+/**
+ * Validates if a URL is a valid YouTube URL.
+ *
+ * @param url - The URL to validate.
+ * @returns True if the URL is a valid YouTube URL, false otherwise.
+ */
+export function validateYoutubeUrl(url: string): boolean {
+  return YOUTUBE_REGEX.test(url);
+}
+
+/**
+ * Extracts the YouTube video ID from a URL.
+ *
+ * @param url - The URL to extract the ID from.
+ * @returns The YouTube video ID if found, null otherwise.
+ */
+export function extractYoutubeId(url: string): string | null {
+  const match = url.match(YOUTUBE_REGEX);
+  return match ? match[1] : null;
+}
+
+/**
+ * Validates if a URL is safe to be used in an href attribute.
+ * Uses an allowlist approach for protocols and robustly handles URL parsing.
+ *
+ * @param url - The URL to validate.
+ * @returns True if the URL is safe, false otherwise.
+ */
+export function isSafeUrl(url: string): boolean {
+  if (!url) return false;
+  if (url.length > SAFE_URL_MAX_LENGTH) return false;
+
+  const href = url.trim();
+
+  // 🛡️ Sentinel: Sanitize to prevent filter bypass (e.g. java\0script:)
+  // Strip control characters (0x00-0x1F, 0x7F)
+  const sanitized = href.replace(/[\x00-\x1F\x7F]/g, "").trim();
+
+  // 🛡️ Sentinel: Block dangerous schemes even if URL parsing fails or handles them weirdly
+  if (DANGEROUS_SCHEMES_REGEX.test(sanitized)) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(sanitized);
+    return ["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol);
+  } catch (e) {
+    // Not an absolute URL, so it's a relative URL (safe)
+    return true;
+  }
+}
+
+/**
+ * Validates if an image source URL is safe.
+ * Allows data: and blob: schemes which are often used for images.
+ *
+ * @param src - The image source URL.
+ * @returns True if the URL is safe, false otherwise.
+ */
+export function isSafeImageSrc(src: string): boolean {
+  if (!src) return false;
+
+  const href = src.trim();
+
+  // 🛡️ Sentinel: Sanitize to prevent filter bypass (e.g. java\0script:)
+  // Strip control characters (0x00-0x1F, 0x7F)
+  const sanitized = href.replace(/[\x00-\x1F\x7F]/g, "").trim();
+
+  // 🛡️ Sentinel: Explicitly block dangerous schemes
+  if (/^\s*(javascript|vbscript):/i.test(sanitized)) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(sanitized);
+    return ["http:", "https:", "data:", "blob:"].includes(parsed.protocol);
+  } catch (e) {
+    // Not an absolute URL, so it's a relative URL (safe)
+    return true;
+  }
+}

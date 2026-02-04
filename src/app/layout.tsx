@@ -1,22 +1,19 @@
 import "@/once-ui/styles/index.scss";
 import "@/once-ui/tokens/index.scss";
-import classNames from "classnames";
-import { Header, RouteGuard } from "@/components";
-import dynamic from "next/dynamic";
 import { baseURL, effects, style } from "@/app/resources";
+import { Header, RouteGuard } from "@/components";
+import classNames from "classnames";
+import dynamic from "next/dynamic";
 import { Geist } from "next/font/google";
 
-import { person, home } from "@/app/resources/content";
-import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { home, person } from "@/app/resources/content";
 import { themeScript } from "@/app/resources/theme-script";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
-const Footer = dynamic(
-  () => import('@/components/Footer').then((mod) => mod.Footer),
-  {
-    loading: () => <div>Loading Footer...</div>,
-  }
-);
+const Footer = dynamic(() => import("@/components/Footer").then((mod) => mod.Footer), {
+  loading: () => <div>Loading Footer...</div>,
+});
 
 export async function generateMetadata() {
   const title = home.title;
@@ -28,23 +25,23 @@ export async function generateMetadata() {
     description,
     metadataBase: new URL(pageUrl),
     alternates: {
-      canonical: './',
+      canonical: "./",
     },
     icons: {
       icon: [
-        { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
-        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-        { url: '/android-chrome-192x192.jpg', sizes: '192x192', type: 'image/jpeg' },
-        { url: '/android-chrome-512x512.jpg', sizes: '512x512', type: 'image/jpeg' },
+        { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/android-chrome-192x192.jpg", sizes: "192x192", type: "image/jpeg" },
+        { url: "/android-chrome-512x512.jpg", sizes: "512x512", type: "image/jpeg" },
       ],
       shortcut: "/favicon.ico",
       apple: "/apple-icon.png",
-      manifest: '/manifest.webmanifest',
+      manifest: "/manifest.webmanifest",
       other: {
         rel: "apple-touch-icon",
         url: "/apple-touch-icon-precomposed.png",
-        'theme-color': '#60e4fc',
+        "theme-color": "#60e4fc",
       },
     },
     openGraph: {
@@ -76,17 +73,18 @@ export async function generateMetadata() {
 
 // Font Settings
 const geist = Geist({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-geist',
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
 });
 
 // Set up font variables
 const fontVariables = {
-  '--font-primary': 'var(--font-geist, system-ui, sans-serif)',
-  '--font-secondary': 'var(--font-geist, system-ui, sans-serif)',
-  '--font-tertiary': 'var(--font-geist, system-ui, sans-serif)',
-  '--font-code': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+  "--font-primary": "var(--font-geist, system-ui, sans-serif)",
+  "--font-secondary": "var(--font-geist, system-ui, sans-serif)",
+  "--font-tertiary": "var(--font-geist, system-ui, sans-serif)",
+  "--font-code":
+    'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
 };
 
 interface RootLayoutProps {
@@ -117,6 +115,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           httpEquiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://www.google-analytics.com https://*.ytimg.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://app.kit.com; connect-src 'self' https://www.google-analytics.com https://*.googleapis.com https://*.youtube.com; media-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; frame-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; upgrade-insecure-requests;"
         />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
       </head>
       <ToastProvider>
         <Column
@@ -128,6 +127,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           className="font-sans antialiased"
         >
           <script
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Theme script injection is safe and necessary for FOUC prevention
             dangerouslySetInnerHTML={{
               __html: themeScript,
             }}
@@ -183,7 +183,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               opacity: effects.lines.opacity as any,
             }}
           />
-          <Flex fillWidth minHeight="16"></Flex>
+          <Flex fillWidth minHeight="16" />
           <Header />
           <Flex
             id="main-content"
@@ -195,13 +195,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             paddingX="l"
             horizontal="center"
             flex={1}
-            style={{ outline: 'none' }}
+            style={{ outline: "none" }}
           >
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>
             </Flex>
           </Flex>
           <Footer />
+          <div id="portal-root" />
         </Column>
       </ToastProvider>
     </Flex>

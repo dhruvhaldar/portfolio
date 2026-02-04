@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isValidEmail } from "../app/utils/security";
+import { isSafeImageSrc, isSafeUrl, isValidEmail } from "../app/utils/security";
 
 describe("isValidEmail", () => {
   it("should return true for valid emails", () => {
@@ -56,5 +56,82 @@ describe("isValidEmail", () => {
     expect(isValidEmail(undefined as any)).toBe(false);
     // biome-ignore lint/suspicious/noExplicitAny: Testing runtime type safety
     expect(isValidEmail(123 as any)).toBe(false);
+  });
+});
+
+describe("isSafeUrl", () => {
+  it("should return true for valid HTTP/HTTPS URLs", () => {
+    expect(isSafeUrl("https://example.com")).toBe(true);
+    expect(isSafeUrl("http://example.com")).toBe(true);
+  });
+
+  it("should return true for valid mailto/tel URLs", () => {
+    expect(isSafeUrl("mailto:user@example.com")).toBe(true);
+    expect(isSafeUrl("tel:+1234567890")).toBe(true);
+  });
+
+  it("should return true for relative URLs", () => {
+    expect(isSafeUrl("/path/to/page")).toBe(true);
+    expect(isSafeUrl("path/to/page")).toBe(true); // Treated as relative
+    expect(isSafeUrl("#anchor")).toBe(true);
+    expect(isSafeUrl("/")).toBe(true);
+  });
+
+  it("should return false for dangerous protocols", () => {
+    expect(isSafeUrl("javascript:alert(1)")).toBe(false);
+    expect(isSafeUrl("vbscript:alert(1)")).toBe(false);
+    expect(isSafeUrl("data:text/html,<script>alert(1)</script>")).toBe(false);
+    expect(isSafeUrl("file:///etc/passwd")).toBe(false);
+  });
+
+  it("should return false for obfuscated dangerous protocols", () => {
+    // URL parser handles these (normalizes them), so they should fail validation because protocol matches javascript:
+    expect(isSafeUrl("java\nscript:alert(1)")).toBe(false);
+    expect(isSafeUrl("JAVASCRIPT:alert(1)")).toBe(false);
+    expect(isSafeUrl("  javascript:alert(1)")).toBe(false);
+    // Null byte injection often breaks URL parsers (causing them to throw), which might trigger fallback logic.
+    // We must ensure this is caught.
+    expect(isSafeUrl("java\0script:alert(1)")).toBe(false);
+  });
+
+  it("should handle empty inputs", () => {
+    expect(isSafeUrl("")).toBe(false);
+    // biome-ignore lint/suspicious/noExplicitAny: Testing runtime type safety
+    expect(isSafeUrl(null as any)).toBe(false);
+  });
+});
+
+describe("isSafeImageSrc", () => {
+  it("should return true for valid HTTP/HTTPS URLs", () => {
+    expect(isSafeImageSrc("https://example.com/image.png")).toBe(true);
+    expect(isSafeImageSrc("http://example.com/image.jpg")).toBe(true);
+  });
+
+  it("should return true for valid data/blob URLs", () => {
+    expect(isSafeImageSrc("data:image/png;base64,abc")).toBe(true);
+    expect(isSafeImageSrc("blob:https://example.com/uuid")).toBe(true);
+  });
+
+  it("should return true for relative URLs", () => {
+    expect(isSafeImageSrc("/images/test.png")).toBe(true);
+    expect(isSafeImageSrc("images/test.png")).toBe(true);
+  });
+
+  it("should return false for dangerous protocols", () => {
+    expect(isSafeImageSrc("javascript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("vbscript:alert(1)")).toBe(false);
+  });
+
+  it("should return false for obfuscated dangerous protocols", () => {
+    expect(isSafeImageSrc("java\nscript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("JAVASCRIPT:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("  javascript:alert(1)")).toBe(false);
+    expect(isSafeImageSrc("java\0script:alert(1)")).toBe(false);
+  });
+
+  it("should handle empty inputs", () => {
+    expect(isSafeImageSrc("")).toBe(false);
+    // biome-ignore lint/suspicious/noExplicitAny: Testing runtime type safety
+    expect(isSafeImageSrc(null as any)).toBe(false);
   });
 });

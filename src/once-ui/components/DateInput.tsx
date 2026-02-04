@@ -109,6 +109,7 @@ export const DateInput: React.FC<DateInputProps> = ({
       onOpenChange={setIsOpen}
       className={className}
       style={{ ...style }}
+      dropdownRole="dialog"
     />
   );
 };

@@ -27,6 +27,7 @@ import {
   LazyframeVideo,
 } from "@/components";
 
+import { isSafeImageSrc, isSafeUrl } from "@/app/utils/security";
 import { TextProps } from "@/once-ui/interfaces";
 import { SmartImageProps } from "@/once-ui/components/SmartImage";
 
@@ -52,15 +53,8 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
     );
   }
 
-  // 🛡️ Sentinel: Block dangerous URLs (javascript:, data:, vbscript:, file:) to prevent XSS.
-  // We strictly allow only specific protocols or relative paths.
-  const hrefLower = href.trim().toLowerCase();
-  if (
-    hrefLower.startsWith('javascript:') ||
-    hrefLower.startsWith('data:') ||
-    hrefLower.startsWith('vbscript:') ||
-    hrefLower.startsWith('file:')
-  ) {
+  // 🛡️ Sentinel: Block dangerous URLs using strict allowlist to prevent XSS.
+  if (!isSafeUrl(href)) {
     console.error(`Security: Blocked dangerous URL scheme in CustomLink: ${href}`);
     return (
       <span {...props}>
@@ -79,6 +73,12 @@ export function CustomLink({ href, children, ...props }: CustomLinkProps) {
 function createImage({ alt, src, ...props }: SmartImageProps & { src: string }) {
   if (!src) {
     console.error("Media requires a valid 'src' property.");
+    return null;
+  }
+
+  // 🛡️ Sentinel: Validate image source
+  if (!isSafeImageSrc(src)) {
+    console.error(`Security: Blocked dangerous image source in MDX: ${src}`);
     return null;
   }
 
@@ -153,6 +153,7 @@ function createBlockquote({ children }: { children: ReactNode }) {
       border="neutral-alpha-medium"
       radius="l"
       padding="m"
+      marginX="0"
       marginTop="24"
       marginBottom="24"
       style={{

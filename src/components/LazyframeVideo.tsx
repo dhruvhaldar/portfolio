@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
+import { extractYoutubeId } from "@/app/utils/security";
 import { Flex, Text } from "@/once-ui/components";
 
 interface LazyframeVideoProps {
@@ -22,15 +23,6 @@ interface LazyframeVideoProps {
 // Video title overlay gradient
 const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)";
 
-// Helper to extract YouTube ID
-const getYouTubeId = (url: string) => {
-  // 🛡️ Sentinel: Strictly validate the URL starts with expected domains
-  // Allow subdomains like www, m, music, etc.
-  const regex = /^(?:https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-};
-
 /**
  * A video component that lazily loads video content (like YouTube) to improve performance.
  * Uses the 'lazyframe' library.
@@ -45,21 +37,62 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
 
-  const youtubeId = getYouTubeId(src);
+  const youtubeId = extractYoutubeId(src);
   const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
   const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
 
+  // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
+  // This ensures that even if a malicious URL passed regex validation (unlikely),
+  // we only pass the clean ID to the underlying library.
+  const safeSrc = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : null;
+
   const [isPlaying, setIsPlaying] = React.useState(false);
 
-  if (!youtubeId) {
+  if (!youtubeId || !safeSrc) {
     return null;
   }
 
   useEffect(() => {
     if (!initializedRef.current && videoRef.current) {
-      lazyframe(videoRef.current);
+      lazyframe(videoRef.current, {
+        onAppend: (iframe: HTMLIFrameElement) => {
+          // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
+          iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
+
+          // 🛡️ Sentinel: Ensure title attribute exists for accessibility and security context
+          if (!iframe.getAttribute("title")) {
+            iframe.setAttribute("title", title);
+          }
+        },
+      });
       initializedRef.current = true;
+
+      // 🛡️ Sentinel: Enforce sandbox and title on injected iframe
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === "childList") {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeName === "IFRAME") {
+                const iframe = node as HTMLIFrameElement;
+                iframe.setAttribute(
+                  "sandbox",
+                  "allow-scripts allow-same-origin allow-presentation",
+                );
+                if (!iframe.getAttribute("title")) {
+                  iframe.setAttribute("title", title || "Video player");
+                }
+                observer.disconnect();
+              }
+            });
+          }
+        });
+      });
+
+      observer.observe(videoRef.current, { childList: true, subtree: true });
+
+      return () => observer.disconnect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlay = () => {
@@ -102,7 +135,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         <div
           ref={videoRef}
           className="lazyframe"
-          data-src={src}
+          data-src={safeSrc}
           data-vendor="youtube"
           data-thumbnail={activeThumbnailUrl}
           style={{

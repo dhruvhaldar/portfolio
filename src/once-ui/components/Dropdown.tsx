@@ -8,6 +8,8 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
   selectedOption?: string;
   /** Dropdown options (children) */
   children?: ReactNode;
+  /** Aria role for the dropdown */
+  role?: string;
 
   /** Selection handler */
   onSelect?: (event: string) => void;
@@ -17,7 +19,7 @@ interface DropdownProps extends Omit<React.ComponentProps<typeof Flex>, "onSelec
  * A generic dropdown container with glassmorphism styling.
  */
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ selectedOption, className, children, onSelect, ...rest }, ref) => {
+  ({ selectedOption, className, children, onSelect, role = "listbox", ...rest }, ref) => {
     const handleSelect = (event: SyntheticEvent<HTMLDivElement>) => {
       const target = event.target as HTMLElement;
       const valueElement = target.closest("[data-value]") as HTMLElement | null;
@@ -57,7 +59,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     return (
       <Flex
         ref={ref}
-        role="listbox"
+        role={role}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         onClick={handleSelect}

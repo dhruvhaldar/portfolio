@@ -115,6 +115,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                   size="s"
                   onClick={increment}
                   aria-label="Increment value"
+                  disabled={max !== undefined && (parseFloat(localValue) || 0) >= max}
                 />
               </Flex>
               <Flex
@@ -128,6 +129,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                   size="s"
                   onClick={decrement}
                   aria-label="Decrement value"
+                  disabled={min !== undefined && (parseFloat(localValue) || 0) <= min}
                 />
               </Flex>
             </Flex>
