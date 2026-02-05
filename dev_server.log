@@ -18,7 +18,11 @@ https://nextjs.org/telemetry
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
  ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
  ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
- ✓ Ready in 831ms
- ○ Compiling /blog ...
+ ✓ Ready in 840ms
+ ○ Compiling /verification-holofx ...
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
- GET /blog 200 in 14.6s (compile: 11.9s, render: 2.7s)
+ GET /verification-holofx 200 in 16.0s (compile: 13.2s, render: 2.8s)
+ GET /verification-holofx 200 in 153ms (compile: 7ms, render: 146ms)
+ ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+ ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+ ✓ Compiled in 25ms

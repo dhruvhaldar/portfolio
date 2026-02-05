@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, forwardRef, memo, useMemo } from "react";
 import styles from "./HoloFx.module.scss";
 import { Flex } from ".";
 import { CSSProperties } from "react";
@@ -48,120 +48,218 @@ const getMaskStyle = (mask?: MaskOptions): string => {
   return mask?.maskPosition ? formatMask(mask.maskPosition) : formatMask();
 };
 
+function setRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
+  if (typeof ref === "function") {
+    ref(value);
+  } else if (ref && "current" in ref) {
+    (ref as React.MutableRefObject<T | null>).current = value;
+  }
+}
+
 /**
  * A holographic visual effect component.
  * Simulates light interaction and texture.
  */
-const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const lastCall = useRef(0);
+const HoloFxComponent = forwardRef<HTMLDivElement, HoloFxProps>(
+  ({ children, light, burn, texture, ...rest }, ref) => {
+    const internalRef = useRef<HTMLDivElement>(null);
+    // Bolt: Track visibility to enable/disable listeners
+    const isVisible = useRef(false);
+    // Bolt: Cache rect to prevent layout thrashing
+    const rectRef = useRef<DOMRect | null>(null);
+    // Bolt: Track raf ID to cancel animation
+    const rafRef = useRef<number | null>(null);
+    // Bolt: Track mouse position
+    const mouseRef = useRef({ x: 0, y: 0 });
 
-  const lightDefaults = {
-    opacity: 30,
-    blending: "color-dodge" as CSSProperties["mixBlendMode"],
-    mask: getMaskStyle(light?.mask),
-    ...light,
-  };
+    useEffect(() => {
+      setRef(ref, internalRef.current);
+    }, [ref]);
 
-  const burnDefaults = {
-    opacity: 30,
-    filter: "brightness(0.2) contrast(2)",
-    blending: "color-dodge" as CSSProperties["mixBlendMode"],
-    mask: getMaskStyle(burn?.mask),
-    ...burn,
-  };
+    // Bolt: Memoize defaults to prevent unnecessary object creation
+    const lightDefaults = useMemo(
+      () => ({
+        opacity: 30,
+        blending: "color-dodge" as CSSProperties["mixBlendMode"],
+        mask: getMaskStyle(light?.mask),
+        ...light,
+      }),
+      [light],
+    );
 
-  const textureDefaults = {
-    opacity: 10,
-    blending: "color-dodge" as CSSProperties["mixBlendMode"],
-    image:
-      "repeating-linear-gradient(-45deg, var(--static-white) 0, var(--static-white) 1px, transparent 3px, transparent 2px)",
-    mask: getMaskStyle(texture?.mask),
-    ...texture,
-  };
+    const burnDefaults = useMemo(
+      () => ({
+        opacity: 30,
+        filter: "brightness(0.2) contrast(2)",
+        blending: "color-dodge" as CSSProperties["mixBlendMode"],
+        mask: getMaskStyle(burn?.mask),
+        ...burn,
+      }),
+      [burn],
+    );
 
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const now = Date.now();
-      if (now - lastCall.current < 16) return;
-      lastCall.current = now;
+    const textureDefaults = useMemo(
+      () => ({
+        opacity: 10,
+        blending: "color-dodge" as CSSProperties["mixBlendMode"],
+        image:
+          "repeating-linear-gradient(-45deg, var(--static-white) 0, var(--static-white) 1px, transparent 3px, transparent 2px)",
+        mask: getMaskStyle(texture?.mask),
+        ...texture,
+      }),
+      [texture],
+    );
 
-      const element = ref.current;
+    useEffect(() => {
+      const element = internalRef.current;
       if (!element) return;
 
-      const rect = element.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const offsetY = event.clientY - rect.top;
+      const updateRect = () => {
+        if (element) {
+          rectRef.current = element.getBoundingClientRect();
+        }
+      };
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+      const updateStyle = () => {
+        if (!rectRef.current || !element) {
+          rafRef.current = null;
+          return;
+        }
 
-      const deltaX = ((offsetX - centerX) / centerX) * 100;
-      const deltaY = ((offsetY - centerY) / centerY) * 100;
+        const rect = rectRef.current;
+        const { x, y } = mouseRef.current;
 
-      element.style.setProperty("--gradient-pos-x", `${deltaX}%`);
-      element.style.setProperty("--gradient-pos-y", `${deltaY}%`);
-    };
+        const offsetX = x - rect.left;
+        const offsetY = y - rect.top;
 
-    document.addEventListener("mousemove", handleMouseMove);
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+        if (centerX === 0 || centerY === 0) {
+          rafRef.current = null;
+          return;
+        }
 
-  return (
-    <Flex position="relative" overflow="hidden" className={styles.holoFx} ref={ref} {...rest}>
-      <Flex fill className={styles.base}>
-        {children}
-      </Flex>
+        const deltaX = ((offsetX - centerX) / centerX) * 100;
+        const deltaY = ((offsetY - centerY) / centerY) * 100;
+
+        element.style.setProperty("--gradient-pos-x", `${deltaX}%`);
+        element.style.setProperty("--gradient-pos-y", `${deltaY}%`);
+
+        rafRef.current = null;
+      };
+
+      const handleMouseMove = (event: MouseEvent) => {
+        if (!isVisible.current) return;
+        mouseRef.current.x = event.clientX;
+        mouseRef.current.y = event.clientY;
+
+        if (!rafRef.current) {
+          rafRef.current = requestAnimationFrame(updateStyle);
+        }
+      };
+
+      // Bolt: Use IntersectionObserver to only attach listeners when visible
+      // This solves the N listeners problem when many HoloFx components are present
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isVisible.current = entry.isIntersecting;
+            if (entry.isIntersecting) {
+              updateRect();
+              document.addEventListener("mousemove", handleMouseMove);
+              // Bolt: Update rect on scroll/resize to ensure correct positioning
+              // Capture phase ensures we catch scroll events from any parent
+              window.addEventListener("scroll", updateRect, { capture: true, passive: true });
+              window.addEventListener("resize", updateRect, { passive: true });
+            } else {
+              document.removeEventListener("mousemove", handleMouseMove);
+              window.removeEventListener("scroll", updateRect, { capture: true });
+              window.removeEventListener("resize", updateRect);
+              if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+                rafRef.current = null;
+              }
+            }
+          });
+        },
+        { threshold: 0 },
+      );
+
+      observer.observe(element);
+
+      return () => {
+        observer.disconnect();
+        document.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("scroll", updateRect, { capture: true });
+        window.removeEventListener("resize", updateRect);
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+        }
+      };
+    }, []);
+
+    return (
       <Flex
-        hide="m"
-        position="absolute"
-        fill
-        pointerEvents="none"
-        className={classNames(styles.overlay, styles.burn)}
-        style={{
-          ["--burn-opacity" as any]: burnDefaults.opacity + "%",
-          filter: burnDefaults.filter,
-          mixBlendMode: burnDefaults.blending,
-          maskImage: burnDefaults.mask as string,
-        }}
+        position="relative"
+        overflow="hidden"
+        className={styles.holoFx}
+        ref={internalRef}
+        {...rest}
       >
-        {children}
+        <Flex fill className={styles.base}>
+          {children}
+        </Flex>
+        <Flex
+          hide="m"
+          position="absolute"
+          fill
+          pointerEvents="none"
+          className={classNames(styles.overlay, styles.burn)}
+          style={{
+            ["--burn-opacity" as any]: burnDefaults.opacity + "%",
+            filter: burnDefaults.filter,
+            mixBlendMode: burnDefaults.blending,
+            maskImage: burnDefaults.mask as string,
+          }}
+        >
+          {children}
+        </Flex>
+        <Flex
+          hide="m"
+          position="absolute"
+          fill
+          pointerEvents="none"
+          className={classNames(styles.overlay, styles.light)}
+          style={{
+            ["--light-opacity" as any]: lightDefaults.opacity + "%",
+            filter: lightDefaults.filter,
+            mixBlendMode: lightDefaults.blending,
+            maskImage: lightDefaults.mask as string,
+          }}
+        >
+          {children}
+        </Flex>
+        <Flex
+          hide="m"
+          position="absolute"
+          fill
+          pointerEvents="none"
+          className={classNames(styles.overlay, styles.texture)}
+          style={{
+            ["--texture-opacity" as any]: textureDefaults.opacity + "%",
+            backgroundImage: textureDefaults.image,
+            filter: textureDefaults.filter,
+            mixBlendMode: textureDefaults.blending,
+            maskImage: textureDefaults.mask as string,
+          }}
+        ></Flex>
       </Flex>
-      <Flex
-        hide="m"
-        position="absolute"
-        fill
-        pointerEvents="none"
-        className={classNames(styles.overlay, styles.light)}
-        style={{
-          ["--light-opacity" as any]: lightDefaults.opacity + "%",
-          filter: lightDefaults.filter,
-          mixBlendMode: lightDefaults.blending,
-          maskImage: lightDefaults.mask as string,
-        }}
-      >
-        {children}
-      </Flex>
-      <Flex
-        hide="m"
-        position="absolute"
-        fill
-        pointerEvents="none"
-        className={classNames(styles.overlay, styles.texture)}
-        style={{
-          ["--texture-opacity" as any]: textureDefaults.opacity + "%",
-          backgroundImage: textureDefaults.image,
-          filter: textureDefaults.filter,
-          mixBlendMode: textureDefaults.blending,
-          maskImage: textureDefaults.mask as string,
-        }}
-      ></Flex>
-    </Flex>
-  );
-};
+    );
+  },
+);
 
+// Bolt: Memoize the component to prevent re-renders when parent re-renders
+const HoloFx = memo(HoloFxComponent);
 HoloFx.displayName = "HoloFx";
 export { HoloFx };
