@@ -183,10 +183,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, [props.value, lines, adjustHeight]);
 
     const displayError = validationError || errorMessage;
+    const countId = `${id}-count`;
 
     const describedBy: string[] = [];
     if (displayError) describedBy.push(`${id}-error`);
     if (description) describedBy.push(`${id}-description`);
+    if (showCount) describedBy.push(countId);
 
     const textareaClassNames = classNames(
       styles.input,
@@ -311,7 +313,11 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         {showCount && (
           <Flex paddingX="16" fillWidth horizontal="end">
-            <Text variant="body-default-s" onBackground="neutral-weak">
+            <Text
+              id={countId}
+              variant="body-default-s"
+              onBackground="neutral-weak"
+            >
               {internalLength} / {props.maxLength || 4096}
             </Text>
           </Flex>

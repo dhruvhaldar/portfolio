@@ -40,4 +40,13 @@ describe("Textarea", () => {
 
     expect(screen.getByText("5 / 100")).toBeInTheDocument();
   });
+
+  it("associates character count with textarea via aria-describedby", () => {
+    render(<Textarea id="test-textarea" label="Test Label" showCount maxLength={100} />);
+    const textarea = screen.getByLabelText("Test Label");
+    const count = screen.getByText("0 / 100");
+
+    expect(count).toHaveAttribute("id", "test-textarea-count");
+    expect(textarea).toHaveAttribute("aria-describedby", expect.stringContaining("test-textarea-count"));
+  });
 });
