@@ -1,5 +1,5 @@
 import { SmartImage } from "@/once-ui/components/SmartImage";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 // Mock Next.js Image component
@@ -33,5 +33,33 @@ describe("SmartImage Rendering", () => {
     expect(iframe).toBeInTheDocument();
     expect(iframe?.getAttribute("src")).toContain("embed/12345678901");
     expect(iframe).toHaveAttribute("title", "test youtube");
+  });
+
+  it("should manage focus when enlarged", async () => {
+    render(<SmartImage src="/images/test.jpg" alt="test image" enlarge />);
+    const trigger = screen.getByRole("button", { name: "Enlarge image" });
+
+    // Initial state: not enlarged
+    expect(screen.queryByLabelText("Close")).not.toBeInTheDocument();
+
+    // Click to enlarge
+    fireEvent.click(trigger);
+
+    // Expect close button to appear and be focused
+    const closeButton = await screen.findByLabelText("Close");
+    expect(closeButton).toBeInTheDocument();
+
+    // Verify focus is moved to close button
+    await waitFor(() => expect(document.activeElement).toBe(closeButton));
+
+    // Verify focus trap (Tab key) - preventing default
+    const preventDefault = vi.fn();
+    fireEvent.keyDown(closeButton, { key: "Tab", preventDefault });
+
+    // Click close
+    fireEvent.click(closeButton);
+
+    // Expect focus to return to trigger
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 });
