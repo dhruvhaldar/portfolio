@@ -60,7 +60,7 @@ export const Newsletter = () => {
     >
       <SmartImage
         priority
-        src="/images/newsletter/night.png"
+        src="/images/newsletter/day.png"
         alt="Night background"
         fill
         sizes="100vw"
@@ -72,7 +72,7 @@ export const Newsletter = () => {
       <Mask cursor radius={30} fill position="absolute" style={{ zIndex: 0 }}>
         <SmartImage
           priority
-          src="/images/newsletter/day.png"
+          src="/images/newsletter/night.png"
           alt="Day background"
           fill
           sizes="100vw"
