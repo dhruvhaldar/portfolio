@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import styles from "./HoloFx.module.scss";
 import { Flex } from ".";
 import { CSSProperties } from "react";
@@ -52,7 +52,14 @@ const getMaskStyle = (mask?: MaskOptions): string => {
  * A holographic visual effect component.
  * Simulates light interaction and texture.
  */
-const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest }) => {
+const HoloFx: React.FC<HoloFxProps> = ({
+  children,
+  light,
+  burn,
+  texture,
+  onMouseMove,
+  ...rest
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const lastCall = useRef(0);
 
@@ -80,8 +87,13 @@ const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest
     ...texture,
   };
 
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
+  // Bolt: Optimized to use local onMouseMove instead of global listener
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (onMouseMove) {
+        onMouseMove(event);
+      }
+
       const now = Date.now();
       if (now - lastCall.current < 16) return;
       lastCall.current = now;
@@ -101,17 +113,19 @@ const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest
 
       element.style.setProperty("--gradient-pos-x", `${deltaX}%`);
       element.style.setProperty("--gradient-pos-y", `${deltaY}%`);
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+    },
+    [onMouseMove],
+  );
 
   return (
-    <Flex position="relative" overflow="hidden" className={styles.holoFx} ref={ref} {...rest}>
+    <Flex
+      position="relative"
+      overflow="hidden"
+      className={styles.holoFx}
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      {...rest}
+    >
       <Flex fill className={styles.base}>
         {children}
       </Flex>

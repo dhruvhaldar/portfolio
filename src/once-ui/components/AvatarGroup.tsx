@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, memo } from "react";
 import classNames from "classnames";
 
 import { Avatar, AvatarProps, Flex } from ".";
@@ -28,7 +28,7 @@ interface AvatarGroupProps extends React.ComponentProps<typeof Flex> {
  * Supports limiting the number of visible avatars.
  * Inherits all props from Flex component.
  */
-const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
+const AvatarGroupComponent = forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ avatars, size = "m", reverse = false, limit, className, style, ...rest }, ref) => {
     const displayedAvatars = limit ? avatars.slice(0, limit) : avatars;
     const remainingCount = limit && avatars.length > limit ? avatars.length - limit : 0;
@@ -72,6 +72,10 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   },
 );
 
+AvatarGroupComponent.displayName = "AvatarGroup";
+
+// Bolt: Memoize AvatarGroup to prevent unnecessary re-renders in lists
+const AvatarGroup = memo(AvatarGroupComponent);
 AvatarGroup.displayName = "AvatarGroup";
 
 export { AvatarGroup };

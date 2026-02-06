@@ -46,7 +46,8 @@ const isYouTubeVideo = (url: string) => {
 
 const getYouTubeEmbedUrl = (url: string) => {
   const id = extractYoutubeId(url);
-  return id ? `https://www.youtube.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
+  // 🛡️ Sentinel: Use youtube-nocookie.com for better privacy
+  return id ? `https://www.youtube-nocookie.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
 };
 
 /**
@@ -88,6 +89,8 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
 
   const [isEnlarged, setIsEnlarged] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const wasEnlarged = useRef(false);
 
   const handleClick = () => {
     if (enlarge) {
@@ -113,11 +116,22 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isEnlarged]);
 
+  // Palette: Manage focus and overflow when enlarged
   useEffect(() => {
     if (isEnlarged) {
       document.body.style.overflow = "hidden";
+      wasEnlarged.current = true;
+      // Focus close button on open
+      requestAnimationFrame(() => {
+        closeButtonRef.current?.focus();
+      });
     } else {
       document.body.style.overflow = "auto";
+      // Restore focus to trigger on close
+      if (wasEnlarged.current) {
+        imageRef.current?.focus();
+        wasEnlarged.current = false;
+      }
     }
 
     return () => {
@@ -274,8 +288,17 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
             width: "100vw",
             height: "100vh",
           }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Enlarged view"
+          onKeyDown={(e) => {
+            if (e.key === "Tab") {
+              e.preventDefault();
+            }
+          }}
         >
           <IconButton
+            ref={closeButtonRef}
             icon="close"
             variant="ghost"
             style={{ position: "absolute", top: "16px", right: "16px", zIndex: 10 }}

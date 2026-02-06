@@ -72,3 +72,13 @@
 **Vulnerability:** The `LazyframeVideo` component used an external library (`lazyframe`) which injected iframes without `sandbox` attributes, bypassing the static JSX security controls.
 **Learning:** Security controls applied in JSX do not apply to DOM elements created/injected by third-party libraries at runtime. `MutationObserver` is a powerful pattern to "police" the DOM and enforce security policies on dynamic content.
 **Prevention:** Use `MutationObserver` to intercept dynamically added critical elements (like iframes) and programmatically enforce security attributes (sandbox, title) immediately upon insertion.
+
+## 2026-11-23 - [ENHANCEMENT] Privacy-Enhanced YouTube Embeds
+**Vulnerability:** Standard YouTube embeds set cookies and track users even before they play the video, potentially violating privacy expectations (e.g., GDPR).
+**Learning:** Security is not just about exploits; it's also about privacy and data leakage. Minimizing third-party tracking is a defense-in-depth measure.
+**Prevention:** Use `youtube-nocookie.com` for all YouTube embeds. Updated `YOUTUBE_REGEX` to validate this domain and `SmartImage` to force its use.
+
+## 2026-11-25 - [HIGH] Auth Bypass via SPA Fallback
+**Vulnerability:** The `RouteGuard` component relied solely on `response.ok` to verify authentication status. In static export or SPA environments, requests to missing API routes often return 200 OK with the `index.html` content (soft 404), which the code incorrectly interpreted as a successful login.
+**Learning:** Checking HTTP status codes (200 OK) is insufficient for API calls in client-side applications, especially where server configuration (like SPA fallbacks) can mask errors.
+**Prevention:** Always parse the response body (JSON) and explicitly verify expected success flags (e.g., `data.authenticated === true`) rather than trusting the transport layer status.

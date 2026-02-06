@@ -1,5 +1,55 @@
 import { describe, expect, it } from "vitest";
-import { isSafeImageSrc, isSafeUrl, isValidEmail } from "../app/utils/security";
+import { extractYoutubeId, isSafeImageSrc, isSafeUrl, isValidEmail, validateYoutubeUrl } from "../app/utils/security";
+
+describe("validateYoutubeUrl", () => {
+  it("should return true for valid youtube.com URLs", () => {
+    expect(validateYoutubeUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")).toBe(true);
+    expect(validateYoutubeUrl("http://youtube.com/watch?v=dQw4w9WgXcQ")).toBe(true);
+    expect(validateYoutubeUrl("youtube.com/watch?v=dQw4w9WgXcQ")).toBe(true);
+  });
+
+  it("should return true for valid youtu.be URLs", () => {
+    expect(validateYoutubeUrl("https://youtu.be/dQw4w9WgXcQ")).toBe(true);
+    expect(validateYoutubeUrl("http://youtu.be/dQw4w9WgXcQ")).toBe(true);
+  });
+
+  it("should return true for valid youtube-nocookie.com URLs", () => {
+    expect(validateYoutubeUrl("https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ")).toBe(true);
+    expect(validateYoutubeUrl("http://youtube-nocookie.com/embed/dQw4w9WgXcQ")).toBe(true);
+  });
+
+  it("should return true for valid youtube.com/embed URLs", () => {
+    expect(validateYoutubeUrl("https://www.youtube.com/embed/dQw4w9WgXcQ")).toBe(true);
+  });
+
+  it("should return false for invalid URLs", () => {
+    expect(validateYoutubeUrl("https://example.com/watch?v=dQw4w9WgXcQ")).toBe(false);
+    expect(validateYoutubeUrl("https://vimeo.com/123456789")).toBe(false);
+    expect(validateYoutubeUrl("dQw4w9WgXcQ")).toBe(false);
+  });
+});
+
+describe("extractYoutubeId", () => {
+  it("should extract ID from youtube.com URLs", () => {
+    expect(extractYoutubeId("https://www.youtube.com/watch?v=dQw4w9WgXcQ")).toBe("dQw4w9WgXcQ");
+  });
+
+  it("should extract ID from youtu.be URLs", () => {
+    expect(extractYoutubeId("https://youtu.be/dQw4w9WgXcQ")).toBe("dQw4w9WgXcQ");
+  });
+
+  it("should extract ID from youtube-nocookie.com URLs", () => {
+    expect(extractYoutubeId("https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ")).toBe("dQw4w9WgXcQ");
+  });
+
+  it("should extract ID from embed URLs", () => {
+    expect(extractYoutubeId("https://www.youtube.com/embed/dQw4w9WgXcQ")).toBe("dQw4w9WgXcQ");
+  });
+
+  it("should return null for invalid URLs", () => {
+    expect(extractYoutubeId("https://example.com")).toBe(null);
+  });
+});
 
 describe("isValidEmail", () => {
   it("should return true for valid emails", () => {

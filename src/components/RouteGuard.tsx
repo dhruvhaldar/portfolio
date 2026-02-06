@@ -56,9 +56,16 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
 
       if (protectedRoutes[pathname as keyof typeof protectedRoutes]) {
         setIsPasswordRequired(true);
-        const response = await fetch("/api/check-auth");
-        if (response.ok) {
-          setIsAuthenticated(true);
+        try {
+          const response = await fetch("/api/check-auth");
+          if (response.ok) {
+            const data = await response.json();
+            if (data.authenticated === true) {
+              setIsAuthenticated(true);
+            }
+          }
+        } catch (error) {
+          console.error("Auth check failed:", error);
         }
       }
 
@@ -69,17 +76,25 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }, [pathname]);
 
   const handlePasswordSubmit = async () => {
-    const response = await fetch("/api/authenticate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
+    try {
+      const response = await fetch("/api/authenticate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
 
-    if (response.ok) {
-      setIsAuthenticated(true);
-      setError(undefined);
-    } else {
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success === true) {
+          setIsAuthenticated(true);
+          setError(undefined);
+          return;
+        }
+      }
       setError("Incorrect password");
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      setError("An error occurred. Please try again.");
     }
   };
 

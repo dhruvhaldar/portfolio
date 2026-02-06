@@ -10,7 +10,7 @@ import React, {
   memo,
 } from "react";
 import classNames from "classnames";
-import { Flex, Text } from ".";
+import { Flex, Icon, Text } from ".";
 import styles from "./Input.module.scss";
 import useDebounce from "../hooks/useDebounce";
 
@@ -183,10 +183,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, [props.value, lines, adjustHeight]);
 
     const displayError = validationError || errorMessage;
+    const countId = `${id}-count`;
 
     const describedBy: string[] = [];
     if (displayError) describedBy.push(`${id}-error`);
     if (description) describedBy.push(`${id}-description`);
+    if (showCount) describedBy.push(countId);
 
     const textareaClassNames = classNames(
       styles.input,
@@ -291,7 +293,8 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         </Flex>
         {displayError && errorMessage !== false && (
-          <Flex paddingX="16">
+          <Flex paddingX="16" gap="8" vertical="center">
+            <Icon name="errorCircle" size="s" onBackground="danger-weak" />
             <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
               {displayError}
             </Text>
@@ -311,7 +314,11 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         {showCount && (
           <Flex paddingX="16" fillWidth horizontal="end">
-            <Text variant="body-default-s" onBackground="neutral-weak">
+            <Text
+              id={countId}
+              variant="body-default-s"
+              onBackground="neutral-weak"
+            >
               {internalLength} / {props.maxLength || 4096}
             </Text>
           </Flex>
