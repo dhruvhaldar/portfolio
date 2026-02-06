@@ -127,6 +127,21 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           className="font-sans antialiased"
         >
           <script
+            id="anti-clickjack"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Frame buster to prevent clickjacking in static export
+            dangerouslySetInnerHTML={{
+              __html: `
+                if (typeof window !== 'undefined' && window.top !== window.self) {
+                  try {
+                    window.top.location = window.self.location;
+                  } catch (e) {
+                    document.documentElement.style.display = 'none';
+                  }
+                }
+              `,
+            }}
+          />
+          <script
             // biome-ignore lint/security/noDangerouslySetInnerHtml: Theme script injection is safe and necessary for FOUC prevention
             dangerouslySetInnerHTML={{
               __html: themeScript,
