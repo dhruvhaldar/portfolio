@@ -10,7 +10,7 @@ import React, {
   memo,
 } from "react";
 import classNames from "classnames";
-import { Flex, Text } from ".";
+import { Flex, Icon, Text } from ".";
 import styles from "./Input.module.scss";
 import useDebounce from "../hooks/useDebounce";
 
@@ -293,7 +293,8 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         </Flex>
         {displayError && errorMessage !== false && (
-          <Flex paddingX="16">
+          <Flex paddingX="16" gap="8" vertical="center">
+            <Icon name="errorCircle" size="s" onBackground="danger-weak" />
             <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
               {displayError}
             </Text>
