@@ -82,3 +82,8 @@
 **Vulnerability:** The `RouteGuard` component relied solely on `response.ok` to verify authentication status. In static export or SPA environments, requests to missing API routes often return 200 OK with the `index.html` content (soft 404), which the code incorrectly interpreted as a successful login.
 **Learning:** Checking HTTP status codes (200 OK) is insufficient for API calls in client-side applications, especially where server configuration (like SPA fallbacks) can mask errors.
 **Prevention:** Always parse the response body (JSON) and explicitly verify expected success flags (e.g., `data.authenticated === true`) rather than trusting the transport layer status.
+
+## 2026-11-26 - [HIGH] Reverse Tabnabbing on Internal Links
+**Vulnerability:** The `ElementType` component failed to add `rel="noopener noreferrer"` to internal links (rendered via `next/link`) even when they were explicitly set to open in a new tab (`target="_blank"`). This exposed users to Reverse Tabnabbing attacks if the internal link redirected to a malicious site or if the destination page was compromised.
+**Learning:** Checking for "external" links is insufficient for security attributes. Any link opening in a new tab (regardless of origin) creates a new browsing context that grants the new page access to `window.opener` unless `noopener` is used.
+**Prevention:** Always condition the addition of `rel="noopener noreferrer"` on the presence of `target="_blank"`, not just on whether the link is external.
