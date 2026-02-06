@@ -53,6 +53,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   validate?: (value: ReactNode) => ReactNode | null;
   /** Whether the input is in a loading state */
   loading?: boolean;
+  /** Show character count */
+  showCount?: boolean;
 }
 
 /**
@@ -74,9 +76,11 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
       hasSuffix,
       loading = false,
       labelAsPlaceholder = false,
+      showCount = false,
       children,
       onFocus,
       onBlur,
+      onChange,
       validate,
       ...props
     },
@@ -88,6 +92,22 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     const isControlled = typeof props.value !== "undefined";
     const [isFilledState, setIsFilledState] = useState(!!props.value || !!props.defaultValue);
     const isFilled = isControlled ? !!props.value : isFilledState;
+
+    // internalLength logic
+    const [internalLengthState, setInternalLengthState] = useState(
+      props.value
+        ? props.value.toString().length
+        : props.defaultValue
+          ? props.defaultValue.toString().length
+          : 0,
+    );
+    const internalLength = isControlled
+      ? props.value
+        ? props.value.toString().length
+        : 0
+      : internalLengthState;
+
+    const maxLength = props.maxLength ?? 255;
 
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
@@ -115,6 +135,16 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
       [onBlur, isControlled],
     );
 
+    const handleChange = useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!isControlled) {
+          setInternalLengthState(event.target.value.length);
+        }
+        if (onChange) onChange(event);
+      },
+      [onChange, isControlled],
+    );
+
     // Bolt: Removed useEffect for isFilled sync to prevent double renders
 
     const validateInput = useCallback(() => {
@@ -140,10 +170,12 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     }, [validateInput]);
 
     const displayError = validationError || errorMessage;
+    const countId = `${id}-count`;
 
     const describedBy: string[] = [];
     if (displayError) describedBy.push(`${id}-error`);
     if (description) describedBy.push(`${id}-description`);
+    if (showCount) describedBy.push(countId);
 
     const inputClassNames = classNames(styles.input, "font-body", "font-default", "font-m", {
       [styles.filled]: isFilled,
@@ -193,14 +225,15 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
           <Flex fillWidth direction="column" position="relative">
             <input
               aria-label={labelAsPlaceholder ? label : undefined}
-              maxLength={255}
               {...props}
+              maxLength={maxLength}
               ref={ref}
               id={id}
               aria-busy={loading}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
               onFocus={handleFocus}
               onBlur={handleBlur}
+              onChange={handleChange}
               className={inputClassNames}
               aria-describedby={describedBy.length > 0 ? describedBy.join(" ") : undefined}
               aria-invalid={!!displayError}
@@ -247,6 +280,13 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
               onBackground="neutral-weak"
             >
               {description}
+            </Text>
+          </Flex>
+        )}
+        {showCount && (
+          <Flex paddingX="16" fillWidth horizontal="end">
+            <Text id={countId} variant="body-default-s" onBackground="neutral-weak">
+              {internalLength} / {maxLength}
             </Text>
           </Flex>
         )}
