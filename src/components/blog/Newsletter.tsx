@@ -2,7 +2,7 @@
 
 import { newsletter } from "@/app/resources";
 import { isValidEmail } from "@/app/utils/security";
-import { Button, Column, Flex, Heading, Input, Text } from "@/once-ui/components";
+import { Button, Column, Flex, Heading, Input, Mask, SmartImage, Text } from "@/once-ui/components";
 import { useState } from "react";
 
 export const Newsletter = () => {
@@ -52,12 +52,36 @@ export const Newsletter = () => {
       marginBottom="l"
       border="neutral-alpha-weak"
       radius="l"
-      background="surface"
       align="center"
       horizontal="center"
+      position="relative"
+      overflow="hidden"
       style={{ textAlign: "center" }}
     >
+      <SmartImage
+        priority
+        src="/images/newsletter/night.png"
+        alt="Night background"
+        fill
+        sizes="100vw"
+        position="absolute"
+        top="0"
+        left="0"
+        style={{ zIndex: 0, objectFit: "cover" }}
+      />
+      <Mask cursor radius={30} fill position="absolute" style={{ zIndex: 0 }}>
+        <SmartImage
+          priority
+          src="/images/newsletter/day.png"
+          alt="Day background"
+          fill
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+        />
+      </Mask>
       <Column
+        position="relative"
+        zIndex={1}
         align="center"
         horizontal="center"
         fillWidth
@@ -72,12 +96,17 @@ export const Newsletter = () => {
         >
           {newsletter.title}
         </Heading>
-        <Text variant="body-default-l" onBackground="neutral-weak" marginBottom="l" wrap="balance">
+        <Text
+          variant="body-default-l"
+          onBackground="neutral-weak"
+          marginBottom="l"
+          wrap="balance"
+        >
           {newsletter.description}
         </Text>
       </Column>
 
-      <Flex fillWidth horizontal="center" maxWidth={30}>
+      <Flex fillWidth horizontal="center" maxWidth={30} position="relative" zIndex={1}>
         {status === "success" ? (
           <Flex
             fillWidth
