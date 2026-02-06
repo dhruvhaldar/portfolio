@@ -50,6 +50,7 @@ export const Newsletter = () => {
       fillWidth
       padding="xl"
       marginBottom="l"
+      border="neutral-alpha-weak"
       radius="l"
       align="center"
       horizontal="center"
@@ -79,86 +80,73 @@ export const Newsletter = () => {
         />
       </Mask>
       <Column
-        fillWidth
-        padding="xl"
-        border="neutral-alpha-weak"
-        radius="l"
         position="relative"
         zIndex={1}
         align="center"
         horizontal="center"
-        style={{
-          backdropFilter: "blur(10px)",
-          background: "var(--neutral-alpha-strong)",
-        }}
+        fillWidth
+        gap="s"
+        style={{ maxWidth: "var(--responsive-width-xs)" }}
       >
-        <Column
-          align="center"
-          horizontal="center"
-          fillWidth
-          gap="s"
-          style={{ maxWidth: "var(--responsive-width-xs)" }}
+        <Heading
+          variant="display-strong-xs"
+          onBackground="neutral-strong"
+          marginBottom="s"
+          wrap="balance"
         >
-          <Heading
-            variant="display-strong-xs"
-            onBackground="neutral-strong"
-            marginBottom="s"
-            wrap="balance"
-          >
-            {newsletter.title}
-          </Heading>
-          <Text
-            variant="body-default-l"
-            onBackground="neutral-weak"
-            marginBottom="l"
-            wrap="balance"
-          >
-            {newsletter.description}
-          </Text>
-        </Column>
-
-        <Flex fillWidth horizontal="center" maxWidth={30} position="relative" zIndex={1}>
-          {status === "success" ? (
-            <Flex
-              fillWidth
-              padding="l"
-              radius="l"
-              background="brand-weak"
-              border="brand-alpha-weak"
-              horizontal="center"
-            >
-              <Text variant="body-default-m" onBackground="brand-strong">
-                Success! Check your email to confirm.
-              </Text>
-            </Flex>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              style={{ width: "100%", display: "flex", justifyContent: "center" }}
-            >
-              <Flex fillWidth gap="8" direction="column" mobileDirection="column">
-                <Input
-                  id="email"
-                  name="email_address"
-                  label="Email"
-                  placeholder="Email"
-                  type="email"
-                  labelAsPlaceholder
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={status === "loading"}
-                  error={status === "error"}
-                  errorMessage={error}
-                  maxLength={254}
-                />
-                <Button fillWidth variant="primary" size="m" disabled={status === "loading"}>
-                  {status === "loading" ? "Subscribing..." : "Subscribe"}
-                </Button>
-              </Flex>
-            </form>
-          )}
-        </Flex>
+          {newsletter.title}
+        </Heading>
+        <Text
+          variant="body-default-l"
+          onBackground="neutral-weak"
+          marginBottom="l"
+          wrap="balance"
+        >
+          {newsletter.description}
+        </Text>
       </Column>
+
+      <Flex fillWidth horizontal="center" maxWidth={30} position="relative" zIndex={1}>
+        {status === "success" ? (
+          <Flex
+            fillWidth
+            padding="l"
+            radius="l"
+            background="brand-weak"
+            border="brand-alpha-weak"
+            horizontal="center"
+          >
+            <Text variant="body-default-m" onBackground="brand-strong">
+              Success! Check your email to confirm.
+            </Text>
+          </Flex>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <Flex fillWidth gap="8" direction="column" mobileDirection="column">
+              <Input
+                id="email"
+                name="email_address"
+                label="Email"
+                placeholder="Email"
+                type="email"
+                labelAsPlaceholder
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === "loading"}
+                error={status === "error"}
+                errorMessage={error}
+                maxLength={254}
+              />
+              <Button fillWidth variant="primary" size="m" disabled={status === "loading"}>
+                {status === "loading" ? "Subscribing..." : "Subscribe"}
+              </Button>
+            </Flex>
+          </form>
+        )}
+      </Flex>
     </Column>
   );
 };
