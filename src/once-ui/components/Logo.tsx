@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import classNames from "classnames";
@@ -40,9 +40,8 @@ interface LogoProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
  * Supports custom sources and sizing.
  *
  * Renders as a clickable link when `href` is provided, otherwise renders as static content.
- * @warning Displays a console warning if both `icon` and `wordmark` are set to false.
  */
-const Logo: React.FC<LogoProps> = ({
+const LogoComponent: React.FC<LogoProps> = ({
   size = "m",
   wordmark = true,
   icon = true,
@@ -53,13 +52,8 @@ const Logo: React.FC<LogoProps> = ({
   style,
   ...props
 }) => {
-  useEffect(() => {
-    if (!icon && !wordmark) {
-      console.warn(
-        "Both 'icon' and 'wordmark' props are set to false. The logo will not render any content.",
-      );
-    }
-  }, [icon, wordmark]);
+  // Bolt: Removed useEffect warning to reduce overhead.
+  // When both icon and wordmark are false, content will be empty.
 
   const height = parseInt(sizeMap[size]);
 
@@ -131,6 +125,7 @@ const Logo: React.FC<LogoProps> = ({
   );
 };
 
+const Logo = memo(LogoComponent);
 Logo.displayName = "Logo";
 
 export { Logo };
