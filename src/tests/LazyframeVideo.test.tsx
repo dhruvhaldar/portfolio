@@ -56,4 +56,30 @@ describe('LazyframeVideo Security', () => {
     // Should not initialize lazyframe
     expect(mockLazyframe).not.toHaveBeenCalled();
   });
+
+  it('should re-initialize lazyframe when src changes', () => {
+    // Clear mock calls
+    mockLazyframe.mockClear();
+
+    const src1 = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    const src2 = 'https://www.youtube.com/watch?v=oHg5SJYRHA0';
+    const title = 'Test Video';
+
+    const { rerender } = render(<LazyframeVideo src={src1} title={title} />);
+
+    // Should be called once for first src
+    expect(mockLazyframe).toHaveBeenCalledTimes(1);
+
+    // Update prop
+    rerender(<LazyframeVideo src={src2} title={title} />);
+
+    // Should be called again for second src
+    expect(mockLazyframe).toHaveBeenCalledTimes(2);
+
+    // Verify the second call has the new src in data attribute?
+    // mockLazyframe is called with element. We can check the element.
+    const secondCallElement = mockLazyframe.mock.calls[1][0];
+    const youtubeId2 = 'oHg5SJYRHA0';
+    expect(secondCallElement.getAttribute('data-src')).toBe(`https://www.youtube.com/watch?v=${youtubeId2}`);
+  });
 });

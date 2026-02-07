@@ -1,6 +1,6 @@
-"use client"; // Add this line
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, memo } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
@@ -27,7 +27,7 @@ const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0
  * A video component that lazily loads video content (like YouTube) to improve performance.
  * Uses the 'lazyframe' library.
  */
-const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
+const LazyframeVideoComponent: React.FC<LazyframeVideoProps> = ({
   src,
   title = "Video player",
   width = "100%",
@@ -37,23 +37,27 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const videoRef = React.useRef<HTMLDivElement>(null);
   const initializedRef = React.useRef(false);
 
-  const youtubeId = extractYoutubeId(src);
-  const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
-  const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
-
-  // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
-  // This ensures that even if a malicious URL passed regex validation (unlikely),
-  // we only pass the clean ID to the underlying library.
-  const safeSrc = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : null;
+  // Bolt: Memoize regex execution and string operations to prevent redundant calculations on every render
+  const { youtubeId, activeThumbnailUrl, safeSrc } = useMemo(() => {
+    const youtubeId = extractYoutubeId(src);
+    const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+    const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
+    // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
+    const safeSrc = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : null;
+    return { youtubeId, activeThumbnailUrl, safeSrc };
+  }, [src, thumbnail]);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
-  if (!youtubeId || !safeSrc) {
-    return null;
-  }
+  useEffect(() => {
+    // Reset initialized ref when source changes
+    if (initializedRef.current) {
+        initializedRef.current = false;
+    }
+  }, [safeSrc]);
 
   useEffect(() => {
-    if (!initializedRef.current && videoRef.current) {
+    if (!initializedRef.current && videoRef.current && safeSrc) {
       lazyframe(videoRef.current, {
         onAppend: (iframe: HTMLIFrameElement) => {
           // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
@@ -92,8 +96,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
       return () => observer.disconnect();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Bolt: Added safeSrc to dependency array to re-initialize when video changes
+  }, [safeSrc, title]);
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -105,6 +109,10 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
       handlePlay();
     }
   };
+
+  if (!youtubeId || !safeSrc) {
+    return null;
+  }
 
   return (
     <Flex
@@ -133,6 +141,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         }}
       >
         <div
+          // Bolt: Use key to force element recreation when source changes, ensuring lazyframe re-initialization
+          key={safeSrc}
           ref={videoRef}
           className="lazyframe"
           data-src={safeSrc}
@@ -204,5 +214,9 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     </Flex >
   );
 };
+
+// Bolt: Memoize component to prevent unnecessary re-renders when parent re-renders with stable props
+const LazyframeVideo = memo(LazyframeVideoComponent);
+LazyframeVideo.displayName = "LazyframeVideo";
 
 export default LazyframeVideo;
