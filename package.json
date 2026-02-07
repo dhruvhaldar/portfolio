@@ -29,7 +29,7 @@
     "gray-matter": "^4.0.3",
     "katex": "^0.16.27",
     "lazyframe": "^2.2.7",
-    "next": "16.0.10",
+    "next": "16.1.6",
     "next-mdx-remote": "^5.0.0",
     "prismjs": "^1.30.0",
     "react": "^19.2.0",
