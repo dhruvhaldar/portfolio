@@ -33,20 +33,27 @@ describe("Textarea", () => {
 
   it("displays character count when showCount is true", () => {
     render(<Textarea id="test-textarea" label="Test Label" showCount maxLength={100} />);
-    expect(screen.getByText("0 / 100")).toBeInTheDocument();
+    expect(
+      screen.getByText(/0 characters entered out of 100 maximum/i),
+    ).toBeInTheDocument();
 
     const textarea = screen.getByLabelText("Test Label");
     fireEvent.change(textarea, { target: { value: "Hello" } });
 
-    expect(screen.getByText("5 / 100")).toBeInTheDocument();
+    expect(
+      screen.getByText(/5 characters entered out of 100 maximum/i),
+    ).toBeInTheDocument();
   });
 
   it("associates character count with textarea via aria-describedby", () => {
     render(<Textarea id="test-textarea" label="Test Label" showCount maxLength={100} />);
     const textarea = screen.getByLabelText("Test Label");
-    const count = screen.getByText("0 / 100");
+    const count = screen.getByText(/0 characters entered out of 100 maximum/i);
 
-    expect(count).toHaveAttribute("id", "test-textarea-count");
-    expect(textarea).toHaveAttribute("aria-describedby", expect.stringContaining("test-textarea-count"));
+    expect(count.closest("[id='test-textarea-count']")).toBeInTheDocument();
+    expect(textarea).toHaveAttribute(
+      "aria-describedby",
+      expect.stringContaining("test-textarea-count"),
+    );
   });
 });
