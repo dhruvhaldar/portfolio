@@ -4,7 +4,7 @@ import Image from "next/image";
 import type React from "react";
 import { type CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
-import { extractYoutubeId, isSafeImageSrc, validateYoutubeUrl } from "@/app/utils/security";
+import { extractYoutubeId, isSafeImageSrc } from "@/app/utils/security";
 import { Flex, IconButton, Skeleton } from ".";
 
 export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>, "height"> {
@@ -39,16 +39,6 @@ export interface SmartImageProps extends Omit<React.ComponentProps<typeof Flex>,
     desktop?: string;
   };
 }
-
-const isYouTubeVideo = (url: string) => {
-  return validateYoutubeUrl(url);
-};
-
-const getYouTubeEmbedUrl = (url: string) => {
-  const id = extractYoutubeId(url);
-  // 🛡️ Sentinel: Use youtube-nocookie.com for better privacy
-  return id ? `https://www.youtube-nocookie.com/embed/${id}?controls=0&rel=0&modestbranding=1` : "";
-};
 
 /**
  * An enhanced image component that supports lazy loading, responsive sizing, and lightbox enlargement.
@@ -171,8 +161,13 @@ const SmartImageComponent: React.FC<SmartImageProps> = ({
     }
     const isSafe = isSafeImageSrc(src);
     const isVideo = src?.endsWith(".mp4");
-    const isYouTube = isYouTubeVideo(src);
-    const youtubeEmbedUrl = isYouTube ? getYouTubeEmbedUrl(src) : "";
+
+    // Bolt: Optimized to avoid redundant regex execution by extracting ID directly
+    const youtubeId = extractYoutubeId(src);
+    const isYouTube = !!youtubeId;
+    // 🛡️ Sentinel: Use youtube-nocookie.com for better privacy
+    const youtubeEmbedUrl = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?controls=0&rel=0&modestbranding=1` : "";
+
     return { isVideo, isYouTube, youtubeEmbedUrl, isSafe };
   }, [src]);
 

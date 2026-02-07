@@ -12,11 +12,19 @@ vi.mock('lazyframe', () => ({
 }));
 
 describe('LazyframeVideo Security', () => {
-  it('should initialize lazyframe with sandbox configuration', () => {
+  it('should initialize lazyframe with sandbox and allow configuration', () => {
     const src = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     const title = 'Test Video';
 
-    render(<LazyframeVideo src={src} title={title} />);
+    // Verify component rendering
+    const { container } = render(<LazyframeVideo src={src} title={title} />);
+
+    // Check data-src uses youtube-nocookie and autoplay
+    const lazyframeDiv = container.querySelector('.lazyframe');
+    expect(lazyframeDiv).toHaveAttribute('data-src', expect.stringContaining('youtube-nocookie.com'));
+    expect(lazyframeDiv).toHaveAttribute('data-src', expect.stringContaining('autoplay=1'));
+    // Check data-vendor is absent to allow generic iframe loading
+    expect(lazyframeDiv).not.toHaveAttribute('data-vendor');
 
     // Check if lazyframe was called
     expect(mockLazyframe).toHaveBeenCalled();
@@ -37,6 +45,9 @@ describe('LazyframeVideo Security', () => {
 
     // Assert sandbox attribute
     expect(mockIframe.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-presentation');
+
+    // Assert allow attribute
+    expect(mockIframe.getAttribute('allow')).toBe('accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
 
     // Assert title attribute
     expect(mockIframe.getAttribute('title')).toBe(title);

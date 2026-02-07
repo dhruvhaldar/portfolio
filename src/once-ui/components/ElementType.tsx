@@ -62,13 +62,30 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
           </a>
         );
       }
+
+      // 🛡️ Sentinel: Ensure internal links opening in new tab have security attributes
+      // Prevents Reverse Tabnabbing on internal resources (like PDFs or redirects)
+      const { target, rel, ...restProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      let secureRel = rel;
+      if (target === "_blank") {
+        if (!secureRel) {
+          secureRel = "noopener noreferrer";
+        } else {
+          // Append if missing
+          if (!secureRel.includes("noopener")) secureRel += " noopener";
+          if (!secureRel.includes("noreferrer")) secureRel += " noreferrer";
+        }
+      }
+
       return (
         <Link
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={className}
           style={style}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          target={target}
+          rel={secureRel?.trim()}
+          {...restProps}
         >
           {children}
         </Link>

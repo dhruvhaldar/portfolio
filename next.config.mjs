@@ -51,7 +51,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://www.google-analytics.com https://*.ytimg.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://app.kit.com; frame-ancestors 'none'; connect-src 'self' https://www.google-analytics.com https://*.googleapis.com https://*.youtube.com; media-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; frame-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; upgrade-insecure-requests;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://www.google-analytics.com https://*.ytimg.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://app.kit.com; frame-ancestors 'none'; connect-src 'self' https://www.google-analytics.com https://*.googleapis.com https://*.youtube.com; media-src 'self' https://*.youtube-nocookie.com; frame-src 'self' https://*.youtube-nocookie.com; upgrade-insecure-requests;",
           },
           {
             key: 'Strict-Transport-Security',

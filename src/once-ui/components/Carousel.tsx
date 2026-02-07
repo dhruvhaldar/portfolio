@@ -1,7 +1,7 @@
 "use client";
 
 import { Flex, Scroller, SmartImage } from "@/once-ui/components";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface Image {
   src: string;
@@ -98,7 +98,12 @@ const CarouselThumbnail = memo(
     );
   },
   (prev, next) => {
-    return prev.isActive === next.isActive && prev.image === next.image;
+    // Bolt: Deep comparison for image props to allow stable renders even if image object reference changes
+    return (
+      prev.isActive === next.isActive &&
+      prev.image.src === next.image.src &&
+      prev.image.alt === next.image.alt
+    );
   },
 );
 
@@ -119,15 +124,20 @@ const Carousel: React.FC<CarouselProps> = ({
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const nextImageRef = useRef<HTMLImageElement | null>(null);
 
-  const preloadNextImage = useCallback(
-    (nextIndex: number) => {
-      if (nextIndex >= 0 && nextIndex < images.length) {
-        nextImageRef.current = new Image();
-        nextImageRef.current.src = images[nextIndex].src;
-      }
-    },
-    [images],
-  );
+  // Bolt: Use ref to access latest images in callbacks without adding it to dependency array
+  // This stabilizes handleControlClick and prevents unnecessary re-renders of indicators
+  const imagesRef = useRef(images);
+  useEffect(() => {
+    imagesRef.current = images;
+  }, [images]);
+
+  const preloadNextImage = useCallback((nextIndex: number) => {
+    const currentImages = imagesRef.current;
+    if (nextIndex >= 0 && nextIndex < currentImages.length) {
+      nextImageRef.current = new Image();
+      nextImageRef.current.src = currentImages[nextIndex].src;
+    }
+  }, []);
 
   const handleControlClick = useCallback(
     (nextIndex: number) => {
@@ -143,9 +153,11 @@ const Carousel: React.FC<CarouselProps> = ({
   );
 
   const handleImageClick = useCallback(() => {
-    if (images.length > 1) {
+    // Bolt: Access images via ref to keep handler stable
+    const currentImages = imagesRef.current;
+    if (currentImages.length > 1) {
       setActiveIndex((current) => {
-        const nextIndex = (current + 1) % images.length;
+        const nextIndex = (current + 1) % currentImages.length;
         if (nextIndex !== current) {
           preloadNextImage(nextIndex);
           return nextIndex;
@@ -153,7 +165,7 @@ const Carousel: React.FC<CarouselProps> = ({
         return current;
       });
     }
-  }, [images.length, preloadNextImage]);
+  }, [preloadNextImage]);
 
   if (images.length === 0) {
     return null;

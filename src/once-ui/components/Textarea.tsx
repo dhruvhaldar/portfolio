@@ -319,7 +319,12 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
               variant="body-default-s"
               onBackground="neutral-weak"
             >
-              {internalLength} / {props.maxLength || 4096}
+              <span aria-hidden="true">
+                {internalLength} / {props.maxLength || 4096}
+              </span>
+              <span className="sr-only">
+                {internalLength} characters entered out of {props.maxLength || 4096} maximum
+              </span>
             </Text>
           </Flex>
         )}
