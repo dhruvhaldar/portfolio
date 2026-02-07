@@ -44,7 +44,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
   // This ensures that even if a malicious URL passed regex validation (unlikely),
   // we only pass the clean ID to the underlying library.
-  const safeSrc = youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : null;
+  // Sentinel: Use youtube-nocookie.com for better privacy and autoplay since lazyframe handles click
+  const safeSrc = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1` : null;
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
@@ -58,6 +59,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         onAppend: (iframe: HTMLIFrameElement) => {
           // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
           iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
+          // 🛡️ Sentinel: Enforce permission policies consistent with SmartImage
+          iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
 
           // 🛡️ Sentinel: Ensure title attribute exists for accessibility and security context
           if (!iframe.getAttribute("title")) {
@@ -78,6 +81,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
                   "sandbox",
                   "allow-scripts allow-same-origin allow-presentation",
                 );
+                iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
                 if (!iframe.getAttribute("title")) {
                   iframe.setAttribute("title", title || "Video player");
                 }
@@ -136,7 +140,6 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           ref={videoRef}
           className="lazyframe"
           data-src={safeSrc}
-          data-vendor="youtube"
           data-thumbnail={activeThumbnailUrl}
           style={{
             width,
