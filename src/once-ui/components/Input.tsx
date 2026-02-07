@@ -286,7 +286,12 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
         {showCount && (
           <Flex paddingX="16" fillWidth horizontal="end">
             <Text id={countId} variant="body-default-s" onBackground="neutral-weak">
-              {internalLength} / {maxLength}
+              <span aria-hidden="true">
+                {internalLength} / {maxLength}
+              </span>
+              <span className="sr-only">
+                {internalLength} characters entered out of {maxLength} maximum
+              </span>
             </Text>
           </Flex>
         )}

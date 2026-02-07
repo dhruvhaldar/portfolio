@@ -49,20 +49,28 @@ describe("Input", () => {
 
   it("displays character count when showCount is true", () => {
     render(<Input id="test-input" label="Test Label" showCount maxLength={100} />);
-    expect(screen.getByText("0 / 100")).toBeInTheDocument();
+    expect(
+      screen.getByText(/0 characters entered out of 100 maximum/i),
+    ).toBeInTheDocument();
 
     const input = screen.getByLabelText("Test Label");
     fireEvent.change(input, { target: { value: "Hello" } });
 
-    expect(screen.getByText("5 / 100")).toBeInTheDocument();
+    expect(
+      screen.getByText(/5 characters entered out of 100 maximum/i),
+    ).toBeInTheDocument();
   });
 
   it("associates character count with input via aria-describedby", () => {
     render(<Input id="test-input" label="Test Label" showCount maxLength={100} />);
     const input = screen.getByLabelText("Test Label");
-    const count = screen.getByText("0 / 100");
+    const count = screen.getByText(/0 characters entered out of 100 maximum/i);
 
-    expect(count).toHaveAttribute("id", "test-input-count");
-    expect(input).toHaveAttribute("aria-describedby", expect.stringContaining("test-input-count"));
+    // The text node is inside the container with the ID
+    expect(count.closest("[id='test-input-count']")).toBeInTheDocument();
+    expect(input).toHaveAttribute(
+      "aria-describedby",
+      expect.stringContaining("test-input-count"),
+    );
   });
 });
