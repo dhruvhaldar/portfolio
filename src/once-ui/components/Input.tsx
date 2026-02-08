@@ -9,6 +9,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Flex, Icon, Spinner, Text } from ".";
