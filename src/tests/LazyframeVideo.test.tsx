@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { vi, describe, it, expect } from 'vitest';
 import LazyframeVideo from '@/components/LazyframeVideo';
 
@@ -66,5 +66,44 @@ describe('LazyframeVideo Security', () => {
     expect(container.firstChild).toBeNull();
     // Should not initialize lazyframe
     expect(mockLazyframe).not.toHaveBeenCalled();
+  });
+});
+
+describe('LazyframeVideo Accessibility', () => {
+  it('triggers click on video element when Enter is pressed', () => {
+    const src = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    // Clear mock calls from previous tests
+    mockLazyframe.mockClear();
+
+    const { container } = render(<LazyframeVideo src={src} title="Test Video" />);
+
+    const videoWrapper = screen.getByRole('button', { name: /Play video: Test Video/i });
+
+    // Spy on the click event on the actual target element (the div inside)
+    const lazyframeDiv = container.querySelector('.lazyframe');
+    if (!lazyframeDiv) throw new Error('Lazyframe div not found');
+
+    const clickSpy = vi.spyOn(lazyframeDiv as HTMLElement, 'click');
+
+    fireEvent.keyDown(videoWrapper, { key: 'Enter' });
+
+    expect(clickSpy).toHaveBeenCalled();
+  });
+
+  it('triggers click on video element when Space is pressed', () => {
+    const src = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    mockLazyframe.mockClear();
+
+    const { container } = render(<LazyframeVideo src={src} title="Test Video" />);
+
+    const videoWrapper = screen.getByRole('button', { name: /Play video: Test Video/i });
+    const lazyframeDiv = container.querySelector('.lazyframe');
+    if (!lazyframeDiv) throw new Error('Lazyframe div not found');
+
+    const clickSpy = vi.spyOn(lazyframeDiv as HTMLElement, 'click');
+
+    fireEvent.keyDown(videoWrapper, { key: ' ' });
+
+    expect(clickSpy).toHaveBeenCalled();
   });
 });
