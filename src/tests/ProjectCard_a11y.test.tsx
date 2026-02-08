@@ -44,6 +44,9 @@ describe("ProjectCard Accessibility", () => {
     expect(detailsLink).toBeInTheDocument();
 
     // This assertion should fail initially as aria-label is missing
-    expect(detailsLink).toHaveAttribute("aria-label", "View more details about Test Project");
+    expect(detailsLink).toHaveAttribute(
+      "aria-label",
+      "View more details about Test Project (opens in a new tab)",
+    );
   });
 });
