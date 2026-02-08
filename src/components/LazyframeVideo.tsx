@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
-import { extractYoutubeId } from "@/app/utils/security";
+import { extractYoutubeId, isSafeImageSrc } from "@/app/utils/security";
 import { Flex, Text } from "@/once-ui/components";
 
 interface LazyframeVideoProps {
@@ -39,7 +39,13 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   const youtubeId = extractYoutubeId(src);
   const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
-  const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
+
+  // 🛡️ Sentinel: Validate thumbnail URL to prevent injection in style or attributes
+  const isThumbnailSafe = thumbnail ? isSafeImageSrc(thumbnail) : false;
+  if (thumbnail && !isThumbnailSafe) {
+    console.error(`Security: Blocked dangerous thumbnail source in LazyframeVideo: ${thumbnail}`);
+  }
+  const activeThumbnailUrl = (isThumbnailSafe ? thumbnail : undefined) || defaultThumbnailUrl;
 
   // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
   // This ensures that even if a malicious URL passed regex validation (unlikely),
