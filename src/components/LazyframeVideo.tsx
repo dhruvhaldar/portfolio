@@ -106,7 +106,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      handlePlay();
+      // Trigger click on the lazyframe element to start loading
+      videoRef.current?.click();
     }
   };
 
