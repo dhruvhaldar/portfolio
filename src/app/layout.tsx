@@ -1,4 +1,5 @@
 import "@/once-ui/styles/index.scss";
+import { colors } from "@/once-ui/tokens/colors";
 import "@/once-ui/tokens/index.scss";
 import { baseURL, effects, style } from "@/app/resources";
 import { Header, RouteGuard } from "@/components";
@@ -41,7 +42,7 @@ export async function generateMetadata() {
       other: {
         rel: "apple-touch-icon",
         url: "/apple-touch-icon-precomposed.png",
-        "theme-color": "#60e4fc",
+        "theme-color": colors.cyan[800],
       },
     },
     openGraph: {

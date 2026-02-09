@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { baseURL } from "@/app/resources";
+import { colors } from "@/once-ui/tokens/colors";
 import { person, blog } from "@/app/resources/content";
 import { Geist } from "next/font/google";
 
@@ -30,7 +31,7 @@ export default async function Image() {
           display: "flex",
           width: "100%",
           height: "100%",
-          background: "#040816",
+          background: colors.slate[100],
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
@@ -86,16 +87,16 @@ export default async function Image() {
               gap: "12px",
             }}
           >
-             <div
-                style={{
-                  fontSize: "24px",
-                  color: "#9585FA",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                }}
-              >
-                Journal
-              </div>
+            <div
+              style={{
+                fontSize: "24px",
+                color: colors.indigo[600],
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+              }}
+            >
+              Journal
+            </div>
             <h1
               style={{
                 fontSize: "80px",
@@ -112,7 +113,7 @@ export default async function Image() {
             <p
               style={{
                 fontSize: "32px",
-                color: "#8E94AA",
+                color: colors.slate[600],
                 margin: 0,
                 textAlign: "center",
                 maxWidth: "800px",
@@ -125,14 +126,14 @@ export default async function Image() {
 
         {/* Decorative elements */}
         <div style={{
-            position: "absolute",
-            bottom: "40px",
-            display: "flex",
-            gap: "12px",
-            alignItems: "center"
+          position: "absolute",
+          bottom: "40px",
+          display: "flex",
+          gap: "12px",
+          alignItems: "center"
         }}>
-           <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#9585FA" }}></div>
-           <div style={{ fontSize: "24px", color: "#8E94AA" }}>{baseURL}</div>
+          <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: colors.indigo[600] }}></div>
+          <div style={{ fontSize: "24px", color: colors.slate[600] }}>{baseURL}</div>
         </div>
 
       </div>

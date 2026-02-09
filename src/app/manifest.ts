@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { colors } from '@/once-ui/tokens/colors';
 
 export const dynamic = 'force-static';
 
@@ -12,8 +13,8 @@ export default function manifest(): MetadataRoute.Manifest {
     dir: "rtl",
     display: "standalone",
     display_override: ["fullscreen", "minimal-ui"],
-    background_color: '#fff',
-    theme_color: '#60e4fc',
+    background_color: colors.white,
+    theme_color: colors.cyan[800],
     icons: [
       {
         src: "/favicon.ico",

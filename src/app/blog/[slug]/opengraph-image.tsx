@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { baseURL } from "@/app/resources";
+import { colors } from "@/once-ui/tokens/colors";
 import { person } from "@/app/resources/content";
 import { getPostBySlug, getPosts } from "@/app/utils/utils";
 
@@ -42,7 +43,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
           display: "flex",
           width: "100%",
           height: "100%",
-          background: "#040816",
+          background: colors.slate[100],
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "space-between",
@@ -53,7 +54,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         }}
       >
         {/* Background Elements */}
-         <div
+        <div
           style={{
             position: "absolute",
             top: "-20%",
@@ -67,58 +68,58 @@ export default async function Image({ params }: { params: { slug: string } }) {
         />
 
         <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
-             <div
-                style={{
-                  fontSize: "24px",
-                  color: "#9585FA", // Indigo 600 for blog
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                }}
-              >
-                Blog
-              </div>
-            <h1
-              style={{
-                fontSize: "80px",
-                fontWeight: 600,
-                color: "white",
-                margin: 0,
-                lineHeight: 1.1,
-                maxWidth: "900px",
-                textWrap: "balance",
-              }}
-            >
-              {title}
-            </h1>
-            <p
-              style={{
-                fontSize: "36px",
-                color: "#8E94AA", // Slate 600
-                margin: 0,
-                maxWidth: "900px",
-                lineHeight: 1.4,
-              }}
-            >
-              {summary.length > 120 ? summary.slice(0, 120) + "..." : summary}
-            </p>
+          <div
+            style={{
+              fontSize: "24px",
+              color: colors.indigo[600], // Indigo 600 for blog
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+            }}
+          >
+            Blog
+          </div>
+          <h1
+            style={{
+              fontSize: "80px",
+              fontWeight: 600,
+              color: "white",
+              margin: 0,
+              lineHeight: 1.1,
+              maxWidth: "900px",
+              textWrap: "balance",
+            }}
+          >
+            {title}
+          </h1>
+          <p
+            style={{
+              fontSize: "36px",
+              color: colors.slate[600], // Slate 600
+              margin: 0,
+              maxWidth: "900px",
+              lineHeight: 1.4,
+            }}
+          >
+            {summary.length > 120 ? summary.slice(0, 120) + "..." : summary}
+          </p>
         </div>
 
         <div style={{ zIndex: 1, display: "flex", alignItems: "center", gap: "20px" }}>
-             <img
-                src={avatarSrc}
-                alt={person.name}
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "2px solid rgba(255, 255, 255, 0.1)",
-                }}
-              />
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: "24px", color: "white" }}>{person.name}</span>
-                  <span style={{ fontSize: "18px", color: "#8E94AA" }}>{person.role}</span>
-              </div>
+          <img
+            src={avatarSrc}
+            alt={person.name}
+            style={{
+              width: "64px",
+              height: "64px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "2px solid rgba(255, 255, 255, 0.1)",
+            }}
+          />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: "24px", color: "white" }}>{person.name}</span>
+            <span style={{ fontSize: "18px", color: colors.slate[600] }}>{person.role}</span>
+          </div>
         </div>
 
       </div>
