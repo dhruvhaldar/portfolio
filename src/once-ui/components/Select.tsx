@@ -101,6 +101,18 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       setHighlightedIndex(null);
     }, [searchQuery]);
 
+    // Bolt: Use refs to stabilize handlers and prevent unnecessary re-renders of Option components
+    const filteredOptionsRef = useRef(filteredOptions);
+    const onSelectRef = useRef(onSelect);
+
+    useEffect(() => {
+      filteredOptionsRef.current = filteredOptions;
+    }, [filteredOptions]);
+
+    useEffect(() => {
+      onSelectRef.current = onSelect;
+    }, [onSelect]);
+
     const handleFocus = () => {
       setIsFocused(true);
     };
@@ -114,23 +126,25 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     const handleSelect = useCallback(
       (value: string) => {
-        if (onSelect) onSelect(value);
+        if (onSelectRef.current) onSelectRef.current(value);
         setIsDropdownOpen(false);
         setIsFilled(true);
       },
-      [onSelect],
+      [],
     );
 
     // Bolt: Stable handler to prevent Option re-renders
     const handleOptionClick = useCallback(
       (optionValue: string) => {
-        const selectedOption = filteredOptions.find((option) => option.value === optionValue);
+        const selectedOption = filteredOptionsRef.current.find(
+          (option) => option.value === optionValue,
+        );
         if (selectedOption?.onClick) {
           selectedOption.onClick(optionValue);
         }
         handleSelect(optionValue);
       },
-      [filteredOptions, handleSelect],
+      [handleSelect],
     );
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

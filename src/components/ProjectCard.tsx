@@ -1,7 +1,16 @@
 "use client";
 
+import {
+  AvatarGroup,
+  Carousel,
+  Column,
+  Flex,
+  Heading,
+  SmartLink,
+  Spotlight,
+  Text,
+} from "@/once-ui/components";
 import { useMemo } from "react";
-import { AvatarGroup, Carousel, Column, Flex, Heading, SmartLink, Spotlight, Text, } from "@/once-ui/components";
 
 interface ProjectCardProps {
   /** The URL for the "Explore detailed insights" link */
@@ -40,23 +49,63 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const showExploreLink = hasContent || (content && content.trim().length > 0);
 
-  const carouselImages = useMemo(() => images.map((image) => ({ src: image, alt: title })), [images, title]);
+  const carouselImages = useMemo(
+    () => images.map((image) => ({ src: image, alt: title })),
+    [images, title],
+  );
 
   return (
-    <Spotlight className="fill-width" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <Column fillWidth gap="m" style={{ backdropFilter: 'blur(10px)', background: 'var(--neutral-alpha-weak)', borderRadius: 'var(--radius-l)', padding: 'var(--static-space-16)' }}>
-        <Carousel sizes="(max-width: 960px) 100vw, 960px" preload={preload} revealedByDefault={preload} images={carouselImages} />
-        <Flex mobileDirection="column" fillWidth paddingX="s" paddingTop="12" paddingBottom="24" gap="l"> {title && (<Flex flex={5}><Heading as="h2" wrap="balance" variant="heading-strong-xl">{title}</Heading></Flex>)}
+    <Spotlight
+      className="fill-width"
+      style={{ display: "flex", flexDirection: "column", width: "100%" }}
+    >
+      <Column
+        fillWidth
+        gap="m"
+        style={{
+          backdropFilter: "blur(10px)",
+          background: "var(--neutral-alpha-weak)",
+          borderRadius: "var(--radius-l)",
+          padding: "var(--static-space-16)",
+        }}
+      >
+        <Carousel
+          sizes="(max-width: 960px) 100vw, 960px"
+          preload={preload}
+          revealedByDefault={preload}
+          images={carouselImages}
+        />
+        <Flex
+          mobileDirection="column"
+          fillWidth
+          paddingX="s"
+          paddingTop="12"
+          paddingBottom="24"
+          gap="l"
+        >
+          {" "}
+          {title && (
+            <Flex flex={5}>
+              <Heading as="h2" wrap="balance" variant="heading-strong-xl">
+                {title}
+              </Heading>
+            </Flex>
+          )}
           {(avatars.length > 0 || description?.trim() || showExploreLink) && (
             <Column flex={7} gap="16">
               {avatars.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
-              {description?.trim() && (<Text wrap="balance" variant="body-default-s" onBackground="neutral-medium">{description}</Text>)}
+              {description?.trim() && (
+                <Text wrap="balance" variant="body-default-s" onBackground="neutral-medium">
+                  {description}
+                </Text>
+              )}
               <Flex gap="24" wrap>
                 {showExploreLink && (
                   <SmartLink
                     suffixIcon="arrowRight"
                     style={{ margin: "0", width: "fit-content" }}
                     href={href}
+                    aria-label={`Explore detailed insights about ${title}`}
                   >
                     <Text variant="body-default-s">Explore detailed insights</Text>
                   </SmartLink>
@@ -68,6 +117,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`View more details about ${title}`}
                   >
                     <Text variant="body-default-s">View more details</Text>
                   </SmartLink>

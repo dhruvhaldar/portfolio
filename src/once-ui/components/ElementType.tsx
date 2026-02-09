@@ -46,31 +46,76 @@ const ElementType = forwardRef<HTMLElement, ElementTypeProps>(
       }
 
       const isExternal = isExternalLink(href);
+      const anchorProps = props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      let { target, rel, ...restProps } = anchorProps;
+      let secureRel = rel;
+
+      if (isExternal) {
+        target = "_blank";
+        secureRel = "noopener noreferrer";
+      }
+
+      // 🛡️ Sentinel: Ensure internal links opening in new tab have security attributes
+      // Prevents Reverse Tabnabbing on internal resources (like PDFs or redirects)
+      if (target === "_blank") {
+        if (!secureRel) {
+          secureRel = "noopener noreferrer";
+        } else {
+          // Append if missing
+          if (!secureRel.includes("noopener")) secureRel += " noopener";
+          if (!secureRel.includes("noreferrer")) secureRel += " noreferrer";
+        }
+      }
+
+      const opensInNewTab = target === "_blank";
+      let finalChildren = children;
+      let finalAriaLabel = anchorProps["aria-label"];
+
+      // 🎨 Palette: Accessibility improvement for links opening in a new tab
+      if (opensInNewTab) {
+        if (finalAriaLabel) {
+          // If aria-label is present, append the announcement to it
+          finalAriaLabel = `${finalAriaLabel} (opens in a new tab)`;
+        } else {
+          // If no aria-label, append a visually hidden span
+          finalChildren = (
+            <>
+              {children}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </>
+          );
+        }
+      }
+
       if (isExternal) {
         return (
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={target}
+            rel={secureRel}
             ref={ref as React.Ref<HTMLAnchorElement>}
             className={className}
             style={style}
-            {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+            {...restProps}
+            aria-label={finalAriaLabel}
           >
-            {children}
-            <span className="sr-only"> (opens in a new tab)</span>
+            {finalChildren}
           </a>
         );
       }
+
       return (
         <Link
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={className}
           style={style}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          target={target}
+          rel={secureRel?.trim()}
+          {...restProps}
+          aria-label={finalAriaLabel}
         >
-          {children}
+          {finalChildren}
         </Link>
       );
     }

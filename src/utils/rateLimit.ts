@@ -21,17 +21,24 @@ export function rateLimit(ip: string, limit: number = 5, windowMs: number = 60 *
   const record = rateLimitMap.get(ip);
 
   if (!record || now > record.resetTime) {
-    // 🛡️ Sentinel: Prevent Memory Exhaustion DoS
-    if (rateLimitMap.size >= MAX_RECORDS) {
-      // Sentinel Fix: Use LRU eviction instead of clearing the whole map
-      // This prevents an attacker from flushing the map to bypass rate limits
-      const oldestKeyIterator = rateLimitMap.keys().next();
+    if (record) {
+      // 🛡️ Sentinel: Move refreshed record to MRU to prevent premature eviction
+      // If we don't delete first, map.set updates in place, leaving it at LRU position.
+      // This prevents an attacker from intentionally evicting their own session via flooding.
+      rateLimitMap.delete(ip);
+    } else {
+      // 🛡️ Sentinel: Prevent Memory Exhaustion DoS
+      if (rateLimitMap.size >= MAX_RECORDS) {
+        // Sentinel Fix: Use LRU eviction instead of clearing the whole map
+        // This prevents an attacker from flushing the map to bypass rate limits
+        const oldestKeyIterator = rateLimitMap.keys().next();
 
-      if (!oldestKeyIterator.done) {
-        rateLimitMap.delete(oldestKeyIterator.value);
-      } else {
-        // Fallback if map is somehow empty but size > MAX_RECORDS (shouldn't happen)
-        rateLimitMap.clear();
+        if (!oldestKeyIterator.done) {
+          rateLimitMap.delete(oldestKeyIterator.value);
+        } else {
+          // Fallback if map is somehow empty but size > MAX_RECORDS (shouldn't happen)
+          rateLimitMap.clear();
+        }
       }
     }
 
