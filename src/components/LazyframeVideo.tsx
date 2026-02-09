@@ -72,6 +72,9 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           if (!iframe.getAttribute("title")) {
             iframe.setAttribute("title", title);
           }
+
+          // Palette: Focus the iframe so keyboard users can control the player immediately
+          iframe.focus();
         },
       });
       initializedRef.current = true;

@@ -5,3 +5,7 @@
 ## 2025-02-18 - Lazyframe Accessibility
 **Learning:** Third-party libraries like `lazyframe` often rely on native DOM click events to initialize. React's state handlers (e.g., `handlePlay`) bypass this.
 **Action:** In `onKeyDown` handlers for such elements, use `ref.current.click()` instead of calling the state setter directly to ensure the library's event listeners are triggered.
+
+## 2025-02-23 - Dynamic Content Focus Management
+**Learning:** When a user interaction replaces a DOM element (e.g., clicking a video placeholder injects an iframe), the focus context is lost, forcing keyboard users to navigate again.
+**Action:** Explicitly move focus to the newly injected element (e.g., `iframe.focus()`) within the library's completion callback (e.g., `onAppend`) to maintain the interaction flow.
