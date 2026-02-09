@@ -12,4 +12,17 @@
 ✓ Starting...
 ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
 ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
-✓ Ready in 752ms
+✓ Ready in 789ms
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+○ Compiling /about ...
+ HEAD /about 200 in 11.1s (compile: 8.8s, render: 2.3s)
+ GET /about 200 in 141ms (compile: 6ms, render: 135ms)
+ GET /api/check-auth 404 in 2.0s (compile: 1751ms, render: 289ms)
+ POST /api/authenticate 404 in 207ms (compile: 17ms, render: 190ms)
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+✓ Compiled in 19ms
+ ELIFECYCLE  Command failed.
+⚠ Specified "headers" will not automatically work with "output: export". See more info here: https://nextjs.org/docs/messages/export-no-custom-routes
+[?25h
