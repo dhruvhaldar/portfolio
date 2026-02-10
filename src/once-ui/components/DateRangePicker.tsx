@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Flex, DatePicker } from ".";
 
 export interface DateRange {
@@ -33,23 +33,18 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   size = "m",
   ...rest
 }) => {
-  const [internalValue, setInternalValue] = useState<DateRange>({
+  const [internalValueState, setInternalValueState] = useState<DateRange>({
     startDate: value?.startDate || undefined,
     endDate: value?.endDate || undefined,
   });
 
+  // Bolt: Optimize renders by using derived state instead of useEffect synchronization
+  const isControlled = typeof value !== "undefined";
+  const internalValue = isControlled ? value : internalValueState;
+
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-
-  useEffect(() => {
-    if (value) {
-      setInternalValue({
-        startDate: value.startDate,
-        endDate: value.endDate,
-      });
-    }
-  }, [value]);
 
   const handleDateChange = (date: Date) => {
     if (!internalValue.startDate || (internalValue.startDate && internalValue.endDate)) {
@@ -58,7 +53,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         startDate: date,
         endDate: undefined,
       };
-      setInternalValue(newRange);
+      if (!isControlled) setInternalValueState(newRange);
       onChange?.(newRange);
     } else {
       const newRange = {
@@ -66,12 +61,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         endDate: date,
       };
 
-      if (newRange.startDate > date) {
+      // Swap if start date is after end date
+      if (newRange.startDate && newRange.startDate > date) {
         newRange.startDate = date;
         newRange.endDate = internalValue.startDate;
       }
 
-      setInternalValue(newRange);
+      if (!isControlled) setInternalValueState(newRange);
       onChange?.(newRange);
     }
   };
@@ -80,10 +76,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     const newDate = new Date(currentYear, currentMonth + increment, 1);
     setCurrentMonth(newDate.getMonth());
     setCurrentYear(newDate.getFullYear());
-    setInternalValue({
-      startDate: internalValue.startDate,
-      endDate: internalValue.endDate,
-    });
   };
 
   const getSecondMonth = () => {
