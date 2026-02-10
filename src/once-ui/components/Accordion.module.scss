@@ -1,1 +1,11 @@
-.accordion {&:hover {background: var(--neutral-alpha-weak);}}
+.accordion {
+    &:hover {
+        background: var(--neutral-alpha-weak);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--brand-solid-strong);
+        outline-offset: -2px;
+        background: var(--neutral-alpha-weak);
+    }
+}

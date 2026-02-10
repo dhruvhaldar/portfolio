@@ -91,6 +91,8 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
               "grid-template-rows var(--transition-duration-macro-medium) var(--transition-eased)",
           }}
           aria-hidden={!isOpen}
+          // @ts-expect-error: inert is a valid HTML attribute but might be missing from some React type definitions
+          inert={!isOpen ? "true" : undefined}
         >
           <Flex fillWidth minHeight={0} overflow="hidden">
             <Column fillWidth paddingX="20" paddingTop="8" paddingBottom="16" {...rest}>
