@@ -9,3 +9,7 @@
 ## 2025-02-23 - Dynamic Content Focus Management
 **Learning:** When a user interaction replaces a DOM element (e.g., clicking a video placeholder injects an iframe), the focus context is lost, forcing keyboard users to navigate again.
 **Action:** Explicitly move focus to the newly injected element (e.g., `iframe.focus()`) within the library's completion callback (e.g., `onAppend`) to maintain the interaction flow.
+
+## 2025-05-23 - [Toast Dismissal on Escape]
+**Learning:** Transient UI elements like Toasts often trap keyboard focus or require excessive tabbing to dismiss. Adding `Escape` key support provides a native-feeling, quick dismissal method for keyboard users.
+**Action:** When building overlay or transient components, always consider adding a global or local `Escape` key listener to allow easy exit.
