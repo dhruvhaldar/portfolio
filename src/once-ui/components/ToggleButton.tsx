@@ -139,6 +139,7 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
         onMouseLeave={() => setIsHover(false)}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        aria-label={(!label && !children) ? (tooltip || prefixIcon || suffixIcon) : undefined}
         {...props}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "m" : "s"} />}
