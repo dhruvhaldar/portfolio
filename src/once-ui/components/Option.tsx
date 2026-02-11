@@ -1,8 +1,9 @@
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, memo } from "react";
 import { Flex, Text } from ".";
-import styles from "./Option.module.scss";
 import { ElementType } from "./ElementType";
-import React, { forwardRef, memo } from "react";
+import styles from "./Option.module.scss";
 
 export interface OptionProps {
   /** Label content */
@@ -58,6 +59,13 @@ const Option = memo(
         console.warn("Option should not have both `href` and `onClick` props.");
       }
 
+      // Palette: Enhance keyboard accessibility by handling clicks on the wrapper
+      const handleClick = (e: React.MouseEvent) => {
+        if (onClick) {
+          onClick(value);
+        }
+      };
+
       return (
         <ElementType
           tabIndex={tabIndex}
@@ -65,6 +73,9 @@ const Option = memo(
           href={href}
           className="reset-button-styles"
           style={{ width: "100%" }}
+          onClick={handleClick}
+          // Palette: Ensure Dropdown delegation works when keyboard activates the button
+          data-value={value}
         >
           <Flex
             {...props}
@@ -74,6 +85,7 @@ const Option = memo(
             paddingY="8"
             gap="12"
             radius="m"
+            // biome-ignore lint/a11y/useSemanticElements: Custom dropdown implementation
             role="option"
             aria-selected={selected}
             // Inner flex uses -1 to keep option out of tab order; wrapper ElementType handles focus
@@ -82,7 +94,7 @@ const Option = memo(
             borderStyle="solid"
             cursor="interactive"
             transition="micro-medium"
-            onClick={() => onClick?.(value)}
+            // onClick removed from here to prevent double firing and ensure keyboard works on wrapper
             className={classNames(styles.option, {
               [styles.danger]: danger,
               [styles.selected]: selected,
