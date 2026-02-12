@@ -5,7 +5,7 @@ import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
 import { extractYoutubeId, isSafeImageSrc } from "@/app/utils/security";
-import { Flex, Text } from "@/once-ui/components";
+import { Flex, Text, Spinner } from "@/once-ui/components";
 
 interface LazyframeVideoProps {
   /** The source URL of the video (e.g., YouTube URL) */
@@ -59,6 +59,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const safeSrc = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1` : null;
 
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   if (!youtubeId || !safeSrc) {
     return null;
@@ -68,6 +69,11 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     if (!initializedRef.current && videoRef.current) {
       lazyframe(videoRef.current, {
         onAppend: (iframe: HTMLIFrameElement) => {
+          // Palette: Stop loading spinner when iframe loads
+          iframe.addEventListener("load", () => {
+            setIsLoading(false);
+          }, { once: true });
+
           // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
           iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-presentation");
           // 🛡️ Sentinel: Enforce permission policies consistent with SmartImage
@@ -115,6 +121,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   const handlePlay = () => {
     setIsPlaying(true);
+    setIsLoading(true);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -151,6 +158,20 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           cursor: isPlaying ? "default" : "pointer"
         }}
       >
+        {isLoading && (
+          <Flex
+            position="absolute"
+            fillWidth
+            fillHeight
+            center
+            style={{
+              zIndex: 3,
+              pointerEvents: "none"
+            }}
+          >
+            <Spinner size="m" ariaLabel="Loading video" />
+          </Flex>
+        )}
         <div
           ref={videoRef}
           className="lazyframe"
