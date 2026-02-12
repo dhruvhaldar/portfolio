@@ -76,4 +76,26 @@ describe("ToggleButton Accessibility", () => {
     expect(button).toBeDefined();
     expect(button.getAttribute("aria-label")).toBeNull();
   });
+
+  it("applies aria-pressed when acting as a toggle button", () => {
+    render(<ToggleButton selected={true} label="Pressed Button" />);
+    const button = screen.getByRole("button", { name: "Pressed Button" });
+    expect(button.getAttribute("aria-pressed")).toBe("true");
+
+    render(<ToggleButton selected={false} label="Unpressed Button" />);
+    const unpressedButton = screen.getByRole("button", { name: "Unpressed Button" });
+    expect(unpressedButton.getAttribute("aria-pressed")).toBe("false");
+  });
+
+  it("does not apply aria-pressed when acting as a tab", () => {
+    render(<ToggleButton selected={true} label="Tab Button" role="tab" />);
+    const tab = screen.getByRole("tab", { name: "Tab Button" });
+    expect(tab.getAttribute("aria-pressed")).toBeNull();
+  });
+
+  it("does not apply aria-pressed when acting as a link", () => {
+    render(<ToggleButton selected={true} label="Link Button" href="#" />);
+    const link = screen.getByRole("link", { name: "Link Button" });
+    expect(link.getAttribute("aria-pressed")).toBeNull();
+  });
 });
