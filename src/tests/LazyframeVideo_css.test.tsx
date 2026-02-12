@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import LazyframeVideo from '@/components/LazyframeVideo';
 
 // Mock lazyframe since we are testing component rendering, not the library itself
@@ -11,7 +11,29 @@ vi.mock('lazyframe', () => ({
   default: mockLazyframe
 }));
 
+// Mock the security utility to bypass isSafeImageSrc check
+// This allows us to test the CSS sanitization logic even with "unsafe" inputs
+vi.mock('@/app/utils/security', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/utils/security')>();
+  return {
+    ...actual,
+    isSafeImageSrc: vi.fn(),
+  };
+});
+
+// Import the mocked module to control the mock implementation
+import { isSafeImageSrc } from '@/app/utils/security';
+
 describe('LazyframeVideo CSS Injection Prevention', () => {
+  beforeEach(() => {
+    // By default, allow all images in these tests to reach the CSS sanitization logic
+    vi.mocked(isSafeImageSrc).mockReturnValue(true);
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   it('should properly escape special characters in thumbnail URL for CSS context', () => {
     // Attempt to inject a new CSS property (color: red) by breaking out of url()
     // Note: The closing parenthesis matches the opening one of url(
@@ -46,6 +68,15 @@ describe('LazyframeVideo CSS Injection Prevention', () => {
     // We assert that we have a background-image
     expect(lazyframeDiv.style.backgroundImage).toBeTruthy();
     expect(lazyframeDiv.style.backgroundImage).toContain('url(');
+
+    // Ensure the malicious part is now safely inside the URL string (and likely encoded)
+    // Our fix encodes characters, so verify that encoded chars are present
+    expect(lazyframeDiv.style.backgroundImage).toContain('%29'); // Encoded ')'
+    // encodeURI does NOT encode ';', ':', ' ', etc.
+    // So "color: red" might still be visible as text, but inside the string due to quotes.
+
+    // Let's verify our specific replacements
+    expect(lazyframeDiv.style.backgroundImage).toContain('%29'); // ) -> %29
   });
 
   it('should handle quotes in thumbnail URL safely', () => {
@@ -55,8 +86,15 @@ describe('LazyframeVideo CSS Injection Prevention', () => {
     const { container } = render(<LazyframeVideo src={videoSrc} thumbnail={quoteSrc} />);
     const lazyframeDiv = container.querySelector('.lazyframe') as HTMLElement;
 
-    // If we use JSON.stringify, it escapes " as \"
-    // JSDOM style serialization might be tricky, but let's check if the style is applied.
+    console.log('Lazyframe quote style:', lazyframeDiv.getAttribute('style'));
+
+    // Verify the background image is set
     expect(lazyframeDiv.style.backgroundImage).toContain('example.com');
+    // Verify quotes are handled (either encoded or inside the string)
+    // With our fix, it should be url('...%22...') or similar if we were encoding "
+    // Actually we only replace ' (single quote). Double quote " is not replaced by our manual replace,
+    // but `encodeURI` handles double quotes!
+    // encodeURI('"') -> "%22"
+    expect(lazyframeDiv.style.backgroundImage).toContain('%22');
   });
 });
