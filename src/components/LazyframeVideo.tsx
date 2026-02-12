@@ -1,6 +1,6 @@
-"use client"; // Add this line
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, memo, useMemo, useCallback, useRef, useState } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
@@ -27,45 +27,58 @@ const overlayBackground = "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0
  * A video component that lazily loads video content (like YouTube) to improve performance.
  * Uses the 'lazyframe' library.
  */
-const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
+const LazyframeVideoComponent: React.FC<LazyframeVideoProps> = ({
   src,
   title = "Video player",
   width = "100%",
   height = "auto",
   thumbnail,
 }) => {
-  const videoRef = React.useRef<HTMLDivElement>(null);
-  const initializedRef = React.useRef(false);
+  const videoRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef(false);
 
-  const youtubeId = extractYoutubeId(src);
-  const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
+  // Bolt: Memoize derived values to prevent redundant regex execution and string manipulation
+  const { youtubeId, safeSrc, safeThumbnailUrl, activeThumbnailUrl } = useMemo(() => {
+    const youtubeId = extractYoutubeId(src);
+    const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
 
-  // 🛡️ Sentinel: Validate thumbnail URL to prevent injection in style or attributes
-  const isThumbnailSafe = thumbnail ? isSafeImageSrc(thumbnail) : false;
-  if (thumbnail && !isThumbnailSafe) {
-    console.error(`Security: Blocked dangerous thumbnail source in LazyframeVideo: ${thumbnail}`);
-  }
-  const activeThumbnailUrl = (isThumbnailSafe ? thumbnail : undefined) || defaultThumbnailUrl;
+    // 🛡️ Sentinel: Validate thumbnail URL to prevent injection in style or attributes
+    const isThumbnailSafe = thumbnail ? isSafeImageSrc(thumbnail) : false;
+    if (thumbnail && !isThumbnailSafe) {
+      console.error(`Security: Blocked dangerous thumbnail source in LazyframeVideo: ${thumbnail}`);
+    }
+    const activeThumbnailUrl = (isThumbnailSafe ? thumbnail : undefined) || defaultThumbnailUrl;
 
-  // 🛡️ Sentinel: Sanitize URL for CSS context by encoding characters that break url() syntax
-  const safeThumbnailUrl = activeThumbnailUrl
-    ? encodeURI(activeThumbnailUrl).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29")
-    : undefined;
+    // 🛡️ Sentinel: Sanitize URL for CSS context by encoding characters that break url() syntax
+    const safeThumbnailUrl = activeThumbnailUrl
+      ? encodeURI(activeThumbnailUrl).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29")
+      : undefined;
 
-  // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
-  // This ensures that even if a malicious URL passed regex validation (unlikely),
-  // we only pass the clean ID to the underlying library.
-  // Sentinel: Use youtube-nocookie.com for better privacy and autoplay since lazyframe handles click
-  const safeSrc = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1` : null;
+    // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
+    // This ensures that even if a malicious URL passed regex validation (unlikely),
+    // we only pass the clean ID to the underlying library.
+    // Sentinel: Use youtube-nocookie.com for better privacy and autoplay since lazyframe handles click
+    const safeSrc = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1` : null;
 
-  const [isPlaying, setIsPlaying] = React.useState(false);
+    return { youtubeId, safeSrc, safeThumbnailUrl, activeThumbnailUrl };
+  }, [src, thumbnail]);
 
-  if (!youtubeId || !safeSrc) {
-    return null;
-  }
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlay = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      // Trigger click on the lazyframe element to start loading
+      videoRef.current?.click();
+    }
+  }, []);
 
   useEffect(() => {
-    if (!initializedRef.current && videoRef.current) {
+    if (!initializedRef.current && videoRef.current && safeSrc) {
       lazyframe(videoRef.current, {
         onAppend: (iframe: HTMLIFrameElement) => {
           // 🛡️ Sentinel: Enforce strict sandbox policies on the generated iframe
@@ -110,20 +123,58 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
       return () => observer.disconnect();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Bolt: Ensure useEffect runs if src becomes valid after mount, while preventing re-initialization
+  }, [safeSrc, title]);
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
+  // Bolt: Memoize style objects to prevent unnecessary re-renders of Flex children
+  const containerStyle = useMemo(() => ({
+    backdropFilter: "blur(var(--static-space-1))"
+  }), []);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      // Trigger click on the lazyframe element to start loading
-      videoRef.current?.click();
-    }
-  };
+  const playerStyle = useMemo(() => ({
+    isolation: "isolate",
+    cursor: isPlaying ? "default" : "pointer"
+  }), [isPlaying]);
+
+  const lazyframeStyle = useMemo(() => ({
+    width,
+    height,
+    aspectRatio: '16/9',
+    objectFit: 'cover' as const,
+    display: 'block',
+    // 🛡️ Sentinel: Use sanitized URL to prevent CSS injection
+    backgroundImage: safeThumbnailUrl ? `url('${safeThumbnailUrl}')` : undefined,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }), [width, height, safeThumbnailUrl]);
+
+  const titleOverlayStyle = useMemo(() => ({
+    pointerEvents: "none" as const,
+    zIndex: 2,
+    background: overlayBackground,
+    width: "100%"
+  }), []);
+
+  const titleTextStyle = useMemo(() => ({
+    color: "white",
+    textShadow: "0 1px 4px rgba(0,0,0,0.8)"
+  }), []);
+
+  const logoOverlayStyle = useMemo(() => ({
+    pointerEvents: "none" as const,
+    zIndex: 2
+  }), []);
+
+  const logoImageStyle = useMemo(() => ({
+    height: '50px', // Scaled 2x
+    width: 'auto',
+    filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+  }), []);
+
+
+  if (!youtubeId || !safeSrc) {
+    return null;
+  }
 
   return (
     <Flex
@@ -132,9 +183,7 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
       padding="8"
       border="neutral-alpha-medium"
       background="neutral-alpha-weak"
-      style={{
-        backdropFilter: "blur(var(--static-space-1))"
-      }}
+      style={containerStyle}
     >
       <Flex
         position="relative"
@@ -146,27 +195,14 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
         role={isPlaying ? undefined : "button"}
         tabIndex={isPlaying ? -1 : 0}
         aria-label={isPlaying ? undefined : `Play video: ${title}`}
-        style={{
-          isolation: "isolate",
-          cursor: isPlaying ? "default" : "pointer"
-        }}
+        style={playerStyle}
       >
         <div
           ref={videoRef}
           className="lazyframe"
           data-src={safeSrc}
           data-thumbnail={activeThumbnailUrl}
-          style={{
-            width,
-            height,
-            aspectRatio: '16/9',
-            objectFit: 'cover',
-            display: 'block',
-            // 🛡️ Sentinel: Use sanitized URL to prevent CSS injection
-            backgroundImage: safeThumbnailUrl ? `url('${safeThumbnailUrl}')` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
+          style={lazyframeStyle}
         ></div>
         {!isPlaying && (
           <>
@@ -177,19 +213,11 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
                 top="0"
                 left="0"
                 padding="m"
-                style={{
-                  pointerEvents: "none",
-                  zIndex: 2,
-                  background: overlayBackground,
-                  width: "100%"
-                }}
+                style={titleOverlayStyle}
               >
                 <Text
                   variant="body-default-m"
-                  style={{
-                    color: "white",
-                    textShadow: "0 1px 4px rgba(0,0,0,0.8)"
-                  }}
+                  style={titleTextStyle}
                 >
                   {title}
                 </Text>
@@ -202,19 +230,12 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
               bottom="0"
               right="0"
               padding="s"
-              style={{
-                pointerEvents: "none",
-                zIndex: 2
-              }}
+              style={logoOverlayStyle}
             >
               <img
                 src="/images/youtube_full_logo.avif"
                 alt="YouTube"
-                style={{
-                  height: '50px', // Scaled 2x
-                  width: 'auto',
-                  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
-                }}
+                style={logoImageStyle}
               />
             </Flex>
           </>
@@ -223,5 +244,9 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
     </Flex >
   );
 };
+
+// Bolt: Memoize the component to prevent re-renders when props are unchanged
+const LazyframeVideo = memo(LazyframeVideoComponent);
+LazyframeVideo.displayName = "LazyframeVideo";
 
 export default LazyframeVideo;
