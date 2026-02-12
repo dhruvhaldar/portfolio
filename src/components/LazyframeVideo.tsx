@@ -47,6 +47,11 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   }
   const activeThumbnailUrl = (isThumbnailSafe ? thumbnail : undefined) || defaultThumbnailUrl;
 
+  // 🛡️ Sentinel: Sanitize URL for CSS context by encoding characters that break url() syntax
+  const safeThumbnailUrl = activeThumbnailUrl
+    ? encodeURI(activeThumbnailUrl).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29")
+    : undefined;
+
   // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
   // This ensures that even if a malicious URL passed regex validation (unlikely),
   // we only pass the clean ID to the underlying library.
@@ -157,7 +162,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
             aspectRatio: '16/9',
             objectFit: 'cover',
             display: 'block',
-            backgroundImage: activeThumbnailUrl ? `url(${activeThumbnailUrl})` : undefined,
+            // 🛡️ Sentinel: Use sanitized URL to prevent CSS injection
+            backgroundImage: safeThumbnailUrl ? `url('${safeThumbnailUrl}')` : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
