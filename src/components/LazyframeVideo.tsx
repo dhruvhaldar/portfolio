@@ -127,20 +127,20 @@ const LazyframeVideoComponent: React.FC<LazyframeVideoProps> = ({
   }, [safeSrc, title]);
 
   // Bolt: Memoize style objects to prevent unnecessary re-renders of Flex children
-  const containerStyle = useMemo(() => ({
+  const containerStyle = useMemo<React.CSSProperties>(() => ({
     backdropFilter: "blur(var(--static-space-1))"
   }), []);
 
-  const playerStyle = useMemo(() => ({
+  const playerStyle = useMemo<React.CSSProperties>(() => ({
     isolation: "isolate",
     cursor: isPlaying ? "default" : "pointer"
   }), [isPlaying]);
 
-  const lazyframeStyle = useMemo(() => ({
+  const lazyframeStyle = useMemo<React.CSSProperties>(() => ({
     width,
     height,
     aspectRatio: '16/9',
-    objectFit: 'cover' as const,
+    objectFit: 'cover',
     display: 'block',
     // 🛡️ Sentinel: Use sanitized URL to prevent CSS injection
     backgroundImage: safeThumbnailUrl ? `url('${safeThumbnailUrl}')` : undefined,
@@ -148,24 +148,24 @@ const LazyframeVideoComponent: React.FC<LazyframeVideoProps> = ({
     backgroundPosition: 'center'
   }), [width, height, safeThumbnailUrl]);
 
-  const titleOverlayStyle = useMemo(() => ({
-    pointerEvents: "none" as const,
+  const titleOverlayStyle = useMemo<React.CSSProperties>(() => ({
+    pointerEvents: "none",
     zIndex: 2,
     background: overlayBackground,
     width: "100%"
   }), []);
 
-  const titleTextStyle = useMemo(() => ({
+  const titleTextStyle = useMemo<React.CSSProperties>(() => ({
     color: "white",
     textShadow: "0 1px 4px rgba(0,0,0,0.8)"
   }), []);
 
-  const logoOverlayStyle = useMemo(() => ({
-    pointerEvents: "none" as const,
+  const logoOverlayStyle = useMemo<React.CSSProperties>(() => ({
+    pointerEvents: "none",
     zIndex: 2
   }), []);
 
-  const logoImageStyle = useMemo(() => ({
+  const logoImageStyle = useMemo<React.CSSProperties>(() => ({
     height: '50px', // Scaled 2x
     width: 'auto',
     filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
