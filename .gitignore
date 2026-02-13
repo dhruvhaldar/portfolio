@@ -38,3 +38,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 lighthouse-report.html
+
+# Windows case-sensitivity alias (prevents conflict with .jules/)
+.Jules/
