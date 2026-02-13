@@ -200,6 +200,47 @@ function createCodeBlock(props: any) {
   return <pre {...props} />;
 }
 
+function ProjectTable(props: any) {
+  throw new Error(`DEBUG_TABLE_PROPS: ${JSON.stringify(props)}`);
+  const actualHeaders = headers || data?.headers;
+  const actualRows = rows || data?.rows;
+
+  if (!actualHeaders || !actualRows) {
+    return null;
+  }
+  return (
+    <div
+      role="region"
+      aria-label="Table"
+      tabIndex={0}
+      style={{ overflowX: 'auto', marginBottom: '1rem' }}
+    >
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--neutral-border-medium)' }}>
+        <thead>
+          <tr style={{ background: 'var(--neutral-alpha-weak)' }}>
+            {actualHeaders.map((header: string, index: number) => (
+              <th key={index} style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '1px solid var(--neutral-border-weak)' }}>
+                <Text variant="body-strong-m">{header}</Text>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {actualRows.map((row: string[], rowIndex: number) => (
+            <tr key={rowIndex} style={{ borderBottom: '1px solid var(--neutral-border-weak)' }}>
+              {row.map((cell: string, cellIndex: number) => (
+                <td key={cellIndex} style={{ padding: '0.75rem' }}>
+                  <Text variant="body-default-m">{cell}</Text>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 
 const components = {
   p: createParagraph as any,
@@ -218,49 +259,14 @@ const components = {
   Text,
   CodeBlock,
   InlineCode,
-  // Accordion,
-  // AccordionGroup,
-  // Table,
   Feedback,
   Button,
-  // Card,
   Grid,
   Row,
   Column,
   Icon,
-  // Media,
   SmartLink,
-  Table: ({ data }: { data: { headers: string[], rows: string[][] } }) => (
-    <div
-      role="region"
-      aria-label="Table"
-      tabIndex={0}
-      style={{ overflowX: 'auto', marginBottom: '1rem' }}
-    >
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--neutral-border-medium)' }}>
-        <thead>
-          <tr style={{ background: 'var(--neutral-alpha-weak)' }}>
-            {data.headers.map((header, index) => (
-              <th key={index} style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '1px solid var(--neutral-border-weak)' }}>
-                <Text variant="body-strong-m">{header}</Text>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.rows.map((row, rowIndex) => (
-            <tr key={rowIndex} style={{ borderBottom: '1px solid var(--neutral-border-weak)' }}>
-              {row.map((cell, cellIndex) => (
-                <td key={cellIndex} style={{ padding: '0.75rem' }}>
-                  <Text variant="body-default-m">{cell}</Text>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ),
+  ProjectTable,
   iframe: (props: any) => <LazyframeVideo {...props} />,
   Video: LazyframeVideo,
 };
