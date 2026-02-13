@@ -1,3 +1,7 @@
 ## 2024-05-23 - Accordion Accessibility & Inert Attribute
 **Learning:** Collapsible components like `Accordion` relied solely on visual hiding (`height: 0`, `overflow: hidden`) and `aria-hidden`, but failed to remove interactive elements from the tab order. The `inert` attribute is the modern, robust solution for this, but requires careful handling in React/TS environments (boolean vs string) and verification in test environments (Happy DOM requires string "true" for `toHaveAttribute` checks, while React 19 handles boolean props correctly).
 **Action:** When implementing collapsible regions, always apply `inert` (or `inert={condition ? "true" : undefined}` for broad compatibility) to ensuring complete removal from the accessibility tree and interaction model. Verify with tests that specifically check for focusability or the `inert` attribute.
+
+## 2024-05-23 - Semantic Accordion Header
+**Learning:** `role="button"` on a container div that wraps a `Heading` creates an invalid `button > h3` structure in the accessibility tree, confusing screen reader navigation. Correct pattern is `h3 > button`, which can be achieved visually using `display: contents` on the heading wrapper to preserve flex layout.
+**Action:** When creating interactive headers (like accordions), always ensure the interactive element (button) is nested *inside* the heading element, using CSS to manage layout if necessary.

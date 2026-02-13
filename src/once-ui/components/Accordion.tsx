@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, forwardRef, useImperativeHandle, useId } from "react";
-import { Flex, Icon, Heading, Column } from ".";
+import { Flex, Icon, Heading, Column, Text } from ".";
 import styles from "./Accordion.module.scss";
 
 interface AccordionProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
@@ -16,7 +16,7 @@ interface AccordionProps extends Omit<React.ComponentProps<typeof Flex>, "title"
 /**
  * A collapsible accordion component.
  * Supports expanding and collapsing content with animation.
- * 
+ *
  * @remarks
  * The component is ref-forwarded and exposes imperative methods:
  * - `toggle()`: Toggle the accordion open/closed state
@@ -53,34 +53,41 @@ const Accordion: React.FC<AccordionProps> = forwardRef(
 
     return (
       <Flex fillWidth direction="column" className={styles.border}>
-        <Flex
-          tabIndex={0}
-          role="button"
-          className={styles.accordion}
-          cursor="pointer"
-          transition="macro-medium"
-          paddingY="16"
-          paddingX="20"
-          vertical="center"
-          horizontal="space-between"
-          onClick={toggleAccordion}
-          onKeyDown={handleKeyDown}
-          aria-expanded={isOpen}
-          aria-controls={contentId}
-        >
-          <Heading as="h3" variant="heading-strong-s">
-            {title}
-          </Heading>
-          <Icon
-            name="chevronDown"
-            size="m"
+        <Heading as="h3" id={`${uniqueId}-heading`} style={{ display: "contents" }}>
+          <Flex
+            as="button"
+            className={styles.accordion}
+            cursor="pointer"
+            transition="macro-medium"
+            paddingY="16"
+            paddingX="20"
+            vertical="center"
+            horizontal="space-between"
+            onClick={toggleAccordion}
+            onKeyDown={handleKeyDown}
+            aria-expanded={isOpen}
+            aria-controls={contentId}
+            fillWidth
             style={{
-              display: "flex",
-              transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "var(--transition-micro-medium)",
+              background: "transparent",
+              border: "none",
+              textAlign: "left",
+              font: "inherit",
+              color: "inherit",
             }}
-          />
-        </Flex>
+          >
+            <Text variant="heading-strong-s">{title}</Text>
+            <Icon
+              name="chevronDown"
+              size="m"
+              style={{
+                display: "flex",
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "var(--transition-micro-medium)",
+              }}
+            />
+          </Flex>
+        </Heading>
         <Flex
           id={contentId}
           fillWidth
