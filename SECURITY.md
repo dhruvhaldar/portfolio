@@ -2,12 +2,12 @@
 
 ## Supported Versions
 
-The following versions of the project are currently supported with security updates.
+The following versions of the project are currently supported with security updates. **Versions below Void 5.5.0 have CVE-2026-0969 (next-mdx-remote v5 Vulnerability)**.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.3.x   | :white_check_mark: |
-| < 1.3.0 | :x:                |
+| 5.5.0   | :white_check_mark: |
+| < 5.5.0 | :x:                |
 
 ## Reporting a Vulnerability
 
