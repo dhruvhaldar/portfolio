@@ -139,6 +139,8 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
         onMouseLeave={() => setIsHover(false)}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        aria-label={(!label && !children) ? (tooltip || prefixIcon || suffixIcon) : undefined}
+        aria-pressed={(!href && (!props.role || props.role === "button")) ? selected : undefined}
         {...props}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "m" : "s"} />}

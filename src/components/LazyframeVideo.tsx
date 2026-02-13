@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import lazyframe from 'lazyframe';
 import 'lazyframe/dist/lazyframe.css';
 
-import { extractYoutubeId } from "@/app/utils/security";
+import { extractYoutubeId, isSafeImageSrc } from "@/app/utils/security";
 import { Flex, Text } from "@/once-ui/components";
 
 interface LazyframeVideoProps {
@@ -39,7 +39,18 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
 
   const youtubeId = extractYoutubeId(src);
   const defaultThumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : undefined;
-  const activeThumbnailUrl = thumbnail || defaultThumbnailUrl;
+
+  // 🛡️ Sentinel: Validate thumbnail URL to prevent injection in style or attributes
+  const isThumbnailSafe = thumbnail ? isSafeImageSrc(thumbnail) : false;
+  if (thumbnail && !isThumbnailSafe) {
+    console.error(`Security: Blocked dangerous thumbnail source in LazyframeVideo: ${thumbnail}`);
+  }
+  const activeThumbnailUrl = (isThumbnailSafe ? thumbnail : undefined) || defaultThumbnailUrl;
+
+  // 🛡️ Sentinel: Sanitize URL for CSS context by encoding characters that break url() syntax
+  const safeThumbnailUrl = activeThumbnailUrl
+    ? encodeURI(activeThumbnailUrl).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29")
+    : undefined;
 
   // 🛡️ Sentinel: Reconstruct the URL using the sanitized ID to prevent payload injection
   // This ensures that even if a malicious URL passed regex validation (unlikely),
@@ -66,6 +77,9 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
           if (!iframe.getAttribute("title")) {
             iframe.setAttribute("title", title);
           }
+
+          // Palette: Focus the iframe so keyboard users can control the player immediately
+          iframe.focus();
         },
       });
       initializedRef.current = true;
@@ -106,7 +120,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      handlePlay();
+      // Trigger click on the lazyframe element to start loading
+      videoRef.current?.click();
     }
   };
 
@@ -147,7 +162,8 @@ const LazyframeVideo: React.FC<LazyframeVideoProps> = ({
             aspectRatio: '16/9',
             objectFit: 'cover',
             display: 'block',
-            backgroundImage: activeThumbnailUrl ? `url(${activeThumbnailUrl})` : undefined,
+            // 🛡️ Sentinel: Use sanitized URL to prevent CSS injection
+            backgroundImage: safeThumbnailUrl ? `url('${safeThumbnailUrl}')` : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}

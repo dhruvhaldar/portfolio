@@ -1,4 +1,5 @@
 import "@/once-ui/styles/index.scss";
+import { colors } from "@/once-ui/tokens/colors";
 import "@/once-ui/tokens/index.scss";
 import { baseURL, effects, style } from "@/app/resources";
 import { Header, RouteGuard } from "@/components";
@@ -41,7 +42,7 @@ export async function generateMetadata() {
       other: {
         rel: "apple-touch-icon",
         url: "/apple-touch-icon-precomposed.png",
-        "theme-color": "#60e4fc",
+        "theme-color": colors.cyan[800],
       },
     },
     openGraph: {
@@ -111,9 +112,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       style={fontVariables as React.CSSProperties}
     >
       <head>
+        {/* 🛡️ Sentinel: Enforce strict CSP to block tracking and require privacy-enhanced YouTube embeds */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://www.google-analytics.com https://*.ytimg.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://app.kit.com; connect-src 'self' https://www.google-analytics.com https://*.googleapis.com https://*.youtube.com; media-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; frame-src 'self' https://*.youtube.com https://*.youtube-nocookie.com; upgrade-insecure-requests;"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://www.google-analytics.com https://*.ytimg.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://app.kit.com; connect-src 'self' https://www.google-analytics.com https://*.googleapis.com https://*.youtube.com; media-src 'self' https://*.youtube-nocookie.com; frame-src 'self' https://*.youtube-nocookie.com; upgrade-insecure-requests;"
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
       </head>

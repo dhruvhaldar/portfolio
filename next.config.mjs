@@ -1,10 +1,4 @@
-import mdx from "@next/mdx";
 import withBundleAnalyzer from '@next/bundle-analyzer';
-
-const withMDX = mdx({
-  extension: /\.mdx?$/,
-  options: {},
-});
 
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -56,6 +50,14 @@ const nextConfig = {
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+          {
+            key: 'X-Permitted-Cross-Domain-Policies',
+            value: 'none',
           }
         ],
       },
@@ -63,4 +65,4 @@ const nextConfig = {
   },
 };
 
-export default bundleAnalyzer(withMDX(nextConfig));
+export default bundleAnalyzer(nextConfig);

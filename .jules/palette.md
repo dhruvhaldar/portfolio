@@ -1,3 +1,7 @@
-## 2025-10-26 - Accessible Character Counters
-**Learning:** Character counters visually positioned near inputs are not automatically announced by screen readers.
-**Action:** Always generate a unique ID for the counter element and add it to the input's `aria-describedby` list.
+## 2024-05-23 - Accordion Accessibility & Inert Attribute
+**Learning:** Collapsible components like `Accordion` relied solely on visual hiding (`height: 0`, `overflow: hidden`) and `aria-hidden`, but failed to remove interactive elements from the tab order. The `inert` attribute is the modern, robust solution for this, but requires careful handling in React/TS environments (boolean vs string) and verification in test environments (Happy DOM requires string "true" for `toHaveAttribute` checks, while React 19 handles boolean props correctly).
+**Action:** When implementing collapsible regions, always apply `inert` (or `inert={condition ? "true" : undefined}` for broad compatibility) to ensuring complete removal from the accessibility tree and interaction model. Verify with tests that specifically check for focusability or the `inert` attribute.
+
+## 2026-02-13 - MDX Custom Component Props Pattern
+**Learning:** Custom components rendered inside MDX content via `next-mdx-remote` v6 cannot receive JSX expression props (arrays, objects). Only plain string attributes are preserved during MDX compilation. The `ProjectTable` component was refactored to accept a single `data` string prop containing JSON, which is parsed internally. This pattern applies to any custom component that needs structured data in MDX.
+**Action:** When creating custom components for use in MDX content (via `next-mdx-remote`), design the API to accept a JSON string prop rather than multiple typed props. Document the expected JSON schema in a JSDoc comment above the component. Example: `<ProjectTable data='{"headers":[...],"rows":[...]}' />`.

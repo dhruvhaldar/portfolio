@@ -120,7 +120,16 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
         <Heading align="center" wrap="balance">
           This page is password protected
         </Heading>
-        <Column fillWidth gap="8" horizontal="center">
+        <Column
+          as="form"
+          fillWidth
+          gap="8"
+          horizontal="center"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handlePasswordSubmit();
+          }}
+        >
           <Input
             id="password"
             label="Password"
@@ -130,7 +139,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
             errorMessage={error}
             maxLength={128}
           />
-          <Button onClick={handlePasswordSubmit}>Submit</Button>
+          <Button type="submit">Submit</Button>
         </Column>
       </Column>
     );

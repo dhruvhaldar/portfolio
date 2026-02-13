@@ -37,3 +37,15 @@ This journal documents critical performance learnings for the codebase.
 ## 2025-02-26 - [Input/Textarea Double Render]
 **Learning:** `Input` and `Textarea` components were using `useEffect` and `useState` to synchronize `isFilled` and `internalLength` state with `props.value`. This caused a double render on every keystroke for controlled inputs.
 **Action:** Use derived state calculation during render for properties that depend on props (like `isFilled` depending on `value`), and only use local state for uncontrolled behavior.
+
+## 2026-02-13 - [Dual MDX Pipeline Conflict]
+**Learning:** Using `@next/mdx` (via `withMDX()` in `next.config.mjs`) alongside `next-mdx-remote` creates a dual MDX processing pipeline. `@next/mdx` intercepts MDX compilation at the webpack/turbopack level and strips JSX component props before `next-mdx-remote`'s runtime `<MDXRemote>` can process them. This results in custom components receiving empty `{}` props.
+**Action:** When using `next-mdx-remote` (especially v6+ with RSC), do NOT also use `@next/mdx` in `next.config.mjs`. They serve different purposes — `@next/mdx` is for importing `.mdx` files as pages/components, while `next-mdx-remote` is for rendering MDX from dynamic string sources.
+
+## 2026-02-13 - [next-mdx-remote v6 Expression Prop Stripping]
+**Learning:** `next-mdx-remote` v6 does not preserve JSX expression props (arrays/objects wrapped in `{}`) when passed directly to custom components in MDX content. String props like `text="hello"` work fine, but `headers={["A","B"]}` gets silently dropped and the component receives `{}`. This is a breaking change from v5.
+**Action:** Pass complex data to MDX components as JSON strings: `<MyComponent data='{"key":"value"}' />`. Parse the JSON inside the component with `JSON.parse()`. Wrap in try/catch for safety.
+
+## 2026-02-13 - [removeConsole Masking Debug Output]
+**Learning:** The `compiler.removeConsole` option in `next.config.mjs` (set to `process.env.NODE_ENV === 'production'`) strips ALL `console.*` calls during production builds via SWC. This includes `console.error` used for debugging, making it impossible to debug build-time issues via console output.
+**Action:** When debugging production build issues, temporarily set `removeConsole: false` in `next.config.mjs`. Alternatively, use `throw new Error()` for one-shot debugging since errors will always surface in build output.

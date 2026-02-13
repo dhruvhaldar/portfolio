@@ -78,6 +78,12 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         onMouseLeave={() => setIsPaused(false)}
         onFocus={() => setIsPaused(true)}
         onBlur={() => setIsPaused(false)}
+        onKeyDown={(e) => {
+          // Palette: Allow dismissing toast with Escape key for accessibility
+          if (e.key === "Escape") {
+            setVisible(false);
+          }
+        }}
       >
         <Flex fillWidth vertical="center" gap="8">
           {icon && <Icon size="l" onBackground={`${variant}-medium`} name={iconMap[variant]} />}

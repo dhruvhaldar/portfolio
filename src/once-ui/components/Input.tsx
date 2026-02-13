@@ -8,7 +8,7 @@ import {
   forwardRef,
   memo,
   useCallback,
-  useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Flex, Icon, Spinner, Text } from ".";
@@ -109,8 +109,15 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
 
     const maxLength = props.maxLength ?? 255;
 
-    const [validationError, setValidationError] = useState<ReactNode | null>(null);
     const debouncedValue = useDebounce(props.value, 1000);
+
+    // Bolt: Derive validation error during render to prevent extra cycle
+    const validationError = useMemo(() => {
+      if (!debouncedValue || !validate) {
+        return null;
+      }
+      return validate(debouncedValue);
+    }, [debouncedValue, validate]);
 
     const handleFocus = useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
@@ -146,28 +153,6 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
     );
 
     // Bolt: Removed useEffect for isFilled sync to prevent double renders
-
-    const validateInput = useCallback(() => {
-      if (!debouncedValue) {
-        setValidationError(null);
-        return;
-      }
-
-      if (validate) {
-        const error = validate(debouncedValue);
-        if (error) {
-          setValidationError(error);
-        } else {
-          setValidationError(null);
-        }
-      } else {
-        setValidationError(null);
-      }
-    }, [debouncedValue, validate]);
-
-    useEffect(() => {
-      validateInput();
-    }, [validateInput]);
 
     const displayError = validationError || errorMessage;
     const countId = `${id}-count`;

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Column, Flex, Text } from "@/once-ui/components";
+import { colors } from "@/once-ui/tokens/colors";
 import styles from "./about.module.scss";
 
 interface TableOfContentsProps {
@@ -55,7 +56,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
               vertical="center"
               onClick={() => scrollTo(section.title, 80)}
             >
-              <Flex height="1" minWidth="16" style={{ backgroundColor: '#08a97c' }}></Flex>
+              <Flex height="1" minWidth="16" style={{ backgroundColor: colors.emerald[600] }}></Flex>
               <Text>{section.title}</Text>
             </Flex>
             {about.tableOfContent.subItems && (
@@ -71,7 +72,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
                     vertical="center"
                     onClick={() => scrollTo(item, 80)}
                   >
-                    <Flex height="1" minWidth="8" style={{ backgroundColor: '#08a97c' }}></Flex>
+                    <Flex height="1" minWidth="8" style={{ backgroundColor: colors.emerald[600] }}></Flex>
                     <Text>{item}</Text>
                   </Flex>
                 ))}
