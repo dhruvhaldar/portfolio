@@ -44,6 +44,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <Flex
           tabIndex={0}
           role="button"
+          aria-label={userProps.name ? `User menu for ${userProps.name}` : "User menu"}
           direction="column"
           padding="4"
           radius="full"
