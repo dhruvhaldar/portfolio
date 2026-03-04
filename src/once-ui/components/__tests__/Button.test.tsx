@@ -64,3 +64,16 @@ describe("Button", () => {
     expect(container.firstChild).toHaveClass("danger");
   });
 });
+
+  it("adds computed aria-label when icon-only and no explicit aria-label is provided", () => {
+    render(<Button prefixIcon="refresh" />);
+    // Since there's no label or children, the button should fall back to using prefixIcon as aria-label
+    const button = screen.getByRole("button", { name: "refresh" });
+    expect(button).toBeInTheDocument();
+  });
+
+  it("does not override explicit aria-label when icon-only", () => {
+    render(<Button prefixIcon="refresh" aria-label="Refresh data" />);
+    const button = screen.getByRole("button", { name: "Refresh data" });
+    expect(button).toBeInTheDocument();
+  });

@@ -93,6 +93,7 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>
         href={href}
         ref={ref}
         disabled={isDisabled}
+        aria-label={props['aria-label'] || ((!label && !children) ? (prefixIcon || suffixIcon) : undefined)}
         aria-busy={loading ? "true" : undefined}
         className={classNames(
           styles.button,
