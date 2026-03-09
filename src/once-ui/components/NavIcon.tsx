@@ -40,10 +40,11 @@ const NavIcon = forwardRef<HTMLDivElement, NavIconProps>(
         height="40"
         minHeight="40"
         minWidth="40"
-        className={className}
+        className={classNames(styles.container, className)}
         style={style}
         onClick={onClick}
         onKeyDown={handleKeyDown}
+        // biome-ignore lint/a11y/useSemanticElements: NavIcon is a custom interactive element
         role="button"
         aria-label="Menu"
         aria-expanded={isActive}
