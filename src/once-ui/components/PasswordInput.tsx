@@ -26,6 +26,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>((props, re
           tooltip={showPassword ? "Hide password" : "Show password"}
           size="s"
           type="button"
+          aria-pressed={showPassword}
         />
       }
     />
