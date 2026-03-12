@@ -1,1 +1,17 @@
-.wrapper {border: 1px solid var(--static-transparent);transition: var(--transition-micro-medium);}.wrapper:hover {background-color: var(--neutral-alpha-weak);border: 1px solid var(--neutral-alpha-medium);}.wrapper.selected:hover {background-color: var(--neutral-background-strong);border: 1px solid var(--neutral-border-strong);}
+.wrapper {
+  border: 1px solid var(--static-transparent);
+  transition: var(--transition-micro-medium);
+  outline: none;
+}
+.wrapper:hover, .wrapper:focus-visible {
+  background-color: var(--neutral-alpha-weak);
+  border: 1px solid var(--neutral-alpha-medium);
+}
+.wrapper.selected:hover, .wrapper.selected:focus-visible {
+  background-color: var(--neutral-background-strong);
+  border: 1px solid var(--neutral-border-strong);
+}
+.wrapper:focus-visible {
+  outline: 2px solid var(--brand-solid-strong);
+  outline-offset: -2px;
+}
