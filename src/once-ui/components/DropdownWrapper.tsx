@@ -8,6 +8,7 @@ import React, {
   ReactNode,
   forwardRef,
   useImperativeHandle,
+  useId,
 } from "react";
 import {
   useFloating,
@@ -74,11 +75,14 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       floatingPlacement = "bottom-start",
       className,
       style,
-      dropdownId,
+      dropdownId: explicitDropdownId,
       dropdownRole = "listbox",
     },
     ref,
   ) => {
+    const generatedId = useId();
+    const dropdownId = explicitDropdownId || `dropdown-${generatedId}`;
+
     const wrapperRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [mounted, setMounted] = useState(false);
@@ -180,6 +184,7 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       ? React.cloneElement(trigger as React.ReactElement<any>, {
           "aria-haspopup": dropdownRole,
           "aria-expanded": isOpen,
+          "aria-controls": isOpen ? dropdownId : undefined,
         })
       : trigger;
 
