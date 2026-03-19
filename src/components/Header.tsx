@@ -43,6 +43,8 @@ export const Header = () => {
             style={{ minWidth: "fit-content" }}
           >
             <Flex
+              as="nav"
+              aria-label="Main Navigation"
               gap="4"
               vertical="center"
               textVariant="body-default-s"
