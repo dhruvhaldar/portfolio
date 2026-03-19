@@ -5,3 +5,7 @@
 ## 2026-02-13 - MDX Custom Component Props Pattern
 **Learning:** Custom components rendered inside MDX content via `next-mdx-remote` v6 cannot receive JSX expression props (arrays, objects). Only plain string attributes are preserved during MDX compilation. The `ProjectTable` component was refactored to accept a single `data` string prop containing JSON, which is parsed internally. This pattern applies to any custom component that needs structured data in MDX.
 **Action:** When creating custom components for use in MDX content (via `next-mdx-remote`), design the API to accept a JSON string prop rather than multiple typed props. Document the expected JSON schema in a JSDoc comment above the component. Example: `<ProjectTable data='{"headers":[...],"rows":[...]}' />`.
+
+## 2024-06-18 - Header Navigation Landmark Context
+**Learning:** `ToggleButton` items inside the `Header.tsx` lacked a structural, semantic wrapper, which means screen readers have no landmark to quickly locate the primary navigation menu.
+**Action:** Always wrap main site navigation blocks (specifically containers of navigation buttons/links) in a `<nav>` element with an `aria-label="Main Navigation"` or similar descriptive label so assistive technology can find it directly.
