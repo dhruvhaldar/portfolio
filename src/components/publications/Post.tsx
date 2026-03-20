@@ -1,9 +1,10 @@
 "use client";
 
-import { Flex, SmartLink, Spotlight, Text, IconButton, Icon } from "@/once-ui/components";
-import React, { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
+import { cleanCitationText, formatAuthors, formatYear } from "@/app/utils/formatCitation";
+import { Flex, Icon, IconButton, SmartLink, Spotlight, Text } from "@/once-ui/components";
 import styles from "./Posts.module.scss";
-import { formatAuthors, formatYear, cleanCitationText } from "@/app/utils/formatCitation";
 
 interface PostProps {
   /** The post data object */
@@ -35,28 +36,24 @@ export default function Post({ post, thumbnail = false }: PostProps) {
     <Spotlight
       className={`fill-width ${styles.citationHover}`}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        marginBottom: 'var(--static-space-16)',
-        padding: 'var(--static-space-24)',
-        borderRadius: 'var(--radius-l)',
-        backdropFilter: 'blur(10px)',
-        background: 'var(--neutral-alpha-weak)',
-        border: '1px solid var(--neutral-alpha-medium)',
-        transition: 'background 0.2s ease-in-out',
-        cursor: 'pointer'
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        marginBottom: "var(--static-space-16)",
+        padding: "var(--static-space-24)",
+        borderRadius: "var(--radius-l)",
+        backdropFilter: "blur(10px)",
+        background: "var(--neutral-alpha-weak)",
+        border: "1px solid var(--neutral-alpha-medium)",
+        transition: "background 0.2s ease-in-out",
+        cursor: "pointer",
       }}
     >
       <Flex fillWidth gap="16" vertical="start" horizontal="space-between">
-        <SmartLink
-          unstyled
-          key={post.slug}
-          href={`/publications/${post.slug}`}
-          style={{ flex: 1 }}
-        >
+        <SmartLink unstyled key={post.slug} href={`/publications/${post.slug}`} style={{ flex: 1 }}>
           <Text variant="body-default-m" onBackground="neutral-strong">
-            {authors} ({year}). <span style={{ fontWeight: 'bold' }}>{title}</span>. <span style={{ fontStyle: 'italic' }}>{publication}</span>.
+            {authors} ({year}). <span style={{ fontWeight: "bold" }}>{title}</span>.{" "}
+            <span style={{ fontStyle: "italic" }}>{publication}</span>.
           </Text>
         </SmartLink>
         <IconButton
@@ -64,6 +61,7 @@ export default function Post({ post, thumbnail = false }: PostProps) {
           variant="ghost"
           onClick={handleCopy}
           tooltip={copied ? "Copied!" : "Copy citation"}
+          aria-label={copied ? "Citation copied" : `Copy citation for ${title}`}
         />
       </Flex>
     </Spotlight>
