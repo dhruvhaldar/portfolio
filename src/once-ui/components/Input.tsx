@@ -3,16 +3,16 @@
 import classNames from "classnames";
 import type React from "react";
 import {
-  type InputHTMLAttributes,
-  type ReactNode,
   forwardRef,
+  type InputHTMLAttributes,
   memo,
+  type ReactNode,
   useCallback,
   useMemo,
   useState,
 } from "react";
-import { Flex, Icon, Spinner, Text } from ".";
 import useDebounce from "../hooks/useDebounce";
+import { Flex, Icon, Spinner, Text } from ".";
 import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -249,7 +249,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
           )}
         </Flex>
         {displayError && errorMessage !== false && (
-          <Flex paddingX="16" gap="8" vertical="center">
+          <Flex paddingX="16" gap="8" vertical="center" aria-live="polite">
             <Icon name="errorCircle" size="s" onBackground="danger-weak" />
             <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
               {validationError || errorMessage}
@@ -291,5 +291,5 @@ InputComponent.displayName = "Input";
 const Input = memo(InputComponent);
 Input.displayName = "Input";
 
-export { Input };
 export type { InputProps };
+export { Input };

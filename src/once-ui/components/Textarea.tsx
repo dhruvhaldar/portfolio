@@ -1,18 +1,18 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  TextareaHTMLAttributes,
-  useCallback,
-  ReactNode,
-  memo,
-} from "react";
 import classNames from "classnames";
+import React, {
+  forwardRef,
+  memo,
+  type ReactNode,
+  type TextareaHTMLAttributes,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import useDebounce from "../hooks/useDebounce";
 import { Flex, Icon, Text } from ".";
 import styles from "./Input.module.scss";
-import useDebounce from "../hooks/useDebounce";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   /** Element ID */
@@ -29,15 +29,15 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   description?: ReactNode;
   /** Border radius */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Custom class name */
   className?: string;
   /** Prefix element */
@@ -99,15 +99,17 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         ? props.value.toString().length
         : props.defaultValue
           ? props.defaultValue.toString().length
-          : 0
+          : 0,
     );
     // Safe length access for controlled component
     const internalLength = isControlled
-      ? (props.value ? props.value.toString().length : 0)
+      ? props.value
+        ? props.value.toString().length
+        : 0
       : internalLengthState;
 
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
-    const [height, setHeight] = useState<number | undefined>(undefined);
+    const [height, _setHeight] = useState<number | undefined>(undefined);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
     const debouncedValue = useDebounce(props.value, 1000);
 
@@ -206,15 +208,18 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       },
     );
 
-    const handleRef = useCallback((node: HTMLTextAreaElement | null) => {
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-      //@ts-ignore
-      textareaRef.current = node;
-    }, [ref]);
+    const handleRef = useCallback(
+      (node: HTMLTextAreaElement | null) => {
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+        //@ts-expect-error
+        textareaRef.current = node;
+      },
+      [ref],
+    );
 
     return (
       <Flex
@@ -293,7 +298,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         </Flex>
         {displayError && errorMessage !== false && (
-          <Flex paddingX="16" gap="8" vertical="center">
+          <Flex paddingX="16" gap="8" vertical="center" aria-live="polite">
             <Icon name="errorCircle" size="s" onBackground="danger-weak" />
             <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
               {displayError}
@@ -314,11 +319,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         {showCount && (
           <Flex paddingX="16" fillWidth horizontal="end">
-            <Text
-              id={countId}
-              variant="body-default-s"
-              onBackground="neutral-weak"
-            >
+            <Text id={countId} variant="body-default-s" onBackground="neutral-weak">
               <span aria-hidden="true">
                 {internalLength} / {props.maxLength || 4096}
               </span>
@@ -339,5 +340,5 @@ TextareaComponent.displayName = "Textarea";
 const Textarea = memo(TextareaComponent);
 Textarea.displayName = "Textarea";
 
-export { Textarea };
 export type { TextareaProps };
+export { Textarea };
