@@ -293,7 +293,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         </Flex>
         {displayError && errorMessage !== false && (
-          <Flex paddingX="16" gap="8" vertical="center">
+          <Flex paddingX="16" gap="8" vertical="center" aria-live="polite">
             <Icon name="errorCircle" size="s" onBackground="danger-weak" />
             <Text as="span" id={`${id}-error`} variant="body-default-s" onBackground="danger-weak">
               {displayError}
