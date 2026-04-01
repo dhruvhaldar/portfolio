@@ -61,6 +61,7 @@ const AvatarGroupComponent = forwardRef<HTMLDivElement, AvatarGroupProps>(
             value={`+${remainingCount}`}
             className={styles.avatar}
             size={size}
+            aria-label={`${remainingCount} more avatars`}
             style={{
               ...style,
               zIndex: reverse ? -1 : displayedAvatars.length + 1,
