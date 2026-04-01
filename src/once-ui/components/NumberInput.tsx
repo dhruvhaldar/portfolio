@@ -1,11 +1,9 @@
 "use client";
 
-import React, { forwardRef, useState } from "react";
-import { Input } from ".";
-import { Flex } from ".";
-import { IconButton } from ".";
-import styles from "./NumberInput.module.scss";
 import classNames from "classnames";
+import React, { forwardRef, useState } from "react";
+import { Flex, IconButton, Input } from ".";
+import styles from "./NumberInput.module.scss";
 
 interface NumberInputProps
   extends Omit<React.ComponentProps<typeof Input>, "type" | "value" | "onChange"> {
@@ -36,9 +34,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     React.useEffect(() => {
       if (value !== undefined) {
-        const formatted = padStart
-          ? value.toString().padStart(padStart, "0")
-          : value.toString();
+        const formatted = padStart ? value.toString().padStart(padStart, "0") : value.toString();
         setLocalValue(formatted);
       }
     }, [value, padStart]);
@@ -48,11 +44,8 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       setLocalValue(newValue);
 
       const numValue = parseFloat(newValue);
-      if (!isNaN(numValue) && onChange) {
-        const clampedValue = Math.min(
-          max ?? numValue,
-          Math.max(min ?? numValue, numValue)
-        );
+      if (!Number.isNaN(numValue) && onChange) {
+        const clampedValue = Math.min(max ?? numValue, Math.max(min ?? numValue, numValue));
         onChange(clampedValue);
       }
     };
@@ -110,6 +103,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 className={classNames(styles.stepper, "transition-micro-medium")}
               >
                 <IconButton
+                  type="button"
                   icon="chevronUp"
                   variant="ghost"
                   size="s"
@@ -124,6 +118,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 className={classNames(styles.stepper, "transition-micro-medium")}
               >
                 <IconButton
+                  type="button"
                   icon="chevronDown"
                   variant="ghost"
                   size="s"
@@ -142,4 +137,5 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 );
 
 NumberInput.displayName = "NumberInput";
+
 export { NumberInput };

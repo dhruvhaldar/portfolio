@@ -41,6 +41,7 @@ const StatusIndicatorComponent = forwardRef<HTMLDivElement, StatusIndicatorProps
     return (
       <Flex
         ref={ref}
+        role="status"
         style={style}
         className={classNames(styles.statusIndicator, styles[size], styles[color], className)}
         aria-label={ariaLabel}

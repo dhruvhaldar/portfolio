@@ -1,0 +1,11 @@
+--- src/once-ui/components/Button.tsx
++++ src/once-ui/components/Button.tsx
+@@ -93,7 +93,7 @@
+         href={href}
+         ref={ref}
+         disabled={isDisabled}
+-        aria-label={(!label && !children) ? (prefixIcon || suffixIcon) : undefined}
++        aria-label={props['aria-label'] || ((!label && !children) ? (prefixIcon || suffixIcon) : undefined)}
+         aria-busy={loading ? "true" : undefined}
+         className={classNames(
+           styles.button,

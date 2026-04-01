@@ -8,6 +8,7 @@ import React, {
   ReactNode,
   forwardRef,
   useImperativeHandle,
+  useId,
 } from "react";
 import {
   useFloating,
@@ -74,11 +75,14 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       floatingPlacement = "bottom-start",
       className,
       style,
-      dropdownId,
+      dropdownId: explicitDropdownId,
       dropdownRole = "listbox",
     },
     ref,
   ) => {
+    const generatedId = useId();
+    const dropdownId = explicitDropdownId || `dropdown-${generatedId}`;
+
     const wrapperRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [mounted, setMounted] = useState(false);
@@ -87,12 +91,15 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     const isControlled = controlledIsOpen !== undefined;
     const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
 
-    const handleOpenChange = useCallback((newIsOpen: boolean) => {
-      if (!isControlled) {
-        setInternalIsOpen(newIsOpen);
-      }
-      onOpenChange?.(newIsOpen);
-    }, [isControlled, onOpenChange]);
+    const handleOpenChange = useCallback(
+      (newIsOpen: boolean) => {
+        if (!isControlled) {
+          setInternalIsOpen(newIsOpen);
+        }
+        onOpenChange?.(newIsOpen);
+      },
+      [isControlled, onOpenChange],
+    );
 
     const { x, y, strategy, refs, update } = useFloating({
       placement: floatingPlacement,
@@ -141,17 +148,23 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
       }
     }, [isOpen, mounted, refs, update]);
 
-    const handleClickOutside = useCallback((event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        handleOpenChange(false);
-      }
-    }, [handleOpenChange]);
+    const handleClickOutside = useCallback(
+      (event: MouseEvent) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+          handleOpenChange(false);
+        }
+      },
+      [handleOpenChange],
+    );
 
-    const handleFocusOut = useCallback((event: FocusEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.relatedTarget as Node)) {
-        handleOpenChange(false);
-      }
-    }, [handleOpenChange]);
+    const handleFocusOut = useCallback(
+      (event: FocusEvent) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.relatedTarget as Node)) {
+          handleOpenChange(false);
+        }
+      },
+      [handleOpenChange],
+    );
 
     useEffect(() => {
       if (!isOpen) return;
@@ -169,9 +182,10 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
     // instead of the wrapper div, preventing invalid ARIA nesting (e.g., button inside button)
     const accessibleTrigger = React.isValidElement(trigger)
       ? React.cloneElement(trigger as React.ReactElement<any>, {
-        "aria-haspopup": dropdownRole,
-        "aria-expanded": isOpen,
-      })
+          "aria-haspopup": dropdownRole,
+          "aria-expanded": isOpen,
+          "aria-controls": isOpen ? dropdownId : undefined,
+        })
       : trigger;
 
     return (
@@ -182,8 +196,8 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
         style={{
           ...(minHeight && isOpen
             ? {
-              marginBottom: `${minHeight + 8}px`,
-            }
+                marginBottom: `${minHeight + 8}px`,
+              }
             : {}),
           ...style,
         }}
@@ -195,6 +209,13 @@ const DropdownWrapper = forwardRef<HTMLDivElement, DropdownWrapperProps>(
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             handleOpenChange(!isOpen);
+          } else if (e.key === "Escape" && isOpen) {
+            e.preventDefault();
+            handleOpenChange(false);
+            if (wrapperRef.current) {
+              const triggerElement = wrapperRef.current.firstElementChild as HTMLElement;
+              triggerElement?.focus();
+            }
           }
         }}
       >
