@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, forwardRef } from "react";
-import { Flex, Input, InputProps, IconButton, Icon } from ".";
+import type React from "react";
+import { forwardRef, useRef } from "react";
+import { Flex, Icon, IconButton, Input, type InputProps } from ".";
 
 interface ColorInputProps extends Omit<InputProps, "onChange" | "value"> {
   /** Color value (hex) */
@@ -21,6 +22,13 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
     const handleHexClick = () => {
       if (colorInputRef.current) {
         colorInputRef.current.click();
+      }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleHexClick();
       }
     };
 
@@ -54,14 +62,18 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
               </Flex>
             </Flex>
             <Flex
+              role="button"
+              tabIndex={0}
+              aria-label="Select color"
               border="neutral-strong"
               className={`prefix ${value ? "" : "hidden"}`}
               onClick={handleHexClick}
+              onKeyDown={handleKeyDown}
               height="20"
               radius="xs"
+              cursor="interactive"
               style={{
                 backgroundColor: value,
-                cursor: "pointer",
                 width: value ? "var(--static-space-20)" : "var(--static-space-0)",
                 transform: value ? "scale(1)" : "scale(0)",
                 opacity: value ? "1" : "0",
@@ -81,8 +93,13 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
             }}
           >
             <Flex
+              role="button"
+              tabIndex={0}
+              aria-label="Select color"
               onClick={handleHexClick}
+              onKeyDown={handleKeyDown}
               fillWidth
+              cursor="interactive"
               style={{
                 opacity: value ? "1" : "0",
                 transition: "opacity 0.2s ease-in-out",

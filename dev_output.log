@@ -17,6 +17,15 @@ https://nextjs.org/telemetry
 
 ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
 ⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
-✓ Ready in 1064ms
+✓ Ready in 844ms
 ○ Compiling / ...
- GET / 200 in 18.2s (compile: 14.3s, render: 3.9s)
+ GET / 200 in 16.3s (compile: 13.9s, render: 2.5s)
+✓ Finished writing to filesystem cache in 10.4s
+ GET / 200 in 158ms (compile: 8ms, render: 150ms)
+ GET / 200 in 147ms (compile: 6ms, render: 140ms)
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+ GET /color-test 200 in 2.5s (compile: 1432ms, render: 1048ms)
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+⨯ API Routes cannot be used with "output: export". See more info here: https://nextjs.org/docs/advanced-features/static-html-export
+✓ Compiled in 49ms
