@@ -1,7 +1,8 @@
 "use client";
 
-import { Flex, Scroller, SmartImage } from "@/once-ui/components";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Flex, Scroller, SmartImage } from "@/once-ui/components";
+import interactiveStyles from "./SharedInteractiveStyles.module.scss";
 
 interface Image {
   src: string;
@@ -35,6 +36,7 @@ interface CarouselIndicatorProps {
 const CarouselIndicator = memo(({ index, isActive, onClick }: CarouselIndicatorProps) => {
   return (
     <Flex
+      className={interactiveStyles.element}
       onClick={() => onClick(index)}
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -73,6 +75,7 @@ const CarouselThumbnail = memo(
   ({ image, isActive, style, ...rest }: CarouselThumbnailProps) => {
     return (
       <Flex
+        className={interactiveStyles.element}
         style={{
           border: isActive ? "2px solid var(--brand-solid-strong)" : "none",
           borderRadius: "var(--radius-m-nest-4)",
@@ -246,4 +249,5 @@ const Carousel: React.FC<CarouselProps> = ({
 };
 
 Carousel.displayName = "Carousel";
+
 export { Carousel };

@@ -1,3 +1,3 @@
-## 2024-10-24 - [Dynamic ARIA labels for copy-to-clipboard buttons]
-**Learning:** Icon-only copy buttons (like those used for citations or direct links) often lack sufficient context when they only say "Copy". Furthermore, when the state changes to "Copied!", the `aria-label` needs to reflect this state change dynamically to ensure screen reader users receive the same confirmation as sighted users who see a checkmark icon.
-**Action:** Always bind the `aria-label` of a copy button to its `copied` state (e.g., `aria-label={copied ? "Citation copied" : \`Copy citation for ${title}\`}`) and ensure the default label describes *what* is being copied rather than just the action.
+## 2025-04-05 - Carousel Focus Visibility
+**Learning:** Carousel pagination controls (indicators and thumbnails) implemented as generic Flex components lack default keyboard focus indicators. Even when given `role="button"` and `tabIndex={0}`, they are invisible to keyboard users without explicitly mapping a focus-visible outline.
+**Action:** Always map the shared `.element` style from `SharedInteractiveStyles.module.scss` (which provides a standard `:focus-visible` ring) to custom interactive components in this design system.
