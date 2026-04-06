@@ -18,15 +18,15 @@ interface CommonProps {
   size?: "s" | "m" | "l";
   /** Border radius configuration */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Content alignment */
   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between";
   /** Whether to fill available width */
@@ -139,8 +139,9 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
         onMouseLeave={() => setIsHover(false)}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        aria-label={(!label && !children) ? (tooltip || prefixIcon || suffixIcon) : undefined}
-        aria-pressed={(!href && (!props.role || props.role === "button")) ? selected : undefined}
+        aria-label={!label && !children ? tooltip || prefixIcon || suffixIcon : undefined}
+        aria-pressed={!href && (!props.role || props.role === "button") ? selected : undefined}
+        aria-current={href && selected ? "page" : undefined}
         {...props}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "m" : "s"} />}

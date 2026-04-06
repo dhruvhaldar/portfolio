@@ -27,7 +27,14 @@ const InteractiveDetails: React.FC<InteractiveDetailsProps> = forwardRef<
           {label}
         </Text>
         {iconButtonProps?.tooltip && (
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation();
+              }
+            }}
+          >
             <IconButton size="s" variant="ghost" icon="helpCircle" {...iconButtonProps} />
           </div>
         )}
