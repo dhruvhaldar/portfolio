@@ -1,11 +1,6 @@
-## 2024-05-23 - Accordion Accessibility & Inert Attribute
-**Learning:** Collapsible components like `Accordion` relied solely on visual hiding (`height: 0`, `overflow: hidden`) and `aria-hidden`, but failed to remove interactive elements from the tab order. The `inert` attribute is the modern, robust solution for this, but requires careful handling in React/TS environments (boolean vs string) and verification in test environments (Happy DOM requires string "true" for `toHaveAttribute` checks, while React 19 handles boolean props correctly).
-**Action:** When implementing collapsible regions, always apply `inert` (or `inert={condition ? "true" : undefined}` for broad compatibility) to ensuring complete removal from the accessibility tree and interaction model. Verify with tests that specifically check for focusability or the `inert` attribute.
-
-## 2026-02-13 - MDX Custom Component Props Pattern
-**Learning:** Custom components rendered inside MDX content via `next-mdx-remote` v6 cannot receive JSX expression props (arrays, objects). Only plain string attributes are preserved during MDX compilation. The `ProjectTable` component was refactored to accept a single `data` string prop containing JSON, which is parsed internally. This pattern applies to any custom component that needs structured data in MDX.
-**Action:** When creating custom components for use in MDX content (via `next-mdx-remote`), design the API to accept a JSON string prop rather than multiple typed props. Document the expected JSON schema in a JSDoc comment above the component. Example: `<ProjectTable data='{"headers":[...],"rows":[...]}' />`.
-
-## 2024-06-18 - Header Navigation Landmark Context
-**Learning:** `ToggleButton` items inside the `Header.tsx` lacked a structural, semantic wrapper, which means screen readers have no landmark to quickly locate the primary navigation menu.
-**Action:** Always wrap main site navigation blocks (specifically containers of navigation buttons/links) in a `<nav>` element with an `aria-label="Main Navigation"` or similar descriptive label so assistive technology can find it directly.
+## 2024-10-24 - [Dynamic ARIA labels for copy-to-clipboard buttons]
+**Learning:** Icon-only copy buttons (like those used for citations or direct links) often lack sufficient context when they only say "Copy". Furthermore, when the state changes to "Copied!", the `aria-label` needs to reflect this state change dynamically to ensure screen reader users receive the same confirmation as sighted users who see a checkmark icon.
+**Action:** Always bind the `aria-label` of a copy button to its `copied` state (e.g., `aria-label={copied ? "Citation copied" : \`Copy citation for ${title}\`}`) and ensure the default label describes *what* is being copied rather than just the action.
+## 2024-05-18 - Prevent Keyboard Bubbling on Interactive Details
+**Learning:** Keyboard navigation (Enter/Space) on inner interactive elements like an IconButton tooltip can bubble up to the parent Checkbox/Switch, causing accidental toggling.
+**Action:** When nesting interactive elements inside a clickable row/label, explicitly add `onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') e.stopPropagation(); }}` to the inner element's wrapper to trap these specific interaction keys without breaking global keys like Escape.
