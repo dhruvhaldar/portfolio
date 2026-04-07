@@ -131,7 +131,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
         onMouseLeave={() => setIsHover(false)}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        aria-label={tooltip || icon}
+        aria-label={props["aria-label"] || tooltip || (!children ? icon : undefined)}
         {...(!href ? { type: "button" } : {})}
         {...props}
       >
