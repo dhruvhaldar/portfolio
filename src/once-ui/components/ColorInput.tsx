@@ -30,6 +30,13 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
       } as React.ChangeEvent<HTMLInputElement>);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleHexClick();
+      }
+    };
+
     return (
       <Input
         style={{ cursor: "pointer" }}
@@ -54,9 +61,13 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
               </Flex>
             </Flex>
             <Flex
+              role="button"
+              tabIndex={0}
+              aria-label="Select color"
               border="neutral-strong"
               className={`prefix ${value ? "" : "hidden"}`}
               onClick={handleHexClick}
+              onKeyDown={handleKeyDown}
               height="20"
               radius="xs"
               style={{
@@ -81,7 +92,11 @@ const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
             }}
           >
             <Flex
+              role="button"
+              tabIndex={0}
+              aria-label={`Current color is ${value}. Click to select color.`}
               onClick={handleHexClick}
+              onKeyDown={handleKeyDown}
               fillWidth
               style={{
                 opacity: value ? "1" : "0",
