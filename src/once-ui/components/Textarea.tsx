@@ -253,6 +253,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
               {...props}
               ref={handleRef}
               id={id}
+              aria-required={props.required}
               rows={typeof lines === "number" ? lines : 1}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
               onFocus={handleFocus}
