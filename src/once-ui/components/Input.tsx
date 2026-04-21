@@ -215,6 +215,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
               ref={ref}
               id={id}
               aria-busy={loading}
+              aria-required={props.required}
               placeholder={labelAsPlaceholder ? label : props.placeholder}
               onFocus={handleFocus}
               onBlur={handleBlur}
