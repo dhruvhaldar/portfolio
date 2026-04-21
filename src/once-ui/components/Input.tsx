@@ -3,16 +3,16 @@
 import classNames from "classnames";
 import type React from "react";
 import {
-  type InputHTMLAttributes,
-  type ReactNode,
   forwardRef,
+  type InputHTMLAttributes,
   memo,
+  type ReactNode,
   useCallback,
   useMemo,
   useState,
 } from "react";
-import { Flex, Icon, Spinner, Text } from ".";
 import useDebounce from "../hooks/useDebounce";
+import { Flex, Icon, Spinner, Text } from ".";
 import styles from "./Input.module.scss";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -223,6 +223,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(
               className={inputClassNames}
               aria-describedby={describedBy.length > 0 ? describedBy.join(" ") : undefined}
               aria-invalid={!!displayError}
+              aria-required={props.required ? "true" : undefined}
             />
             {!labelAsPlaceholder && (
               <Text
@@ -292,5 +293,5 @@ InputComponent.displayName = "Input";
 const Input = memo(InputComponent);
 Input.displayName = "Input";
 
-export { Input };
 export type { InputProps };
+export { Input };
