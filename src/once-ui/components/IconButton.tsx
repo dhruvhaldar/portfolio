@@ -106,12 +106,14 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
     );
 
     const radiusSize = size === "s" || size === "m" ? "m" : "l";
+    const isDisabled = (props as any).disabled;
 
     return (
       <ElementType
         id={id}
         href={href}
         ref={ref}
+        aria-disabled={isDisabled ? "true" : undefined}
         className={classNames(
           buttonStyles.button,
           buttonStyles[variant],
