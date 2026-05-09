@@ -2,11 +2,10 @@
 
 import classNames from "classnames";
 import type React from "react";
-import { type ReactNode, forwardRef, memo } from "react";
-import { ElementType } from "./ElementType";
-
+import { forwardRef, memo, type ReactNode } from "react";
 import { Arrow, Flex, Icon, Spinner } from ".";
 import styles from "./Button.module.scss";
+import { ElementType } from "./ElementType";
 
 interface CommonProps {
   /** Visual variant of the button */
@@ -93,7 +92,10 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>
         href={href}
         ref={ref}
         disabled={isDisabled}
-        aria-label={props['aria-label'] || ((!label && !children) ? (prefixIcon || suffixIcon) : undefined)}
+        aria-disabled={isDisabled ? "true" : undefined}
+        aria-label={
+          props["aria-label"] || (!label && !children ? prefixIcon || suffixIcon : undefined)
+        }
         aria-busy={loading ? "true" : undefined}
         className={classNames(
           styles.button,
