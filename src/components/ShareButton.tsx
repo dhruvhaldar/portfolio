@@ -14,6 +14,7 @@ interface ShareButtonProps {
 export function ShareButton({ url, title, text = "Share", style }: ShareButtonProps) {
   const { addToast } = useToast();
   const [isSharing, setIsSharing] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
 
   const handleShare = async () => {
     setIsSharing(true);
@@ -30,6 +31,8 @@ export function ShareButton({ url, title, text = "Share", style }: ShareButtonPr
       } else {
         // Fallback to clipboard
         await navigator.clipboard.writeText(url);
+        setHasCopied(true);
+        setTimeout(() => setHasCopied(false), 2000);
         addToast({
           variant: "success",
           message: "Link copied to clipboard",
@@ -55,7 +58,15 @@ export function ShareButton({ url, title, text = "Share", style }: ShareButtonPr
       style={style}
       className={styles.glassy}
       loading={isSharing}
-      aria-label={title ? `Share ${title}` : "Share project"}
+      aria-label={
+        hasCopied
+          ? "Link copied to clipboard"
+          : isSharing
+            ? "Sharing"
+            : title
+              ? `Share ${title}`
+              : "Share project"
+      }
     >
       {text}
     </Button>
