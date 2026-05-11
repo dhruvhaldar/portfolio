@@ -33,6 +33,10 @@ vi.mock("@/once-ui/components", () => ({
   Input: ({ onChange, value }: any) => (
     <input data-testid="password-input" value={value} onChange={onChange} />
   ),
+  // biome-ignore lint/suspicious/noExplicitAny: Mocking components
+  PasswordInput: ({ onChange, value }: any) => (
+    <input data-testid="password-input" value={value} onChange={onChange} />
+  ),
   Spinner: () => <div>Loading...</div>,
 }));
 
