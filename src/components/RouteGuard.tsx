@@ -1,9 +1,9 @@
 "use client";
 
-import { protectedRoutes, routes } from "@/app/resources";
-import { Button, Column, Flex, Heading, Input, Spinner } from "@/once-ui/components";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { protectedRoutes, routes } from "@/app/resources";
+import { Button, Column, Flex, Heading, PasswordInput, Spinner } from "@/once-ui/components";
 
 interface RouteGuardProps {
   /** The child components to render if authentication passes */
@@ -130,10 +130,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
             handlePasswordSubmit();
           }}
         >
-          <Input
+          <PasswordInput
             id="password"
             label="Password"
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             errorMessage={error}
