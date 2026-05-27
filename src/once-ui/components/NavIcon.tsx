@@ -46,7 +46,7 @@ const NavIcon = forwardRef<HTMLDivElement, NavIconProps>(
         onKeyDown={handleKeyDown}
         // biome-ignore lint/a11y/useSemanticElements: NavIcon is a custom interactive element
         role="button"
-        aria-label="Menu"
+        aria-label={isActive ? "Close menu" : "Open menu"}
         aria-expanded={isActive}
         {...rest}
       >
