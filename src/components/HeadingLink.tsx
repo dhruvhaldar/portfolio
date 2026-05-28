@@ -1,6 +1,7 @@
 "use client";
 
 import type React from "react";
+import { useState } from "react";
 import styles from "@/components/HeadingLink.module.scss";
 import { Flex, Heading, IconButton, useToast } from "@/once-ui/components";
 
@@ -27,11 +28,14 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({
   ...rest
 }) => {
   const { addToast } = useToast();
+  const [copied, setCopied] = useState(false);
 
   const copyURL = (id: string): void => {
     const url = `${window.location.origin}${window.location.pathname}#${id}`;
     navigator.clipboard.writeText(url).then(
       () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
         addToast({ variant: "success", message: "Link copied to clipboard." });
       },
       () => {
@@ -67,10 +71,10 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({
       <IconButton
         className={styles.visibility}
         size="s"
-        icon="openLink"
+        icon={copied ? "check" : "openLink"}
         variant="ghost"
-        tooltip="Copy link"
-        aria-label="Copy link to heading"
+        tooltip={copied ? "Copied!" : "Copy link"}
+        aria-label={copied ? "Link copied" : "Copy link to heading"}
         tooltipPosition="right"
       />
     </Flex>
