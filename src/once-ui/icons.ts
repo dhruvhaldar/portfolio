@@ -47,19 +47,9 @@ import {
   FaRProject,
 } from "react-icons/fa6";
 
-import {
-  SiAnsys,
-  SiSiemens,
-} from "react-icons/si";
+import { SiAnsys, SiSiemens } from "react-icons/si";
 
-import {
-  FaChartPie,
-  FaCalculator,
-  FaWind,
-  FaRocket,
-  FaCube,
-  FaCode
-} from "react-icons/fa6";
+import { FaChartPie, FaCalculator, FaWind, FaRocket, FaCube, FaCode } from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {
   // Navigation icons
