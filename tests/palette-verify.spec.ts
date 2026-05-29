@@ -13,5 +13,5 @@ test('Footer icons have accessible labels', async ({ page }) => {
 
   // Check if it has aria-label="GitHub"
   // Note: content.tsx defines name: "GitHub" which is passed as tooltip.
-  await expect(githubLink).toHaveAttribute('aria-label', 'GitHub');
+  await expect(githubLink).toHaveAttribute('aria-label', 'GitHub (opens in a new tab)');
 });

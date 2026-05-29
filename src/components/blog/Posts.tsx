@@ -1,5 +1,5 @@
 import { getPosts } from "@/app/utils/utils";
-import { Grid } from "@/once-ui/components";
+import { Flex, Grid, Text } from "@/once-ui/components";
 import Post from "@/components/blog/Post";
 
 interface PostsProps {
@@ -29,27 +29,16 @@ export function Posts({
   const allPosts = getPosts(["src", "app", "blog", "posts"], false);
 
   // Posts are already sorted by publishedAt in descending order by getPosts
-  const filteredPosts = allPosts.filter(
-    (post) => !exclude.includes(post.slug)
-  );
+  const filteredPosts = allPosts.filter((post) => !exclude.includes(post.slug));
 
   const displayedPosts = range
-    ? filteredPosts.slice(
-      range[0] - 1,
-      range.length === 2 ? range[1] : filteredPosts.length
-    )
+    ? filteredPosts.slice(range[0] - 1, range.length === 2 ? range[1] : filteredPosts.length)
     : filteredPosts;
 
   return (
     <>
-      {displayedPosts.length > 0 && (
-        <Grid
-          columns={columns}
-          mobileColumns="1"
-          fillWidth
-          marginBottom="40"
-          gap="m"
-        >
+      {displayedPosts.length > 0 ? (
+        <Grid columns={columns} mobileColumns="1" fillWidth marginBottom="40" gap="m">
           {displayedPosts.map((post, index) => (
             <Post
               key={post.slug}
@@ -60,6 +49,20 @@ export function Posts({
             />
           ))}
         </Grid>
+      ) : (
+        <Flex
+          fillWidth
+          padding="48"
+          horizontal="center"
+          vertical="center"
+          radius="l"
+          border="neutral-medium"
+          background="neutral-alpha-weak"
+        >
+          <Text onBackground="neutral-weak" variant="body-default-m">
+            No posts found.
+          </Text>
+        </Flex>
       )}
     </>
   );
