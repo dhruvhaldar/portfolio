@@ -1,9 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { newsletter } from "@/app/resources";
 import { isValidEmail } from "@/app/utils/security";
 import { Button, Column, Flex, Heading, Input, Mask, SmartImage, Text } from "@/once-ui/components";
-import { useState } from "react";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ export const Newsletter = () => {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch(newsletter.action, {
+      const _response = await fetch(newsletter.action, {
         method: "POST",
         body: formData,
         mode: "no-cors",
@@ -39,7 +39,7 @@ export const Newsletter = () => {
       // This is standard for third-party form endpoints like ConvertKit when submitting from client-side without a proxy.
       setStatus("success");
       setEmail("");
-    } catch (err) {
+    } catch (_err) {
       setStatus("error");
       setError("Something went wrong. Please try again.");
     }
@@ -138,8 +138,8 @@ export const Newsletter = () => {
                     errorMessage={error}
                     maxLength={254}
                   />
-                  <Button fillWidth variant="primary" size="m" disabled={status === "loading"}>
-                    {status === "loading" ? "Subscribing..." : "Subscribe"}
+                  <Button fillWidth variant="primary" size="m" loading={status === "loading"}>
+                    Subscribe
                   </Button>
                 </Flex>
               </form>
