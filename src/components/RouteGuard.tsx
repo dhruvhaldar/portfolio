@@ -22,6 +22,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const performChecks = async () => {
@@ -76,6 +77,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }, [pathname]);
 
   const handlePasswordSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/authenticate", {
         method: "POST",
@@ -95,6 +97,8 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     } catch (error) {
       console.error("Authentication failed:", error);
       setError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -138,7 +142,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
             errorMessage={error}
             maxLength={128}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" loading={isSubmitting}>Submit</Button>
         </Column>
       </Column>
     );
