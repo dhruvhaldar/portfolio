@@ -124,14 +124,11 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
     };
 
-    const handleSelect = useCallback(
-      (value: string) => {
-        if (onSelectRef.current) onSelectRef.current(value);
-        setIsDropdownOpen(false);
-        setIsFilled(true);
-      },
-      [],
-    );
+    const handleSelect = useCallback((value: string) => {
+      if (onSelectRef.current) onSelectRef.current(value);
+      setIsDropdownOpen(false);
+      setIsFilled(true);
+    }, []);
 
     // Bolt: Stable handler to prevent Option re-renders
     const handleOptionClick = useCallback(
@@ -225,7 +222,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
             }}
             value={displayValue}
             onFocus={handleFocus}
-          onBlur={handleBlur}
+            onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             readOnly
             className={classNames("cursor-interactive", "fill-width", {
@@ -242,6 +239,17 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
             aria-controls={listboxId}
             aria-haspopup="listbox"
             aria-expanded={isDropdownOpen}
+            hasSuffix={
+              <Icon
+                name="chevronDown"
+                size="m"
+                onBackground="neutral-weak"
+                style={{
+                  transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s ease",
+                }}
+              />
+            }
           />
         }
         dropdownId={listboxId}
