@@ -1,7 +1,7 @@
 "use client";
 
-import { Flex, Scroller, SmartImage } from "@/once-ui/components";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Flex, Scroller, SmartImage } from "@/once-ui/components";
 
 interface Image {
   src: string;
@@ -45,6 +45,7 @@ const CarouselIndicator = memo(({ index, isActive, onClick }: CarouselIndicatorP
       role="button"
       tabIndex={0}
       aria-label={`Go to slide ${index + 1}`}
+      aria-current={isActive ? "true" : undefined}
       style={{
         background: isActive
           ? "var(--neutral-on-background-strong)"
@@ -231,6 +232,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 role="button"
                 tabIndex={0}
                 aria-label={`Go to slide ${index + 1}`}
+                aria-current={index === activeIndex ? "true" : undefined}
                 onKeyDown={(e: React.KeyboardEvent) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -246,4 +248,5 @@ const Carousel: React.FC<CarouselProps> = ({
 };
 
 Carousel.displayName = "Carousel";
+
 export { Carousel };
