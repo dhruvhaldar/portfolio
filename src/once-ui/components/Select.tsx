@@ -302,7 +302,15 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
                 />
               ))}
               {filteredOptions.length === 0 && (
-                <Flex fillWidth vertical="center" horizontal="center" paddingX="16" paddingY="32">
+                <Flex
+                  fillWidth
+                  vertical="center"
+                  horizontal="center"
+                  paddingX="16"
+                  paddingY="32"
+                  role="status"
+                  aria-live="polite"
+                >
                   {emptyState}
                 </Flex>
               )}
