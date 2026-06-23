@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, forwardRef } from "react";
-import { IconButton, Icon, Flex, Text } from ".";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Flex, Icon, IconButton, Text } from ".";
 import styles from "./Toast.module.scss";
 
 interface ToastProps {
@@ -57,6 +58,20 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
       }
     }, [visible, onClose]);
 
+    // Palette: Allow dismissing toast with Escape key for accessibility globally
+    useEffect(() => {
+      if (!visible) return;
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setVisible(false);
+        }
+      };
+
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [visible]);
+
     const { role, ariaLive } = accessibilityMap[variant];
 
     return (
@@ -78,12 +93,6 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(
         onMouseLeave={() => setIsPaused(false)}
         onFocus={() => setIsPaused(true)}
         onBlur={() => setIsPaused(false)}
-        onKeyDown={(e) => {
-          // Palette: Allow dismissing toast with Escape key for accessibility
-          if (e.key === "Escape") {
-            setVisible(false);
-          }
-        }}
       >
         <Flex fillWidth vertical="center" gap="8">
           {icon && <Icon size="l" onBackground={`${variant}-medium`} name={iconMap[variant]} />}
