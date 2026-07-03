@@ -1,7 +1,8 @@
 "use client";
 
-import React, { forwardRef, ReactNode } from "react";
 import classNames from "classnames";
+import type React from "react";
+import { forwardRef, type ReactNode } from "react";
 import { Icon } from ".";
 import { ElementType } from "./ElementType";
 
@@ -66,17 +67,18 @@ const SmartLink = forwardRef<HTMLAnchorElement, SmartLinkProps>(
         "fit-width": !fillWidth,
         "px-4 mx-4": !unstyled,
       }),
+      "aria-current": selected ? "page" : undefined,
       style: !unstyled
         ? {
-          ...(selected && {
-            textDecoration: "underline",
-          }),
-          ...style,
-        }
+            ...(selected && {
+              textDecoration: "underline",
+            }),
+            ...style,
+          }
         : {
-          textDecoration: "none",
-          ...style,
-        },
+            textDecoration: "none",
+            ...style,
+          },
       ...props,
     };
 
