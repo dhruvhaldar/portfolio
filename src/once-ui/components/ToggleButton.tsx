@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, ReactNode, useState, useEffect, memo } from "react";
+import React, { forwardRef, ReactNode, useState, useEffect, memo, useId } from "react";
 import classNames from "classnames";
 import { ElementType } from "./ElementType";
 import { Flex, Icon, Tooltip } from ".";
@@ -87,6 +87,9 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
 
+    const generatedId = useId();
+    const tooltipId = tooltip ? `${props.id || generatedId}-tooltip` : undefined;
+
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       setIsHover(true);
       if (onFocus) onFocus(event as any);
@@ -142,6 +145,7 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
         aria-label={!label && !children ? tooltip || prefixIcon || suffixIcon : undefined}
         aria-pressed={!href && (!props.role || props.role === "button") ? selected : undefined}
         aria-current={href && selected ? "page" : undefined}
+        aria-describedby={tooltip && isTooltipVisible ? tooltipId : undefined}
         {...props}
       >
         {prefixIcon && <Icon name={prefixIcon} size={size === "l" ? "m" : "s"} />}
@@ -158,7 +162,7 @@ const ToggleButtonComponent = forwardRef<HTMLElement, ToggleButtonProps>(
         {suffixIcon && <Icon name={suffixIcon} size={size === "l" ? "m" : "s"} />}
         {tooltip && isTooltipVisible && (
           <Flex position="absolute" zIndex={1} className={iconStyles[tooltipPosition]}>
-            <Tooltip label={tooltip} />
+            <Tooltip id={tooltipId} label={tooltip} />
           </Flex>
         )}
       </ElementType>

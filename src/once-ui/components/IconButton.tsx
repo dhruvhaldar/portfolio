@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import type React from "react";
-import { forwardRef, type ReactNode, useEffect, useState } from "react";
+import { forwardRef, type ReactNode, useEffect, useState, useId } from "react";
 import { Flex, Icon, Tooltip } from ".";
 import buttonStyles from "./Button.module.scss";
 import { ElementType } from "./ElementType";
@@ -71,6 +71,9 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const [isHover, setIsHover] = useState(false);
 
+    const generatedId = useId();
+    const tooltipId = tooltip ? `${id || generatedId}-tooltip` : undefined;
+
     const handleFocus = (event: React.FocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       setIsHover(true);
       if (onFocus) onFocus(event as any);
@@ -99,7 +102,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
         {children ? children : <Icon name={icon} size="s" />}
         {tooltip && isTooltipVisible && (
           <Flex position="absolute" zIndex={1} className={iconStyles[tooltipPosition]}>
-            <Tooltip label={tooltip} />
+            <Tooltip id={tooltipId} label={tooltip} />
           </Flex>
         )}
       </>
@@ -114,6 +117,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps | AnchorProps>(
         href={href}
         ref={ref}
         aria-disabled={isDisabled ? "true" : undefined}
+        aria-describedby={tooltip && isTooltipVisible ? tooltipId : undefined}
         className={classNames(
           buttonStyles.button,
           buttonStyles[variant],
