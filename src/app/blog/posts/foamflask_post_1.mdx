@@ -1,6 +1,6 @@
 ---
-title: "Making OpenFOAM Accessible: Why I Built FOAMFlask"
-publishedAt: "2025-12-27"
+title: "Making OpenFOAM Accessible: Why I Built FOAMTrame"
+publishedAt: "2026-07-24"
 summary: "A personal look at bridging the gap between powerful CFD and usability, and the engineering challenges behind creating a web-based GUI for OpenFOAM."
 tag: "Engineering, CFD"
 image: "/images/gallery/OpenFOAM.avif"
@@ -11,7 +11,7 @@ OpenFOAM is a beast. It’s arguably the most powerful open-source CFD (Computat
 
 When I first started with OpenFOAM, I spent more time wrestling with `blockMeshDict` syntax and directory structures than actually understanding fluid dynamics. I realized that for beginners, the barrier isn't the physics—it's the interface.
 
-**I built FOAMFlask to change that.**
+**I built FOAMTrame to change that.**
 
 I wanted to create a tool that lets you focus on the *simulation*, not the syntax. A tool where you can load a tutorial, press a button, and immediately see the results, without ever opening a terminal.
 
@@ -28,7 +28,7 @@ Building a web interface for a heavy-duty C++ solver brought some unique enginee
 ### 1. The "Root" Problem
 OpenFOAM is often run inside Docker containers for consistency. But Docker containers typically run as `root`, meaning any simulation files they write to your computer end up locked—you can't delete or move them. 
 
-To fix this, I implemented an automated **Permissions Auto-Fix** system. When FOAMFlask starts, it performs a dry-run check. If it detects that files are being locked, it dynamically reconfigures the container to run with your specific User ID (UID). It’s a small detail, but it prevents the headache of constant `sudo rm -rf` commands.
+To fix this, I implemented an automated **Permissions Auto-Fix** system. When FOAMTrame starts, it performs a dry-run check. If it detects that files are being locked, it dynamically reconfigures the container to run with your specific User ID (UID). It’s a small detail, but it prevents the headache of constant `sudo rm -rf` commands.
 
 ### 2. Seeing the Invisible
 CFD is visual. Staring at scaling residuals in a log file is boring. I wanted users to *see* the physics as it evolves. 
@@ -37,7 +37,7 @@ I integrated **PyVista** (a Python wrapper for VTK) on the backend to process th
 
 ## What it Feels Like to Use
 
-Using FOAMFlask feels less like coding and more like conducting an experiment.
+Using FOAMTrame feels less like coding and more like conducting an experiment.
 
 1. **You start the server** (`python app.py`) and open your browser used to the modern comfort of React-like responsiveness (though I built it with vanilla JS and Tailwind for raw performance).
 2. **You pick a tutorial** from a dropdown. No digging through `/opt/openfoam/tutorials`.
@@ -46,6 +46,6 @@ Using FOAMFlask feels less like coding and more like conducting an experiment.
 
 ## What's Next?
 
-Right now, FOAMFlask is a great "runner" for existing cases. The next step is to turn it into a full "creator"—building a visual editor for `controlDict` and `fvSchemes` so you never have to worry about a missing semicolon again.
+Right now, FOAMTrame is a great "runner" for existing cases. The next step is to turn it into a full "creator"—building a visual editor for `controlDict` and `fvSchemes` so you never have to worry about a missing semicolon again.
 
 If you're interested in making CFD more accessible, or just want to see how I glued Flask, Docker, and OpenFOAM together, check out the project. It’s my small contribution to making the learning curve just a little bit flatter.

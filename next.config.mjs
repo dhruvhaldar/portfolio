@@ -1,4 +1,19 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
+import { execFileSync } from 'node:child_process';
+
+const getLastUpdatedDate = () => {
+  if (process.env.NEXT_PUBLIC_SITE_UPDATED_DATE) {
+    return process.env.NEXT_PUBLIC_SITE_UPDATED_DATE;
+  }
+
+  try {
+    return execFileSync('git', ['log', '-1', '--format=%cs'], {
+      encoding: 'utf8',
+    }).trim();
+  } catch {
+    return new Date().toISOString().slice(0, 10);
+  }
+};
 
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -7,6 +22,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  env: {
+    NEXT_PUBLIC_SITE_UPDATED_DATE: getLastUpdatedDate(),
+  },
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
   productionBrowserSourceMaps: false,

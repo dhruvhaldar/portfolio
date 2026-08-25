@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
  */
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const lastUpdated = process.env.NEXT_PUBLIC_SITE_UPDATED_DATE;
   const pathname = usePathname();
 
   return (
@@ -33,6 +34,9 @@ export const Footer = () => {
         <Text variant="body-default-s" onBackground="neutral-strong">
           <Text onBackground="neutral-medium">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
+          {lastUpdated && (
+            <Text onBackground="neutral-medium">/ Updated {lastUpdated}</Text>
+          )}
           <Text className={styles.footerText} onBackground="neutral-medium" paddingX="2">
             / Made with{" "}
             <SmartLink

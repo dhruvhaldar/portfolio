@@ -7,6 +7,7 @@ import { blog } from "@/app/resources";
 import { Posts } from "@/components/blog/Posts";
 import { Newsletter } from "@/components/blog/Newsletter";
 import { baseURL, person } from "@/app/resources";
+import { getPosts } from "@/app/utils/utils";
 import styles from './page.module.css';
 
 export async function generateMetadata() {
@@ -32,6 +33,8 @@ export async function generateMetadata() {
 }
 
 export default function Blog() {
+  const postCount = getPosts(["src", "app", "blog", "posts"], false).length;
+
   return (
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
       <Column maxWidth="m" fillWidth gap="l">
@@ -46,16 +49,22 @@ export default function Blog() {
           <Posts range={[1, 1]} columns="1" thumbnail direction="row" />
 
           {/* Recent Posts (Next 2) */}
-          <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
+          {postCount > 1 && (
+            <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
+          )}
 
           {/* Newsletter */}
           <Newsletter />
 
-          <Heading variant="heading-strong-xl" marginLeft="l" marginBottom="xs">
-            Earlier posts
-          </Heading>
-          {/* Earlier Posts (Rest) */}
-          <Posts range={[4]} columns="2" thumbnail direction="column" />
+          {postCount > 3 && (
+            <>
+              <Heading variant="heading-strong-xl" marginLeft="l" marginBottom="xs">
+                Earlier posts
+              </Heading>
+              {/* Earlier Posts (Rest) */}
+              <Posts range={[4]} columns="2" thumbnail direction="column" />
+            </>
+          )}
         </Column>
       </Column>
     </Column>
