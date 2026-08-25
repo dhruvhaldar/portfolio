@@ -12,24 +12,20 @@ test.describe('Blog Page Navigation and Content', () => {
     const posts = page.locator('a[href^="/blog/"]');
     await expect(posts.first()).toBeVisible();
     
-    // Using the sample post we added "Styling your portfolio"
-    // The slug is likely 'styling-your-portfolio' or 'styling' depending on filename/fontmatter.
-    // Filename 'styling.mdx' -> slug 'styling'.
-    // Title "Styling your portfolio".
-    
-    // Check for specific post title
-    await expect(page.getByText('Styling your portfolio')).toBeVisible();
+    await expect(page.getByText('Making OpenFOAM Accessible: Why I Built FOAMTrame')).toBeVisible();
+    await expect(page.getByText('July 24, 2026')).toBeVisible();
+    await expect(page.getByText('No posts found.')).toHaveCount(0);
+    await expect(page.getByText(/Updated \d{4}-\d{2}-\d{2}/)).toBeVisible();
   });
 
   test('Blog post page loads correctly', async ({ page }) => {
-    await page.goto('/blog/styling');
+    await page.goto('/blog/foamflask_post_1');
 
     // Verify Post Title
-    await expect(page.getByRole('heading', { name: 'Styling your portfolio', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Making OpenFOAM Accessible: Why I Built FOAMTrame', exact: true })).toBeVisible();
 
-    // Verify metadata/content
-    await expect(page.getByText('Magic Portfolio')).toBeVisible(); // tag
-    await expect(page.getByText('Global style')).toBeVisible(); // h2
+    // Verify post content
+    await expect(page.getByRole('heading', { name: 'The Vision: "One Click to Physics"' })).toBeVisible();
   });
 
   test('Gallery link is hidden in navigation', async ({ page }) => {
