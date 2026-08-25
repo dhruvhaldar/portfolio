@@ -1,9 +1,9 @@
 "use client";
 
-import { protectedRoutes, routes } from "@/app/resources";
-import { Button, Column, Flex, Heading, Input, Spinner } from "@/once-ui/components";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { protectedRoutes, routes } from "@/app/resources";
+import { Button, Column, Flex, Heading, PasswordInput, Spinner } from "@/once-ui/components";
 
 interface RouteGuardProps {
   /** The child components to render if authentication passes */
@@ -22,6 +22,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const performChecks = async () => {
@@ -76,6 +77,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }, [pathname]);
 
   const handlePasswordSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/authenticate", {
         method: "POST",
@@ -95,6 +97,8 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     } catch (error) {
       console.error("Authentication failed:", error);
       setError("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -130,16 +134,15 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
             handlePasswordSubmit();
           }}
         >
-          <Input
+          <PasswordInput
             id="password"
             label="Password"
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             errorMessage={error}
             maxLength={128}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" loading={isSubmitting}>Submit</Button>
         </Column>
       </Column>
     );

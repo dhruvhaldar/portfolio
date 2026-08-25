@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
 import classNames from "classnames";
-import { Flex, DropdownWrapper, User, UserProps } from ".";
+import type React from "react";
+import { DropdownWrapper, Flex, User, type UserProps } from ".";
+import type { DropdownWrapperProps } from "./DropdownWrapper";
 import styles from "./UserMenu.module.scss";
-import { DropdownWrapperProps } from "./DropdownWrapper";
 
 interface UserMenuProps
   extends UserProps,
-  Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
+    Pick<DropdownWrapperProps, "minHeight" | "minWidth" | "maxWidth"> {
   /** Selected state */
   selected?: boolean;
   /** Dropdown content */
@@ -34,6 +34,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
   return (
     <DropdownWrapper
+      dropdownRole="menu"
       minWidth={minWidth}
       maxWidth={maxWidth}
       minHeight={minHeight}
@@ -44,6 +45,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <Flex
           tabIndex={0}
           role="button"
+          aria-haspopup="menu"
           aria-label={userProps.name ? `User menu for ${userProps.name}` : "User menu"}
           direction="column"
           padding="4"
@@ -57,10 +59,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <User {...userProps} />
         </Flex>
       }
-      dropdown={<>{dropdown}</>}
+      dropdown={dropdown}
     />
   );
 };
 
 UserMenu.displayName = "UserMenu";
+
 export { UserMenu };

@@ -29,15 +29,15 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   description?: ReactNode;
   /** Border radius */
   radius?:
-  | "none"
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "top-left"
-  | "top-right"
-  | "bottom-right"
-  | "bottom-left";
+    | "none"
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "top-left"
+    | "top-right"
+    | "bottom-right"
+    | "bottom-left";
   /** Custom class name */
   className?: string;
   /** Prefix element */
@@ -99,11 +99,13 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         ? props.value.toString().length
         : props.defaultValue
           ? props.defaultValue.toString().length
-          : 0
+          : 0,
     );
     // Safe length access for controlled component
     const internalLength = isControlled
-      ? (props.value ? props.value.toString().length : 0)
+      ? props.value
+        ? props.value.toString().length
+        : 0
       : internalLengthState;
 
     const [validationError, setValidationError] = useState<ReactNode | null>(null);
@@ -206,15 +208,18 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
       },
     );
 
-    const handleRef = useCallback((node: HTMLTextAreaElement | null) => {
-      if (typeof ref === "function") {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-      //@ts-ignore
-      textareaRef.current = node;
-    }, [ref]);
+    const handleRef = useCallback(
+      (node: HTMLTextAreaElement | null) => {
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+        //@ts-ignore
+        textareaRef.current = node;
+      },
+      [ref],
+    );
 
     return (
       <Flex
@@ -314,11 +319,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         {showCount && (
           <Flex paddingX="16" fillWidth horizontal="end">
-            <Text
-              id={countId}
-              variant="body-default-s"
-              onBackground="neutral-weak"
-            >
+            <Text id={countId} variant="body-default-s" onBackground="neutral-weak">
               <span aria-hidden="true">
                 {internalLength} / {props.maxLength || 4096}
               </span>

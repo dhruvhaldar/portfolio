@@ -249,6 +249,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
+        aria-describedby={description ? "dialog-description" : undefined}
       >
         <Flex
           fill
@@ -319,7 +320,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
                 />
               </Flex>
               {description && (
-                <Text variant="body-default-s" onBackground="neutral-weak">
+                <Text id="dialog-description" variant="body-default-s" onBackground="neutral-weak">
                   {description}
                 </Text>
               )}
