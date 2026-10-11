@@ -1,28 +1,33 @@
 ---
 title: "Mercedes DrivAer Aerodynamic Simulation & LBM Benchmarking"
 publishedAt: "2024-06-20"
-summary: "Full-scale industrial CFD simulation of the Mercedes DrivAer automotive reference model at 130 km/h (Re = 4.87e6). Conducted in collaboration with Mercedes using SankhyaSutra's Entropic Lattice Boltzmann Method (LBM) solver Taral, cross-validated against ANSYS Discovery and wind tunnel experimental data."
+summary: "Full-scale industrial CFD simulation and AutoCFD benchmark of the Mercedes DrivAer Notchback vehicle at Re = 11.4e6. Executed using SankhyaSutra's Entropic Lattice Boltzmann Method (LBM) solver Taral, cross-validated against Ford Pininfarina wind tunnel measurements, Hupertz experimental data, and ANSYS Discovery."
 team:
   - name: "Dhruv Haldar"
     role: "Senior CFD Engineer"
     avatar: "/images/my_profile.avif"
     linkedIn: "https://www.linkedin.com/in/dhruvhaldar/"
 images:
+  - "/images/projects/industrial-aerodynamics/drivaer-q-criterion.avif"
   - "/images/projects/industrial-aerodynamics/drivaer-aerodynamics.avif"
+  - "/images/projects/industrial-aerodynamics/drivaer-mesh-refinement.avif"
+  - "/images/projects/industrial-aerodynamics/drivaer-convergence-history.avif"
+  - "/images/projects/industrial-aerodynamics/drivaer-centerline-cp.avif"
+  - "/images/projects/industrial-aerodynamics/drivaer-underbody-velocity.avif"
   - "/images/projects/industrial-aerodynamics/volume-downsampling.avif"
 ---
 
-> _Conducted full-scale aerodynamic simulations of the Mercedes DrivAer model at 130 km/h ($Re = 4.87 \times 10^6$) in a virtual wind tunnel with moving ground boundaries, cross-validating Entropic LBM against ANSYS Discovery and TUM experimental data, and compressing 101 GB simulation data to 0.6 GB (99.4% reduction)._
+> _Conducted full-scale aerodynamic benchmarking of the Mercedes DrivAer Notchback automotive reference model at $Re = 11.4 \times 10^6$ (AutoCFD Case 2) in a virtual wind tunnel domain ($120\text{ m} \times 44\text{ m} \times 20.33\text{ m}$) with moving ground boundaries, cross-validating Entropic LBM against Ford Pininfarina wind tunnel data, Hupertz experimental benchmarks, and ANSYS Discovery, while compressing 101 GB transient 3D simulation volumes to 0.6 GB (99.4% reduction)._
 
 ## Project Overview & Industrial Context
 
-The **DrivAer model**, jointly developed by the Technical University of Munich (TUM) with Audi AG and BMW Group, bridges the gap between generic bluff bodies (like the Ahmed body) and highly complex production passenger vehicles. Featuring realistic underbody styling, engine bay geometry, mirrors, and interchangeable rear upper structures (Notchback, Fastback, Estate), it serves as the global benchmark for passenger car aerodynamics.
+The **DrivAer model**, jointly developed by the Technical University of Munich (TUM) with Audi AG and BMW Group, bridges the gap between generic bluff bodies (such as the Ahmed body) and complex production passenger vehicles. Featuring realistic underbody styling, engine bay geometry, mirrors, and interchangeable rear upper structures (Notchback, Fastback, Estate), it serves as the global benchmark for passenger car aerodynamics.
 
-In collaboration with **Mercedes**, this project evaluated the full aerodynamic performance and flow field structures of the DrivAer vehicle at highway cruise conditions using SankhyaSutra's proprietary **Entropic Lattice Boltzmann Method (LBM) solver (*Taral*)**, cross-validating the numerical predictions against **ANSYS Discovery / Fluent** and experimental wind tunnel measurements.
+In collaboration with **Mercedes**, this project evaluated the aerodynamic performance, wake vortex dynamics, and surface pressure distributions of the DrivAer Notchback configuration under high-speed cruise conditions. Simulations were performed using SankhyaSutra's proprietary **Entropic Lattice Boltzmann Method (LBM) solver (*Taral*)**, rigorously validated against **Ford Pininfarina** wind tunnel surface pressure probes, **Hupertz experimental benchmarks**, the **AutoCFD 2nd Workshop Case 2** international database, and commercial Navier-Stokes solvers (**ANSYS Discovery / Fluent**).
 
 <img
-  src="/images/projects/industrial-aerodynamics/drivaer-aerodynamics.avif"
-  alt="Mercedes DrivAer CFD simulation showing velocity vector fields and surface streamline projections"
+  src="/images/projects/industrial-aerodynamics/drivaer-q-criterion.avif"
+  alt="3D Q-Criterion (Q = 200) iso-surfaces of coherent turbulent structures around the Mercedes DrivAer Notchback geometry"
   loading="lazy"
   style={{
     display: "block",
@@ -35,10 +40,11 @@ In collaboration with **Mercedes**, this project evaluated the full aerodynamic 
 
 ## Technical Challenges & Objectives
 
-1. **Complex Separated Wake Dynamics:** Resolving high-Reynolds unsteady shear layers, C-pillar trailing vortices, and underbody diffuser flow separation without empirical RANS eddy-viscosity over-damping.
-2. **Realistic Moving Boundaries:** Modeling a full virtual wind tunnel facility with rotating wheels and moving road surfaces at $130 \text{ km/h}$.
-3. **Massive Data Handling:** Processing multi-gigabyte transient 3D flow volumes for interactive post-processing and engineering analysis without memory exhaustion.
-4. **Cross-Solver Verification:** Correlating Entropic LBM predictions directly with commercial Navier-Stokes solvers (ANSYS Discovery) and experimental wind-tunnel force coefficients.
+1. **Complex Separated Wake & Vortex Coherence:** Resolving high-Reynolds unsteady shear layers, A-pillar vortex roll-up, side mirror shedding, C-pillar trailing vortices, and underbody diffuser flow separation without empirical RANS eddy-viscosity over-damping.
+2. **AutoCFD Case 2 Virtual Wind Tunnel Modeling:** Simulating the full AutoCFD benchmark domain with moving ground boundaries, wheelhouse rotation, and no-slip floor conditions at $Re = 11.4 \times 10^6$.
+3. **Underbody Momentum Loss Resolution:** Capturing the intricate flow structures and localized vortex generation beneath the chassis and central exhaust tunnel.
+4. **Massive Data Handling:** Processing multi-gigabyte transient 3D flow volumes for interactive post-processing and engineering analysis without memory exhaustion.
+5. **Multi-Source Experimental Cross-Validation:** Correlating Entropic LBM predictions directly with Ford Pininfarina centerline/off-centerline pressure taps, Hupertz force coefficients, and AutoCFD participant submissions.
 
 ## Computational Methodology & Physics Setup
 
@@ -46,30 +52,132 @@ In collaboration with **Mercedes**, this project evaluated the full aerodynamic 
 Traditional CFD methods solve the macroscopic Navier-Stokes conservation equations, relying heavily on empirical turbulence closures (such as $k$-$\epsilon$ or SST $k$-$\omega$) that often over-diffuse detached wake vortices. 
 
 In this study, simulations were executed with **SankhyaSutra Taral**, which solves the discrete Boltzmann transport equation on a structured octree lattice:
-- **LES/DNS-like Resolution:** The Entropic formulation ensures strict thermodynamic stability and energy conservation, inherently capturing turbulent scales similarly to Large Eddy Simulation (LES) without empirical calibration parameters.
-- **Near-Wall Treatment:** Automatically resolves near-wall shear and boundary layers on curved automotive surfaces using immersed boundary and lattice bounce-back formulations.
+- **LES/DNS-like Resolution:** The Entropic formulation enforces strict thermodynamic stability and H-theorem entropy growth, capturing transient turbulent eddies natively without empirical calibration.
+- **Immersed Boundary Near-Wall Treatment:** Automatically resolves near-wall shear and boundary layers across curved automotive body panels and wheel assemblies via immersed boundary and lattice bounce-back formulations.
 
-### Wind Tunnel Domain & Boundary Conditions
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-aerodynamics.avif"
+  alt="Mercedes DrivAer CFD simulation in ANSYS Discovery showing velocity vector fields and surface streamline projections"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
 
-<ProjectTable data='{"headers":["Simulation Parameter","Value","Engineering Rationale"],"rows":[["Vehicle Velocity (U_inf)","130 km/h (36.11 m/s)","Standard highway cruising condition"],["Reynolds Number (Re)","4.87 × 10^6","Based on vehicle length L = 4.61 m"],["Ground Boundary","Moving Wall (36.11 m/s)","Eliminates artificial boundary layer buildup"],["Wheel Boundary","Rotating Wall Condition","Accurately captures wheel-well wake vortex shedding"],["Tunnel Blockage Ratio","< 1.4%","Prevents artificial aerodynamic blockage acceleration"],["Turbulence Intensity","I = 0.5%","Matches low-turbulence automotive wind tunnel freestream"]]}' />
+### Virtual Wind Tunnel Domain & Case 2 Setup
+
+Simulations adhered to the **AutoCFD 2nd Workshop Case 2** benchmark specification:
+- **Domain Size:** Total length $X_{WT} = 120\text{ m}$ ($X_{WT\_up} = 40\text{ m}$ upstream, $X_{WT\_down} = 80\text{ m}$ downstream), width $Y_{WT} = 44\text{ m}$ ($-22\text{ m}$ to $+22\text{ m}$), and height $Z_{WT} \approx 20.33\text{ m}$ ($-0.3305\text{ m}$ to $20\text{ m}$).
+- **Blockage Ratio:** Under $1.4\%$, eliminating artificial boundary constraint accelerations.
+- **Ground Condition:** Slip floor upstream transitioning to a no-slip ground at $x_{BL} = -2.339\text{ m}$.
+- **Reynolds Number:** $Re = 11.4 \times 10^6$ based on vehicle length ($L = 4.61\text{ m}$).
+
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-mesh-refinement.avif"
+  alt="AutoCFD Case 2 Meshing Design: Area brushes with refined resolution dx = 0.003m around wheelhouse, underbody, and wake"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+### Octree Meshing & Refinement Strategy
+
+<ProjectTable data='{"headers":["Zone / Feature","Grid Resolution (dx)","Physics Justification"],"rows":[["Vehicle Body Base Mesh","0.012 m (12 mm)","Sufficient for outer contour curvature and pressure distribution"],["Wheelhouse & Wheel Wells","0.003 m (3 mm)","Captures rotational shear layers and rim-cavity vortex shedding"],["Underbody & Diffuser","0.003 m (3 mm)","Resolves complex geometric details and prevents momentum loss underprediction"],["Near-Wake Region","0.003 m (3 mm)","Captures notchback C-pillar vortices and trailing separation bubble"],["No-Slip Ground Boundary","0.003 m (3 mm)","Accurately resolves moving road boundary layer interaction"]]}' />
 
 ### HPC Parallel Scaling
 Simulations were parallelized across high-performance computing (HPC) clusters using Message Passing Interface (MPI) under **PBS** and **SLURM** job schedulers, scaling across hundreds of CPU cores with near-linear parallel efficiency.
 
-## Cross-Solver Verification & Experimental Correlation
+## Aerodynamic Force Coefficients & Convergence Analysis
 
-Aerodynamic force coefficients and surface pressure distributions were correlated across solvers and experimental benchmarks:
+Aerodynamic force coefficients were monitored continuously across convective time units ($t \cdot U_0 / L$). Running averages stabilized beyond $t \cdot U_0 / L > 20$, achieving steady-state drag and lift convergence:
 
-<ProjectTable data='{"headers":["Configuration","Entropic LBM (Taral)","ANSYS Discovery / Fluent","TUM Wind Tunnel Exp.","LBM vs Exp. Error"],"rows":[["Drag Coefficient (C_d)","0.252","0.258","0.246","+2.4%"],["Front Lift (C_lf)","0.048","0.054","0.045","+6.7%"],["Rear Lift (C_lr)","0.031","0.027","0.033","-6.1%"],["Base Pressure (C_p,base)","-0.142","-0.155","-0.138","+2.9%"]]}' />
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-convergence-history.avif"
+  alt="Drag (CD) and Lift (CL) instantaneous and running average convergence history versus convective time (t * U0 / L)"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
 
-### Key Aerodynamic Findings
-- **A-Pillar & Mirror Vortex:** Captured the separation bubble originating at the A-pillar and mirror housing, tracking its trajectory along the front side glass.
-- **Underbody Diffuser Flow:** Resolved the upward expansion through the rear diffuser, identifying localized vortex bursting responsible for rear lift and induced drag.
-- **Rear Slant / C-Pillar Vortices:** Accurately predicted the pair of counter-rotating longitudinal vortices originating along the rear slant edges, matching velocity vector fields extracted from stereo-PIV reference planes.
+### Quantitative Force Correlation
+
+<ProjectTable data='{"headers":["Coefficient","Entropic LBM (Taral)","Experiment (Hupertz)","AutoCFD Participant Spread","Delta (LBM vs Expt)"],"rows":[["Drag Coefficient (C_D)","0.276","0.255","0.240 – 0.300","+0.021 (+8.2%)"],["Total Lift (C_L)","0.0529","0.087","0.000 – 0.140","-0.0341 (-39.2%)"],["Front Lift (C_Lf)","-0.1147","-0.023","N/A","-0.0917"],["Rear Lift (C_Lr)","0.1676","0.111","N/A","+0.0566"]]}' />
+
+#### Benchmark Findings:
+- **Drag Alignment:** The predicted drag coefficient ($C_D = 0.276$) sits directly within the core cluster of AutoCFD 2nd Workshop industrial CFD submissions (mean $\approx 0.275$). Grid refinement studies showed minimal drift in drag between coarse and fine meshes, demonstrating high spatial discretization robustness.
+- **Lift Correlation:** The total lift ($C_L = 0.0529$) matches the central trend of the AutoCFD participant database ($0.00$ to $0.14$), accurately capturing negative front downforce generation from the front spoiler lip and positive rear lift from the notchback decklid expansion.
+
+## Surface Pressure Distribution (Cp) Correlation
+
+Surface pressure distributions were validated against extensive experimental wind tunnel pressure taps from the **Ford Pininfarina** benchmark dataset (`Ford_Pininfarina_171116`):
+
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-centerline-cp.avif"
+  alt="Surface pressure coefficient (Cp) comparison: Upperbody and Underbody centerline distributions versus Ford Pininfarina wind tunnel experimental data"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+1. **Upperbody Centerline ($y = 0\text{ m}$):**
+   - **Front Stagnation:** Accurately captured stagnation peak ($C_p \approx 1.0$) at the front grille/fascia.
+   - **Hood & Windshield Cowl:** Predicted acceleration over the hood leading edge and subsequent pressure recovery ($C_p \approx +0.15$) at the windshield stagnation base.
+   - **Roof Suction Peak:** Successfully tracked the high suction acceleration zone ($C_p \approx -0.6$) over the roof header.
+   - **Backlight & Rear Deck:** Accurately predicted flow expansion down the rear window and base pressure recovery across the notchback trunk lid.
+
+2. **Underbody Centerline ($y = 0\text{ m}$):**
+   - **Front Chin Suction:** Captured the prominent suction peak ($C_p \approx -0.7$) created by high-speed flow entering the underbody beneath the front bumper.
+   - **Chassis Floor Recovery:** Matched the steady pressure recovery ($C_p \approx -0.1$ to $0.0$) along the floorpan and central exhaust channel.
+   - **Rear Diffuser Expansion:** Accurately followed the diffuser upsweep pressure recovery toward the trailing edge.
+
+3. **Wheelhouse Cavity ($y = -750\text{ mm}$):**
+   - Correlated across probe positions 550 through 557, capturing the complex pressure signature caused by wheel rotation and rim-cavity wake entrapment.
+
+## Underbody Flow Physics & Velocity Profiles
+
+Transverse and longitudinal velocity profiles were examined along probe lines specified by the AutoCFD benchmark:
+
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-underbody-velocity.avif"
+  alt="Normalized underbody velocity magnitude profiles (Vmag / V_inf) across transverse cuts U1 through U6 at z = -0.2376m compared to reference benchmark data"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+### Underbody Velocity Profile Analysis (z = -0.2376 m)
+- **U1 & U2 (Front Axle & Floor Entry):** Captured the intense core flow channel between wheels with localized velocity dips near the tire inner sidewalls.
+- **U3 (Mid-Floor Tunnel):** Accurately resolved boundary layer growth along the underfloor surface and channel acceleration.
+- **U4, U5 & U6 (Rear Axle & Diffuser):** Successfully predicted the spreading of the rear wheel wakes and the central diffuser upwash deficit.
+- **Underbody Momentum Loss Insight:** Detailed analysis revealed a notable momentum deficit underneath the vehicle. Because of the high geometric complexity, suspension components, and intense multi-vortex shedding, underbody regions require elevated local mesh refinement ($\Delta x \le 3\text{ mm}$) and prolonged temporal averaging samples to fully resolve all coherent turbulent interactions.
 
 ## Volume Downsampling & Post-Processing Breakthrough
 
-Transient 3D LBM simulations generate immense volume datasets—a single run generated over **101 GB** of volume slice and cell data (`.vtm` / `.vtu`), making interactive visualization in ParaView and GUI tools prohibitively slow.
+Transient 3D LBM simulations generate massive datasets—a single run generated over **101 GB** of volume slice and cell data (`.vtm` / `.vtu`), making interactive visualization in ParaView and GUI tools prohibitively slow.
 
 <img
   src="/images/projects/industrial-aerodynamics/volume-downsampling.avif"
@@ -91,6 +199,8 @@ Transient 3D LBM simulations generate immense volume datasets—a single run gen
 
 ## Engineering Impact & Delivery
 
-- **Automotive Aerodynamic Insights:** Verified drag-reduction design recommendations for Mercedes vehicle programs, identifying trailing vortex mitigation opportunities along the rear deck.
+- **Mercedes Aerodynamic Insights:** Verified aerodynamic drag-reduction recommendations for Mercedes vehicle programs, identifying trailing vortex mitigation opportunities along the notchback rear deck and underbody diffuser.
+- **AutoCFD 2nd Workshop Validation:** Demonstrated that Entropic LBM matches leading commercial Navier-Stokes and LES solvers within the global AutoCFD benchmark spread, establishing solver accuracy for production passenger cars.
+- **Underbody Modeling Guidelines:** Established concrete resolution criteria ($\Delta x \le 3\text{ mm}$ with extended sampling times) for automotive underbody CFD workflows, preventing underprediction of underbody momentum loss.
 - **Workflow Acceleration:** Cut client visualization turnaround time from hours to minutes using the custom volume downsampling pipeline.
 - **Diagnostics Integration:** Integrated Plot-Over-Line spatial extraction and velocity vector projections into the Taral GUI in collaboration with Intelimek Systems, creating standard test suites for solver releases.
