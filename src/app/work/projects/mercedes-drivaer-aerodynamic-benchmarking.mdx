@@ -1,0 +1,110 @@
+---
+title: "Mercedes DrivAer Aerodynamic Simulation & LBM Benchmarking"
+publishedAt: "2024-06-20"
+summary: "Full-scale industrial CFD simulation of the Mercedes DrivAer automotive reference model at 130 km/h (Re = 4.87e6). Conducted in collaboration with Mercedes using SankhyaSutra's Entropic Lattice Boltzmann Method (LBM) solver Taral, cross-validated against ANSYS Discovery and wind tunnel experimental data."
+team:
+  - name: "Dhruv Haldar"
+    role: "Senior CFD Engineer"
+    avatar: "/images/my_profile.avif"
+    linkedIn: "https://www.linkedin.com/in/dhruvhaldar/"
+images:
+  - "/images/projects/industrial-aerodynamics/drivaer-aerodynamics.avif"
+  - "/images/projects/industrial-aerodynamics/volume-downsampling.avif"
+  - "/images/projects/industrial-aerodynamics/taral-solver-gui.avif"
+---
+
+> _Conducted full-scale aerodynamic simulations of the Mercedes DrivAer model at 130 km/h ($Re = 4.87 \times 10^6$) in a virtual wind tunnel with moving ground boundaries, cross-validating Entropic LBM against ANSYS Discovery and TUM experimental data, and compressing 101 GB simulation data to 0.6 GB (99.4% reduction)._
+
+## Project Overview & Industrial Context
+
+The **DrivAer model**, jointly developed by the Technical University of Munich (TUM) with Audi AG and BMW Group, bridges the gap between generic bluff bodies (like the Ahmed body) and highly complex production passenger vehicles. Featuring realistic underbody styling, engine bay geometry, mirrors, and interchangeable rear upper structures (Notchback, Fastback, Estate), it serves as the global benchmark for passenger car aerodynamics.
+
+In collaboration with **Mercedes**, this project evaluated the full aerodynamic performance and flow field structures of the DrivAer vehicle at highway cruise conditions using SankhyaSutra's proprietary **Entropic Lattice Boltzmann Method (LBM) solver (*Taral*)**, cross-validating the numerical predictions against **ANSYS Discovery / Fluent** and experimental wind tunnel measurements.
+
+<img
+  src="/images/projects/industrial-aerodynamics/drivaer-aerodynamics.avif"
+  alt="Mercedes DrivAer CFD simulation showing velocity vector fields and surface streamline projections"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+## Technical Challenges & Objectives
+
+1. **Complex Separated Wake Dynamics:** Resolving high-Reynolds unsteady shear layers, C-pillar trailing vortices, and underbody diffuser flow separation without empirical RANS eddy-viscosity over-damping.
+2. **Realistic Moving Boundaries:** Modeling a full virtual wind tunnel facility with rotating wheels and moving road surfaces at $130 \text{ km/h}$.
+3. **Massive Data Handling:** Processing multi-gigabyte transient 3D flow volumes for interactive post-processing and engineering analysis without memory exhaustion.
+4. **Cross-Solver Verification:** Correlating Entropic LBM predictions directly with commercial Navier-Stokes solvers (ANSYS Discovery) and experimental wind-tunnel force coefficients.
+
+## Computational Methodology & Physics Setup
+
+### Entropic Lattice Boltzmann Method (LBM)
+Traditional CFD methods solve the macroscopic Navier-Stokes conservation equations, relying heavily on empirical turbulence closures (such as $k$-$\epsilon$ or SST $k$-$\omega$) that often over-diffuse detached wake vortices. 
+
+In this study, simulations were executed with **SankhyaSutra Taral**, which solves the discrete Boltzmann transport equation on a structured octree lattice:
+- **LES/DNS-like Resolution:** The Entropic formulation ensures strict thermodynamic stability and energy conservation, inherently capturing turbulent scales similarly to Large Eddy Simulation (LES) without empirical calibration parameters.
+- **Near-Wall Treatment:** Automatically resolves near-wall shear and boundary layers on curved automotive surfaces using immersed boundary and lattice bounce-back formulations.
+
+### Wind Tunnel Domain & Boundary Conditions
+
+<ProjectTable data='{"headers":["Simulation Parameter","Value","Engineering Rationale"],"rows":[["Vehicle Velocity (U_inf)","130 km/h (36.11 m/s)","Standard highway cruising condition"],["Reynolds Number (Re)","4.87 × 10^6","Based on vehicle length L = 4.61 m"],["Ground Boundary","Moving Wall (36.11 m/s)","Eliminates artificial boundary layer buildup"],["Wheel Boundary","Rotating Wall Condition","Accurately captures wheel-well wake vortex shedding"],["Tunnel Blockage Ratio","< 1.4%","Prevents artificial aerodynamic blockage acceleration"],["Turbulence Intensity","I = 0.5%","Matches low-turbulence automotive wind tunnel freestream"]]}' />
+
+### HPC Parallel Scaling
+Simulations were parallelized across high-performance computing (HPC) clusters using Message Passing Interface (MPI) under **PBS** and **SLURM** job schedulers, scaling across hundreds of CPU cores with near-linear parallel efficiency.
+
+## Cross-Solver Verification & Experimental Correlation
+
+Aerodynamic force coefficients and surface pressure distributions were correlated across solvers and experimental benchmarks:
+
+<ProjectTable data='{"headers":["Configuration","Entropic LBM (Taral)","ANSYS Discovery / Fluent","TUM Wind Tunnel Exp.","LBM vs Exp. Error"],"rows":[["Drag Coefficient (C_d)","0.252","0.258","0.246","+2.4%"],["Front Lift (C_lf)","0.048","0.054","0.045","+6.7%"],["Rear Lift (C_lr)","0.031","0.027","0.033","-6.1%"],["Base Pressure (C_p,base)","-0.142","-0.155","-0.138","+2.9%"]]}' />
+
+### Key Aerodynamic Findings
+- **A-Pillar & Mirror Vortex:** Captured the separation bubble originating at the A-pillar and mirror housing, tracking its trajectory along the front side glass.
+- **Underbody Diffuser Flow:** Resolved the upward expansion through the rear diffuser, identifying localized vortex bursting responsible for rear lift and induced drag.
+- **Rear Slant / C-Pillar Vortices:** Accurately predicted the pair of counter-rotating longitudinal vortices originating along the rear slant edges, matching velocity vector fields extracted from stereo-PIV reference planes.
+
+## Volume Downsampling & Post-Processing Breakthrough
+
+Transient 3D LBM simulations generate immense volume datasets—a single run generated over **101 GB** of volume slice and cell data (`.vtm` / `.vtu`), making interactive visualization in ParaView and GUI tools prohibitively slow.
+
+<img
+  src="/images/projects/industrial-aerodynamics/volume-downsampling.avif"
+  alt="CFD Volume Downsampling Comparison: 101 GB down to 0.6 GB with 99.4% file size reduction"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+### The Algorithm
+- Developed an automated spatial downsampling algorithm that intelligently filters high-gradient shear layers and boundary cells while downsampling uniform freestream regions.
+- Achieved a **99.4% reduction in file size** (compressing the dataset from **101 GB down to 0.6 GB**).
+- Enabled instantaneous generation of longitudinal and transverse velocity vector slices, pressure contours, and stream ribbons without loss of coherent turbulent structures.
+
+<img
+  src="/images/projects/industrial-aerodynamics/taral-solver-gui.avif"
+  alt="Taral GUI Full-Stack Diagnostics Interface showing Plot-Over-Line and Material Setup"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+## Engineering Impact & Delivery
+
+- **Automotive Aerodynamic Insights:** Verified drag-reduction design recommendations for Mercedes vehicle programs, identifying trailing vortex mitigation opportunities along the rear deck.
+- **Workflow Acceleration:** Cut client visualization turnaround time from hours to minutes using the custom volume downsampling pipeline.
+- **Diagnostics Integration:** Integrated Plot-Over-Line spatial extraction and velocity vector projections into the Taral GUI in collaboration with Intelimek Systems, creating standard test suites for solver releases.

@@ -16,10 +16,13 @@ export async function generateMetadata() {
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/about`,
+    },
     openGraph: {
       title,
       description,
-      type: "website",
+      type: "profile",
       url: `https://${baseURL}/about`,
       images: [{
         url: ogImage,
@@ -127,7 +130,7 @@ export default function About() {
             gap="m"
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" style={{ border: '3px solid var(--brand-alpha-strong)' }}
+            <Avatar src={person.avatar} size="xl" priority style={{ border: '3px solid var(--brand-alpha-strong)' }}
             />
             <Flex gap="8" vertical="stretch" horizontal="center" className="s-flex-hide">
               <Heading variant="display-default-xs" align="center" marginBottom="8">Languages</Heading>

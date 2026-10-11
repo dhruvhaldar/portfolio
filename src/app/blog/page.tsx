@@ -8,35 +8,71 @@ import { Posts } from "@/components/blog/Posts";
 import { Newsletter } from "@/components/blog/Newsletter";
 import { baseURL, person } from "@/app/resources";
 import { getPosts } from "@/app/utils/utils";
+import { sanitizeJsonLd } from "@/app/utils/security";
 import styles from './page.module.css';
 
 export async function generateMetadata() {
   const title = blog.title;
   const description = blog.description;
+  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/blog`,
+    },
     openGraph: {
       title,
       description,
       type: "website",
       url: `https://${baseURL}/blog`,
       siteName: `${person.firstName}'s Portfolio`,
+      images: [
+        {
+          url: ogImage,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImage],
     },
   };
 }
 
 export default function Blog() {
-  const postCount = getPosts(["src", "app", "blog", "posts"], false).length;
+  const allPosts = getPosts(["src", "app", "blog", "posts"], false);
+  const postCount = allPosts.length;
 
   return (
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: sanitizeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            headline: blog.title,
+            description: blog.description,
+            url: `https://${baseURL}/blog`,
+            author: {
+              "@type": "Person",
+              name: person.name,
+            },
+            blogPost: allPosts.map((post) => ({
+              "@type": "BlogPosting",
+              headline: post.metadata.title,
+              description: post.metadata.summary,
+              url: `https://${baseURL}/blog/${post.slug}`,
+            })),
+          }),
+        }}
+      />
       <Column maxWidth="m" fillWidth gap="l">
         <Column fillWidth gap="m" align="center">
           <Heading className={styles.headerTitle} variant="display-strong-xl" wrap="balance">

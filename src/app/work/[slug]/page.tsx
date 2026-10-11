@@ -49,16 +49,17 @@ export async function generateMetadata({ params }: WorkParams) {
     team,
   } = post.metadata;
 
-  // Use the post's specific image if available, otherwise let opengraph-image.tsx handle it
-  // Note: Next.js automatically resolves opengraph-image.tsx, but if we specify images here, it overrides it.
-  // We should include the specific image if it exists.
-  const ogImages = image
-    ? [{ url: `https://${baseURL}${image}` }]
+  const primaryImage = image || (images && images.length > 0 ? images[0] : undefined);
+  const ogImages = primaryImage
+    ? [{ url: `https://${baseURL}${primaryImage}` }]
     : undefined;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/work/${post.slug}`,
+    },
     images,
     team,
     openGraph: {

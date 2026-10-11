@@ -9,23 +9,31 @@ import styles from './page.module.css';
 export async function generateMetadata() {
   const title = work.title;
   const description = work.description;
+  const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/work`,
+    },
     openGraph: {
       title,
       description,
       type: "website",
-      url: `https://${baseURL}/work/`,
-      alternates: {
-        canonical: `https://${baseURL}/`,
-      },
+      url: `https://${baseURL}/work`,
+      images: [
+        {
+          url: ogImage,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImage],
     },
   };
 }
@@ -50,8 +58,8 @@ export default function Work() {
               "@type": "CollectionPage",
               headline: work.title,
               description: work.description,
-              url: `https://${baseURL}/projects`,
-              image: `${baseURL}/og?title=Design%20Projects`,
+              url: `https://${baseURL}/work`,
+              image: `https://${baseURL}/og?title=Engineering%20Projects`,
               author: {
                 "@type": "Person",
                 name: person.name,
@@ -60,7 +68,7 @@ export default function Work() {
                 "@type": "CreativeWork",
                 headline: project.metadata.title,
                 description: project.metadata.summary,
-                url: `https://${baseURL}/projects/${project.slug}`,
+                url: `https://${baseURL}/work/${project.slug}`,
                 image: `${baseURL}/${project.metadata.image}`,
               })),
             }),

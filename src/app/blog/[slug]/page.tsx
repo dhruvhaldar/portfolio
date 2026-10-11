@@ -40,18 +40,30 @@ export async function generateMetadata({
 
   if (!post) return {};
 
+  const postUrl = `https://${baseURL}${blog.path}/${post.slug}`;
+  const ogImage = post.metadata.image ? `https://${baseURL}${post.metadata.image}` : undefined;
+
   return {
     title: post.metadata.title,
     description: post.metadata.summary,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.metadata.title,
       description: post.metadata.summary,
-      url: `${baseURL}${blog.path}/${post.slug}`,
+      url: postUrl,
       type: "article",
       publishedTime: post.metadata.publishedAt,
       authors: [person.name],
-      images: post.metadata.image ? [post.metadata.image] : undefined
-    }
+      images: ogImage ? [{ url: ogImage }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.metadata.title,
+      description: post.metadata.summary,
+      images: ogImage ? [ogImage] : undefined,
+    },
   };
 }
 
