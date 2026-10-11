@@ -2,6 +2,8 @@ import { Column, Flex, Heading, SmartLink, Spotlight, Text } from "@/once-ui/com
 import { Posts } from "@/components/publications/Posts";
 import { baseURL } from "@/app/resources";
 import { publications, person } from "@/app/resources/content";
+import { getPosts } from "@/app/utils/utils";
+import { sanitizeJsonLd } from "@/app/utils/security";
 import styles from './page.module.css';
 
 export async function generateMetadata() {
@@ -12,6 +14,9 @@ export async function generateMetadata() {
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/publications`,
+    },
     openGraph: {
       title,
       description,
@@ -34,8 +39,33 @@ export async function generateMetadata() {
 }
 
 export default function Publication() {
+  const allPublications = getPosts(["src", "app", "publications", "posts"], false);
+
   return (
     <Column fillWidth paddingY="l" paddingX="l" gap="l" horizontal="center">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: sanitizeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            headline: publications.title,
+            description: publications.description,
+            url: `https://${baseURL}/publications`,
+            author: {
+              "@type": "Person",
+              name: person.name,
+            },
+            hasPart: allPublications.map((pub) => ({
+              "@type": "ScholarlyArticle",
+              headline: pub.metadata.title,
+              description: pub.metadata.summary,
+              url: `https://${baseURL}/publications/${pub.slug}`,
+            })),
+          }),
+        }}
+      />
       <Column maxWidth="s" fillWidth gap="l">
         <Column fillWidth gap="m" align="center">
           <Heading className={styles.headerTitle} variant="display-strong-xl">

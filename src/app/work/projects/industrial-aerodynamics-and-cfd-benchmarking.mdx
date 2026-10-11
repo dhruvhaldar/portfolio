@@ -1,0 +1,87 @@
+---
+title: "Aerodynamic Transition, Multiphase & CFD Solver Verification"
+publishedAt: "2024-04-10"
+summary: "High-resolution CFD simulation and verification suites across canonical and industrial flow systems: Eppler 387 transitional airfoil Q-criterion isosurface extraction, sphere flow streamline separation, cyclone separators, and industrial mixing verification."
+team:
+  - name: "Dhruv Haldar"
+    role: "Senior CFD Engineer"
+    avatar: "/images/my_profile.avif"
+    linkedIn: "https://www.linkedin.com/in/dhruvhaldar/"
+images:
+  - "/images/projects/industrial-aerodynamics/eppler-q-criterion.avif"
+  - "/images/projects/industrial-aerodynamics/streamlines-sphere.avif"
+  - "/images/gallery/OpenFOAM.avif"
+---
+
+> _Resolved laminar separation bubbles and boundary layer transition on the Eppler 387 airfoil at $Re = 2 \times 10^6$ using 3D Q-criterion isosurface extraction, and validated streamline separation and recirculation lengths for canonical and multiphase systems._
+
+## Overview & Scope
+
+Verification and Validation (V&V) across canonical and complex geometries is fundamental to establishing solver trustworthiness before deploying computational tools in production engineering environments. 
+
+This project encompasses a series of high-fidelity numerical verification studies executed across aerodynamic, multiphase, and canonical flow regimes:
+
+1. **Eppler 387 Transitional Airfoil:** Investigating boundary-layer transition and laminar separation bubble (LSB) dynamics at $Re = 2 \times 10^6$.
+2. **Sphere Flow Aerodynamics:** Benchmark laminar separation and recirculation bubble topology at $Re = 100$.
+3. **Multiphase Cyclone Separators:** Particle trajectory and collection efficiency analysis for industrial gas-solid separation.
+4. **Stirred Tank Mixers:** Impeller-driven turbulent flow modeling and shear rate distribution for chemical process equipment.
+
+<img
+  src="/images/projects/industrial-aerodynamics/eppler-q-criterion.avif"
+  alt="Eppler 387 Airfoil 3D Q-Criterion Isosurface (Q=100) colored by velocity magnitude"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+## Eppler 387 Airfoil: Transition & Q-Criterion Analysis
+
+Low-to-moderate Reynolds number airfoils ($10^5 \le Re \le 2 \times 10^6$) are characterized by severe laminar boundary layer separation under adverse pressure gradients, followed by turbulent transition in the detached shear layer and subsequent reattachment.
+
+### Numerical Formulation
+- **Isosurface Extraction:** Formulated algorithms to extract 3D isosurfaces of the second invariant of the velocity gradient tensor (**Q-criterion**):
+  $$Q = \frac{1}{2} \left( \|\mathbf{\Omega}\|^2 - \|\mathbf{S}\|^2 \right)$$
+  where $\mathbf{\Omega}$ is the vorticity tensor and $\mathbf{S}$ is the rate-of-strain tensor.
+- **Vortical Coherence:** Extracted isosurfaces at $Q = 100 \text{ s}^{-2}$ colored by local velocity magnitude, accurately isolating coherent spanwise Kelvin-Helmholtz vortices and their breakdown into three-dimensional turbulence.
+- **Quantities of Interest:** Correlated lift curve slope ($C_{l,\alpha}$), stall inception angle, and laminar separation bubble length against experimental wind tunnel data from the University of Illinois Urbana-Champaign (UIUC) dataset.
+
+<img
+  src="/images/projects/industrial-aerodynamics/streamlines-sphere.avif"
+  alt="Streamlines around a sphere at Re = 100 showing flow separation and recirculation bubble"
+  loading="lazy"
+  style={{
+    display: "block",
+    width: "100%",
+    height: "auto",
+    margin: "1.5rem auto",
+    borderRadius: "8px",
+  }}
+/>
+
+## Sphere Flow: Streamline Separation & Recirculation
+
+The steady flow past a sphere at $Re = 100$ serves as an essential numerical benchmark for verifying boundary-layer separation angles and wake recirculation length:
+
+- **Streamline Tracking:** Developed high-accuracy streamline integration algorithms that compute trajectories tangent to instantaneous velocity vectors $\mathbf{u}(\mathbf{x})$:
+  $$\frac{d\mathbf{x}}{ds} = \frac{\mathbf{u}(\mathbf{x})}{\|\mathbf{u}(\mathbf{x})\|}$$
+- **Benchmark Correlation:** Measured separation angle $\theta_s$ and recirculation length $L_w / D$, matching theoretical and empirical values within 1.8% relative error.
+
+## Industrial Multiphase & Process Equipment
+
+### Cyclone Separators
+- Evaluated swirling turbulent flow fields and centrifugal particle acceleration.
+- Modeled discrete phase particle tracking (Eulerian-Lagrangian) to determine cut-off diameter ($d_{50}$) and pressure drop across varying inlet velocities.
+
+### Mixing Vessels & Stirred Tanks
+- Simulated impeller hydrodynamics (Rushton turbine and pitched blade impellers) using sliding mesh and Multiple Reference Frame (MRF) approaches.
+- Quantified blend time, power number ($N_p$), and local shear strain rate distributions to ensure scale-up consistency for industrial chemical synthesis.
+
+## Engineering Impact
+
+- **Diagnostic Capabilities:** Established standard post-processing toolchains for vortex identification and streamline topology integrated into production solver environments.
+- **Solver Confidence:** Provided definitive validation benchmarks demonstrating high-order spatial accuracy and physical robustness across canonical and industrial applications.

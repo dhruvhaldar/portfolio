@@ -7,7 +7,7 @@ const person = {
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "CFD Specialist",
+  role: "Senior CFD Engineer",
   avatar: "/images/my_profile.png",
   location: "Asia/Kolkata",
   languages: ["English", "Swedish", "German", "Hindi", "Bengali"],
@@ -48,7 +48,7 @@ const home = {
   headline: (
     <Flex fillWidth horizontal="start">
       <span style={{ fontFamily: 'var(--font-family-code)' }}>
-        Designing smarter systems through simulation and control
+        Architecting robust fluids, thermal, and simulation systems
       </span>
     </Flex>
   ),
@@ -67,10 +67,10 @@ const home = {
   },
   subline: (
     <>
-      👋 Hi! I&apos;m Dhruv Haldar, a CFD specialist at{" "}
+      👋 Hi! I&apos;m Dhruv Haldar, a Senior CFD Engineer at{" "}
       <InlineCode>
         <a href="https://www.tridiagonal.com/" style={{ color: 'inherit', textDecoration: 'none' }}>Tridiagonal Inc.</a>
-      </InlineCode> where I specialize in simulations and application testing. I have a proven track record of successfully tackling challenging engineering issues in the fields of aerospace 🛩️, chemical 🧪, automotive 🏎️, and propulsion 🚀 systems. After hours, I build and publish my own projects on <a href="https://github.com/dhruvhaldar" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>GitHub</a>.
+      </InlineCode> where I specialize in end-to-end industrial fluid dynamics, simulation delivery, and advanced simulation workflow software. With 5+ years of combined industrial CFD and engineering experience across aerospace 🛩️, chemical/process 🧪, automotive 🏎️, and propulsion 🚀 applications, I own complete simulation lifecycles—from physical model selection and mesh sensitivity verification to engineering recommendation delivery. After hours, I build and publish open-source numerical tools on <a href="https://github.com/dhruvhaldar" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>GitHub</a>.
     </>
   ),
 };
@@ -89,7 +89,7 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        As an Aerospace Engineer and CFD Specialist, I’m driven to innovate where physics meets computation. My expertise spans fluid dynamics, modeling, and simulation, enabling me to design and optimize systems across aerospace, automotive, and propulsion domains through analytical insight and inventive problem-solving.
+        As an Aerospace Engineer and Senior CFD Specialist with over 5 years of professional and research experience, I combine deep fluid mechanics fundamentals with computational rigor. My expertise spans independent ownership of industrial CFD analyses—defining engineering questions and quantities of interest, selecting defensible turbulence and multiphase physics, assessing numerical sensitivity, validating predictions against experimental benchmarks, and delivering actionable engineering recommendations—alongside designing high-performance numerical and workflow software.
       </>
     ),
   },
@@ -103,27 +103,42 @@ const about = {
         role: "Senior Software Engineer (CFD)",
         achievements: [
           <>
-            Developing a new post-processing product for OpenFOAM and MixIT to enhance data analysis and visualization capabilities such as Surface/Volume Transform, Surface/Volume Clipper, Surface/Volume Threshold, Iso-contour and Streamlines.
-          </>
+            Leading technical architecture and development of next-generation post-processing and visualization capabilities for OpenFOAM and MixIT (Surface/Volume Transform, Clipper, Threshold, Iso-contour, and Streamlines) to accelerate industrial simulation analysis workflows.
+          </>,
+          <>
+            Owning CFD simulation quality assurance, establishing standard verification and validation (V&V) procedures for industrial mixing and multiphase flow applications.
+          </>,
+          <>
+            Directing simulation analysis reviews, defining mesh sensitivity standards, and mentoring junior engineers in physical model selection and numerical convergence analysis.
+          </>,
+          <>
+            Collaborating with industrial engineering stakeholders to translate complex simulation results into validated design improvements and defensible engineering deliverables.
+          </>,
         ],
         images: [],
       },
       {
         company: "Sankhyasutra Labs Ltd.",
         timeframe: "Dec 2022 - Jun 2025",
-        role: "Software Development Engineer - II (Aerospace & Automotive CFD)",
+        role: "Software Development Engineer - II / Senior CFD Engineer",
         achievements: [
-          <> Development & Release testing of post processing tools for in-house CFD Solver (SankhyaSutra Taral).
+          <>
+            Executed end-to-end industrial aerodynamic simulations and rigorous verification & validation (V&V) benchmarks on High Performance Computing (HPC) clusters across PBS and SLURM workload managers using MPI parallelization.
           </>,
-          <> Worked with test cases (Drivaer model, Eppler airfoil, Ahmed Body) using High Performance Computing (HPC).
+          <>
+            Led external aerodynamic simulations for the Mercedes DrivAer model (130 km/h, Re = 4.87 × 10⁶) in a virtual wind tunnel with moving ground plane boundaries and rotating wheels using SankhyaSutra's Entropic Lattice Boltzmann Method (LBM) solver (Taral), cross-validating results against ANSYS Discovery / Fluent and OpenFOAM.
           </>,
-          <> Parallel programming using Message Passing Interface (MPI).
+          <>
+            Developed an advanced volume downsampling algorithm that compressed massive transient 3D CFD datasets from 101 GB down to 0.6 GB (a 99.4% file size reduction) while preserving critical boundary-layer and wake vortex features for real-time visualization.
           </>,
-          <> Preparing User Documentation using Sphinx.
+          <>
+            Collaborated with Intelimek Systems to develop the Taral GUI diagnostics suite, implementing 3D Plot-Over-Line spatial extraction, velocity streamlines, Q-criterion isosurface generation (Q = 100 on Eppler airfoils at Re = 2 × 10⁶), and custom material databases.
           </>,
-          <> Developing Python libraries for post processing using VTK.
+          <>
+            Led release testing, quality assurance, and verification benchmarks for the solver platform, authoring Sphinx technical documentation, client-facing simulation delivery reports, and technical proposals.
           </>,
-          <> Writing business proposals.
+          <>
+            Provided CFD technical leadership and peer-review sign-off on simulation benchmark suites, establishing best practices and mentoring incoming engineers.
           </>,
         ],
         images: [],
@@ -131,16 +146,22 @@ const about = {
       {
         company: "SAAB AB",
         timeframe: "May 2020 - Dec 2021",
-        role: "Examensarbete (Master Thesis)",
+        role: "Graduate CFD Research Engineer (Joint Master Thesis)",
         achievements: [
           <>
-            Conducted the SAAB-KTH University Joint Master Thesis project titled Implementation of wing ice protection system in more electric aircraft technologies.
+            Conducted the SAAB AB and KTH Royal Institute of Technology joint industrial research project titled "Implementation of wing ice protection system in more electric aircraft technologies".
           </>,
           <>
-            Investigated innovative concepts for the More Electric Aircraft (MEA) to enhance performance and minimize weight by replacing traditional hydraulic, pneumatic, and mechanical systems with electrical systems.
+            Owned complete 3D in-flight icing simulation workflows for an Airbus A320 wing section in ANSYS FENSAP-ICE (FENSAP airflow, DROP3D droplet impingement, ICE3D thermodynamic accretion, and Fluent conjugate heat transfer).
           </>,
           <>
-            Implemented the Ice Protection System (IPS) of an Airbus A320 aircraft using CFD simulations (ANSYS FENSAP-ICE) and automated workflow processes with IronPython.
+            Validated numerical predictions against NASA Lewis Icing Research Tunnel (IRT) experimental reference data for NACA 0012 airfoils, demonstrating close agreement in ice horn profiles and accreted ice mass.
+          </>,
+          <>
+            Demonstrated a 13% to 50% power and fuel reduction by transitioning from conventional bleed-air pneumatic systems to electrothermal architectures, publishing findings at the ICAS 2022 international congress.
+          </>,
+          <>
+            Automated geometry generation and meshing workflows using IronPython scripting in ANSYS SpaceClaim to streamline multi-domain simulation turnarounds.
           </>,
         ],
         images: [],
