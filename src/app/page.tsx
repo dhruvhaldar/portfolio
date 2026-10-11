@@ -61,6 +61,10 @@ const structuredData = {
 
 export default function Home() {
   const allProjects = getPosts(["src", "app", "work", "projects"], false);
+  const homeProjects = [
+    ...allProjects.filter((p) => p.slug === "aesir-rocket-project"),
+    ...allProjects.filter((p) => p.slug !== "aesir-rocket-project"),
+  ];
 
   return (
     <Column maxWidth="m" gap="24" horizontal="center">
@@ -141,7 +145,7 @@ export default function Home() {
       </Column>
 
       {/* Featured Project */}
-      <Projects range={[1, 1]} posts={allProjects} />
+      <Projects range={[1, 1]} posts={homeProjects} />
 
       {/* Blog Section (Conditional) */}
       {routes["/blog"] && (
@@ -171,7 +175,7 @@ export default function Home() {
             Other Work and Publications
           </Heading>
         </Flex>
-        <Projects range={[2]} posts={allProjects} />
+        <Projects range={[2]} posts={homeProjects} />
       </Column>
     </Column>
   );
