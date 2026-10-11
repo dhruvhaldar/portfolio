@@ -1,18 +1,48 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Column, Flex, SmartLink, Text } from "@/once-ui/components";
 
+export interface TableOfContentsItem {
+  label: string;
+  id: string;
+  level?: number;
+}
+
 interface TableOfContentsProps {
-  items: {
-    label: string;
-    id: string;
-  }[];
+  items: TableOfContentsItem[];
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
   const [activeId, setActiveId] = useState<string>("");
-  const isClicked = React.useRef(false);
+  const isClicked = useRef(false);
+  const itemRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  const [indicatorState, setIndicatorState] = useState<{
+    top: number;
+    height: number;
+    visible: boolean;
+  }>({
+    top: 0,
+    height: 24,
+    visible: false,
+  });
+
+  const updateIndicator = useCallback(() => {
+    if (!activeId) {
+      setIndicatorState((prev) => ({ ...prev, visible: false }));
+      return;
+    }
+    const activeEl = itemRefs.current[activeId];
+    if (activeEl) {
+      setIndicatorState({
+        top: activeEl.offsetTop,
+        height: Math.max(activeEl.offsetHeight, 20),
+        visible: true,
+      });
+    } else {
+      setIndicatorState((prev) => ({ ...prev, visible: false }));
+    }
+  }, [activeId]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,11 +54,9 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top >= 0 && rect.top < 300) {
-            // Element is near top
             currentId = item.id;
             break;
           } else if (rect.top < 0) {
-            // Element passed top, could be the active section
             currentId = item.id;
           }
         }
@@ -36,16 +64,18 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
       setActiveId(currentId);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [items]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", updateIndicator);
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, [items, updateIndicator]);
 
-  // Calculate relative top position for the indicator
-  // Height (32) + Gap (16) = 48px per item
-  const activeIndex = items.findIndex((item) => item.id === activeId);
-  const indicatorTop = activeIndex !== -1 ? activeIndex * 48 : 0;
-  const showIndicator = activeIndex !== -1;
+  useEffect(() => {
+    updateIndicator();
+  }, [activeId, updateIndicator]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -54,8 +84,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
 
     const element = document.getElementById(id);
     if (element) {
-      // Offset for sticky header if needed, but smooth scroll is key
-      const offset = 100; // Adjust this value based on your header height
+      const offset = 100;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -67,7 +96,6 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
       });
     }
 
-    // Optional: Update URL without jumping
     window.history.pushState(null, "", `#${id}`);
 
     setTimeout(() => {
@@ -94,37 +122,59 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
             radius="full"
             fillWidth
             style={{
-              height: "32px",
-              top: `${indicatorTop}px`,
-              transition: "top 0.3s ease-in-out",
-              opacity: showIndicator ? 1 : 0,
+              height: `${indicatorState.height}px`,
+              top: `${indicatorState.top}px`,
+              transition:
+                "top 0.25s cubic-bezier(0.4, 0, 0.2, 1), height 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+              opacity: indicatorState.visible ? 1 : 0,
             }}
           />
         </Column>
-        <Column gap="16">
-          {items.map((item) => (
-            <SmartLink
-              key={item.id}
-              href={`#${item.id}`}
-              unstyled
-              onClick={(e) => handleClick(e, item.id)}
-              aria-current={activeId === item.id ? "true" : undefined}
-              aria-label={`Navigate to ${item.label} section`}
-            >
-              <Flex height="32" vertical="center">
-                <Text
-                  variant="body-default-s"
-                  onBackground={activeId === item.id ? "neutral-strong" : "neutral-medium"}
+        <Column gap="8" fillWidth>
+          {items.map((item) => {
+            const isSubItem = item.level === 3;
+            const isActive = activeId === item.id;
+
+            return (
+              <SmartLink
+                key={item.id}
+                ref={(el: HTMLAnchorElement | null) => {
+                  itemRefs.current[item.id] = el;
+                }}
+                href={`#${item.id}`}
+                unstyled
+                fillWidth
+                onClick={(e) => handleClick(e, item.id)}
+                aria-current={isActive ? "true" : undefined}
+                aria-label={`Navigate to ${item.label} section`}
+                style={{
+                  display: "block",
+                  paddingLeft: isSubItem ? "0.75rem" : "0",
+                }}
+              >
+                <Flex
+                  minHeight="24"
+                  vertical="center"
                   style={{
-                    transition: "color 0.2s",
-                    textShadow: activeId === item.id ? "0 0 1px currentColor" : "none",
+                    padding: "0.25rem 0",
                   }}
                 >
-                  {item.label}
-                </Text>
-              </Flex>
-            </SmartLink>
-          ))}
+                  <Text
+                    variant={isSubItem ? "body-default-xs" : "body-default-s"}
+                    onBackground={isActive ? "neutral-strong" : "neutral-medium"}
+                    style={{
+                      transition: "color 0.2s",
+                      textShadow: isActive ? "0 0 1px currentColor" : "none",
+                      lineHeight: "1.4",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {item.label}
+                  </Text>
+                </Flex>
+              </SmartLink>
+            );
+          })}
         </Column>
       </Flex>
     </nav>
