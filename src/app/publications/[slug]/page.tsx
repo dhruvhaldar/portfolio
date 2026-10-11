@@ -43,11 +43,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     image,
     team,
   } = post.metadata;
-  let ogImage = image ? `https://${baseURL}${image}` : `https://${baseURL}/og?title=${title}`;
+  let primaryImage = image || (images && images.length > 0 ? images[0] : undefined);
+  let ogImage = primaryImage ? `https://${baseURL}${primaryImage}` : `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://${baseURL}/publications/${post.slug}`,
+    },
     openGraph: {
       title,
       description,

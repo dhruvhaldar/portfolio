@@ -21,6 +21,8 @@ interface AvatarProps extends React.ComponentProps<typeof Flex> {
   statusIndicator?: {
     color: "green" | "yellow" | "red" | "gray";
   };
+  /** Whether image should be prioritized for LCP */
+  priority?: boolean;
   /** Custom styles */
   style?: React.CSSProperties;
   /** Custom class name */
@@ -58,6 +60,7 @@ const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
       alt,
       loading,
       empty,
+      priority,
       statusIndicator,
       className,
       style,
@@ -105,6 +108,8 @@ const AvatarComponent = forwardRef<HTMLDivElement, AvatarProps>(
             radius="full"
             src={src}
             fill
+            preload={priority}
+            priority={priority}
             alt={alt || "Avatar"}
             sizes={`${sizeMapping[size]}px`}
             className={styles.image}
