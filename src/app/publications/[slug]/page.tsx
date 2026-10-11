@@ -160,7 +160,8 @@ export default async function Publication({ params }: PageProps) {
           flex={3}
           position="relative"
           hide="m"
-          maxWidth={20}
+          minWidth={14}
+          maxWidth={22}
         >
           <Column
             position="sticky"
@@ -201,7 +202,7 @@ export default async function Publication({ params }: PageProps) {
                       .toLowerCase()
                       .replace(/[^a-z0-9]+/g, "-")
                       .replace(/(^-|-$)+/g, "");
-                    return { label: text, id };
+                    return { label: text, id, level };
                   }),
               ]}
             />

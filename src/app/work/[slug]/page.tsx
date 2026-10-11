@@ -185,7 +185,7 @@ export default async function Project({ params }: WorkParams) {
           </Column>
         </Column>
 
-        <Column flex={3} position="relative" hide="m" maxWidth={20}>
+        <Column flex={3} position="relative" hide="m" minWidth={14} maxWidth={22}>
           <Column position="sticky" top="128" gap="16">
             <Flex gap="12" vertical="center" marginBottom="8">
               <svg
@@ -221,7 +221,7 @@ export default async function Project({ params }: WorkParams) {
                       .toLowerCase()
                       .replace(/[^a-z0-9]+/g, "-")
                       .replace(/(^-|-$)+/g, "");
-                    return { label: text, id };
+                    return { label: text, id, level };
                   }),
               ]}
             />
